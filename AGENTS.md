@@ -27,7 +27,8 @@ Examples:
 - Do not commit node_modules, caches, build artifacts, or secrets.
 - Review staged files before committing.
 - Do not overwrite unrelated changes or amend existing commits.
-- Never push to GitHub without explicit permission.
+- The user explicitly authorizes automatic commits and pushes of every completed, tested logical milestone to origin/main in reedhan-g/Ctrl-Z. Verify each push. This supersedes earlier documentation-review pauses.
+- Never force-push, rewrite history, change repository visibility or deploy publicly without separate authorization.
 - If Git requires approval, request it.
 
 ## Project requirements

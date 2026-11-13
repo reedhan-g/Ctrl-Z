@@ -29,8 +29,8 @@ To test on a phone on your own Wi-Fi, explicitly start `npm run dev -- --host 0.
 - Electricity deletion activates hospital (18h), water (6h) and residential (2h) backups.
 - Homes with remaining battery power still lose water when pumping stops.
 - Two delivery teams each add eight hours of reserve to one building. Supplies delivered after depletion restart that backup with eight hours remaining.
-- Pause, 1Ã— / 4Ã— / 12Ã— speed, restore grid, reset, and undo interventions.
-- Timeline scrubbing replays the original outage at any point from 0â€“24h and clears interventions. Undo restores the exact time and state before the latest manual intervention.
+- Pause, 1x / 4x / 12x speed, restore grid, reset, and undo interventions.
+- Timeline scrubbing replays the original outage at any point from 0-24h and clears interventions. Undo restores the exact time and state before the latest manual intervention.
 - Drag camera, wheel/pinch zoom, reset camera; mobile inspection sheet and touch-sized controls.
 - Keyboard: Space pauses/resumes when the map is focused, Ctrl/Command Z undoes, Escape closes inspection/help. Focused buttons retain their native Space action. Building buttons provide a keyboard alternative to canvas selection.
 
@@ -54,3 +54,7 @@ All city art is procedural geometry; there are no remote assets, fonts, accounts
 ## Current validation
 
 Dependency installation and TypeScript/Vite production builds now pass. The shared dependency graph, incident log and hospital water cascade are covered by unit and desktop/mobile browser specifications. See DEVELOPMENT_STATUS.md for current results, limitations and roadmap progress.
+
+## Product direction and development
+
+See PROJECT_VISION.md for the current product vision and reference priority: design/pixel-city-reference-2.png is primary, design/ctrl-z-city-reference.png secondary. Follow AGENTS.md and CODEX_TASK.md for automatic tested commits/pushes. No public deployment or repository visibility change is authorized.
