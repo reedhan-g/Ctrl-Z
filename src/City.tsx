@@ -2,7 +2,7 @@
 import { Application } from 'pixi.js';
 import { useGame, buildings } from './game';
 import { buildCityScene } from './CityScene';
-import { pickBuilding, iso } from './geometry';
+import { iso } from './geometry';
 import { CameraGesture } from './camera';
 import {boundedView,cameraOrigin} from './worldCamera';
 import {useNavigation} from './navigation';
@@ -48,6 +48,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
         render();
       }
       const motion=matchMedia('(prefers-reduced-motion: reduce)');
+      const publishVehicle=()=>{const id=useGame.getState().selectedVehicle;useNavigation.setState({vehiclePoint:id?scene.getVehiclePosition(id):null});};
       let animation=0,lastFrame=0,lastTick=performance.now(),visible=true,visualHours=0;
       const ambientStart=performance.now();
       const moving=()=>{const s=useGame.getState();return !disposed&&visible&&!document.hidden&&!lowPower&&!motion.matches&&(s.playing||(!s.outage&&!s.history.length));};
@@ -57,7 +58,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
         if(now-lastFrame>=33){
           const s=useGame.getState();
           visualHours=s.playing?Math.max(0,now-lastTick)*s.speed/6000:(now-ambientStart)/6000;
-          if(scene.animate(s,visualHours)){const view=useNavigation.getState().view;if(view)scene.cull(view.footprint);render();}
+          if(scene.animate(s,visualHours)){const view=useNavigation.getState().view;if(view)scene.cull(view.footprint);publishVehicle();render();}
           lastFrame=now;
         }
         animation=requestAnimationFrame(animate);
@@ -110,14 +111,14 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
           camera.focus(point,origin(),{x:el.clientWidth*(mobile?.5:.34),y:mobile?65:el.clientHeight*.38},scene.world.scale.x);
           fit();
         }
-        lastTick=performance.now(); if (scene.update(state)){const view=useNavigation.getState().view;if(view)scene.cull(view.footprint);render();} schedule();
+        lastTick=performance.now(); if (scene.update(state)){const view=useNavigation.getState().view;if(view)scene.cull(view.footprint);render();} schedule();publishVehicle();
       });
       document.addEventListener('visibilitychange', render);
       cleanup = () => {
         observer.disconnect(); viewport.disconnect(); unsubscribe(); cancelAnimationFrame(frame); cancelAnimationFrame(animation);
         motion.removeEventListener('change',schedule);document.removeEventListener('visibilitychange',schedule);
         document.removeEventListener('visibilitychange', render);el.removeEventListener('keydown',keys);
-        useNavigation.setState({view:null,recenter:()=>{},reset:()=>{}});
+        useNavigation.setState({view:null,vehiclePoint:null,recenter:()=>{},reset:()=>{}});
         el.removeEventListener('pointerdown', down); el.removeEventListener('pointermove', move);
         el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', cancel);
         el.removeEventListener('lostpointercapture', cancel);

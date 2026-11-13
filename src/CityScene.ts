@@ -3,7 +3,7 @@ import { buildings, status, type Snapshot, type BuildingId } from './simulation.
 import { iso, prismFaces, flatten, sortedBuildings } from './geometry.ts';
 import { dependencies, upstreamPaths } from './dependencies.ts';
 import { diagnoseDependency } from './investigation.ts';
-import { buildingShell, lightFacade, streetDetails, neon } from './cityArt.ts';
+import { buildingShell, lightFacade } from './cityArt.ts';
 import { fleet, vehiclePosition } from './traffic.ts';
 import {world as land} from './world.ts';
 import {buildWorldArt,type CullEntry} from './worldArt.ts';
@@ -12,12 +12,6 @@ import {pointInPolygon,buildingFaces,unproject} from './geometry.ts';
 
 type SceneState = Snapshot & { selected: BuildingId | null; trace: boolean };
 
-function prism(g: Graphics, x: number, y: number, w: number, d: number, top: number,
-  roof: number, left: number, right: number, bottom = 0) {
-  prismFaces(x, y, w, d, top, bottom).forEach((face, index) =>
-    g.poly(flatten(face)).fill([left, right, roof][index]));
-}
-
 /** Allocate scene objects once; updates only change affected graphics and labels. */
 export function buildCityScene() {
   const world = new Container();world.sortableChildren=true;
@@ -25,8 +19,8 @@ export function buildCityScene() {
   world.addChild(ground);
   ground.zIndex=-10000;ground.poly(flatten(prismFaces(land.min,land.min,land.size,land.size,0)[2])).fill(0x20202e);
   const art=buildWorldArt(world);
-  const lamps = new Graphics(), links = new Graphics();
-  world.addChild(lamps, links);lamps.zIndex=-9998;links.zIndex=-9997;
+  const links = new Graphics();
+  world.addChild(links);links.zIndex=-9997;
   const vehicles=fleet.map(vehicle=>{
     const sprite=new Graphics();
     sprite.poly([-9,0,0,-5,10,0,1,6]).fill(vehicle.color)
@@ -107,13 +101,13 @@ export function buildCityScene() {
     return animate(s)||changed;
   }
   const entries:CullEntry[]=[...art.entries,...views.map(v=>({node:v.layer,bounds:boundsOf(buildingFaces(v.b).flat(),60),kind:'service' as const}))];
-  let lastRect:Rect|null=null;
   function cull(rect:Rect){
-    lastRect=rect;let visible=0;for(const entry of entries){entry.node.visible=intersects(entry.bounds,rect,100);if(entry.node.visible)visible++;}
+    let visible=0,servicesVisible=0;for(const entry of entries){entry.node.visible=intersects(entry.bounds,rect,100);if(entry.node.visible){visible++;if(entry.kind==='service')servicesVisible++;}}
     for(const v of vehicles)v.sprite.visible=intersects({x:v.sprite.x-16,y:v.sprite.y-16,width:32,height:32},rect,60);
-    return {total:entries.length,visible};
+    return {total:entries.length,visible,servicesVisible};
   }
   const occluders=[...cityScenery.map(b=>({depth:(b.x+b.y+b.width)*100,faces:b.faces,building:null as BuildingId|null})),...buildings.map(b=>({depth:(b.x+b.y+1.9)*100,faces:buildingFaces(b),building:b.id as BuildingId|null}))].sort((a,b)=>b.depth-a.depth);
   function pick(point:{x:number;y:number}){const hit=occluders.find(o=>o.faces.some(face=>pointInPolygon(point,face)));return {building:hit?.building??null,blocked:!!hit};}
-  return { world, update, animate, cull, pick };
+  const getVehiclePosition=(id:string)=>{const sprite=vehicles.find(v=>v.vehicle.id===id)!.sprite;return {x:sprite.x,y:sprite.y};};
+  return { world, update, animate, cull, pick, getVehiclePosition };
 }

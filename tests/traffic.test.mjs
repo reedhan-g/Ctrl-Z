@@ -1,8 +1,17 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createInitialState,reduceGame} from '../src/gameState.ts';
-import {vehiclePosition,pickVehicle} from '../src/traffic.ts';
+import {vehiclePosition,pickVehicle,vehicleRoute} from '../src/traffic.ts';
+import {isRoad,world} from '../src/world.ts';
 const run=(...a)=>a.reduce(reduceGame,createInitialState());
+test('expanded courier route crosses outer districts on connected finite roads',()=>{
+ assert.ok(vehicleRoute.some(p=>p.x<0));assert.ok(vehicleRoute.some(p=>p.y>10));
+ for(let i=1;i<vehicleRoute.length;i++){
+  const a=vehicleRoute[i-1],b=vehicleRoute[i];
+  assert.ok((a.x===b.x&&isRoad(a.x))||(a.y===b.y&&isRoad(a.y)));
+  for(const n of [a.x,a.y,b.x,b.y])assert.ok(n>=world.min&&n<=world.max);
+ }
+});
 test('vehicles stop when hub backup expires and resume after delivery',()=>{
  const s=run({type:'fail'},{type:'seek',time:8});
  const p=vehiclePosition('courier-1',s);

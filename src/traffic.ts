@@ -6,7 +6,8 @@ export const fleet=[{id:'courier-1',name:'Courier 01',offset:0,color:0xeabb69},
   {id:'courier-2',name:'Courier 02',offset:8,color:0x67dbe5},
   {id:'courier-3',name:'Courier 03',offset:17,color:0xe582c6}] as const;
 export type VehicleId=typeof fleet[number]['id'];
-const route=[{x:4.5,y:.3},{x:4.5,y:9.4},{x:9.4,y:9.4},{x:9.4,y:4.5},{x:.3,y:4.5},{x:4.5,y:4.5},{x:4.5,y:.3}];
+export const vehicleRoute=[{x:4.5,y:.3},{x:4.5,y:19.5},{x:19.5,y:19.5},{x:19.5,y:-10.5},{x:-10.5,y:-10.5},{x:-10.5,y:4.5},{x:4.5,y:4.5},{x:4.5,y:.3}];
+const route=vehicleRoute;
 const segments=route.slice(1).map((end,i)=>({start:route[i],end,length:Math.hypot(end.x-route[i].x,end.y-route[i].y)}));
 const length=segments.reduce((n,s)=>n+s.length,0);
 export function vehiclePosition(id:VehicleId,s:Snapshot,visualHours=0):Point {

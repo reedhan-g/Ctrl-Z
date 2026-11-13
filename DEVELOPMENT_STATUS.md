@@ -2,14 +2,16 @@
 
 ## Current result - 2026-11-13
 
-The electricity slice now supports the complete small-scale loop: explore Meridian, disrupt electricity, trace service failures, choose limited interventions, replay preserved decisions, compare branches, investigate two observed failures, verify recovery, export a Resilience Report, and explicitly save/resume experiments on this browser.
+Meridian now has a finite 40x40-tile city (16 times the original land area), five district regions, 248 scenery buildings and 64 retained ground chunks inside the existing fixed responsive viewport. Bounded navigation and an interactive projection-correct minimap preserve the electricity investigation loop, interventions, replay, reports and local saves.
 
-56 unit/regression checks, all 32 desktop/mobile Chromium specifications and the production build pass. TypeScript/Vite production build passes with split entry (~265 kB) and city renderer (~300 kB) bundles. No large-chunk warning remains. Physical-phone FPS, battery and Safari behavior have not been measured.
+64 unit/regression checks, all 44 desktop/mobile Chromium specifications and the production build pass, including the focused rerun of the corrected mobile offscreen test. Split entry (~272 kB) and city renderer (~305 kB) bundles have no large-chunk warning. Browser measurements are recorded in docs/PERFORMANCE.md; physical-phone FPS, battery and Safari behavior have not been measured.
 
 The creator's existing static.yml is preserved, including automatic deployment on every main push and workflow_dispatch. ci.yml runs only locked installation, tests and production builds with read-only permissions. No duplicate deployment workflow was added; repository visibility was not changed. Each completed milestone is committed and pushed without rewriting history; upstream contributions were merged intact. Latest hosted results are checked after publishing.
 
 ## Implemented
 
+- Persistent finite world with continuous roads, varied original neon silhouettes, district palettes and camera-aware culling. Scenery is explicitly distinguished from the six simulated services; all three couriers follow connected roads through outer districts using actual dispatch progress.
+- Bounded drag/pinch/wheel navigation, focused-map arrow keys, Shift+wheel trackpad panning, zoom/reset buttons and service/fleet framing. Immediate recentering respects reduced motion. The minimap shares world projection, displays real service states and courier selection, supports tap/recenter, footprint dragging, arrow keys/Home, landmark navigation and mobile collapse.
 - Six independently selectable service locations: substation, hospital, waterworks, residences, telecom and delivery hub. Three selectable courier vehicles expose their hub dependency; keyboard/touch lists complement canvas selection.
 - Pure domain/reducer modules own electricity/water/communications rules, reserve deadlines, fractional dispatch capacity, late recovery, two supply teams and restoration. Existing working buildings and controls are retained.
 - Fixed-step elapsed-time clock, 0-24h timeline, pause/speeds, hidden-tab/stall policy, exact manual undo, time-indexed journals, response branching and same-time comparison. Recorded future interventions replay at the correct time.
@@ -24,17 +26,17 @@ The creator's existing static.yml is preserved, including automatic deployment o
 
 Current checks include full outage/late-supply/recovery/undo, preserved replay/forks, communications and water cascades, vehicle stop/recovery, evidence-based diagnoses, report JSON contents, reload/resume and corrupt saves. GPU idle checks use browser instrumentation; scene allocation tests use a Pixi test double. Neither is a physical-device performance benchmark.
 
-Actual desktop and portrait screenshots were captured/opened and compared with both references; short-landscape inspection was also exercised. Art is improved but remains a small authored geometric district, below the primary reference's density and handcrafted pixel detail. Screenshots and browser traces remain in ignored test-results/.
+Actual expanded-city desktop and portrait screenshots were captured and opened; short-landscape inspection is also covered. Density and modular silhouettes are improved, but bespoke pixel/sprite detail remains below the primary reference. Screenshots and browser traces remain in ignored test-results/.
 
 Save format v1 intentionally bounds branch/history/evidence counts and payload size. Storage is local to the current browser/origin, not cloud sync; there is one explicit slot and no automatic overwrite on reload. Downloaded reports can be shared as files; social publishing and shareable scenario seeds are not implemented.
 
 ## Remaining milestones / external verification
 
 1. Physical Android/iOS and Safari playtests, measured midrange-phone FPS/memory/battery, and user feedback are not possible with the current Chromium desktop/emulation setup. No claim of the target 30/60 FPS is made.
-2. Improve primary-reference fidelity further: richer silhouettes, denser districts, transit, signage and original pixel/sprite art. Low-power mode now caps resolution and suppresses continuous motion; add measured culling/detail/asset loading when expansion warrants it. Current art is not declared final.
+2. Improve primary-reference fidelity further with bespoke storefronts, transit and original pixel/sprite detail. Culling and cached chunk geometry are implemented; rendering the denser scene increases measured drag draw calls. Profile batching/atlases on actual devices before extending density. Current art is not declared final.
 3. Refine camera transitions, onboarding and broader accessibility/real-touch QA. Automatic framing now places new selections in clear space around contextual panels. Current manual pan/zoom and responsive inspection remain functional.
 4. Deepen logistics with individual cargo, inventory/fuel/road constraints and delivery routing; current aggregate dispatch and route progress are real but deliberately compact. Supplies still take effect immediately.
-5. Expand investigation cases and report presentation from the two authored causal cases. Larger entity counts and six districts are aspirations, not complete.
+5. Expand investigation cases and report presentation from the two authored causal cases. Five visual districts are implemented; additional simulated services and the eventual six-district product remain future scope.
 6. Internet/GNSS/payments/standalone water and simultaneous disruptions remain optional later scenarios after the first experience is polished. Cloud saves and shareable deterministic seeds are not implemented.
 
 ## Preservation and chronology
@@ -130,3 +132,11 @@ The SVG minimap renders cached shared district polygons/roads, six projected ser
 ### Expanded milestone 5: interactive minimap
 
 Minimap taps recenter through the shared bounded camera, including taps inside the footprint. Dragging the footprint preserves its grab offset; cancelled/lost pointers stop navigation. SVG screen-CTM inversion keeps coordinates accurate under page scrolling and resizing. Pointer capture, touch-action and propagation handling isolate minimap gestures from page drag and world selection. Arrow keys and Home work on the focused minimap; desktop landmark navigation and existing service buttons provide alternatives. Mobile has a 44px disclosure control; selecting a service collapses the minimap before framing. Recenter is immediate and gestures are frame-coalesced rather than using motion-heavy tweens. 62 unit checks and build pass; four desktop/mobile minimap specifications pass, including native Chromium touch tap and touch-drag, exact requested centers, unchanged simulation/selection, keyboard reset and collapse.
+
+### Expanded milestone 6: gameplay integration and review
+
+Three existing couriers now traverse connected outer-district roads; deterministic dispatch integration, stopping, recovery and replay remain unchanged. The minimap shows snapshot courier markers and the selected courier's actual rendered position. No decorative buildings were promoted to simulated services. An explicit core v1 save fixture resumes its branch, supplies and exact undo without camera/world fields or a schema migration.
+
+64 unit checks and the production build pass. Desktop/mobile integration checks exercise all six services culled offscreen while outage markers, saved response, reports, restore and undo retain correct state. Native two-touch pinch and subsequent transformed hospital picking pass. The first full browser run exposed an insufficient offscreen test position on mobile: one service still intersected the intentional culling margin. Moving the test camera farther away verifies actual culling without changing rendering bounds. The corrected integration checks pass; final full-suite results are recorded in the current-result section above. Expanded desktop/mobile screenshots were opened and reviewed. Before/after metrics and limitations are in docs/PERFORMANCE.md.
+
+Completed earlier expansion commits, all pushed with remote SHA verification: 5abc45b (finite world/camera), 1097108 (districts/culling), 2ccc9be (minimap display), ea4ce88 (minimap interaction). Existing static.yml remains identical to its preserved upstream version and CI remains test/build only. Remaining work: physical Android/iOS/Safari measurement, draw-call batching based on that profiling, bespoke pixel detail and deeper simulated infrastructure. Camera recentering is immediate; chunk streaming is intentionally unnecessary at this size.

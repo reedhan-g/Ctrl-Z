@@ -10,13 +10,13 @@ Read **PROJECT_VISION.md** for the current consolidated vision. It incorporates 
 
 A dense, handcrafted-looking dark neon 2D isometric city with moderate pixel-art influence. Dark charcoal/black base, cyan, pink, purple and warm yellow highlights. Crisp, readable, slightly pixel-inspired world assets; modern, clean, minimal UI; restrained smooth neon effects. Avoid photorealism, full retro 8-bit styling, generic concept art and glossy vector-dashboard aesthetics.
 
-Primary reference: **design/pixel-city-reference-2.png**. Secondary inspiration: **design/ctrl-z-city-reference.png** (the corrected filename). CODEX_TASK.md establishes this updated priority. Both were opened and inspected. Use them to guide original modular, independently interactive entities, not as a flattened game background. The present repeated procedural prisms are prototype art, not the approved finished style. Compare actual desktop/mobile screenshots with the references before accepting art completion.
+Primary reference: **design/pixel-city-reference-2.png**. Secondary inspiration: **design/ctrl-z-city-reference.png** (the corrected filename). CODEX_TASK.md establishes this updated priority. Both were opened and inspected. Use them to guide original modular, independently interactive entities, not as a flattened game background. The expanded city has varied modular geometry; bespoke pixel detail and further reference fidelity remain unfinished. Compare actual desktop/mobile screenshots with the references before accepting art completion.
 
 ## Current foundation
 
 React, TypeScript, Vite, PixiJS and Zustand. Six selectable buildings: substation, hospital, waterworks, residences, telecom and delivery hub. Rule-based electricity/water dependency effects, reserve depletion, two instantaneous supply actions, restore, exact manual-intervention undo, time controls, dependency tracing and an incident log. Pan, anchored zoom/pinch, mobile inspection and accessible building buttons exist.
 
-56 unit/regression checks, 32 desktop/mobile Chromium specifications and the TypeScript/Vite production build pass. Preserved-decision replay, branch comparison, two evidence-based investigation cases, reports with JSON export, and validated local saves are implemented. Three courier entities animate with dispatch capacity. See DEVELOPMENT_STATUS.md for current limitations and physical-device QA gaps.
+64 unit/regression checks, 44 desktop/mobile Chromium specifications and the TypeScript/Vite production build pass. Preserved-decision replay, branch comparison, two evidence-based investigation cases, reports with JSON export, and validated local saves are implemented. The finite 40x40 world contains five visual districts and 248 scenery buildings with retained culling. Three couriers follow connected outer-district roads with dispatch capacity. The interactive minimap shares actual projection, camera footprint and service state; camera navigation never advances simulation. See DEVELOPMENT_STATUS.md for limitations and physical-device QA gaps.
 
 ## Development priority
 
@@ -26,7 +26,7 @@ React, TypeScript, Vite, PixiJS and Zustand. Six selectable buildings: substatio
 4. Verify mobile usability, portrait/landscape layouts, reduced motion and measured performance. Validate the existing persistence and rendering optimizations on real devices.
 5. Only after the first experience works well, consider internet, GPS/GNSS, digital payments and municipal water disruptions.
 
-The larger city/entity counts in the vision are aspirations. Prior documents' proposed sequence of rushing into additional scenarios is superseded by perfecting electricity first.
+CODEX_EXPANDED_CITY.md takes priority: the first finite expansion and interactive minimap are implemented and tested. Further simulated entity counts remain aspirations; scenery does not claim new dependency mechanics. Next refine reference fidelity and measure real-device performance while preserving the electricity experience. Additional scenarios follow that work.
 
 ## Boundaries and Git authorization
 

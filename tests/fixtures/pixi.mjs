@@ -2,7 +2,8 @@
 export const stats = { created: 0, destroyed: 0, drawn: 0 };
 export class Container {
   children = [];
-  position = { set() {} };
+  x=0; y=0;
+  position = { set:(x,y)=>{this.x=x;this.y=y;} };
   constructor() { stats.created++; }
   addChild(...children) { this.children.push(...children); return children[0]; }
   destroy() { stats.destroyed++; this.children.forEach(child => child.destroy()); }

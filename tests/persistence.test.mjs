@@ -2,6 +2,14 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createInitialState,reduceGame} from '../src/gameState.ts';
 import {encodeExperiment,decodeExperiment} from '../src/persistence.ts';
+import {readFileSync} from 'node:fs';
+import {status} from '../src/simulation.ts';
+test('pre-expansion v1 core response resumes without requiring camera or world fields',()=>{
+ const saved=readFileSync(new URL('./fixtures/save-v1-core.json',import.meta.url),'utf-8');
+ const state=decodeExperiment(saved);assert.ok(state);assert.equal(state.time,12);assert.equal(state.activeBranch,1);
+ assert.equal(status('water',state).label,'Backup power');assert.equal(state.playing,false);
+ const undo=reduceGame(state,{type:'rewind'});assert.equal(undo.time,0);assert.deepEqual(undo.boosted,[]);
+});
 test('save/load retains branches, exact undo and evidence while resuming paused',()=>{
  let s=reduceGame(createInitialState(),{type:'startCase',id:'dispatch'});
  for(const id of ['grid','telecom','logistics'])s=reduceGame(s,{type:'evidence',id});

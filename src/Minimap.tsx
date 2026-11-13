@@ -1,6 +1,7 @@
 import {memo,useEffect,useState,useRef,type PointerEvent as ReactPointerEvent} from 'react';
 import {useGame,buildings,status} from './game';
 import {useNavigation} from './navigation';
+import {fleet,vehiclePosition} from './traffic';
 import {minimapBounds as box,minimapDistricts,minimapLand,minimapRoads,landmarkPoint,symbols,MinimapDrag} from './minimapGeometry';
 
 const Geography=memo(function Geography(){return <g aria-hidden="true">
@@ -11,11 +12,13 @@ const Geography=memo(function Geography(){return <g aria-hidden="true">
 
 export default function Minimap(){
  const s=useGame(),view=useNavigation(state=>state.view);
+ const vehiclePoint=useNavigation(state=>state.vehiclePoint);
  const [expanded,setExpanded]=useState(()=>window.innerWidth>760);
  useEffect(()=>{if(window.innerWidth<=760)setExpanded(false);},[s.selected,s.selectedVehicle]);
  const footprint=view?.footprint;
  const drag=useRef(new MinimapDrag()),pointer=useRef<number|null>(null);
  const tap=useRef<{x:number;y:number;point:{x:number;y:number};moved:boolean}|null>(null);
+ useEffect(()=>{if(!expanded){pointer.current=null;drag.current.end();tap.current=null;}},[expanded]);
  const point=(e:ReactPointerEvent<SVGSVGElement>)=>{
   const matrix=e.currentTarget.getScreenCTM();if(!matrix)return null;
   const p=e.currentTarget.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(matrix.inverse());
@@ -54,6 +57,7 @@ export default function Minimap(){
      <text y="31" textAnchor="middle" fill="#f5edf6" fontSize="100" fontFamily="monospace">{symbols[b.id]}</text>
      {state.tone!=='good'&&<text x="48" y="-35" fill="#ffe3b0" fontSize="105" fontFamily="monospace">{state.tone==='bad'?'!':'~'}</text>}
     </g>;})}
+    {fleet.map(v=>{const selected=s.selectedVehicle===v.id,p=selected&&vehiclePoint?vehiclePoint:vehiclePosition(v.id,s);return <g key={v.id} data-courier={v.id} aria-label={`${v.name}: ${status('logistics',s).label}${selected?', selected':''}`} transform={`translate(${p.x} ${p.y})`} role="img"><title>{v.name}: {status('logistics',s).label}</title><path d="M0,-45 L40,35 L-40,35 Z" fill={selected?'#fff3ca':'#eabb69'} stroke="#17222d" strokeWidth="10"/>{selected&&<circle r="65" fill="none" stroke="#fff" strokeWidth="12"/>}</g>;})}
     {footprint&&<rect data-footprint="true" data-testid="camera-footprint" x={footprint.x} y={footprint.y} width={footprint.width} height={footprint.height} fill="#8be5e21a" stroke="#d8fff4" strokeWidth="17"/>}
    </svg>
    <p className="minimap-legend">P power · H hospital · W water · T telecom · L logistics · R homes<br/>! interrupted · ~ reserve. Other buildings are scenery.</p>
