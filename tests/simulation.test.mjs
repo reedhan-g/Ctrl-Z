@@ -1,0 +1,10 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {buildings,initial,status} from '../src/simulation.ts';
+const outage=(time,boosted=[])=>({...initial,outage:true,time,boosted});
+test('all four buildings start operational',()=>{assert.equal(buildings.length,4);for(const b of buildings)assert.equal(status(b.id,initial).label,'Operational');});
+test('grid failure immediately activates backups',()=>{assert.equal(status('grid',outage(0)).tone,'bad');for(const id of ['hospital','water','homes'])assert.equal(status(id,outage(0)).label,'Backup power');});
+test('reserves deplete at exact building thresholds',()=>{for(const [id,hours]of [['homes',2],['water',6],['hospital',18]]){assert.equal(status(id,outage(hours-.01)).tone,'warn');assert.equal(status(id,outage(hours)).label,'Offline');assert.equal(status(id,outage(24)).remaining,0);}});
+test('supplies extend each backup by eight hours',()=>{for(const [id,hours]of [['homes',2],['water',6],['hospital',18]]){assert.equal(status(id,outage(hours,[id])).remaining,8);assert.equal(status(id,outage(hours+8,[id])).remaining,0);}});
+test('homes with backup power still lose water when pumps fail',()=>{assert.equal(status('homes',outage(6,['homes'])).label,'No water');assert.equal(status('homes',outage(6,['homes','water'])).label,'Backup power');});
+test('restoring electricity recovers every service at any time',()=>{for(const b of buildings)assert.equal(status(b.id,{...outage(24),outage:false,restoredAt:24}).label,'Operational');});
