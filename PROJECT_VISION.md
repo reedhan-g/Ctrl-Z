@@ -38,7 +38,7 @@ Create a dense, urban, handcrafted-looking 2D isometric city with **moderate pix
 
 Avoid photorealism, heavy 3D, smooth generic concept-art visuals, glossy vector-dashboard aesthetics, random holograms, blurry textures and inconsistent perspectives. Procedural geometry may support roads or original modular assets, but the current smooth repeated prisms are not the final art standard. A static AI-generated city image cannot replace interactive entities.
 
-Judge visual completion using actual desktop and mobile game screenshots beside both references. Passing functional tests alone does not establish visual fidelity. The references have been inspected; a fresh side-by-side screenshot review of the running game has not yet been completed.
+Judge visual completion using actual desktop and mobile game screenshots beside both references. Passing functional tests alone does not establish visual fidelity. The references and actual desktop/mobile screenshots have been inspected. The small current district is an incremental improvement, not a final fidelity match.
 
 ## Intended simulation architecture
 

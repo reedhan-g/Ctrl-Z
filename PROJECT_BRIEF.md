@@ -16,14 +16,14 @@ Primary reference: **design/pixel-city-reference-2.png**. Secondary inspiration:
 
 React, TypeScript, Vite, PixiJS and Zustand. Six selectable buildings: substation, hospital, waterworks, residences, telecom and delivery hub. Rule-based electricity/water dependency effects, reserve depletion, two instantaneous supply actions, restore, exact manual-intervention undo, time controls, dependency tracing and an incident log. Pan, anchored zoom/pinch, mobile inspection and accessible building buttons exist.
 
-Dependency installation, TypeScript/Vite build and 10 desktop/mobile Chromium specifications now pass. The integrated baseline has 37 unit/regression checks. Replay is now integrated: preserved decisions, response branches and same-time baseline comparison are undergoing validation. See DEVELOPMENT_STATUS.md for qualifications.
+TypeScript/Vite build, 53 unit/regression checks and 30 desktop/mobile Chromium specifications pass. Preserved-decision replay, branch comparison, two evidence-based investigation cases, reports with JSON export, and validated local saves are implemented. Three courier entities animate with dispatch capacity. See DEVELOPMENT_STATUS.md for current limitations and physical-device QA gaps.
 
 ## Development priority
 
 1. Complete and polish the electricity vertical slice, preserving existing working features. Telecom and dispatch capacity now participate in the outage; add believable vehicles and reference-aligned city presentation.
 2. Strengthen deterministic causal state, time history, rewind and branch comparison. Scrubbing now reconstructs recorded decisions; response branches preserve prior outcomes.
-3. Deliver genuine investigation cases, evidence-based recovery, outcomes and reports.
-4. Verify mobile usability, portrait/landscape layouts, reduced motion and measured performance. Add persistence and appropriate rendering optimizations.
+3. Expand the two working investigation cases and their evidence-based recovery, outcomes and reports.
+4. Verify mobile usability, portrait/landscape layouts, reduced motion and measured performance. Validate the existing persistence and rendering optimizations on real devices.
 5. Only after the first experience works well, consider internet, GPS/GNSS, digital payments and municipal water disruptions.
 
 The larger city/entity counts in the vision are aspirations. Prior documents' proposed sequence of rushing into additional scenarios is superseded by perfecting electricity first.

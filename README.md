@@ -1,62 +1,40 @@
 # Ctrl Z
 
-Undo the world. A browser-based isometric city systems simulator.
+Undo the World. Explore Meridian, disrupt electricity, investigate causal failures, intervene and compare alternate outcomes.
 
-## Run locally
+## Run
 
-Requires Node.js 22.18+ (Node 24 LTS recommended).
+Requires Node.js 22.18+; CI uses Node 24.
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:5173. The development server listens only on localhost.
+Open http://127.0.0.1:5173/Ctrl-Z/. The server binds to localhost. The /Ctrl-Z/ base path preserves the creator's GitHub Pages setup.
 
 ```sh
-npm test                    # Dependency-free simulation, interaction and scene tests
-npm run build               # TypeScript check and production build
-npm run test:browser         # Desktop and mobile Chromium flows
+npm test
+npm run build
+npx playwright install chromium
+npm run test:browser
 ```
 
-Before the first browser test run, install Chromium with `npx playwright install chromium`.
-To test on a phone on your own Wi-Fi, explicitly start `npm run dev -- --host 0.0.0.0`, then open your computer's LAN address on port 5173. This is optional and is not enabled by default.
+## Play
 
-## First playable milestone
+- Sandbox: remove electricity, inspect any of six service locations or three couriers, follow Dependencies, and spend two supply teams. Scenario reserves and dispatch assumptions are explained in inspection.
+- Pause, change speed, scrub 0-24h, Undo or restore power. Scrubbing preserves decisions. Intervening before a future decision creates a response branch; choose Original outage to compare without supplies.
+- Investigation: gather readings for Silent dispatch or A generator is not enough, test a failing-dependency diagnosis, and verify recovery through the simulation. Incorrect or unsupported diagnoses do not unlock repair.
+- Resilience report compares equal time windows and exports decisions, incidents and evidence as JSON. Service-hours and consignments are game metrics, not infrastructure forecasts.
+- Save experiment explicitly writes one local browser slot. Resume saved restores branches, undo and evidence, paused. Reset/reload starts fresh until Resume saved is chosen. Invalid/unavailable storage does not replace the current experiment.
+- Drag to pan; scroll/pinch to zoom; tap to inspect. Building/fleet buttons provide keyboard alternatives. Space pauses when the map is focused, Ctrl/Command Z undoes, Escape closes inspection/help. Focused controls retain native keyboard behavior.
 
-- React + TypeScript + Vite interface; PixiJS vector city; Zustand simulation state.
-- Four inspectable buildings, backed by a dependency model.
-- Electricity deletion activates hospital (18h), water (6h) and residential (2h) backups.
-- Homes with remaining battery power still lose water when pumping stops.
-- Two delivery teams each add eight hours of reserve to one building. Supplies delivered after depletion restart that backup with eight hours remaining.
-- Pause, 1x / 4x / 12x speed, restore grid, reset, and undo interventions.
-- Timeline scrubbing replays recorded interventions from 0-24h. Changing a past response forks a branch; choose Original outage to compare at the same time. Undo restores the exact time and state before the latest manual intervention.
-- Drag camera, wheel/pinch zoom, reset camera; mobile inspection sheet and touch-sized controls.
-- Keyboard: Space pauses/resumes when the map is focused, Ctrl/Command Z undoes, Escape closes inspection/help. Focused buttons retain their native Space action. Building buttons provide a keyboard alternative to canvas selection.
+At 1x, one real second advances ten simulated minutes. Hidden tabs and stalls over one second do not consume reserves. Nominal traffic preview does not advance the simulation. Reduced motion suppresses continuous traffic animation. Current validation: 53 unit checks, production build and 30 desktop/mobile Chromium checks pass; physical-phone/Safari performance remains unverified.
 
-At 1Ã—, one real second advances ten simulated minutes. The experiment pauses at 24 hours. This is a deterministic demonstration, not a predictive infrastructure model. State is in memory and resets on page reload.
+## Modules and product direction
 
-## Structure
+See ARCHITECTURE.md for module ownership, PROJECT_VISION.md for the product vision, PROJECT_BRIEF.md for priorities, and DEVELOPMENT_STATUS.md for completed milestones and remaining work. Pure simulation/history/case/report modules are separate from React/Pixi adapters. All runtime city art is original geometry; no remote images/fonts/accounts are required.
 
-- `src/simulation.ts`: building data, backup reserves and derived service states.
-- `src/gameState.ts`: pure, tested state transitions and intervention snapshots.
-- `src/game.ts`: Zustand adapter for those transitions.
-- `src/CityScene.ts`: persistent PixiJS layers and incremental visual updates.
-- `src/City.tsx`: renderer lifecycle and DOM interaction binding.
-- `src/geometry.ts`: shared isometric projection, visible faces and depth-aware picking.
-- `src/camera.ts`: tested pan/pinch/zoom gestures.
-- `src/keyboard.ts`: tested shortcut policy.
-- `src/App.tsx`: experiment controls, inspection, timeline and onboarding.
-- `src/style.css`: dark navy / amber / muted cyan art direction and mobile layout.
+Primary visual direction: design/pixel-city-reference-2.png. Secondary inspiration: design/ctrl-z-city-reference.png. Reference images are design inputs, not runtime backgrounds. The district has improved neon facades but is not declared a final match for reference density or detail.
 
-All city art is procedural geometry; there are no remote assets, fonts, accounts or APIs required at runtime. Internet, GPS and digital payments are future scenarios, not part of this milestone.
-
-## Current validation
-
-Dependency installation and TypeScript/Vite production builds now pass. The shared dependency graph, incident log and hospital water cascade are covered by unit and desktop/mobile browser specifications. See DEVELOPMENT_STATUS.md for current results, limitations and roadmap progress.
-
-## Product direction and development
-
-See PROJECT_VISION.md for the current product vision and reference priority: design/pixel-city-reference-2.png is primary, design/ctrl-z-city-reference.png secondary. Follow AGENTS.md and CODEX_TASK.md for automatic tested commits/pushes. No public deployment or repository visibility change is authorized.
-
-GitHub Pages clarification: the creator explicitly authorizes preserving the existing .github/workflows/static.yml deployment on every push to main, with workflow_dispatch also available. Do not disable its push trigger or add a duplicate deployment workflow. ci.yml is testing/build only. This supersedes earlier no-deployment wording for this existing Pages setup; repository visibility remains unchanged.
+Follow AGENTS.md and CODEX_TASK.md. Automatic tested commits/pushes are authorized. The existing static.yml deploys Pages on every main push and supports workflow_dispatch; preserve it. ci.yml only tests/builds. Never force-push, change visibility, discard unrelated work or commit dependencies/secrets/build artifacts.

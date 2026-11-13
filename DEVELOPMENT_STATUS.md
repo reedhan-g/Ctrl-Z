@@ -1,75 +1,47 @@
 # Ctrl Z - Development Status
 
-## Active development - 2026-11-13
+## Current result - 2026-11-13
 
-CODEX_TASK.md is now explicitly invoked. Automatic tested commits and pushes to origin/main in reedhan-g/Ctrl-Z are authorized, superseding the earlier documentation-review pause. Repository visibility and public deployment remain unchanged. The prior investigation milestone 8f1d335 was already pushed.
+The electricity slice now supports the complete small-scale loop: explore Meridian, disrupt electricity, trace service failures, choose limited interventions, replay preserved decisions, compare branches, investigate two observed failures, verify recovery, export a Resilience Report, and explicitly save/resume experiments on this browser.
 
-The documentation milestone preserves the local vision review and both supplied reference images, corrects reference priority to the newer neon pixel-art image, and aligns Git authorization. No source work is discarded. The unintegrated replay helper and tests are reserved for the next gameplay milestone.
+53 unit/regression checks and all 30 desktop/mobile Chromium specifications pass. TypeScript/Vite production build passes with split entry (~265 kB) and city renderer (~300 kB) bundles. No large-chunk warning remains. Physical-phone FPS, battery and Safari behavior have not been measured.
 
-## References inspected
+The creator's existing static.yml is preserved, including automatic deployment on every main push and workflow_dispatch. ci.yml runs only locked installation, tests and production builds with read-only permissions. No duplicate deployment workflow was added; repository visibility was not changed. Each completed milestone is committed and pushed without rewriting history; upstream contributions were merged intact. Latest hosted results are checked after publishing.
 
-- Secondary inspiration, design/ctrl-z-city-reference.png: opened directly; dense urban blocks, varied skyline, cyan architectural lighting, warm windows, coherent intersections, vehicles and transit details.
-- Primary direction, design/pixel-city-reference-2.png: opened directly; crisp pixel-influenced architecture, charcoal streets, cyan/magenta signage, detailed rooftops, sidewalks and vehicles.
+## Implemented
 
-The creator confirmed the first filename corrects the older design/city-reference.png spelling. The references are available and inspected; the old statement that they were absent is obsolete. No fresh side-by-side rendered-game screenshot review has been completed, so visual fidelity is not approved.
+- Six independently selectable service locations: substation, hospital, waterworks, residences, telecom and delivery hub. Three selectable courier vehicles expose their hub dependency; keyboard/touch lists complement canvas selection.
+- Pure domain/reducer modules own electricity/water/communications rules, reserve deadlines, fractional dispatch capacity, late recovery, two supply teams and restoration. Existing working buildings and controls are retained.
+- Fixed-step elapsed-time clock, 0-24h timeline, pause/speeds, hidden-tab/stall policy, exact manual undo, time-indexed journals, response branching and same-time comparison. Recorded future interventions replay at the correct time.
+- Dispatch totals integrate real capacity changes. Reports integrate five service capacities over equal horizons and download actual decisions/incidents/evidence as JSON. All values are explicit game assumptions.
+- Two Investigation cases require time-stamped readings, reject unsupported diagnoses, constrain recovery until supported, and verify success against actual service state. Evidence remains labeled knowledge across rewind.
+- Original modular city geometry has crisp neon facades, roof details, crosswalks, differentiated lighting and a compact city-first UI. Primary reference: design/pixel-city-reference-2.png; secondary: design/ctrl-z-city-reference.png. Both supplied images are preserved as references and are not runtime backgrounds.
+- Fleet progress follows dispatch capacity and is reproducible on replay. Nominal preview animation is visual only, capped at 30 updates/sec, and suppressed offscreen, hidden and under reduced motion. Experiment pause stops motion. Scene objects persist; paused/reduced-motion GPU checks confirm idle rendering stops.
+- Touch pan/pinch, anchored zoom, cancellation handling, mobile inspection sheet, large action buttons, accessible names, keyboard shortcuts and focus-managed help. Browser tests cover portrait and short landscape layouts.
+- Explicit Save experiment / Resume saved stores one versioned local slot with branches, undo history, evidence and controls. Saves are validated for structure, sizes and journal consistency; resume is paused. Invalid saves or unavailable storage leave the current experiment intact. Reset/reload starts fresh unless Resume saved is chosen.
 
-## Implemented and integrated
+## Validation and limitations
 
-- React/TypeScript/Vite, PixiJS rendering and Zustand state, with simulation transitions in a pure reducer.
-- Four individually selectable buildings: North substation, St. Mira Hospital, Waterworks and Maple residences; additional scenery is decorative, not independently simulated.
-- Electricity removal/restoration, 0-24h clock, play/pause, 1x/4x/12x speed and reset.
-- Rule-based electricity/water cascades: residential reserve 2h, waterworks reserve 6h, hospital fuel 18h and hospital water buffer 12h after pump reserve exhaustion. These are fixed game assumptions.
-- Two distinct supply actions, each extending a reserve by eight hours; late supplies restart depleted backups. Actions are instantaneous: no dispatched trucks or route simulation.
-- Exact undo snapshots for manual interventions; seek/scrubbing reconstructs recorded supplies on the selected branch.
-- Shared dependency graph, source inspection links, upstream paths, state-colored dependency overlay, diagnosis and time-indexed incident log, including failure before late delivery and subsequent recovery.
-- Persistent scene objects and incremental graphic updates, depth-aware building picking, pan, cursor/midpoint-anchored zoom, drag/pinch selection suppression and pointer cancellation handling.
-- Responsive mobile inspection sheet, touch-sized main buttons, accessible building list, explicit mobile Undo/Dependencies names, keyboard undo/pause/Escape and help focus management. Reduced-motion CSS currently disables transitions only.
+Current checks include full outage/late-supply/recovery/undo, preserved replay/forks, communications and water cascades, vehicle stop/recovery, evidence-based diagnoses, report JSON contents, reload/resume and corrupt saves. GPU idle checks use browser instrumentation; scene allocation tests use a Pixi test double. Neither is a physical-device performance benchmark.
 
-## Replay milestone
+Actual desktop and portrait screenshots were captured/opened and compared with both references; short-landscape inspection was also exercised. Art is improved but remains a small authored geometric district, below the primary reference's density and handcrafted pixel detail. Screenshots and browser traces remain in ignored test-results/.
 
-The previously untracked replay helper is integrated with the pure reducer and Timeline UI. Scrubbing preserves earlier deliveries and hides future actions; playback reapplies recorded actions and stops at a recorded restoration. A past intervention forks without deleting the original response; exact undo restores branch state as well as reserves and teams. A branch selector and same-time online-service comparison expose the original outage and alternate responses. Switching branches clears manual undo checkpoints to avoid applying a different response's history.
+Save format v1 intentionally bounds branch/history/evidence counts and payload size. Storage is local to the current browser/origin, not cloud sync; there is one explicit slot and no automatic overwrite on reload. Downloaded reports can be shared as files; social publishing and shareable scenario seeds are not implemented.
 
-41 unit/regression checks pass, including integrated replay/restoration, fork preservation and exact undo. Production build passed; all 12 desktop/mobile specifications passed (11 in the full run and the interrupted mobile replay check in an isolated rerun). No code is removed from the prior local work.
+## Remaining milestones / external verification
 
-## Validation evidence and limits
+1. Physical Android/iOS and Safari playtests, measured midrange-phone FPS/memory/battery, and user feedback are not possible with the current Chromium desktop/emulation setup. No claim of the target 30/60 FPS is made.
+2. Improve primary-reference fidelity further: richer silhouettes, denser districts, transit, signage and original pixel/sprite art. Add measured culling/detail/asset-quality controls when the expanded scene warrants them. Current art is not declared final.
+3. Refine automatic selected-object framing around contextual panels, camera transitions, onboarding and broader accessibility/real-touch QA. Current manual pan/zoom and responsive inspection remain functional.
+4. Deepen logistics with individual cargo, inventory/fuel/road constraints and delivery routing; current aggregate dispatch and route progress are real but deliberately compact. Supplies still take effect immediately.
+5. Expand investigation cases and report presentation from the two authored causal cases. Larger entity counts and six districts are aspirations, not complete.
+6. Internet/GNSS/payments/standalone water and simultaneous disruptions remain optional later scenarios after the first experience is polished. Cloud saves and shareable deterministic seeds are not implemented.
 
-- Dependency installation succeeded with elevated network access; package-lock.json is committed. npm reported zero vulnerabilities at that install, not a continuing security guarantee.
-- The integrated baseline's 37 unit/regression checks passed. The latest unit run passed 39 checks including the two unintegrated replay-helper checks.
-- TypeScript and the Vite production build passed. Vite warned that the main minified chunk exceeds 500 kB (approximately 546 kB); loading work remains.
-- All 10 existing desktop/mobile Chromium specifications passed after fixing an ambiguous supply locator and accessible names on icon-only mobile controls. The investigation setup was shortened; suite timeout is 60 seconds.
-- Existing browser checks cover outage/supplies/undo/recovery, canvas selection, camera interaction, hospital water tracing and help focus. Scene allocation checks use a PixiJS test double. Gesture unit tests are not evidence of real-device pinch performance.
-- Mobile emulation used iPhone 13 dimensions with Chromium; it is not iOS Safari or physical Android/iOS testing. No measured FPS, battery, memory, hidden-tab behavior or full landscape QA is recorded.
-- Reference images have been viewed, but no new actual game screenshots were captured/reviewed in this documentation pass. Current art mismatch is established from the scene code and reference comparison, not an asserted screenshot fidelity check.
-- Documentation validation checks reference PNG signatures/paths, consistent authorization and visual priority, and Git whitespace/staged-file review. Unit/build checks are rerun before code milestones.
+## Preservation and chronology
 
-## Gaps and inconsistencies against the product vision
+AGENTS.md, PROJECT_VISION.md and PROJECT_BRIEF.md reflect explicit automatic tested commit/push authorization and preservation of the existing Pages setup. CODEX_TASK.md is executed subject to the creator's subsequent Pages clarification. The historical vision source and both reference assets remain available. No force-push, history rewrite, unrelated-work deletion or visibility change was performed.
 
-| Area | Current implementation | Intended direction / remaining work |
-| --- | --- | --- |
-| City identity and composition | North District, four inspectable buildings, repeated muted vector prisms | Meridian; dense coherent urban streets, varied modular architecture, moderate pixel influence and cyan/pink/purple/yellow lighting |
-| City activity | Static scenery; no vehicles or transit | Animated and selectable vehicles/infrastructure with relevant causal states; believable delivery degradation |
-| Vertical slice entities | Substation/hospital/waterworks/residences | Add telecom tower and delivery hub while preserving existing buildings |
-| UI | Large permanent promotional sidebar; contextual inspector | City-first compact controls and readable contextual panels |
-| Investigation | Known outage, immediate diagnosis, graph links and incident log | Separate hidden-cause cases, evidence gathering, player diagnosis, strategy testing and outcomes |
-| Simulation | Pure reducer, fixed reserves and small shared graph | Configurable entities with relevant capacity/demand/inventory/fallbacks; fixed-step time policy independent of render FPS |
-| Replay | Manual undo, preserved-decision replay and branch comparison exist | Reliable journal/snapshots, preserved earlier decisions, branches and outcome comparisons |
-| Resources and recovery | Two instantaneous supply boosts; grid restore | Broader meaningful constraints, logistics and recovery tradeoffs |
-| Completion | No report or explicit scenario outcome | Resilience Report with clear impacts, actions and save/share support |
-| Persistence | In-memory state, lost on reload | Local saved experiments; optional later shareable deterministic seeds |
-| Performance | Reused scene objects, but default Pixi continuous rendering; 100ms timer | Profile actual devices; manage idle/background work and animation; batching, culling/detail/loading and quality options as needed |
-| Mobile/accessibility | Touch gestures and sheet exist; portrait Chromium checks | Landscape/Safari/device QA, selected-object visibility, comfortable controls and motion-aware world behavior |
-| Other disruptions | Electricity playable; water only a dependency | Internet/GNSS/payments/standalone water later, after polishing electricity |
-
-Earlier brief/status claims about blocked npm, missing references, unborn Git history and prohibited pushes without the subsequently granted permission were stale. Those are corrected here. The earlier proposed roadmap was not authoritative; it must not override the creator's clarified product vision.
-
-## Next milestones
-
-1. Validate, commit and push documentation alignment; review architecture and make only useful incremental refactors, then add unit/build CI.
-2. Finish the electricity slice: missing telecom/logistics entities, responsive causal effects and city-first presentation, preserving tested functionality.
-3. Implement consistent time/history/branching with deterministic scenario tests; add relevant engine detail for actual gameplay needs.
-4. Build reference-aligned original modular city art and meaningful vehicles; review real desktop/mobile screenshots against both images.
-5. Add genuine investigation cases, constrained recovery and reports, then persistence and measured mobile optimization/playtests.
-6. Expand disruptions only when the first experience is complete. Any public deployment remains subject to explicit approval.
+The chronological notes below record validation as each milestone was completed; earlier counts/descriptions are historical, not the current feature inventory.
 
 ## Milestone log
 
@@ -118,3 +90,7 @@ Added Sandbox/Investigation entries and two observed-symptom cases: Silent dispa
 ## Resilience report milestone
 
 Reports integrate service availability and fractional dispatch across actual event boundaries, compare all branches over one equal observation horizon, show delayed consignments and export decisions/incidents/evidence as JSON. Reports never expose future decisions and are withheld during an unconfirmed case. The metric transparently sums five service capacities, excludes the substation, and is a game assumption. 51 unit checks and production build pass; browser download validation reads the exported JSON and checks the eight-hour water intervention benefit. Existing CI and Pages runs for a6caf04 both succeeded.
+
+## Local-save milestone
+
+53 unit checks, all 30 browser specifications and production build pass. Browser checks verify save/reload/paused resume, retained branch and exact undo, and rejection of an incompatible save without changing the current outage.

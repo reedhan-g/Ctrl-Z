@@ -1,0 +1,30 @@
+import {test,expect} from '@playwright/test';
+test('saved responses survive reload and resume paused with exact undo',async({page})=>{
+ await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.getByRole('button',{name:'Remove electricity',exact:true}).click();
+ await page.getByRole('button',{name:'Pause simulation'}).click();
+ const slider=page.getByRole('slider',{name:'Simulation timeline'});
+ await slider.press('Home');
+ await page.locator('.building-list').getByRole('button',{name:/Waterworks/}).click();
+ await page.getByRole('region',{name:'Building inspection'}).getByRole('button',{name:'Send backup supplies'}).click();
+ await slider.press('End');
+ await page.getByRole('button',{name:'Save experiment',exact:true}).click();
+ await expect(page.getByText('Experiment saved on this browser.')).toBeVisible();
+ await page.reload();await expect(page.locator('canvas')).toBeVisible();
+ await page.getByRole('button',{name:'Resume saved',exact:true}).click();
+ await expect(page.getByText('Saved experiment resumed, paused.')).toBeVisible();
+ await expect(page.getByRole('slider')).toHaveValue('24');
+ await expect(page.getByRole('combobox',{name:'Replay branch'})).toHaveValue('1');
+ await page.getByRole('button',{name:'Undo',exact:true}).click();
+ await expect(page.getByRole('slider')).toHaveValue('0');
+ await expect(page.getByRole('button',{name:'Play simulation'})).toBeVisible();
+});
+test('invalid browser saves leave the current experiment intact',async({page})=>{
+ await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.getByRole('button',{name:'Remove electricity',exact:true}).click();
+ await page.getByRole('button',{name:'Pause simulation'}).click();
+ await page.evaluate(()=>localStorage.setItem('ctrl-z:experiment:v1','{"version":99}'));
+ await page.getByRole('button',{name:'Resume saved',exact:true}).click();
+ await expect(page.getByText('No compatible saved experiment found. Current experiment kept.')).toBeVisible();
+ await expect(page.getByText('GRID OFFLINE',{exact:true})).toBeVisible();
+});
