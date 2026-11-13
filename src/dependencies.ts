@@ -3,7 +3,7 @@ import type { BuildingId } from './simulation.ts';
 export interface Dependency {
   source: BuildingId;
   target: BuildingId;
-  system: 'electricity' | 'water';
+  system: 'electricity' | 'water' | 'communications';
   bufferHours: number;
 }
 
@@ -14,6 +14,9 @@ export const dependencies: readonly Dependency[] = [
   { source: 'grid', target: 'homes', system: 'electricity', bufferHours: 0 },
   { source: 'water', target: 'homes', system: 'water', bufferHours: 0 },
   { source: 'water', target: 'hospital', system: 'water', bufferHours: 12 },
+  { source: 'grid', target: 'telecom', system: 'electricity', bufferHours: 0 },
+  { source: 'grid', target: 'logistics', system: 'electricity', bufferHours: 0 },
+  { source: 'telecom', target: 'logistics', system: 'communications', bufferHours: 0 },
 ];
 
 export function upstreamPaths(target: BuildingId): BuildingId[][] {

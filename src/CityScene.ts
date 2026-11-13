@@ -36,7 +36,7 @@ export function buildCityScene() {
       lampPoints.push({ x: p.x, y: p.y - 14 });
     }
   }
-  for (const [x, y, h] of [[0, 0, 27], [0, 6, 39], [6, 0, 40], [8, 0, 55], [0, 8, 31], [8, 8, 35], [6, 8, 29], [8, 6, 44], [2, 0, 24], [0, 2, 27]]) {
+  for (const [x, y, h] of [[0, 0, 27], [8, 0, 55], [0, 8, 31], [8, 8, 35], [6, 8, 29], [8, 6, 44], [2, 0, 24], [0, 2, 27]]) {
     prism(ground, x + .1, y + .1, 1.25, 1.25, h, 0x42565b, 0x273a44, 0x20303a);
     prism(ground, x + .4, y + .4, .55, .5, h + 5, 0x596a6c, 0x35484f, 0x293c44, h);
     for (let row = 0; row < 3; row++) decorativeWindows.push(iso(x + 1.36, y + .3 + row * .35, h - 9));
@@ -62,12 +62,14 @@ export function buildCityScene() {
     if (b.id === 'hospital') {
       roof.rect(r.x - 8, r.y - 3, 16, 6).fill(0xa9ddd3).rect(r.x - 3, r.y - 8, 6, 16).fill(0xa9ddd3);
     }
+    if (b.id==='telecom') roof.moveTo(r.x,r.y).lineTo(r.x,r.y-28).stroke({color:0x67e2ec,width:3}).circle(r.x,r.y-30,3).fill(0xe895d6);
+    if (b.id==='logistics') roof.rect(r.x-15,r.y-4,30,8).fill(0xeccf79);
     if (b.id === 'water') {
       roof.ellipse(r.x, r.y - 7, 17, 8).fill(0x7b969b).rect(r.x - 17, r.y - 7, 34, 14).fill(0x607d85)
         .ellipse(r.x, r.y + 7, 17, 8).fill(0x829b9e);
     }
     const p = iso(b.x + .9, b.y + .9, b.height + 30);
-    const label = new Text({ text: b.id === 'grid' ? 'SUBSTATION' : b.id === 'hospital' ? 'HOSPITAL' : b.id === 'water' ? 'WATERWORKS' : 'RESIDENCES',
+    const label = new Text({ text: b.id === 'grid' ? 'SUBSTATION' : b.id === 'hospital' ? 'HOSPITAL' : b.id === 'water' ? 'WATERWORKS' : b.id==='telecom'?'TELECOM':b.id==='logistics'?'DELIVERY HUB':'RESIDENCES',
       style: { fontFamily: 'monospace', fontSize: 10, fill: 0xabc0c6, letterSpacing: 1 } });
     label.anchor.set(.5); label.position.set(p.x, p.y - 24);
     layer.addChild(label); world.addChild(layer);

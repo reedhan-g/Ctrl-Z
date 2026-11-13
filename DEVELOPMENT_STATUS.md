@@ -90,3 +90,9 @@ GitHub Pages clarification: the creator explicitly authorizes preserving the exi
 43 unit checks, production build and all 14 desktop/mobile browser checks pass. The fixed-step clock accumulates 100ms steps, discards hidden-tab time and stalls over one second, and does not dispatch idle ticks. Pixi renders on changed visuals/camera/resize instead of running a continuous ticker; browser GPU instrumentation confirms idle draw calls stop on desktop and mobile and camera actions draw again. Lazy city loading splits the entry (~250 kB) and renderer (~298 kB), removing the large-chunk warning.
 
 Actual desktop/mobile screenshots were captured and inspected. They confirm the city remains too sparse/muted relative to the primary pixel reference and the promotional mobile heading needs layout cleanup. These are the next visual milestone, not claims of finished art. No physical-device FPS/battery claim is made.
+
+## Telecom and logistics milestone
+
+Added selectable Meridian telecom and East delivery hub, preserving all four original buildings. Telecom uses 4h batteries; the hub uses 8h power reserves, 70% dispatch on backup and 35% manual dispatch without telecom, stopping only when its own power is lost. Inspection explains assumptions and displays dispatched/delayed consignments. Capacity is integrated between actual state transitions, so late recovery and seeking agree. Two limited supply teams create a meaningful choice between communications, hub power and other district services. Dispatch is modeled; physical truck routes and fuel inventories are still future work. Mobile building buttons now use a three-column grid and the heading wraps.
+
+45 unit checks and production build pass. Desktop/mobile logistics recovery and undo checks pass; full suite completion is recorded before commit.

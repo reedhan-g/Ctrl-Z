@@ -26,7 +26,7 @@ test('every simulated dependency has a valid acyclic investigation path', () => 
 test('incident log reveals no future failures and does not mutate state', () => {
   const state = outage(1), before = structuredClone(state), log = incidentLog(state);
   assert.ok(log.every(e => e.time <= 1));
-  assert.equal(log.filter(e => e.kind === 'status').length, 3);
+  assert.equal(log.filter(e => e.kind === 'status').length, 5);
   assert.deepEqual(state, before); assert.deepEqual(incidentLog(initial), []);
 });
 test('late supply history retains the earlier failure and records service recovery', () => {

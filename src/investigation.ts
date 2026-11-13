@@ -10,6 +10,8 @@ export function diagnoseDependency(edge: Dependency, s: Snapshot) {
   let evidence: string;
   if (edge.system === 'electricity') evidence = sourceOnline ? 'Grid power is available.'
     : available ? `Backup power is bridging the outage: ${remaining.toFixed(1)}h remaining.` : 'Both grid and backup power are unavailable.';
+  else if(edge.system==='communications') evidence=sourceOnline ? 'Dispatch communications are available.'
+    : 'Dispatch link lost. Manual routing continues at 35% capacity while hub power lasts.';
   else evidence = sourceOnline ? 'Powered pumps are supplying water.'
     : available ? `On-site water storage is bridging the pump failure: ${remaining.toFixed(1)}h remaining.` : 'Pumps are offline and no stored water remains.';
   return { ...edge, sourceOnline, available, remaining, evidence };

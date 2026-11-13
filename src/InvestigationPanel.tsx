@@ -15,7 +15,7 @@ export default function InvestigationPanel({ building, snapshot, onSelect }: Pro
       <summary>Investigate connections <span>{diagnosis.length}</span></summary>
       {diagnosis.length === 0 ? <p>The regional grid feeds this substation. Disconnecting it affects every building downstream.</p>
         : diagnosis.map(edge => <div className={`evidence ${edge.available ? 'available' : 'blocked'}`} key={`${edge.source}:${edge.system}`}>
-          <div className="evidence-heading"><strong>{edge.system === 'water' ? 'Water supply' : 'Electricity'}</strong>
+          <div className="evidence-heading"><strong>{edge.system === 'water' ? 'Water supply' : edge.system==='communications'?'Dispatch link':'Electricity'}</strong>
             <span>{edge.sourceOnline ? 'Connected' : edge.available ? 'On reserve' : 'Interrupted'}</span></div>
           <p>{edge.evidence}</p>
           <button onClick={() => onSelect(edge.source)}>Inspect {nameOf(edge.source)} <span aria-hidden="true">&rarr;</span></button>
