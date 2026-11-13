@@ -1,39 +1,23 @@
-﻿# Ctrl Z development status
+# Ctrl Z development status
 
-## Reviewed
+## Current baseline (2026-11-13)
 
-Read AGENTS.md and preserved it unchanged. The repository has an unborn main branch: no commits, all prototype source files untracked. No remote push or public deployment was attempted.
+The initial project commit exists on main, with origin at https://github.com/reedhan-g/Ctrl-Z.git. The user has authorized automatic tested commits and pushes during this task. Git metadata writes and network/browser operations require elevated permissions in this environment.
 
-## Implemented features
+## Electricity and investigation milestone
 
-React/TypeScript/Vite app, PixiJS city, Zustand state, four inspectable buildings, electricity deletion/restoration, reserves, water dependency cascade, two supply teams, pause/speed controls, 0-24h scrubber, exact intervention undo, dependency overlay, pan/zoom/pinch, mobile inspection sheet and keyboard controls.
+Preserved the existing four-building city, camera gestures, timeline, supplies, undo, keyboard controls and mobile inspection sheet. Validated the pre-existing investigation work: one shared electricity/water dependency graph, upstream inspection links, hospital water storage, colored causal paths and a chronological incident log that retains failures before late deliveries.
 
-## Fixes in this session
+Dependency installation now succeeds with elevated network access. A package lock pins the installed dependencies. TypeScript and the Vite production build pass. All 37 baseline unit/regression checks pass. Chromium is installed. Browser verification found an ambiguous supply-button locator and a slow 76-key timeline setup; both were corrected. Mobile checks also caught missing accessible names on the icon-only Undo and Dependencies controls; explicit labels now preserve those actions on narrow screens.
 
-- Late supplies now replenish depleted reserves with eight hours, including restored pumping for homes.
-- Simulation transitions extracted into a dependency-free reducer; invalid clock updates are rejected, reset clears experiment controls, playback cannot resume beyond 24h.
-- Building picking uses projected visible faces in reverse drawing order; foreground roofs correctly win overlap tests.
-- Scene geometry and labels persist. Unchanged ticks do not allocate or redraw scene objects. Failure, selection and dependency changes update existing graphics.
-- Each building's walls, windows, roof and label share the same depth layer.
-- Pinch/drag gestures do not select buildings; cancelled pointers cannot trigger inspections. Zoom stays anchored at the cursor or pinch midpoint.
-- Ctrl/Command Z and Escape work after buttons receive focus; native button Space activation is preserved. Help traps focus and returns it on close.
-- Timeline messages derive from actual reserve states and describe the 24h endpoint.
-- Mobile controls have 44px minimum touch targets. Existing responsive layout and dark city palette remain.
+All 10 desktop/mobile Chromium specifications now pass. The production build and baseline unit suite pass.
 
-## Validation
+## In progress
 
-30 unit/regression checks pass via npm test. This includes a full outage/intervention/rewind/recovery sequence. Scene allocation checks run the production scene builder against a small PixiJS test double, not a GPU renderer.
+- Preserve time-indexed interventions during scrubbing and add response branches for comparison.
+- Reduce idle rendering and unnecessary simulation updates for mobile performance.
+- Expand traffic and delivery effects, then separate Internet, GPS and payment experiments.
 
-Desktop/mobile Playwright specifications cover the original flow plus late supply recovery, keyboard undo, foreground roof picking and help focus. These remain unexecuted.
+## Remaining limits
 
-## Blockers
-
-1. npm install fails with ENOTFOUND registry.npmjs.org. No dependencies or package lock can be generated. npm run build fails because tsc is unavailable; npm run test:browser cannot find Playwright. Build and real browser rendering must be verified before declaring the playable milestone complete.
-2. git add fails with "Unable to create C:/Ctrl Z/.git/index.lock: Permission denied". No files were staged and no local commits were created. Existing instructions prohibit committing broken or untested code; do not bypass the remaining build/browser checks.
-
-## Resume in order
-
-1. In a session with npm access, run npm install, npm test, npm run build.
-2. Install the Chromium test browser with npx playwright install chromium; run npm run test:browser. Fix failures and visually inspect desktop and narrow mobile layouts against the original reference.
-3. With Git metadata writable, review staged files, ensure caches/build artifacts are excluded, then create the initial Conventional Commit for the verified prototype. Make subsequent tested changes as separate descriptive commits. No push without approval.
-4. After completing this validation gate, add richer event history/branching replay, then expand city dependencies. Internet, GPS and payments remain future scenarios.
+The original visual reference is not present in this workspace; visual review can assess the implemented neon-isometric style but cannot establish an exact reference match. Browser emulation does not replace profiling on physical phones. State currently resets on reload. No public deployment is authorized or planned.

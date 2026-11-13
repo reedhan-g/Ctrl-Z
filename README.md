@@ -29,12 +29,12 @@ To test on a phone on your own Wi-Fi, explicitly start `npm run dev -- --host 0.
 - Electricity deletion activates hospital (18h), water (6h) and residential (2h) backups.
 - Homes with remaining battery power still lose water when pumping stops.
 - Two delivery teams each add eight hours of reserve to one building. Supplies delivered after depletion restart that backup with eight hours remaining.
-- Pause, 1× / 4× / 12× speed, restore grid, reset, and undo interventions.
-- Timeline scrubbing replays the original outage at any point from 0–24h and clears interventions. Undo restores the exact time and state before the latest manual intervention.
+- Pause, 1Ã— / 4Ã— / 12Ã— speed, restore grid, reset, and undo interventions.
+- Timeline scrubbing replays the original outage at any point from 0â€“24h and clears interventions. Undo restores the exact time and state before the latest manual intervention.
 - Drag camera, wheel/pinch zoom, reset camera; mobile inspection sheet and touch-sized controls.
 - Keyboard: Space pauses/resumes when the map is focused, Ctrl/Command Z undoes, Escape closes inspection/help. Focused buttons retain their native Space action. Building buttons provide a keyboard alternative to canvas selection.
 
-At 1×, one real second advances ten simulated minutes. The experiment pauses at 24 hours. This is a deterministic demonstration, not a predictive infrastructure model. State is in memory and resets on page reload.
+At 1Ã—, one real second advances ten simulated minutes. The experiment pauses at 24 hours. This is a deterministic demonstration, not a predictive infrastructure model. State is in memory and resets on page reload.
 
 ## Structure
 
@@ -53,8 +53,4 @@ All city art is procedural geometry; there are no remote assets, fonts, accounts
 
 ## Current validation
 
-30 dependency-free tests pass on Node 26.10.0. They cover the full outage flow, late deliveries, exact undo, geometry selection, pan/pinch cancellation, keyboard policy and persistent scene objects. Scene tests use a PixiJS test double; they do not verify real GPU output.
-
-Dependency installation still fails with ENOTFOUND registry.npmjs.org. TypeScript/build and real desktop/mobile browser checks therefore remain blocked. Playwright regression specifications are included but have not run. No public deployment or GitHub push was performed. Local staging failed with permission denied for .git/index.lock, so no commits exist yet.
-
-See DEVELOPMENT_STATUS.md for remaining verification and milestone status.
+Dependency installation and TypeScript/Vite production builds now pass. The shared dependency graph, incident log and hospital water cascade are covered by unit and desktop/mobile browser specifications. See DEVELOPMENT_STATUS.md for current results, limitations and roadmap progress.

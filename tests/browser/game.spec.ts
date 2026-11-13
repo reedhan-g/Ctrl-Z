@@ -10,7 +10,7 @@ test('outage, inspection, supplies, time travel and recovery',async({page})=>{
  const panel=page.getByRole('region',{name:'Building inspection'});
  await expect(panel.getByRole('heading',{name:'St. Mira Hospital'})).toBeVisible();
  await panel.getByRole('button',{name:'Send backup supplies'}).click();
- await expect(panel.getByText('Supplies delivered')).toBeVisible();
+ await expect(panel.getByRole('button',{name:'Supplies delivered',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Undo',exact:true}).click();
  await expect(panel.getByRole('button',{name:'Send backup supplies'})).toBeEnabled();
  await page.getByRole('slider',{name:'Simulation timeline'}).press('End');

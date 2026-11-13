@@ -1,6 +1,8 @@
 ﻿import { Container, Graphics, Text } from 'pixi.js';
 import { buildings, status, type Snapshot, type BuildingId } from './simulation.ts';
 import { iso, prismFaces, flatten, sortedBuildings } from './geometry.ts';
+import { dependencies, upstreamPaths } from './dependencies.ts';
+import { diagnoseDependency } from './investigation.ts';
 
 type SceneState = Snapshot & { selected: BuildingId | null; trace: boolean };
 
@@ -79,17 +81,20 @@ export function buildCityScene() {
       for (const p of decorativeWindows) lamps.rect(p.x - 1, p.y, 3, 5).fill(s.outage ? 0x3a4c54 : 0xe6b578);
       previousOutage = s.outage;
     }
-    const traceKey = `${s.trace}:${s.outage}`;
+    const diagnostics = dependencies.map(edge => diagnoseDependency(edge, s));
+    const traceKey = `${s.trace}:${s.selected}:${diagnostics.map(d => `${d.sourceOnline}:${d.available}`).join(',')}`;
     if (previousTrace !== traceKey) {
       links.clear(); previousTrace = traceKey;
       if (s.trace) {
-        const source = iso(2.9, 2.9);
-        for (const b of buildings.filter(b => b.id !== 'grid')) {
-          const p = iso(b.x + .9, b.y + .9);
-          links.moveTo(source.x, source.y).lineTo(p.x, p.y).stroke({ color: s.outage ? 0xf48676 : 0x70d8c0, width: 2, alpha: .75 });
+        const paths = s.selected ? upstreamPaths(s.selected) : [];
+        for (const edge of diagnostics) {
+          const from = buildings.find(b => b.id === edge.source)!, to = buildings.find(b => b.id === edge.target)!;
+          const a = iso(from.x + .9, from.y + .9), b = iso(to.x + .9, to.y + .9);
+          const relevant = !s.selected || paths.some(path => path.some((id, i) => id === edge.source && path[i + 1] === edge.target));
+          links.moveTo(a.x, a.y).lineTo(b.x, b.y).stroke({ width: relevant ? 2 : 1,
+            color: edge.sourceOnline ? (edge.system === 'water' ? 0x6cabc8 : 0x70d8c0) : edge.available ? 0xf1ba76 : 0xf48676,
+            alpha: relevant ? .9 : .18 });
         }
-        const water = iso(2.9, 6.9), homes = iso(6.9, 6.9);
-        links.moveTo(water.x, water.y).lineTo(homes.x, homes.y).stroke({ color: 0x6cabc8, width: 2 });
       }
     }
     for (const view of views) {
