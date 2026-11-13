@@ -74,4 +74,8 @@ Earlier brief/status claims about blocked npm, missing references, unborn Git hi
 ## Milestone log
 
 - Documentation alignment: 55a17c2 pushed and remote SHA verified.
-- Architecture/playback extraction: ARCHITECTURE.md records module responsibilities; Timeline.tsx now owns existing playback controls. 39 unit checks and all 10 browser specifications pass. Production build verification is required before committing.
+- Architecture/playback extraction: ARCHITECTURE.md records module responsibilities; Timeline.tsx now owns existing playback controls. 39 unit checks and all 10 browser specifications pass. Production build passed. Commit 2ac2b7d was created; its push encountered independent upstream commits.
+
+- Upstream integration: retained the creator's Vite /Ctrl-Z/ base path and Pages workflow. The creator clarified that the existing Pages push trigger must remain active; static.yml was restored byte-for-byte to the upstream version before committing. Browser tests now use the configured base path. No deployment was invoked.
+
+GitHub Pages clarification: the creator explicitly authorizes preserving the existing .github/workflows/static.yml deployment on every push to main, with workflow_dispatch also available. Do not disable its push trigger or add a duplicate deployment workflow. ci.yml is testing/build only. This supersedes earlier no-deployment wording for this existing Pages setup; repository visibility remains unchanged.

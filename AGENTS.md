@@ -39,3 +39,5 @@ Examples:
 - Implement real functionality, not decorative mockups.
 - Preserve existing working features.
 - Keep the architecture modular and maintainable.
+
+GitHub Pages clarification: the creator explicitly authorizes preserving the existing .github/workflows/static.yml deployment on every push to main, with workflow_dispatch also available. Do not disable its push trigger or add a duplicate deployment workflow. ci.yml is testing/build only. This supersedes earlier no-deployment wording for this existing Pages setup; repository visibility remains unchanged.

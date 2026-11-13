@@ -1,7 +1,7 @@
-﻿import {test,expect} from '@playwright/test';
+import {test,expect} from '@playwright/test';
 test('outage, inspection, supplies, time travel and recovery',async({page})=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto('/');
+ await page.goto('./');
  await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();
  await page.getByRole('button',{name:'Pause simulation'}).click();
@@ -27,7 +27,7 @@ test('outage, inspection, supplies, time travel and recovery',async({page})=>{
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
 });
 test('canvas selection and camera drag',async({page})=>{
- await page.goto('/');const canvas=page.locator('canvas');await expect(canvas).toBeVisible();
+ await page.goto('./');const canvas=page.locator('canvas');await expect(canvas).toBeVisible();
  const box=(await canvas.boundingBox())!;
  const scale=Math.min(box.width/880,box.height/650);
  await canvas.click({position:{x:box.width/2+156*scale,y:box.height*.19+151*scale}});

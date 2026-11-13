@@ -1,7 +1,7 @@
-﻿import {test,expect} from '@playwright/test';
+import {test,expect} from '@playwright/test';
 
 test('late water delivery recovers a depleted reserve and keyboard undo works from a focused button',async({page})=>{
- await page.goto('/');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();
  await page.getByRole('button',{name:'Pause simulation'}).click();
  const slider=page.getByRole('slider',{name:'Simulation timeline'});
@@ -20,7 +20,7 @@ test('late water delivery recovers a depleted reserve and keyboard undo works fr
 });
 
 test('foreground residence roof selects residences and help returns focus',async({page})=>{
- await page.goto('/');const canvas=page.locator('canvas');await expect(canvas).toBeVisible();
+ await page.goto('./');const canvas=page.locator('canvas');await expect(canvas).toBeVisible();
  const box=(await canvas.boundingBox())!,scale=Math.min(box.width/880,box.height/650);
  await canvas.click({position:{x:box.width/2,y:box.height*.19+156.6*scale}});
  await expect(page.getByRole('heading',{name:'Maple residences',exact:true})).toBeVisible();

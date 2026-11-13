@@ -58,3 +58,5 @@ Dependency installation and TypeScript/Vite production builds now pass. The shar
 ## Product direction and development
 
 See PROJECT_VISION.md for the current product vision and reference priority: design/pixel-city-reference-2.png is primary, design/ctrl-z-city-reference.png secondary. Follow AGENTS.md and CODEX_TASK.md for automatic tested commits/pushes. No public deployment or repository visibility change is authorized.
+
+GitHub Pages clarification: the creator explicitly authorizes preserving the existing .github/workflows/static.yml deployment on every push to main, with workflow_dispatch also available. Do not disable its push trigger or add a duplicate deployment workflow. ci.yml is testing/build only. This supersedes earlier no-deployment wording for this existing Pages setup; repository visibility remains unchanged.
