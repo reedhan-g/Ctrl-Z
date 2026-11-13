@@ -5,7 +5,10 @@ import { dependencies, upstreamPaths } from './dependencies.ts';
 import { diagnoseDependency } from './investigation.ts';
 import { buildingShell, lightFacade, streetDetails, neon } from './cityArt.ts';
 import { fleet, vehiclePosition } from './traffic.ts';
-import {world as land,isRoad} from './world.ts';
+import {world as land} from './world.ts';
+import {buildWorldArt,type CullEntry} from './worldArt.ts';
+import {cityScenery,boundsOf,intersects,type Rect} from './worldScenery.ts';
+import {pointInPolygon,buildingFaces,unproject} from './geometry.ts';
 
 type SceneState = Snapshot & { selected: BuildingId | null; trace: boolean };
 
@@ -17,41 +20,13 @@ function prism(g: Graphics, x: number, y: number, w: number, d: number, top: num
 
 /** Allocate scene objects once; updates only change affected graphics and labels. */
 export function buildCityScene() {
-  const world = new Container();
+  const world = new Container();world.sortableChildren=true;
   const ground = new Graphics();
   world.addChild(ground);
-  prism(ground, land.min, land.min, land.size, land.size, -1, 0x292634, 0x0c111c, 0x171725);
-  for (let x = land.min; x < land.max; x++) for (let y = land.min; y < land.max; y++) {
-    const p = iso(x, y);
-    ground.poly(flatten(prismFaces(x,y,1,1,0)[2]))
-      .fill(isRoad(x)||isRoad(y) ? 0x10121d : 0x292634);
-  }
-  const lampPoints: { x: number; y: number }[] = [];
-  const decorativeWindows: { x: number; y: number }[] = [];
-  for (let i = 0; i < 10; i++) {
-    for (const [x, y] of [[4.45, i + .15], [i + .15, 4.45]]) {
-      const p = iso(x, y), q = iso(x + .22, y + .22);
-      ground.moveTo(p.x, p.y).lineTo(q.x, q.y).stroke({ color: 0x78878a, width: 1 });
-    }
-    for (const [x, y] of [[4, i], [9, i], [i, 4], [i, 9]]) {
-      const p = iso(x, y);
-      ground.moveTo(p.x, p.y).lineTo(p.x, p.y - 13).stroke({ color: 0x50626a, width: 1.5 });
-      lampPoints.push({ x: p.x, y: p.y - 14 });
-    }
-  }
-  for (const [x, y, h] of [[0, 0, 27], [8, 0, 55], [0, 8, 31], [8, 8, 35], [6, 8, 29], [8, 6, 44], [2, 0, 24], [0, 2, 27]]) {
-    prism(ground, x + .1, y + .1, 1.25, 1.25, h, 0x3c314a, 0x232130, 0x171b2b);
-    prism(ground, x + .4, y + .4, .55, .5, h + 5, 0x51405d, 0x29273c, 0x222738, h);
-    for (let row = 0; row < 3; row++) decorativeWindows.push(iso(x + 1.36, y + .3 + row * .35, h - 9));
-  }
-  for (const [x, y] of [[1, 4.8], [3.3, 8], [7.6, 3], [5.2, .3], [.1, 3.4], [8, 3]]) {
-    const p = iso(x, y);
-    ground.moveTo(p.x, p.y).lineTo(p.x, p.y - 12).stroke({ color: 0x685b42, width: 3 });
-    ground.circle(p.x, p.y - 18, 10).fill(0x294f46).circle(p.x - 3, p.y - 21, 7).fill(0x396657);
-  }
-  streetDetails(ground);
+  ground.zIndex=-10000;ground.poly(flatten(prismFaces(land.min,land.min,land.size,land.size,0)[2])).fill(0x20202e);
+  const art=buildWorldArt(world);
   const lamps = new Graphics(), links = new Graphics();
-  world.addChild(lamps, links);
+  world.addChild(lamps, links);lamps.zIndex=-9998;links.zIndex=-9997;
   const vehicles=fleet.map(vehicle=>{
     const sprite=new Graphics();
     sprite.poly([-9,0,0,-5,10,0,1,6]).fill(vehicle.color)
@@ -64,7 +39,7 @@ export function buildCityScene() {
     const positions=vehicles.map(v=>vehiclePosition(v.vehicle.id,s,visualHours));
     const key=positions.map(p=>`${Math.round(p.x)},${Math.round(p.y)}`).join(':');
     if(key===previousVehicleKey)return false;
-    positions.forEach((p,i)=>vehicles[i].sprite.position.set(Math.round(p.x),Math.round(p.y)));
+    positions.forEach((p,i)=>{vehicles[i].sprite.position.set(Math.round(p.x),Math.round(p.y));const tile=unproject({x:p.x,y:p.y+4});vehicles[i].sprite.zIndex=(tile.x+tile.y+.2)*100;});
     previousVehicleKey=key;return true;
   }
   let previousOutage: boolean | null = null;
@@ -73,7 +48,7 @@ export function buildCityScene() {
     // Keep each building's solids, windows and signs in the same depth layer.
     const layer = new Container(), selection = new Graphics(), body = new Graphics(), windows = new Graphics();
     const roof = new Graphics(), indicator = new Graphics();
-    layer.addChild(selection, body, windows, roof, indicator);
+    layer.addChild(selection, body, windows, roof, indicator);layer.zIndex=(b.x+b.y+1.9)*100;
     buildingShell(body,b);
     const r = iso(b.x + .94, b.y + .94, b.height + 9);
     if (b.id === 'hospital') {
@@ -90,17 +65,12 @@ export function buildCityScene() {
       style: { fontFamily: 'monospace', fontSize: 10, fill: 0xabc0c6, letterSpacing: 1 } });
     label.anchor.set(.5); label.position.set(p.x, p.y - 24);
     layer.addChild(label); world.addChild(layer);
-    return { b, windows, indicator, selection, label, p, tone: '', selected: false };
+    return { b, layer, windows, indicator, selection, label, p, tone: '', selected: false };
   });
 
   function update(s: SceneState) {
     let changed = false;
-    if (previousOutage !== s.outage) {
-      changed = true; lamps.clear();
-      for (const p of lampPoints) lamps.circle(p.x, p.y, 3).fill({ color: s.outage ? 0x46606a : 0xffcf89, alpha: .8 });
-      for (const p of decorativeWindows) lamps.rect(p.x - 1, p.y, 3, 5).fill(s.outage ? 0x292b3b : (p.x%3<1?0xeabb69:0x6ad8df));
-      previousOutage = s.outage;
-    }
+    if(previousOutage!==s.outage){previousOutage=s.outage;changed=art.update(s.outage)||changed;}
     const diagnostics = dependencies.map(edge => diagnoseDependency(edge, s));
     const traceKey = `${s.trace}:${s.selected}:${diagnostics.map(d => `${d.sourceOnline}:${d.available}`).join(',')}`;
     if (previousTrace !== traceKey) {
@@ -136,5 +106,14 @@ export function buildCityScene() {
     }
     return animate(s)||changed;
   }
-  return { world, update, animate };
+  const entries:CullEntry[]=[...art.entries,...views.map(v=>({node:v.layer,bounds:boundsOf(buildingFaces(v.b).flat(),60),kind:'service' as const}))];
+  let lastRect:Rect|null=null;
+  function cull(rect:Rect){
+    lastRect=rect;let visible=0;for(const entry of entries){entry.node.visible=intersects(entry.bounds,rect,100);if(entry.node.visible)visible++;}
+    for(const v of vehicles)v.sprite.visible=intersects({x:v.sprite.x-16,y:v.sprite.y-16,width:32,height:32},rect,60);
+    return {total:entries.length,visible};
+  }
+  const occluders=[...cityScenery.map(b=>({depth:(b.x+b.y+b.width)*100,faces:b.faces,building:null as BuildingId|null})),...buildings.map(b=>({depth:(b.x+b.y+1.9)*100,faces:buildingFaces(b),building:b.id as BuildingId|null}))].sort((a,b)=>b.depth-a.depth);
+  function pick(point:{x:number;y:number}){const hit=occluders.find(o=>o.faces.some(face=>pointInPolygon(point,face)));return {building:hit?.building??null,blocked:!!hit};}
+  return { world, update, animate, cull, pick };
 }

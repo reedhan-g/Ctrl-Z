@@ -42,6 +42,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
         const view=boundedView(camera,size());
         scene.world.scale.set(view.scale);
         scene.world.position.set(view.origin.x+view.pan.x,view.origin.y+view.pan.y);
+        const counts=scene.cull(view.footprint);el.dataset.scene=JSON.stringify(counts);
         useNavigation.setState({view});
         el.dataset.camera=JSON.stringify(view);
         render();
@@ -56,7 +57,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
         if(now-lastFrame>=33){
           const s=useGame.getState();
           visualHours=s.playing?Math.max(0,now-lastTick)*s.speed/6000:(now-ambientStart)/6000;
-          if(scene.animate(s,visualHours))render();
+          if(scene.animate(s,visualHours)){const view=useNavigation.getState().view;if(view)scene.cull(view.footprint);render();}
           lastFrame=now;
         }
         animation=requestAnimationFrame(animate);
@@ -78,7 +79,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
         if (camera.up(e.pointerId)) {
           const p = localPoint(e);
           const point={x:(p.x-scene.world.x)/scene.world.scale.x,y:(p.y-scene.world.y)/scene.world.scale.y};
-          const state=useGame.getState(),building=pickBuilding(point),vehicle=building?null:pickVehicle(point,state,visualHours);
+          const state=useGame.getState(),hit=scene.pick(point),building=hit.building,vehicle=hit.blocked?null:pickVehicle(point,state,visualHours);
           if(vehicle)state.selectVehicle(vehicle);else state.select(building);
         }
       };
@@ -109,7 +110,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
           camera.focus(point,origin(),{x:el.clientWidth*(mobile?.5:.34),y:mobile?65:el.clientHeight*.38},scene.world.scale.x);
           fit();
         }
-        lastTick=performance.now(); if (scene.update(state)) render(); schedule();
+        lastTick=performance.now(); if (scene.update(state)){const view=useNavigation.getState().view;if(view)scene.cull(view.footprint);render();} schedule();
       });
       document.addEventListener('visibilitychange', render);
       cleanup = () => {

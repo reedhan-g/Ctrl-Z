@@ -20,3 +20,5 @@ The initial extraction puts playback UI in its own component so branch/compariso
 ## Expanded city boundaries
 
 world.ts owns finite land, district/road coordinates and stable chunk descriptors. geometry.ts owns projection and inverse projection. worldCamera.ts bounds the projected viewport using inverse-projected corners, independent of DOM/page scrolling. navigation.ts is a separate camera bridge for the minimap and renderer; it never writes simulation state. World and screen coordinates must cross these shared transforms. The existing service coordinates and v1 experiment schema remain stable.
+
+worldScenery.ts generates stable scenery identities and bounds separately from simulation entities. worldArt.ts creates original chunk ground and depth-layered scenery once. CityScene.cull toggles retained objects with a safety margin; CityScene.pick tests both service faces and scenery occluders in painter order. No chunk streaming is needed for this measured first expansion.
