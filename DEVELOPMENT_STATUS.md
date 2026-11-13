@@ -20,16 +20,16 @@ The creator confirmed the first filename corrects the older design/city-referenc
 - Electricity removal/restoration, 0-24h clock, play/pause, 1x/4x/12x speed and reset.
 - Rule-based electricity/water cascades: residential reserve 2h, waterworks reserve 6h, hospital fuel 18h and hospital water buffer 12h after pump reserve exhaustion. These are fixed game assumptions.
 - Two distinct supply actions, each extending a reserve by eight hours; late supplies restart depleted backups. Actions are instantaneous: no dispatched trucks or route simulation.
-- Exact undo snapshots for manual interventions; seek/scrubbing currently clears supplies and replays the baseline outage.
+- Exact undo snapshots for manual interventions; seek/scrubbing reconstructs recorded supplies on the selected branch.
 - Shared dependency graph, source inspection links, upstream paths, state-colored dependency overlay, diagnosis and time-indexed incident log, including failure before late delivery and subsequent recovery.
 - Persistent scene objects and incremental graphic updates, depth-aware building picking, pan, cursor/midpoint-anchored zoom, drag/pinch selection suppression and pointer cancellation handling.
 - Responsive mobile inspection sheet, touch-sized main buttons, accessible building list, explicit mobile Undo/Dependencies names, keyboard undo/pause/Escape and help focus management. Reduced-motion CSS currently disables transitions only.
 
-## Unfinished work present in the workspace
+## Replay milestone
 
-src/replay.ts and tests/replay.test.mjs were started before the review pause. They contain a decision-journal/branch helper and two unit checks. They are untracked and **not imported by the reducer or UI**. No playable branch selection, preserved-intervention scrubbing or outcome comparison is implemented. These files were left untouched during the documentation review.
+The previously untracked replay helper is integrated with the pure reducer and Timeline UI. Scrubbing preserves earlier deliveries and hides future actions; playback reapplies recorded actions and stops at a recorded restoration. A past intervention forks without deleting the original response; exact undo restores branch state as well as reserves and teams. A branch selector and same-time online-service comparison expose the original outage and alternate responses. Switching branches clears manual undo checkpoints to avoid applying a different response's history.
 
-The supplied vision source and design images are included as design references, not loaded into the game. Their contents were inspected; they contain city artwork, with no credentials or personal material observed. They are supplied by the creator for this project; external artwork licensing is not independently established, so no runtime reuse or public deployment is implied.
+41 unit/regression checks pass, including integrated replay/restoration, fork preservation and exact undo. Production build passed; all 12 desktop/mobile specifications passed (11 in the full run and the interrupted mobile replay check in an isolated rerun). No code is removed from the prior local work.
 
 ## Validation evidence and limits
 
@@ -52,7 +52,7 @@ The supplied vision source and design images are included as design references, 
 | UI | Large permanent promotional sidebar; contextual inspector | City-first compact controls and readable contextual panels |
 | Investigation | Known outage, immediate diagnosis, graph links and incident log | Separate hidden-cause cases, evidence gathering, player diagnosis, strategy testing and outcomes |
 | Simulation | Pure reducer, fixed reserves and small shared graph | Configurable entities with relevant capacity/demand/inventory/fallbacks; fixed-step time policy independent of render FPS |
-| Replay | Manual undo works; scrubbing deletes interventions | Reliable journal/snapshots, preserved earlier decisions, branches and outcome comparisons |
+| Replay | Manual undo, preserved-decision replay and branch comparison exist | Reliable journal/snapshots, preserved earlier decisions, branches and outcome comparisons |
 | Resources and recovery | Two instantaneous supply boosts; grid restore | Broader meaningful constraints, logistics and recovery tradeoffs |
 | Completion | No report or explicit scenario outcome | Resilience Report with clear impacts, actions and save/share support |
 | Persistence | In-memory state, lost on reload | Local saved experiments; optional later shareable deterministic seeds |
@@ -82,3 +82,5 @@ GitHub Pages clarification: the creator explicitly authorizes preserving the exi
 
 - Upstream integration: 94213fb pushed and remote SHA verified; 39 unit checks, 10 browser checks and production build pass with /Ctrl-Z/.
 - CI: ci.yml validates main pushes and pull requests on Node 24 with npm ci, npm test and npm run build. YAML/commands/read-only permissions checked locally; the same unit/build commands pass. It has no deployment steps and does not replace static.yml. Hosted results require checking GitHub Actions after push.
+
+- Hosted verification: GitHub CI and existing Pages deployment both succeeded for 66395d2. Replay preserves the earlier helper rather than replacing it.

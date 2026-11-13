@@ -10,6 +10,7 @@ interface Actions {
   restore: () => void;
   tick: (hours: number) => void;
   seek: (time: number) => void;
+  branch: (id: number) => void;
   boost: (id: BuildingId) => void;
   rewind: () => void;
   reset: () => void;
@@ -27,6 +28,7 @@ export const useGame = create<GameData & Actions>((set) => {
     restore: () => dispatch({ type: 'restore' }),
     tick: hours => dispatch({ type: 'tick', hours }),
     seek: time => dispatch({ type: 'seek', time }),
+    branch: id => dispatch({ type: 'branch', id }),
     boost: id => dispatch({ type: 'boost', id }),
     rewind: () => dispatch({ type: 'rewind' }),
     reset: () => dispatch({ type: 'reset' }),

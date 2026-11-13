@@ -37,11 +37,14 @@ test('restoration and undo preserve the original outage and supplies', () => {
   assert.equal(status('grid', restored).label, 'Operational');
   assert.deepEqual(reduceGame(restored, { type: 'rewind' }), { ...s, playing: false });
 });
-test('scrubbing clears interventions and pauses the baseline replay', () => {
+test('scrubbing preserves past interventions and original outage remains selectable', () => {
   const s = run(fail, { type: 'boost', id: 'water' }, { type: 'seek', time: 10 });
   assert.equal(s.time, 10); assert.equal(s.playing, false);
-  assert.deepEqual(s.supplyAt, {}); assert.deepEqual(s.boosted, []);
-  assert.equal(status('water', s).label, 'Offline');
+  assert.deepEqual(s.supplyAt, {water:0}); assert.deepEqual(s.boosted, ['water']);
+  assert.equal(status('water', s).label, 'Backup power');
+  const baseline = reduceGame(s, {type:'branch', id:0});
+  assert.equal(status('water', baseline).label, 'Offline');
+  assert.deepEqual(baseline.boosted, []);
 });
 test('clock pauses at 24 hours and cannot resume past the endpoint', () => {
   const s = run(fail, { type: 'tick', hours: 30 });

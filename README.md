@@ -30,7 +30,7 @@ To test on a phone on your own Wi-Fi, explicitly start `npm run dev -- --host 0.
 - Homes with remaining battery power still lose water when pumping stops.
 - Two delivery teams each add eight hours of reserve to one building. Supplies delivered after depletion restart that backup with eight hours remaining.
 - Pause, 1x / 4x / 12x speed, restore grid, reset, and undo interventions.
-- Timeline scrubbing replays the original outage at any point from 0-24h and clears interventions. Undo restores the exact time and state before the latest manual intervention.
+- Timeline scrubbing replays recorded interventions from 0-24h. Changing a past response forks a branch; choose Original outage to compare at the same time. Undo restores the exact time and state before the latest manual intervention.
 - Drag camera, wheel/pinch zoom, reset camera; mobile inspection sheet and touch-sized controls.
 - Keyboard: Space pauses/resumes when the map is focused, Ctrl/Command Z undoes, Escape closes inspection/help. Focused buttons retain their native Space action. Building buttons provide a keyboard alternative to canvas selection.
 

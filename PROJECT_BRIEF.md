@@ -16,12 +16,12 @@ Primary reference: **design/pixel-city-reference-2.png**. Secondary inspiration:
 
 React, TypeScript, Vite, PixiJS and Zustand. Four selectable buildings: substation, hospital, waterworks and residences. Rule-based electricity/water dependency effects, reserve depletion, two instantaneous supply actions, restore, exact manual-intervention undo, time controls, dependency tracing and an incident log. Pan, anchored zoom/pinch, mobile inspection and accessible building buttons exist.
 
-Dependency installation, TypeScript/Vite build and 10 desktop/mobile Chromium specifications now pass. The integrated baseline has 37 unit/regression checks. Two additional checks exercise an untracked replay helper that is not connected to the game. See DEVELOPMENT_STATUS.md for qualifications.
+Dependency installation, TypeScript/Vite build and 10 desktop/mobile Chromium specifications now pass. The integrated baseline has 37 unit/regression checks. Replay is now integrated: preserved decisions, response branches and same-time baseline comparison are undergoing validation. See DEVELOPMENT_STATUS.md for qualifications.
 
 ## Development priority
 
 1. Complete and polish the electricity vertical slice, preserving existing working features. Add the missing telecom tower and delivery hub, believable vehicles/logistics effects and reference-aligned city presentation.
-2. Strengthen deterministic causal state, time history, rewind and branch comparison. Current scrubbing clears supplies; it is not completed replay.
+2. Strengthen deterministic causal state, time history, rewind and branch comparison. Scrubbing now reconstructs recorded decisions; response branches preserve prior outcomes.
 3. Deliver genuine investigation cases, evidence-based recovery, outcomes and reports.
 4. Verify mobile usability, portrait/landscape layouts, reduced motion and measured performance. Add persistence and appropriate rendering optimizations.
 5. Only after the first experience works well, consider internet, GPS/GNSS, digital payments and municipal water disruptions.

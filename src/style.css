@@ -32,3 +32,7 @@
 .incident-list time{font:9px/1.8 monospace;color:#88b3a8;padding-top:4px;flex-shrink:0}
 .incident-list button{text-align:left;font-size:10px;line-height:1.7;color:#a9bebb;padding:0}
 @media(max-width:760px){.inspector{max-height:380px}.evidence button,.incident-list button{min-height:44px}.incident-list{max-height:210px}}
+
+.branch-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;font-size:10px;color:#acd2cc}
+.branch-controls label{display:flex;align-items:center;gap:8px}.branch-controls select{font:inherit;background:#18262f;color:#bfe5de;border:1px solid #486371;border-radius:4px;padding:7px;max-width:150px}.branch-controls .muted{color:#869fa5}
+@media(max-width:760px){.branch-controls{align-items:flex-start;font-size:9px}.branch-controls label{display:block}.branch-controls select{display:block;min-height:44px;margin-top:4px;max-width:145px}.branch-controls>span{text-align:right;max-width:155px;line-height:1.7}.branch-controls .muted{display:block}.city-canvas{bottom:230px}.inspector{bottom:265px;max-height:340px}.map-controls{bottom:280px}.map-hint{bottom:330px}}

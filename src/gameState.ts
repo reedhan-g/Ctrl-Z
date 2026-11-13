@@ -1,11 +1,13 @@
 import { initial, type Snapshot, type BuildingId } from './simulation.ts';
+import { createReplay, replayAt, recordIntervention, type ReplayData } from './replay.ts';
 
-export interface GameData extends Snapshot {
+type Checkpoint = Snapshot & ReplayData;
+export interface GameData extends Snapshot, ReplayData {
   selected: BuildingId | null;
   playing: boolean;
   speed: number;
   trace: boolean;
-  history: Snapshot[];
+  history: Checkpoint[];
 }
 
 export type Action =
@@ -13,15 +15,17 @@ export type Action =
   | { type: 'fail' | 'restore' | 'rewind' | 'reset' | 'toggle' | 'toggleTrace' }
   | { type: 'tick'; hours: number }
   | { type: 'seek'; time: number }
+  | { type: 'branch'; id: number }
   | { type: 'boost'; id: BuildingId }
   | { type: 'setSpeed'; speed: number };
 
 export function createInitialState(): GameData {
-  return { ...initial, boosted: [], supplyAt: {}, selected: null, playing: false, speed: 1, trace: false, history: [] };
+  return { ...initial, ...createReplay(), boosted: [], supplyAt: {}, selected: null, playing: false, speed: 1, trace: false, history: [] };
 }
 
-function snapshot(s: Snapshot): Snapshot {
-  return { time: s.time, outage: s.outage, boosted: [...s.boosted], supplyAt: { ...s.supplyAt }, restoredAt: s.restoredAt };
+function snapshot(s: Checkpoint): Checkpoint {
+  return { time: s.time, outage: s.outage, boosted: [...s.boosted], supplyAt: { ...s.supplyAt }, restoredAt: s.restoredAt,
+    branches: s.branches, activeBranch: s.activeBranch, nextBranchId: s.nextBranchId };
 }
 
 // Pure transitions are shared by the Zustand adapter and dependency-free tests.
@@ -29,24 +33,34 @@ export function reduceGame(s: GameData, action: Action): GameData {
   switch (action.type) {
     case 'select': return { ...s, selected: action.id };
     case 'fail': return s.outage ? s : {
-      ...s, outage: true, playing: true, time: 0, boosted: [], supplyAt: {}, restoredAt: null, history: [snapshot(s)],
+      ...s, ...createReplay(), outage: true, playing: true, time: 0, boosted: [], supplyAt: {}, restoredAt: null, history: [snapshot(s)],
     };
     case 'restore': return !s.outage ? s : {
-      ...s, outage: false, playing: false, restoredAt: s.time, history: [...s.history, snapshot(s)],
+      ...s, ...recordIntervention(s, {kind: 'restore', time: s.time}), outage: false, playing: false, restoredAt: s.time, history: [...s.history, snapshot(s)],
     };
     case 'tick': {
       if (!s.playing || !s.outage || !Number.isFinite(action.hours) || action.hours <= 0) return s;
-      const time = Math.min(24, s.time + action.hours);
-      return { ...s, time, playing: time < 24 };
+      const branch = s.branches.find(b => b.id === s.activeBranch)!;
+      const restore = branch.events.find(e => e.kind === 'restore' && e.time >= s.time);
+      const time = Math.min(24, s.time + action.hours, restore?.time ?? 24);
+      const state = replayAt(branch, time);
+      return { ...s, ...state, playing: time < 24 && state.outage };
     }
     case 'seek': {
       if (!s.history.length || !Number.isFinite(action.time)) return s;
-      return { ...s, time: Math.max(0, Math.min(24, action.time)), playing: false,
-        boosted: [], supplyAt: {}, outage: true, restoredAt: null, history: [s.history[0]] };
+      const branch = s.branches.find(b => b.id === s.activeBranch)!;
+      return { ...s, ...replayAt(branch, Math.max(0, Math.min(24, action.time))), playing: false };
+    }
+    case 'branch': {
+      const branch = s.branches.find(b => b.id === action.id);
+      if (!s.history.length || !branch || branch.id === s.activeBranch) return s;
+      return { ...s, ...replayAt(branch, s.time), activeBranch: branch.id, playing: false,
+        history: [snapshot(createInitialState())] };
     }
     case 'boost': {
       if (!s.outage || action.id === 'grid' || s.boosted.includes(action.id) || s.boosted.length >= 2) return s;
-      return { ...s, boosted: [...s.boosted, action.id], supplyAt: { ...s.supplyAt, [action.id]: s.time },
+      return { ...s, ...recordIntervention(s, {kind: 'delivery', building: action.id, time: s.time}),
+        boosted: [...s.boosted, action.id], supplyAt: { ...s.supplyAt, [action.id]: s.time },
         history: [...s.history, snapshot(s)] };
     }
     case 'rewind': {
