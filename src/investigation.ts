@@ -1,11 +1,12 @@
 import { buildings, status, reserveDeadline, type BuildingId, type Snapshot } from './simulation.ts';
 import { dependencies, type Dependency } from './dependencies.ts';
+import { normalizeTime } from './time.ts';
 
 export function diagnoseDependency(edge: Dependency, s: Snapshot) {
   const sourceOnline = status(edge.source, s).tone !== 'bad';
   const deadline = edge.system === 'electricity' ? reserveDeadline(edge.target, s)
     : reserveDeadline(edge.source, s) + edge.bufferHours;
-  const remaining = s.outage ? Math.max(0, deadline - s.time) : 0;
+  const remaining = s.outage ? Math.max(0, normalizeTime(deadline) - normalizeTime(s.time)) : 0;
   const available = sourceOnline || remaining > 0;
   let evidence: string;
   if (edge.system === 'electricity') evidence = sourceOnline ? 'Grid power is available.'

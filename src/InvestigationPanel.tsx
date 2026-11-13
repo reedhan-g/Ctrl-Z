@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { buildings, type Snapshot, type BuildingId } from './simulation';
 import { upstreamPaths } from './dependencies';
 import { investigate, incidentLog } from './investigation';
+import { formatTime } from './time';
 
 interface Props { building: BuildingId; snapshot: Snapshot; onSelect: (id: BuildingId) => void }
 const nameOf = (id: BuildingId) => buildings.find(b => b.id === id)!.name;
@@ -28,7 +29,7 @@ export default function InvestigationPanel({ building, snapshot, onSelect }: Pro
       <summary>Incident log <span>{events.length}</span></summary>
       {events.length === 0 ? <p>No incidents recorded. Remove electricity to begin an investigation.</p>
         : <ol className="incident-list">{[...events].reverse().map(event => <li key={event.id}>
-          <time>{Math.floor(event.time).toString().padStart(2, '0')}:{Math.floor(event.time % 1 * 60 + 1e-6).toString().padStart(2, '0')}</time>
+          <time>{formatTime(event.time)}</time>
           <button onClick={() => onSelect(event.building)}>{event.message}</button>
         </li>)}</ol>}
     </details>

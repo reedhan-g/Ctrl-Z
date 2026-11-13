@@ -2,6 +2,7 @@ import { initial, type Snapshot, type BuildingId } from './simulation.ts';
 import { createReplay, replayAt, recordIntervention, type ReplayData } from './replay.ts';
 import type { VehicleId } from './traffic.ts';
 import { cases, readEvidence, supportsDiagnosis, type CaseId, type CaseProgress } from './cases.ts';
+import { normalizeTime } from './time.ts';
 
 type Checkpoint = Snapshot & ReplayData;
 export interface GameData extends Snapshot, ReplayData {
@@ -65,7 +66,7 @@ export function reduceGame(s: GameData, action: Action): GameData {
       if (!s.playing || !s.outage || !Number.isFinite(action.hours) || action.hours <= 0) return s;
       const branch = s.branches.find(b => b.id === s.activeBranch)!;
       const restore = branch.events.find(e => e.kind === 'restore' && e.time >= s.time);
-      const time = Math.min(24, s.time + action.hours, restore?.time ?? 24);
+      const time = Math.min(24, normalizeTime(s.time + action.hours), restore?.time ?? 24);
       const state = replayAt(branch, time);
       return { ...s, ...state, playing: time < 24 && state.outage };
     }

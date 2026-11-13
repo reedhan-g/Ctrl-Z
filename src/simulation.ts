@@ -1,5 +1,6 @@
 
 import { dependencies } from './dependencies.ts';
+import { normalizeTime } from './time.ts';
 export type BuildingId = 'grid' | 'hospital' | 'water' | 'homes' | 'telecom' | 'logistics';
 export const buildings = [
  {id:'grid',name:'North substation',kind:'POWER INFRASTRUCTURE',x:2,y:2,height:49,reserve:0,description:'The district’s only grid connection. Removing electricity here starts a chain reaction across the city.',dependency:'Regional electricity grid'},
@@ -13,16 +14,17 @@ export interface Snapshot { time:number; outage:boolean; boosted:BuildingId[]; s
 export const initial:Snapshot={time:0,outage:false,boosted:[],supplyAt:{},restoredAt:null};
 export function reserveDeadline(id:BuildingId,s:Snapshot) {
  const base=buildings.find(b=>b.id===id)!.reserve;
- return s.boosted.includes(id)?Math.max(base,s.supplyAt[id]??0)+8:base;
+ return s.boosted.includes(id)?normalizeTime(Math.max(base,s.supplyAt[id]??0)+8):base;
 }
 export function status(id:BuildingId,s:Snapshot) {
  const b=buildings.find(b=>b.id===id)!;
  if(!s.outage) return {label:'Operational',tone:'good',remaining:b.reserve};
  if(id==='grid') return {label:'Offline',tone:'bad',remaining:0};
- const remaining=Math.max(0,reserveDeadline(id,s)-s.time);
+ const time=normalizeTime(s.time);
+ const remaining=Math.max(0,reserveDeadline(id,s)-time);
  if(!remaining) return {label:'Offline',tone:'bad',remaining};
  const waterDependency=dependencies.find(d=>d.target===id&&d.system==='water');
- if(waterDependency && s.time>=reserveDeadline(waterDependency.source,s)+waterDependency.bufferHours)
+ if(waterDependency && time>=normalizeTime(reserveDeadline(waterDependency.source,s)+waterDependency.bufferHours))
   return {label:'No water',tone:'bad',remaining};
  if(id==='logistics' && status('telecom',s).tone==='bad') return {label:'Manual dispatch',tone:'warn',remaining};
  return {label:'Backup power',tone:'warn',remaining};

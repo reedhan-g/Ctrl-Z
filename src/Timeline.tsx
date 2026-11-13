@@ -2,10 +2,11 @@ import { Pause, Play, RotateCcw, Undo2 } from 'lucide-react';
 import { useGame, buildings, status } from './game';
 import { outageMessage } from './simulation';
 import { replayAt } from './replay';
+import { formatTime } from './time';
 
 export default function Timeline() {
  const s=useGame();
- const clock=`${String(Math.floor(s.time)).padStart(2,'0')}:${String(Math.floor(s.time%1*60)).padStart(2,'0')}`;
+ const clock=formatTime(s.time);
  const baseline=replayAt(s.branches[0],s.time);
  const online=(snapshot: typeof baseline)=>buildings.filter(b=>status(b.id,snapshot).tone!=='bad').length;
  return <div className="timeline">

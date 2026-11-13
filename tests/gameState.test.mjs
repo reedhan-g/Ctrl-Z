@@ -51,6 +51,18 @@ test('clock pauses at 24 hours and cannot resume past the endpoint', () => {
   assert.equal(s.time, 24); assert.equal(s.playing, false);
   assert.equal(reduceGame(s, { type: 'toggle' }), s);
 });
+
+test('minute-sized playback hits reserve deadlines and stops exactly at 24 hours', () => {
+  let s = run(fail);
+  for (let minute = 1; minute <= 1440; minute++) {
+    s = reduceGame(s, { type: 'tick', hours: 1 / 60 });
+    for (const [id, deadline] of [['homes', 120], ['telecom', 240], ['water', 360], ['hospital', 1080]]) {
+      if (minute === deadline) assert.equal(status(id, s).label, 'Offline', `${id} at minute ${minute}`);
+    }
+  }
+  assert.equal(s.time, 24);
+  assert.equal(s.playing, false);
+});
 test('invalid times and speeds cannot corrupt the simulation', () => {
   const s = run(fail);
   for (const hours of [-1, NaN, Infinity]) assert.equal(reduceGame(s, { type: 'tick', hours }), s);
