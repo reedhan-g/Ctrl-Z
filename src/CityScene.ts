@@ -4,6 +4,7 @@ import { iso, prismFaces, flatten, sortedBuildings } from './geometry.ts';
 import { dependencies, upstreamPaths } from './dependencies.ts';
 import { diagnoseDependency } from './investigation.ts';
 import { buildingShell, lightFacade, streetDetails, neon } from './cityArt.ts';
+import { fleet, vehiclePosition } from './traffic.ts';
 
 type SceneState = Snapshot & { selected: BuildingId | null; trace: boolean };
 
@@ -50,6 +51,21 @@ export function buildCityScene() {
   streetDetails(ground);
   const lamps = new Graphics(), links = new Graphics();
   world.addChild(lamps, links);
+  const vehicles=fleet.map(vehicle=>{
+    const sprite=new Graphics();
+    sprite.poly([-9,0,0,-5,10,0,1,6]).fill(vehicle.color)
+      .poly([-6,-3,0,-7,7,-3,0,1]).fill(0x44445a)
+      .rect(-8,1,3,3).fill(0xf8e3a0).rect(5,1,3,3).fill(0xf8e3a0);
+    world.addChild(sprite);return {vehicle,sprite};
+  });
+  let previousVehicleKey='';
+  function animate(s:Snapshot,visualHours=0) {
+    const positions=vehicles.map(v=>vehiclePosition(v.vehicle.id,s,visualHours));
+    const key=positions.map(p=>`${Math.round(p.x)},${Math.round(p.y)}`).join(':');
+    if(key===previousVehicleKey)return false;
+    positions.forEach((p,i)=>vehicles[i].sprite.position.set(Math.round(p.x),Math.round(p.y)));
+    previousVehicleKey=key;return true;
+  }
   let previousOutage: boolean | null = null;
   let previousTrace: string | null = null;
   const views = sortedBuildings.map(b => {
@@ -117,7 +133,7 @@ export function buildCityScene() {
           .stroke({ color: 0x8de4d1, width: 2 });
       }
     }
-    return changed;
+    return animate(s)||changed;
   }
-  return { world, update };
+  return { world, update, animate };
 }

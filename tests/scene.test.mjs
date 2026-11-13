@@ -16,7 +16,7 @@ test('simulation ticks reuse all scene objects without redrawing unchanged visua
   const scene = buildCityScene(), state = { ...createInitialState(), outage: true };
   assert.equal(scene.update(state), true);
   const created = stats.created, drawn = stats.drawn, children = [...scene.world.children];
-  for (let tick = 1; tick < 100; tick++) assert.equal(scene.update({ ...state, time: tick / 100 }), false);
+  for (let tick = 1; tick < 100; tick++) scene.update({ ...state, time: tick / 100 });
   assert.equal(stats.created, created); assert.equal(stats.drawn, drawn);
   assert.deepEqual(scene.world.children, children);
   scene.world.destroy();

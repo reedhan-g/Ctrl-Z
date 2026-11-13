@@ -1,11 +1,13 @@
 ﻿import { create } from 'zustand';
 import { createInitialState, reduceGame, type Action, type GameData } from './gameState';
 import type { BuildingId } from './simulation';
+import type { VehicleId } from './traffic';
 export { buildings, status, reserveDeadline } from './simulation';
 export type { BuildingId } from './simulation';
 
 interface Actions {
   select: (id: BuildingId | null) => void;
+  selectVehicle: (id: VehicleId) => void;
   fail: () => void;
   restore: () => void;
   tick: (hours: number) => void;
@@ -24,6 +26,7 @@ export const useGame = create<GameData & Actions>((set) => {
   return {
     ...createInitialState(),
     select: id => dispatch({ type: 'select', id }),
+    selectVehicle: id => dispatch({ type: 'selectVehicle', id }),
     fail: () => dispatch({ type: 'fail' }),
     restore: () => dispatch({ type: 'restore' }),
     tick: hours => dispatch({ type: 'tick', hours }),

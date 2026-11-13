@@ -8,6 +8,7 @@ test('idle city stops GPU drawing and camera changes request a new frame',async(
    type.prototype.drawElements=function(...args:Parameters<typeof original>){counter.drawCalls++;return original.apply(this,args);};
   }
  });
+ await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
  const calls=()=>page.evaluate(()=>(window as typeof window & {drawCalls:number}).drawCalls);
  await expect.poll(calls).toBeGreaterThan(0);

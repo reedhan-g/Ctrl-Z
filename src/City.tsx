@@ -4,6 +4,7 @@ import { useGame } from './game';
 import { buildCityScene } from './CityScene';
 import { pickBuilding } from './geometry';
 import { CameraGesture } from './camera';
+import {pickVehicle} from './traffic';
 
 export default function City() {
   const host = useRef<HTMLDivElement>(null);
@@ -40,6 +41,25 @@ export default function City() {
         scene.world.position.set(center.x + camera.pan.x, center.y + camera.pan.y);
         render();
       }
+      const motion=matchMedia('(prefers-reduced-motion: reduce)');
+      let animation=0,lastFrame=0,lastTick=performance.now(),visible=true,visualHours=0;
+      const ambientStart=performance.now();
+      const moving=()=>{const s=useGame.getState();return !disposed&&visible&&!document.hidden&&!motion.matches&&(s.playing||(!s.outage&&!s.history.length));};
+      const animate=(now:number)=>{
+        animation=0;
+        if(!moving())return;
+        if(now-lastFrame>=33){
+          const s=useGame.getState();
+          visualHours=s.playing?Math.max(0,now-lastTick)*s.speed/6000:(now-ambientStart)/6000;
+          if(scene.animate(s,visualHours))render();
+          lastFrame=now;
+        }
+        animation=requestAnimationFrame(animate);
+      };
+      const schedule=()=>{if(!moving()){cancelAnimationFrame(animation);animation=0;visualHours=0;if(scene.animate(useGame.getState()))render();}
+        else if(!animation)animation=requestAnimationFrame(animate);};
+      const viewport=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;schedule();});viewport.observe(el);
+      motion.addEventListener('change',schedule);document.addEventListener('visibilitychange',schedule);
       const localPoint = (e: PointerEvent | WheelEvent) => {
         const rect = el.getBoundingClientRect();
         return { x: e.clientX - rect.left, y: e.clientY - rect.top };
@@ -52,8 +72,9 @@ export default function City() {
       const up = (e: PointerEvent) => {
         if (camera.up(e.pointerId)) {
           const p = localPoint(e);
-          useGame.getState().select(pickBuilding({ x: (p.x - scene.world.x) / scene.world.scale.x,
-            y: (p.y - scene.world.y) / scene.world.scale.y }));
+          const point={x:(p.x-scene.world.x)/scene.world.scale.x,y:(p.y-scene.world.y)/scene.world.scale.y};
+          const state=useGame.getState(),building=pickBuilding(point),vehicle=building?null:pickVehicle(point,state,visualHours);
+          if(vehicle)state.selectVehicle(vehicle);else state.select(building);
         }
       };
       const cancel = (e: PointerEvent) => camera.cancel(e.pointerId);
@@ -69,10 +90,11 @@ export default function City() {
       el.addEventListener('lostpointercapture', cancel);
       el.addEventListener('wheel', wheel, { passive: false }); el.addEventListener('camera', command);
       const observer = new ResizeObserver(fit); observer.observe(el);
-      const unsubscribe = useGame.subscribe(state => { if (scene.update(state)) render(); });
+      const unsubscribe = useGame.subscribe(state => { lastTick=performance.now(); if (scene.update(state)) render(); schedule(); });
       document.addEventListener('visibilitychange', render);
       cleanup = () => {
-        observer.disconnect(); unsubscribe(); cancelAnimationFrame(frame);
+        observer.disconnect(); viewport.disconnect(); unsubscribe(); cancelAnimationFrame(frame); cancelAnimationFrame(animation);
+        motion.removeEventListener('change',schedule);document.removeEventListener('visibilitychange',schedule);
         document.removeEventListener('visibilitychange', render);
         el.removeEventListener('pointerdown', down); el.removeEventListener('pointermove', move);
         el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', cancel);
@@ -80,7 +102,7 @@ export default function City() {
         el.removeEventListener('wheel', wheel); el.removeEventListener('camera', command);
         destroy();
       };
-      scene.update(useGame.getState()); fit();
+      scene.update(useGame.getState()); fit(); schedule();
     })().catch(e => {
       if (!disposed) {
         cleanup();

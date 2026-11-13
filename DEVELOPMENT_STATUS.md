@@ -102,3 +102,9 @@ Added selectable Meridian telecom and East delivery hub, preserving all four ori
 45 unit checks, production build and all 18 browser specifications pass, including short landscape inspection. Desktop/portrait screenshots were opened and compared with the supplied references: cyan/magenta/yellow accents, stepped facades, rooftop service details, fire escapes, cornices and street crossings now replace the earlier uniform muted shell. The sidebar is smaller and Meridian replaces the oversized promotional headline; initial mobile overflow is corrected. Original geometry remains interactive and state-responsive, with no flattened reference images or new image dependencies.
 
 This is a validated incremental art improvement, not a claim of matching the density/detail of the primary handcrafted pixel-art reference. More silhouette variety, street activity, transit and district scale remain. Screenshot artifacts stay in ignored test-results/.
+
+## Delivery fleet milestone
+
+Three original pixel-style courier entities follow a shared road route, expose their hub dependency through canvas/list selection, and derive route progress from integrated dispatch capacity. Power failure stops fleet progress; late hub/telecom recovery changes motion, and replay reproduces positions. Nominal first-visit traffic is a visual-only preview; it does not advance simulation or consignments. Animation is capped at 30 updates/sec, suppressed offscreen/hidden and under reduced motion, and stopped when a running experiment is paused. Idle GPU checks now explicitly use reduced motion. No per-agent physics or new runtime image assets were introduced.
+
+47 unit checks and production build pass. Fleet and existing browser checks are verified before commit. Route detail, collision simulation and individualized cargo inventories remain outside this small slice.

@@ -1,9 +1,11 @@
 import { initial, type Snapshot, type BuildingId } from './simulation.ts';
 import { createReplay, replayAt, recordIntervention, type ReplayData } from './replay.ts';
+import type { VehicleId } from './traffic.ts';
 
 type Checkpoint = Snapshot & ReplayData;
 export interface GameData extends Snapshot, ReplayData {
   selected: BuildingId | null;
+  selectedVehicle: VehicleId | null;
   playing: boolean;
   speed: number;
   trace: boolean;
@@ -12,6 +14,7 @@ export interface GameData extends Snapshot, ReplayData {
 
 export type Action =
   | { type: 'select'; id: BuildingId | null }
+  | { type: 'selectVehicle'; id: VehicleId }
   | { type: 'fail' | 'restore' | 'rewind' | 'reset' | 'toggle' | 'toggleTrace' }
   | { type: 'tick'; hours: number }
   | { type: 'seek'; time: number }
@@ -20,7 +23,7 @@ export type Action =
   | { type: 'setSpeed'; speed: number };
 
 export function createInitialState(): GameData {
-  return { ...initial, ...createReplay(), boosted: [], supplyAt: {}, selected: null, playing: false, speed: 1, trace: false, history: [] };
+  return { ...initial, ...createReplay(), boosted: [], supplyAt: {}, selected: null, selectedVehicle:null, playing: false, speed: 1, trace: false, history: [] };
 }
 
 function snapshot(s: Checkpoint): Checkpoint {
@@ -31,7 +34,8 @@ function snapshot(s: Checkpoint): Checkpoint {
 // Pure transitions are shared by the Zustand adapter and dependency-free tests.
 export function reduceGame(s: GameData, action: Action): GameData {
   switch (action.type) {
-    case 'select': return { ...s, selected: action.id };
+    case 'select': return { ...s, selected: action.id, selectedVehicle:null };
+    case 'selectVehicle': return { ...s, selected:'logistics', selectedVehicle:action.id };
     case 'fail': return s.outage ? s : {
       ...s, ...createReplay(), outage: true, playing: true, time: 0, boosted: [], supplyAt: {}, restoredAt: null, history: [snapshot(s)],
     };
