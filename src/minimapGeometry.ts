@@ -8,3 +8,14 @@ export const minimapDistricts=districts.map(d=>({...d,points:points(districtPoly
 export const minimapRoads=roadAxes.flatMap(n=>[[iso(n+.5,world.min),iso(n+.5,world.max)],[iso(world.min,n+.5),iso(world.max,n+.5)]]);
 export const landmarkPoint=(id:BuildingId)=>{const b=buildings.find(b=>b.id===id)!;return iso(b.x+.9,b.y+.9);};
 export const symbols:Record<BuildingId,string>={grid:'P',hospital:'H',water:'W',telecom:'T',logistics:'L',homes:'R'};
+
+export class MinimapDrag {
+ private offset:Point|null=null;
+ down(point:Point,footprint:{x:number;y:number;width:number;height:number},grabFootprint:boolean):Point {
+  const center={x:footprint.x+footprint.width/2,y:footprint.y+footprint.height/2};
+  this.offset=grabFootprint?{x:point.x-center.x,y:point.y-center.y}:{x:0,y:0};
+  return this.move(point)!;
+ }
+ move(point:Point):Point|null{return this.offset?{x:point.x-this.offset.x,y:point.y-this.offset.y}:null;}
+ end(){this.offset=null;}
+}
