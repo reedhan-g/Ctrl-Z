@@ -1,0 +1,20 @@
+import {test,expect} from '@playwright/test';
+import {readFile} from 'node:fs/promises';
+test('resilience report compares responses and downloads actual simulation outcomes',async({page})=>{
+ await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.getByRole('button',{name:'Remove electricity',exact:true}).click();
+ await page.getByRole('button',{name:'Pause simulation'}).click();
+ await page.getByRole('slider',{name:'Simulation timeline'}).press('Home');
+ await page.locator('.building-list').getByRole('button',{name:/Waterworks/}).click();
+ await page.getByRole('region',{name:'Building inspection'}).getByRole('button',{name:'Send backup supplies'}).click();
+ await page.getByRole('slider',{name:'Simulation timeline'}).press('End');
+ await expect(page.getByRole('table',{name:'Service availability by response'})).toBeVisible();
+ const downloaded=page.waitForEvent('download');
+ await page.getByRole('button',{name:'Download resilience report'}).click();
+ const file=await downloaded;
+ expect(file.suggestedFilename()).toBe('ctrl-z-resilience-report.json');
+ const report=JSON.parse(await readFile((await file.path())!,'utf-8'));
+ expect(report.horizon).toBe(24);expect(report.serviceHoursSaved).toBeCloseTo(8);
+ expect(report.outcomes).toHaveLength(2);
+ expect(report.outcomes[1].decisions[0].building).toBe('water');
+});
