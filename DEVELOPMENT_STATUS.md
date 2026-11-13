@@ -70,3 +70,8 @@ Earlier brief/status claims about blocked npm, missing references, unborn Git hi
 4. Build reference-aligned original modular city art and meaningful vehicles; review real desktop/mobile screenshots against both images.
 5. Add genuine investigation cases, constrained recovery and reports, then persistence and measured mobile optimization/playtests.
 6. Expand disruptions only when the first experience is complete. Any public deployment remains subject to explicit approval.
+
+## Milestone log
+
+- Documentation alignment: 55a17c2 pushed and remote SHA verified.
+- Architecture/playback extraction: ARCHITECTURE.md records module responsibilities; Timeline.tsx now owns existing playback controls. 39 unit checks and all 10 browser specifications pass. Production build verification is required before committing.
