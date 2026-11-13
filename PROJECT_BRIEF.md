@@ -16,7 +16,7 @@ Primary reference: **design/pixel-city-reference-2.png**. Secondary inspiration:
 
 React, TypeScript, Vite, PixiJS and Zustand. Six selectable buildings: substation, hospital, waterworks, residences, telecom and delivery hub. Rule-based electricity/water dependency effects, reserve depletion, two instantaneous supply actions, restore, exact manual-intervention undo, time controls, dependency tracing and an incident log. Pan, anchored zoom/pinch, mobile inspection and accessible building buttons exist.
 
-54 unit/regression checks, 32 desktop/mobile Chromium specifications and the TypeScript/Vite production build pass. Preserved-decision replay, branch comparison, two evidence-based investigation cases, reports with JSON export, and validated local saves are implemented. Three courier entities animate with dispatch capacity. See DEVELOPMENT_STATUS.md for current limitations and physical-device QA gaps.
+56 unit/regression checks, 32 desktop/mobile Chromium specifications and the TypeScript/Vite production build pass. Preserved-decision replay, branch comparison, two evidence-based investigation cases, reports with JSON export, and validated local saves are implemented. Three courier entities animate with dispatch capacity. See DEVELOPMENT_STATUS.md for current limitations and physical-device QA gaps.
 
 ## Development priority
 

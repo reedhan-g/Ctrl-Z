@@ -20,6 +20,11 @@ for(const scenario of [
  await page.locator('.building-list').getByRole('button',{name:new RegExp(scenario.source)}).click();
  await panel.getByRole('button',{name:'Send backup supplies'}).click();
  await expect(page.getByText('Recovery verified in the simulation.',{exact:false})).toBeVisible();
+ await expect(panel.getByRole('button',{name:'Record evidence'})).toBeDisabled();
+ await page.getByRole('button',{name:'Save experiment',exact:true}).click();
+ await expect(page.getByText('Experiment saved on this browser.')).toBeVisible();
  await page.getByRole('button',{name:'Undo',exact:true}).click();
+ await expect(page.getByText('Recovery verified in the simulation.',{exact:false})).not.toBeVisible();
+ await page.getByRole('slider',{name:'Simulation timeline'}).press('Home');
  await expect(page.getByText('Recovery verified in the simulation.',{exact:false})).not.toBeVisible();
 });

@@ -4,7 +4,7 @@
 
 The electricity slice now supports the complete small-scale loop: explore Meridian, disrupt electricity, trace service failures, choose limited interventions, replay preserved decisions, compare branches, investigate two observed failures, verify recovery, export a Resilience Report, and explicitly save/resume experiments on this browser.
 
-54 unit/regression checks, all 32 desktop/mobile Chromium specifications and the production build pass. TypeScript/Vite production build passes with split entry (~265 kB) and city renderer (~300 kB) bundles. No large-chunk warning remains. Physical-phone FPS, battery and Safari behavior have not been measured.
+56 unit/regression checks, all 32 desktop/mobile Chromium specifications and the production build pass. TypeScript/Vite production build passes with split entry (~265 kB) and city renderer (~300 kB) bundles. No large-chunk warning remains. Physical-phone FPS, battery and Safari behavior have not been measured.
 
 The creator's existing static.yml is preserved, including automatic deployment on every main push and workflow_dispatch. ci.yml runs only locked installation, tests and production builds with read-only permissions. No duplicate deployment workflow was added; repository visibility was not changed. Each completed milestone is committed and pushed without rewriting history; upstream contributions were merged intact. Latest hosted results are checked after publishing.
 
@@ -98,3 +98,13 @@ Reports integrate service availability and fractional dispatch across actual eve
 ## Mobile quality and framing milestone
 
 Low-power mode recreates the renderer at at most 1x resolution and suppresses continuous fleet animation, preserving the experiment, selection and camera state. New building/vehicle selections are framed away from contextual panels while zoom is preserved. Mobile sheets are shorter and scroll internally; camera controls move into a clear area while inspection is open. The initial quality test caught inspector interception of Low power; layout was corrected and coverage now also clicks zoom with inspection open. Unit camera projection checks and production build pass. All 32 browser specifications pass, including low-power resolution, state retention, accessible zoom while inspection is open and scroll reset on selection. Final desktop/mobile inspection screenshots were opened: the selected hospital is visible above/beside the sheet and controls are unobstructed.
+
+## Repository bug-fix review
+
+Reviewed application/domain/rendering modules, persistence, UI controls, tests, package/build configuration and GitHub workflows. Preserved the existing Pages deployment setup.
+
+- Reproduced floating-point drift: 120 one-minute ticks left homes on backup at 1.9999999999999978h; 1440 ticks left playback running just below 24h. Simulated-millisecond normalization now hits deadlines and the endpoint; the timeline/incident log share a formatter that correctly displays times such as 2.05h as 02:03. Clock fix e709bf2 was committed and pushed after 56 unit checks, build and six targeted browser checks passed.
+- Rewinding a diagnosed case before its observed failure falsely reported recovery. Recovery now requires reaching the observation time as well as actual service availability.
+- Re-recording the same confirmed evidence after a repair overwrote the readings supporting the diagnosis, making a legitimate save fail validation. Confirmed readings at the same entity/time are now retained and their Record evidence control is disabled; new readings at other times remain possible. Both authored cases have regression coverage for rewind and save consistency.
+
+Investigation fixes pass all 56 unit checks, production build and the full 32-spec desktop/mobile browser suite. These changes do not add scenarios, restructure the project or alter deployment workflows.

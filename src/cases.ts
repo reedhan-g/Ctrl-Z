@@ -25,6 +25,7 @@ export function supportsDiagnosis(progress:CaseProgress,source:BuildingId):boole
     &&(c.target==='logistics'?target.capacity===.35:target.label==='No water');
 }
 export function caseRecovered(progress:CaseProgress,s:Snapshot) {
-  return progress.diagnosis==='correct'&&serviceCapacity(cases[progress.id].target,s)>(progress.id==='dispatch'?.35:0);
+  return progress.diagnosis==='correct'&&s.time>=cases[progress.id].time
+    &&serviceCapacity(cases[progress.id].target,s)>(progress.id==='dispatch'?.35:0);
 }
 export const evidenceText=(e:Evidence)=>`${buildings.find(b=>b.id===e.building)!.name} at ${e.time.toFixed(1)}h: ${e.label}; ${e.remaining.toFixed(1)}h reserve; ${Math.round(e.capacity*100)}% service.`;

@@ -49,6 +49,7 @@ export function reduceGame(s: GameData, action: Action): GameData {
     }
     case 'evidence': {
       if(!s.caseStudy)return s;
+      if(s.caseStudy.diagnosis==='correct'&&s.caseStudy.evidence.some(e=>e.building===action.id&&e.time===s.time))return s;
       const evidence=readEvidence(action.id,s);
       return {...s,caseStudy:{...s.caseStudy,evidence:[...s.caseStudy.evidence.filter(e=>!(e.building===action.id&&e.time===s.time)),evidence]}};
     }
