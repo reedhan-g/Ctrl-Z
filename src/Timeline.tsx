@@ -25,6 +25,6 @@ export default function Timeline() {
   </div>
   <input aria-label="Simulation timeline" aria-valuetext={`${clock} hours since deletion`} type="range" min="0" max="24" step="0.25" value={s.time} disabled={!s.history.length} onChange={e=>s.seek(Number(e.target.value))}/>
   <div className="time-labels"><span>0 MIN</span><span>6 HRS</span><span>12 HRS</span><span>18 HRS</span><span>24 HRS</span></div>
-  <div className="event-line" aria-live="polite"><span className={s.outage?'warn':'good'}>&#9679;</span>{outageMessage(s)}</div>
+  <div className="event-line" aria-live="polite"><span className={s.outage?'warn':'good'}>&#9679;</span>{s.caseStudy&&s.caseStudy.diagnosis!=='correct'?'Observed failure. Inspect services and record evidence to test a diagnosis.':outageMessage(s)}</div>
  </div>;
 }

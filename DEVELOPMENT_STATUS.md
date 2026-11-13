@@ -108,3 +108,9 @@ This is a validated incremental art improvement, not a claim of matching the den
 Three original pixel-style courier entities follow a shared road route, expose their hub dependency through canvas/list selection, and derive route progress from integrated dispatch capacity. Power failure stops fleet progress; late hub/telecom recovery changes motion, and replay reproduces positions. Nominal first-visit traffic is a visual-only preview; it does not advance simulation or consignments. Animation is capped at 30 updates/sec, suppressed offscreen/hidden and under reduced motion, and stopped when a running experiment is paused. Idle GPU checks now explicitly use reduced motion. No per-agent physics or new runtime image assets were introduced.
 
 47 unit checks and production build pass. Fleet and existing browser checks are verified before commit. Route detail, collision simulation and individualized cargo inventories remain outside this small slice.
+
+## Investigation cases milestone
+
+Added Sandbox/Investigation entries and two observed-symptom cases: Silent dispatch and A generator is not enough. Cause is initially unconfirmed. Players inspect connected entities and explicitly record three time-stamped readings at the observation time, propose a failing dependency, and test a recovery only once evidence supports the diagnosis. Diagnosis checks actual failed upstream capacity and surviving target reserves; a wrong diagnosis does not unlock interventions. Recovery is derived from current simulated target capacity and disappears when undone. Recorded evidence remains knowledge across rewind, labeled with its original time. These are two authored cases over the causal electricity engine, not a general randomized case generator.
+
+49 unit checks and production build pass; both cases pass desktop/mobile evidence, wrong-diagnosis, recovery and undo flows. Full browser suite is verified before commit.

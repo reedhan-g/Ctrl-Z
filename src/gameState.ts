@@ -1,11 +1,13 @@
 import { initial, type Snapshot, type BuildingId } from './simulation.ts';
 import { createReplay, replayAt, recordIntervention, type ReplayData } from './replay.ts';
 import type { VehicleId } from './traffic.ts';
+import { cases, readEvidence, supportsDiagnosis, type CaseId, type CaseProgress } from './cases.ts';
 
 type Checkpoint = Snapshot & ReplayData;
 export interface GameData extends Snapshot, ReplayData {
   selected: BuildingId | null;
   selectedVehicle: VehicleId | null;
+  caseStudy: CaseProgress | null;
   playing: boolean;
   speed: number;
   trace: boolean;
@@ -15,6 +17,9 @@ export interface GameData extends Snapshot, ReplayData {
 export type Action =
   | { type: 'select'; id: BuildingId | null }
   | { type: 'selectVehicle'; id: VehicleId }
+  | { type: 'startCase'; id: CaseId }
+  | { type: 'evidence'; id: BuildingId }
+  | { type: 'diagnose'; id: BuildingId }
   | { type: 'fail' | 'restore' | 'rewind' | 'reset' | 'toggle' | 'toggleTrace' }
   | { type: 'tick'; hours: number }
   | { type: 'seek'; time: number }
@@ -23,7 +28,7 @@ export type Action =
   | { type: 'setSpeed'; speed: number };
 
 export function createInitialState(): GameData {
-  return { ...initial, ...createReplay(), boosted: [], supplyAt: {}, selected: null, selectedVehicle:null, playing: false, speed: 1, trace: false, history: [] };
+  return { ...initial, ...createReplay(), boosted: [], supplyAt: {}, selected: null, selectedVehicle:null, caseStudy:null, playing: false, speed: 1, trace: false, history: [] };
 }
 
 function snapshot(s: Checkpoint): Checkpoint {
@@ -34,12 +39,26 @@ function snapshot(s: Checkpoint): Checkpoint {
 // Pure transitions are shared by the Zustand adapter and dependency-free tests.
 export function reduceGame(s: GameData, action: Action): GameData {
   switch (action.type) {
+    case 'startCase': {
+      if(!Object.hasOwn(cases,action.id))return s;
+      let state=reduceGame(createInitialState(),{type:'fail'});
+      if(action.id==='wards')state=reduceGame(state,{type:'boost',id:'hospital'});
+      state=reduceGame(state,{type:'seek',time:cases[action.id].time});
+      return {...state,selected:cases[action.id].target,caseStudy:{id:action.id,evidence:[],diagnosis:null}};
+    }
+    case 'evidence': {
+      if(!s.caseStudy)return s;
+      const evidence=readEvidence(action.id,s);
+      return {...s,caseStudy:{...s.caseStudy,evidence:[...s.caseStudy.evidence.filter(e=>!(e.building===action.id&&e.time===s.time)),evidence]}};
+    }
+    case 'diagnose': return s.caseStudy?{...s,caseStudy:{...s.caseStudy,
+      diagnosis:supportsDiagnosis(s.caseStudy,action.id)?'correct':'incorrect'}}:s;
     case 'select': return { ...s, selected: action.id, selectedVehicle:null };
     case 'selectVehicle': return { ...s, selected:'logistics', selectedVehicle:action.id };
     case 'fail': return s.outage ? s : {
       ...s, ...createReplay(), outage: true, playing: true, time: 0, boosted: [], supplyAt: {}, restoredAt: null, history: [snapshot(s)],
     };
-    case 'restore': return !s.outage ? s : {
+    case 'restore': return !s.outage || (s.caseStudy&&s.caseStudy.diagnosis!=='correct') ? s : {
       ...s, ...recordIntervention(s, {kind: 'restore', time: s.time}), outage: false, playing: false, restoredAt: s.time, history: [...s.history, snapshot(s)],
     };
     case 'tick': {
@@ -62,7 +81,7 @@ export function reduceGame(s: GameData, action: Action): GameData {
         history: [snapshot(createInitialState())] };
     }
     case 'boost': {
-      if (!s.outage || action.id === 'grid' || s.boosted.includes(action.id) || s.boosted.length >= 2) return s;
+      if (!s.outage || (s.caseStudy&&s.caseStudy.diagnosis!=='correct') || action.id === 'grid' || s.boosted.includes(action.id) || s.boosted.length >= 2) return s;
       return { ...s, ...recordIntervention(s, {kind: 'delivery', building: action.id, time: s.time}),
         boosted: [...s.boosted, action.id], supplyAt: { ...s.supplyAt, [action.id]: s.time },
         history: [...s.history, snapshot(s)] };

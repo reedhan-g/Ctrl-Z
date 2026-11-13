@@ -2,12 +2,16 @@
 import { createInitialState, reduceGame, type Action, type GameData } from './gameState';
 import type { BuildingId } from './simulation';
 import type { VehicleId } from './traffic';
+import type { CaseId } from './cases';
 export { buildings, status, reserveDeadline } from './simulation';
 export type { BuildingId } from './simulation';
 
 interface Actions {
   select: (id: BuildingId | null) => void;
   selectVehicle: (id: VehicleId) => void;
+  startCase: (id: CaseId) => void;
+  evidence: (id: BuildingId) => void;
+  diagnose: (id: BuildingId) => void;
   fail: () => void;
   restore: () => void;
   tick: (hours: number) => void;
@@ -27,6 +31,9 @@ export const useGame = create<GameData & Actions>((set) => {
     ...createInitialState(),
     select: id => dispatch({ type: 'select', id }),
     selectVehicle: id => dispatch({ type: 'selectVehicle', id }),
+    startCase: id => dispatch({type:'startCase',id}),
+    evidence: id => dispatch({type:'evidence',id}),
+    diagnose: id => dispatch({type:'diagnose',id}),
     fail: () => dispatch({ type: 'fail' }),
     restore: () => dispatch({ type: 'restore' }),
     tick: hours => dispatch({ type: 'tick', hours }),
