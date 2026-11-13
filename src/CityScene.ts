@@ -3,6 +3,7 @@ import { buildings, status, type Snapshot, type BuildingId } from './simulation.
 import { iso, prismFaces, flatten, sortedBuildings } from './geometry.ts';
 import { dependencies, upstreamPaths } from './dependencies.ts';
 import { diagnoseDependency } from './investigation.ts';
+import { buildingShell, lightFacade, streetDetails, neon } from './cityArt.ts';
 
 type SceneState = Snapshot & { selected: BuildingId | null; trace: boolean };
 
@@ -17,11 +18,11 @@ export function buildCityScene() {
   const world = new Container();
   const ground = new Graphics();
   world.addChild(ground);
-  prism(ground, -.8, -.8, 11.3, 11.3, 18, 0x26383e, 0x101c24, 0x14232d);
+  prism(ground, -.8, -.8, 11.3, 11.3, 18, 0x292634, 0x0c111c, 0x171725);
   for (let x = 0; x < 10; x++) for (let y = 0; y < 10; y++) {
     const p = iso(x, y);
     ground.poly([p.x, p.y, p.x + 38, p.y + 19, p.x, p.y + 38, p.x - 38, p.y + 19])
-      .fill(x === 4 || y === 4 || x === 9 || y === 9 ? 0x101d26 : 0x2b4045);
+      .fill(x === 4 || y === 4 || x === 9 || y === 9 ? 0x10121d : 0x292634);
   }
   const lampPoints: { x: number; y: number }[] = [];
   const decorativeWindows: { x: number; y: number }[] = [];
@@ -37,8 +38,8 @@ export function buildCityScene() {
     }
   }
   for (const [x, y, h] of [[0, 0, 27], [8, 0, 55], [0, 8, 31], [8, 8, 35], [6, 8, 29], [8, 6, 44], [2, 0, 24], [0, 2, 27]]) {
-    prism(ground, x + .1, y + .1, 1.25, 1.25, h, 0x42565b, 0x273a44, 0x20303a);
-    prism(ground, x + .4, y + .4, .55, .5, h + 5, 0x596a6c, 0x35484f, 0x293c44, h);
+    prism(ground, x + .1, y + .1, 1.25, 1.25, h, 0x3c314a, 0x232130, 0x171b2b);
+    prism(ground, x + .4, y + .4, .55, .5, h + 5, 0x51405d, 0x29273c, 0x222738, h);
     for (let row = 0; row < 3; row++) decorativeWindows.push(iso(x + 1.36, y + .3 + row * .35, h - 9));
   }
   for (const [x, y] of [[1, 4.8], [3.3, 8], [7.6, 3], [5.2, .3], [.1, 3.4], [8, 3]]) {
@@ -46,6 +47,7 @@ export function buildCityScene() {
     ground.moveTo(p.x, p.y).lineTo(p.x, p.y - 12).stroke({ color: 0x685b42, width: 3 });
     ground.circle(p.x, p.y - 18, 10).fill(0x294f46).circle(p.x - 3, p.y - 21, 7).fill(0x396657);
   }
+  streetDetails(ground);
   const lamps = new Graphics(), links = new Graphics();
   world.addChild(lamps, links);
   let previousOutage: boolean | null = null;
@@ -55,9 +57,7 @@ export function buildCityScene() {
     const layer = new Container(), selection = new Graphics(), body = new Graphics(), windows = new Graphics();
     const roof = new Graphics(), indicator = new Graphics();
     layer.addChild(selection, body, windows, roof, indicator);
-    prism(body, b.x, b.y, 1.9, 1.9, 7, 0x526466, 0x253942, 0x20313b);
-    prism(body, b.x + .12, b.y + .12, 1.65, 1.65, b.height, 0x52666c, 0x314853, 0x233741, 7);
-    prism(body, b.x + .4, b.y + .4, 1, 1, b.height + 6, 0x657a7b, 0x3d525a, 0x2f454e, b.height);
+    buildingShell(body,b);
     const r = iso(b.x + .94, b.y + .94, b.height + 9);
     if (b.id === 'hospital') {
       roof.rect(r.x - 8, r.y - 3, 16, 6).fill(0xa9ddd3).rect(r.x - 3, r.y - 8, 6, 16).fill(0xa9ddd3);
@@ -81,7 +81,7 @@ export function buildCityScene() {
     if (previousOutage !== s.outage) {
       changed = true; lamps.clear();
       for (const p of lampPoints) lamps.circle(p.x, p.y, 3).fill({ color: s.outage ? 0x46606a : 0xffcf89, alpha: .8 });
-      for (const p of decorativeWindows) lamps.rect(p.x - 1, p.y, 3, 5).fill(s.outage ? 0x3a4c54 : 0xe6b578);
+      for (const p of decorativeWindows) lamps.rect(p.x - 1, p.y, 3, 5).fill(s.outage ? 0x292b3b : (p.x%3<1?0xeabb69:0x6ad8df));
       previousOutage = s.outage;
     }
     const diagnostics = dependencies.map(edge => diagnoseDependency(edge, s));
@@ -106,12 +106,7 @@ export function buildCityScene() {
       if (view.tone !== tone) {
         changed = true; windows.clear(); indicator.clear(); view.tone = tone;
         const color = tone === 'good' ? 0x8ddbc4 : tone === 'warn' ? 0xf1ba76 : 0xf17d70;
-        for (let side = 0; side < 2; side++) for (let row = 0; row < Math.floor(b.height / 15) - 1; row++) for (let col = 0; col < 4; col++) {
-          const x = b.x + (side ? 1.78 : .27 + col * .36), y = b.y + (side ? .27 + col * .36 : 1.78);
-          const q = iso(x, y, 16 + row * 14), dy = side ? -2.5 : 2.5;
-          windows.poly([q.x, q.y, q.x + 5, q.y + dy, q.x + 5, q.y + 7 + dy, q.x, q.y + 7])
-            .fill({ color: tone === 'bad' ? 0x40505a : 0xffcc86, alpha: tone === 'bad' ? .45 : .9 });
-        }
+        lightFacade(windows,b,tone!=='bad');
         indicator.circle(p.x, p.y, 9).fill({ color, alpha: .14 }).circle(p.x, p.y, 3.5).fill(color);
       }
       const selected = s.selected === b.id;

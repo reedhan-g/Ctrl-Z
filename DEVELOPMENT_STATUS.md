@@ -96,3 +96,9 @@ Actual desktop/mobile screenshots were captured and inspected. They confirm the 
 Added selectable Meridian telecom and East delivery hub, preserving all four original buildings. Telecom uses 4h batteries; the hub uses 8h power reserves, 70% dispatch on backup and 35% manual dispatch without telecom, stopping only when its own power is lost. Inspection explains assumptions and displays dispatched/delayed consignments. Capacity is integrated between actual state transitions, so late recovery and seeking agree. Two limited supply teams create a meaningful choice between communications, hub power and other district services. Dispatch is modeled; physical truck routes and fuel inventories are still future work. Mobile building buttons now use a three-column grid and the heading wraps.
 
 45 unit checks and production build pass. Desktop/mobile logistics recovery and undo checks pass; full suite completion is recorded before commit.
+
+## Neon modular city art milestone
+
+45 unit checks, production build and all 18 browser specifications pass, including short landscape inspection. Desktop/portrait screenshots were opened and compared with the supplied references: cyan/magenta/yellow accents, stepped facades, rooftop service details, fire escapes, cornices and street crossings now replace the earlier uniform muted shell. The sidebar is smaller and Meridian replaces the oversized promotional headline; initial mobile overflow is corrected. Original geometry remains interactive and state-responsive, with no flattened reference images or new image dependencies.
+
+This is a validated incremental art improvement, not a claim of matching the density/detail of the primary handcrafted pixel-art reference. More silhouette variety, street activity, transit and district scale remain. Screenshot artifacts stay in ignored test-results/.

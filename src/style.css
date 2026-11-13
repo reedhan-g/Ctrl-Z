@@ -39,3 +39,9 @@
 
 .logistics-outcome{padding:12px 0;font-size:11px;color:#79d8df}.logistics-outcome p{font-size:10px}
 @media(max-width:760px){.building-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.sidebar{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.sidebar h1{font-size:22px;overflow-wrap:anywhere}.sidebar h1 br{display:block!important}.building-row{min-width:0}.building-row>span{overflow-wrap:anywhere}}
+
+/* City-first shell and restrained neon palette; the world keeps crisp edges. */
+:root{background:#0c0e17;color:#e5dfed}.world{background:radial-gradient(ellipse at 50% 45%,#242030,#10131f 72%)}
+.sidebar{width:235px;background:#10131d;padding:25px 18px;overflow-y:auto}.sidebar h1{font-size:30px;letter-spacing:-1px;margin:15px 0 12px}.sidebar h1 em{display:block;font:11px/2 sans-serif;color:#cf91cb;letter-spacing:1px}.sidebar .intro,.sidebar .sidebar-foot{display:none}.sidebar .divider{margin:16px 0}.sidebar .buildings-heading{margin-top:20px}.primary{background:#75d8d9;color:#10272b}.scenario{background:#202131;border-color:#55506a}.state-pill{background:#182a2e;color:#89dddc}.city-canvas canvas{image-rendering:pixelated}.world-top h2{color:#d7cce3}.city-loading{position:absolute;top:40%;left:35%;color:#8bcbd4}.map-grid{opacity:.35}
+@media(max-width:760px){.sidebar{width:100%;grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:14px 18px;gap:8px 12px;overflow:visible}.sidebar h1{font-size:26px;grid-row:2/4;margin:2px 0;overflow-wrap:normal}.sidebar h1 em{font-size:9px;letter-spacing:0}.sidebar>.eyebrow{font-size:8px}.sidebar .building-list{margin-top:3px}.sidebar .scenario{padding:8px}.sidebar .scenario small{display:none}.sidebar .primary{grid-row:3}.world{height:710px}.world-top h2{font-size:18px}.brand{font-size:23px}}
+@media(max-width:760px) and (orientation:landscape){.world{height:640px}.inspector{max-height:280px}.building-list{grid-template-columns:repeat(6,minmax(0,1fr))}}
