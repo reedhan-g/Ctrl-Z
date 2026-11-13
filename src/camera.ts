@@ -52,4 +52,7 @@ export class CameraGesture {
     this.zoom = next;
   }
   reset() { this.zoom = 1; this.pan = { x: 0, y: 0 }; this.pointers.clear(); this.moved = true; }
+  focus(point:Point,origin:Point,target:Point,scale:number) {
+    this.pan={x:target.x-origin.x-point.x*scale,y:target.y-origin.y-point.y*scale};
+  }
 }

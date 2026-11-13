@@ -1,0 +1,24 @@
+import {test,expect} from '@playwright/test';
+test('low power rendering preserves the selected response and frames inspection',async({page},testInfo)=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.getByRole('button',{name:'Remove electricity',exact:true}).click();
+ await page.getByRole('button',{name:'Pause simulation'}).click();
+ await page.getByRole('slider',{name:'Simulation timeline'}).press('Home');
+ await page.locator('.building-list').getByRole('button',{name:/Waterworks/}).click();
+ const panel=page.getByRole('region',{name:'Building inspection'});
+ await panel.getByRole('button',{name:'Send backup supplies'}).click();
+ await page.getByRole('button',{name:'Low power mode'}).click();
+ await expect(page.getByRole('button',{name:'Low power mode'})).toHaveAttribute('aria-pressed','true');
+ await expect(page.locator('canvas')).toBeVisible();
+ expect(await page.locator('canvas').evaluate(canvas=>canvas.width<=canvas.clientWidth+1)).toBeTruthy();
+ await expect(panel.getByRole('button',{name:'Supplies delivered',exact:true})).toBeDisabled();
+ await expect(page.getByRole('combobox',{name:'Replay branch'})).toHaveValue('1');
+ await page.getByRole('button',{name:'Zoom in'}).click();
+ await page.getByRole('button',{name:'Zoom out'}).click();
+ await page.locator('.building-list').getByRole('button',{name:/St. Mira Hospital/}).click();
+ await expect(panel.getByRole('heading',{name:'St. Mira Hospital'})).toBeVisible();
+ expect(await panel.evaluate(el=>el.scrollTop)).toBe(0);
+ await page.locator('.world').screenshot({path:testInfo.outputPath('focused-inspection.png')});
+ expect(errors).toEqual([]);
+});

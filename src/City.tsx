@@ -1,14 +1,15 @@
 ﻿import { useEffect, useRef, useState } from 'react';
 import { Application } from 'pixi.js';
-import { useGame } from './game';
+import { useGame, buildings } from './game';
 import { buildCityScene } from './CityScene';
-import { pickBuilding } from './geometry';
+import { pickBuilding, iso } from './geometry';
 import { CameraGesture } from './camera';
-import {pickVehicle} from './traffic';
+import {pickVehicle,vehiclePosition} from './traffic';
 
-export default function City() {
+export default function City({lowPower=false}:{lowPower?:boolean}) {
   const host = useRef<HTMLDivElement>(null);
   const [error, setError] = useState('');
+  const [camera] = useState(()=>new CameraGesture());
   useEffect(() => {
     let disposed = false;
     let cleanup = () => {};
@@ -19,12 +20,12 @@ export default function City() {
     };
     (async () => {
       const el = host.current!;
-      await app.init({ backgroundAlpha: 0, antialias: false, autoStart: false, resolution: Math.min(devicePixelRatio, 2),
+      await app.init({ backgroundAlpha: 0, antialias: false, autoStart: false, resolution: Math.min(devicePixelRatio, lowPower?1:2),
         autoDensity: true, width: el.clientWidth, height: el.clientHeight, preference: 'webgl' });
       initialized = true;
       if (disposed) { destroy(); return; }
       el.appendChild(app.canvas);
-      const scene = buildCityScene(), camera = new CameraGesture();
+      const scene = buildCityScene();
       app.stage.addChild(scene.world);
       const origin = () => ({ x: el.clientWidth / 2, y: el.clientHeight * .19 });
       let frame = 0;
@@ -44,7 +45,7 @@ export default function City() {
       const motion=matchMedia('(prefers-reduced-motion: reduce)');
       let animation=0,lastFrame=0,lastTick=performance.now(),visible=true,visualHours=0;
       const ambientStart=performance.now();
-      const moving=()=>{const s=useGame.getState();return !disposed&&visible&&!document.hidden&&!motion.matches&&(s.playing||(!s.outage&&!s.history.length));};
+      const moving=()=>{const s=useGame.getState();return !disposed&&visible&&!document.hidden&&!lowPower&&!motion.matches&&(s.playing||(!s.outage&&!s.history.length));};
       const animate=(now:number)=>{
         animation=0;
         if(!moving())return;
@@ -90,7 +91,16 @@ export default function City() {
       el.addEventListener('lostpointercapture', cancel);
       el.addEventListener('wheel', wheel, { passive: false }); el.addEventListener('camera', command);
       const observer = new ResizeObserver(fit); observer.observe(el);
-      const unsubscribe = useGame.subscribe(state => { lastTick=performance.now(); if (scene.update(state)) render(); schedule(); });
+      const unsubscribe = useGame.subscribe((state,previous) => {
+        if(state.selected&&(state.selected!==previous.selected||state.selectedVehicle!==previous.selectedVehicle)){
+          const b=buildings.find(b=>b.id===state.selected)!;
+          const point=state.selectedVehicle?vehiclePosition(state.selectedVehicle,state,visualHours):iso(b.x+.9,b.y+.9,b.height*.45);
+          const mobile=window.innerWidth<=760;
+          camera.focus(point,origin(),{x:el.clientWidth*(mobile?.5:.34),y:mobile?65:el.clientHeight*.38},scene.world.scale.x);
+          fit();
+        }
+        lastTick=performance.now(); if (scene.update(state)) render(); schedule();
+      });
       document.addEventListener('visibilitychange', render);
       cleanup = () => {
         observer.disconnect(); viewport.disconnect(); unsubscribe(); cancelAnimationFrame(frame); cancelAnimationFrame(animation);
@@ -112,7 +122,7 @@ export default function City() {
     });
     // Async initialization owns destruction if unmounted before init completes.
     return () => { disposed = true; cleanup(); destroy(); };
-  }, []);
+  }, [lowPower,camera]);
   return <div ref={host} className="city-canvas" tabIndex={0}
     aria-label="Interactive isometric city. Drag to pan, pinch or scroll to zoom, tap a building to inspect."
     role="application">{error && <p role="alert">{error}</p>}</div>;

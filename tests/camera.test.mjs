@@ -26,3 +26,12 @@ test('zoom is anchored at the cursor and reset restores the initial view', () =>
   assert.equal((point.x - origin.x - c.pan.x) / c.zoom, 100);
   c.reset(); assert.equal(c.zoom, 1); assert.deepEqual(c.pan, { x: 0, y: 0 });
 });
+
+test('selection framing preserves zoom and places a world point in a clear viewport region',()=>{
+ const camera=new CameraGesture();camera.zoom=1.8;
+ const point={x:200,y:150},origin={x:400,y:70},target={x:250,y:120},scale=.8;
+ camera.focus(point,origin,target,scale);
+ assert.equal(origin.x+camera.pan.x+point.x*scale,target.x);
+ assert.equal(origin.y+camera.pan.y+point.y*scale,target.y);
+ assert.equal(camera.zoom,1.8);
+});

@@ -4,7 +4,7 @@
 
 The electricity slice now supports the complete small-scale loop: explore Meridian, disrupt electricity, trace service failures, choose limited interventions, replay preserved decisions, compare branches, investigate two observed failures, verify recovery, export a Resilience Report, and explicitly save/resume experiments on this browser.
 
-53 unit/regression checks and all 30 desktop/mobile Chromium specifications pass. TypeScript/Vite production build passes with split entry (~265 kB) and city renderer (~300 kB) bundles. No large-chunk warning remains. Physical-phone FPS, battery and Safari behavior have not been measured.
+54 unit/regression checks, all 32 desktop/mobile Chromium specifications and the production build pass. TypeScript/Vite production build passes with split entry (~265 kB) and city renderer (~300 kB) bundles. No large-chunk warning remains. Physical-phone FPS, battery and Safari behavior have not been measured.
 
 The creator's existing static.yml is preserved, including automatic deployment on every main push and workflow_dispatch. ci.yml runs only locked installation, tests and production builds with read-only permissions. No duplicate deployment workflow was added; repository visibility was not changed. Each completed milestone is committed and pushed without rewriting history; upstream contributions were merged intact. Latest hosted results are checked after publishing.
 
@@ -17,7 +17,7 @@ The creator's existing static.yml is preserved, including automatic deployment o
 - Two Investigation cases require time-stamped readings, reject unsupported diagnoses, constrain recovery until supported, and verify success against actual service state. Evidence remains labeled knowledge across rewind.
 - Original modular city geometry has crisp neon facades, roof details, crosswalks, differentiated lighting and a compact city-first UI. Primary reference: design/pixel-city-reference-2.png; secondary: design/ctrl-z-city-reference.png. Both supplied images are preserved as references and are not runtime backgrounds.
 - Fleet progress follows dispatch capacity and is reproducible on replay. Nominal preview animation is visual only, capped at 30 updates/sec, and suppressed offscreen, hidden and under reduced motion. Experiment pause stops motion. Scene objects persist; paused/reduced-motion GPU checks confirm idle rendering stops.
-- Touch pan/pinch, anchored zoom, cancellation handling, mobile inspection sheet, large action buttons, accessible names, keyboard shortcuts and focus-managed help. Browser tests cover portrait and short landscape layouts.
+- Touch pan/pinch, anchored zoom, cancellation handling, mobile inspection sheet, large action buttons, low-power rendering, selection framing, accessible names, keyboard shortcuts and focus-managed help. Browser tests cover portrait and short landscape layouts.
 - Explicit Save experiment / Resume saved stores one versioned local slot with branches, undo history, evidence and controls. Saves are validated for structure, sizes and journal consistency; resume is paused. Invalid saves or unavailable storage leave the current experiment intact. Reset/reload starts fresh unless Resume saved is chosen.
 
 ## Validation and limitations
@@ -31,8 +31,8 @@ Save format v1 intentionally bounds branch/history/evidence counts and payload s
 ## Remaining milestones / external verification
 
 1. Physical Android/iOS and Safari playtests, measured midrange-phone FPS/memory/battery, and user feedback are not possible with the current Chromium desktop/emulation setup. No claim of the target 30/60 FPS is made.
-2. Improve primary-reference fidelity further: richer silhouettes, denser districts, transit, signage and original pixel/sprite art. Add measured culling/detail/asset-quality controls when the expanded scene warrants them. Current art is not declared final.
-3. Refine automatic selected-object framing around contextual panels, camera transitions, onboarding and broader accessibility/real-touch QA. Current manual pan/zoom and responsive inspection remain functional.
+2. Improve primary-reference fidelity further: richer silhouettes, denser districts, transit, signage and original pixel/sprite art. Low-power mode now caps resolution and suppresses continuous motion; add measured culling/detail/asset loading when expansion warrants it. Current art is not declared final.
+3. Refine camera transitions, onboarding and broader accessibility/real-touch QA. Automatic framing now places new selections in clear space around contextual panels. Current manual pan/zoom and responsive inspection remain functional.
 4. Deepen logistics with individual cargo, inventory/fuel/road constraints and delivery routing; current aggregate dispatch and route progress are real but deliberately compact. Supplies still take effect immediately.
 5. Expand investigation cases and report presentation from the two authored causal cases. Larger entity counts and six districts are aspirations, not complete.
 6. Internet/GNSS/payments/standalone water and simultaneous disruptions remain optional later scenarios after the first experience is polished. Cloud saves and shareable deterministic seeds are not implemented.
@@ -94,3 +94,7 @@ Reports integrate service availability and fractional dispatch across actual eve
 ## Local-save milestone
 
 53 unit checks, all 30 browser specifications and production build pass. Browser checks verify save/reload/paused resume, retained branch and exact undo, and rejection of an incompatible save without changing the current outage.
+
+## Mobile quality and framing milestone
+
+Low-power mode recreates the renderer at at most 1x resolution and suppresses continuous fleet animation, preserving the experiment, selection and camera state. New building/vehicle selections are framed away from contextual panels while zoom is preserved. Mobile sheets are shorter and scroll internally; camera controls move into a clear area while inspection is open. The initial quality test caught inspector interception of Low power; layout was corrected and coverage now also clicks zoom with inspection open. Unit camera projection checks and production build pass. All 32 browser specifications pass, including low-power resolution, state retention, accessible zoom while inspection is open and scroll reset on selection. Final desktop/mobile inspection screenshots were opened: the selected hospital is visible above/beside the sheet and controls are unobstructed.

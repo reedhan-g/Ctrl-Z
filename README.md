@@ -29,7 +29,7 @@ npm run test:browser
 - Save experiment explicitly writes one local browser slot. Resume saved restores branches, undo and evidence, paused. Reset/reload starts fresh until Resume saved is chosen. Invalid/unavailable storage does not replace the current experiment.
 - Drag to pan; scroll/pinch to zoom; tap to inspect. Building/fleet buttons provide keyboard alternatives. Space pauses when the map is focused, Ctrl/Command Z undoes, Escape closes inspection/help. Focused controls retain native keyboard behavior.
 
-At 1x, one real second advances ten simulated minutes. Hidden tabs and stalls over one second do not consume reserves. Nominal traffic preview does not advance the simulation. Reduced motion suppresses continuous traffic animation. Current validation: 53 unit checks, production build and 30 desktop/mobile Chromium checks pass; physical-phone/Safari performance remains unverified.
+At 1x, one real second advances ten simulated minutes. Hidden tabs and stalls over one second do not consume reserves. Nominal traffic preview does not advance the simulation. Reduced motion suppresses continuous traffic animation. Low power mode also caps renderer resolution; selection framing keeps new inspections clear of panels. Current validation: 54 unit checks, production build and 32 desktop/mobile Chromium checks pass; physical-phone/Safari performance remains unverified.
 
 ## Modules and product direction
 
