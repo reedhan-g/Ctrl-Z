@@ -4,6 +4,8 @@ import { useGame, buildings } from './game';
 import { buildCityScene } from './CityScene';
 import { pickBuilding, iso } from './geometry';
 import { CameraGesture } from './camera';
+import {boundedView,cameraOrigin} from './worldCamera';
+import {useNavigation} from './navigation';
 import {pickVehicle,vehiclePosition} from './traffic';
 
 export default function City({lowPower=false}:{lowPower?:boolean}) {
@@ -27,7 +29,8 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
       el.appendChild(app.canvas);
       const scene = buildCityScene();
       app.stage.addChild(scene.world);
-      const origin = () => ({ x: el.clientWidth / 2, y: el.clientHeight * .19 });
+      const size=()=>({width:el.clientWidth,height:el.clientHeight});
+      const origin=()=>cameraOrigin(size());
       let frame = 0;
       const render = () => {
         if (frame || document.hidden || disposed) return;
@@ -36,10 +39,11 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
       function fit() {
         if (app.screen.width !== el.clientWidth || app.screen.height !== el.clientHeight)
           app.renderer.resize(el.clientWidth, el.clientHeight);
-        const baseScale = Math.min(el.clientWidth / 880, el.clientHeight / 650);
-        scene.world.scale.set(baseScale * camera.zoom);
-        const center = origin();
-        scene.world.position.set(center.x + camera.pan.x, center.y + camera.pan.y);
+        const view=boundedView(camera,size());
+        scene.world.scale.set(view.scale);
+        scene.world.position.set(view.origin.x+view.pan.x,view.origin.y+view.pan.y);
+        useNavigation.setState({view});
+        el.dataset.camera=JSON.stringify(view);
         render();
       }
       const motion=matchMedia('(prefers-reduced-motion: reduce)');
@@ -69,7 +73,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
         if (e.pointerType === 'mouse' && e.button !== 0) return;
         el.setPointerCapture(e.pointerId); camera.down(e.pointerId, localPoint(e));
       };
-      const move = (e: PointerEvent) => { camera.move(e.pointerId, localPoint(e), origin()); fit(); };
+      const move = (e: PointerEvent) => { if(camera.move(e.pointerId, localPoint(e), origin()))fit(); };
       const up = (e: PointerEvent) => {
         if (camera.up(e.pointerId)) {
           const p = localPoint(e);
@@ -79,7 +83,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
         }
       };
       const cancel = (e: PointerEvent) => camera.cancel(e.pointerId);
-      const wheel = (e: WheelEvent) => { e.preventDefault(); camera.zoomAt(Math.exp(-e.deltaY * .001), localPoint(e), origin()); fit(); };
+      const wheel = (e: WheelEvent) => { e.preventDefault(); if(e.shiftKey){camera.pan.x-=e.deltaX||e.deltaY;camera.pan.y-=e.deltaX?e.deltaY:0;}else camera.zoomAt(Math.exp(-e.deltaY * .001), localPoint(e), origin()); fit(); };
       const command = (e: Event) => {
         const action = (e as CustomEvent<string>).detail;
         if (action === 'reset') camera.reset();
@@ -90,12 +94,18 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
       el.addEventListener('pointerup', up); el.addEventListener('pointercancel', cancel);
       el.addEventListener('lostpointercapture', cancel);
       el.addEventListener('wheel', wheel, { passive: false }); el.addEventListener('camera', command);
+      const recenter=(point:{x:number;y:number})=>{camera.focus(point,origin(),{x:el.clientWidth/2,y:el.clientHeight/2},scene.world.scale.x);fit();};
+      useNavigation.setState({recenter,reset:()=>{camera.reset();fit();}});
+      const keys=(e:KeyboardEvent)=>{const delta:{[key:string]:[number,number]}={ArrowLeft:[90,0],ArrowRight:[-90,0],ArrowUp:[0,90],ArrowDown:[0,-90]};
+        if(e.target!==el||!delta[e.key])return;e.preventDefault();camera.pan.x+=delta[e.key][0];camera.pan.y+=delta[e.key][1];fit();};
+      el.addEventListener('keydown',keys);
       const observer = new ResizeObserver(fit); observer.observe(el);
       const unsubscribe = useGame.subscribe((state,previous) => {
         if(state.selected&&(state.selected!==previous.selected||state.selectedVehicle!==previous.selectedVehicle)){
           const b=buildings.find(b=>b.id===state.selected)!;
           const point=state.selectedVehicle?vehiclePosition(state.selectedVehicle,state,visualHours):iso(b.x+.9,b.y+.9,b.height*.45);
           const mobile=window.innerWidth<=760;
+          if(mobile)camera.zoom=Math.max(camera.zoom,1.5);
           camera.focus(point,origin(),{x:el.clientWidth*(mobile?.5:.34),y:mobile?65:el.clientHeight*.38},scene.world.scale.x);
           fit();
         }
@@ -105,7 +115,8 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
       cleanup = () => {
         observer.disconnect(); viewport.disconnect(); unsubscribe(); cancelAnimationFrame(frame); cancelAnimationFrame(animation);
         motion.removeEventListener('change',schedule);document.removeEventListener('visibilitychange',schedule);
-        document.removeEventListener('visibilitychange', render);
+        document.removeEventListener('visibilitychange', render);el.removeEventListener('keydown',keys);
+        useNavigation.setState({view:null,recenter:()=>{},reset:()=>{}});
         el.removeEventListener('pointerdown', down); el.removeEventListener('pointermove', move);
         el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', cancel);
         el.removeEventListener('lostpointercapture', cancel);

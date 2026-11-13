@@ -16,3 +16,7 @@ Keep modules separated by responsibility; move files only when an actual depende
 Next useful boundaries are a deterministic clock adapter, scenario/entity configuration, modular city art, investigation case state, and report/persistence adapters. Keep these incremental. A worker, generalized ECS, large directory migration or additional state library is not justified by the current small district.
 
 The initial extraction puts playback UI in its own component so branch/comparison work can proceed independently of inspection, onboarding and the city shell. Existing controls, accessible names and state transitions remain unchanged. CI will run the dependency-free domain checks and the TypeScript/Vite production build; Playwright remains the browser interaction gate for gameplay milestones.
+
+## Expanded city boundaries
+
+world.ts owns finite land, district/road coordinates and stable chunk descriptors. geometry.ts owns projection and inverse projection. worldCamera.ts bounds the projected viewport using inverse-projected corners, independent of DOM/page scrolling. navigation.ts is a separate camera bridge for the minimap and renderer; it never writes simulation state. World and screen coordinates must cross these shared transforms. The existing service coordinates and v1 experiment schema remain stable.

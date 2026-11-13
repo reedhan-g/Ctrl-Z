@@ -2,6 +2,8 @@ import type { Point } from './geometry.ts';
 
 export class CameraGesture {
   zoom = 1;
+  minZoom = .55;
+  maxZoom = 2.8;
   pan: Point = { x: 0, y: 0 };
   private pointers = new Map<number, Point>();
   private start: Point = { x: 0, y: 0 };
@@ -16,7 +18,7 @@ export class CameraGesture {
   }
 
   move(id: number, p: Point, origin: Point) {
-    if (!this.pointers.has(id)) return;
+    if (!this.pointers.has(id)) return false;
     const previous = [...this.pointers.values()];
     this.pointers.set(id, p);
     if (this.pointers.size === 2) {
@@ -29,11 +31,12 @@ export class CameraGesture {
       this.pan.x += newMid.x - oldMid.x; this.pan.y += newMid.y - oldMid.y;
       this.moved = true;
     } else {
-      if (!this.moved && Math.hypot(p.x - this.start.x, p.y - this.start.y) < 6) return;
+      if (!this.moved && Math.hypot(p.x - this.start.x, p.y - this.start.y) < 6) return false;
       this.moved = true;
       this.pan.x += p.x - this.last.x; this.pan.y += p.y - this.last.y;
     }
     this.last = p;
+    return true;
   }
 
   up(id: number): boolean {
@@ -46,7 +49,7 @@ export class CameraGesture {
 
   cancel(id: number) { this.moved = true; this.up(id); }
   zoomAt(factor: number, point: Point, origin: Point) {
-    const next = Math.max(.55, Math.min(2.8, this.zoom * factor)), ratio = next / this.zoom;
+    const next = Math.max(this.minZoom, Math.min(this.maxZoom, this.zoom * factor)), ratio = next / this.zoom;
     this.pan = { x: point.x - origin.x - (point.x - origin.x - this.pan.x) * ratio,
       y: point.y - origin.y - (point.y - origin.y - this.pan.y) * ratio };
     this.zoom = next;

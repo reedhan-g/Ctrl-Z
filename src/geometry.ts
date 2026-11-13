@@ -2,6 +2,7 @@ import { buildings, type BuildingId } from './simulation.ts';
 
 export interface Point { x: number; y: number }
 export const iso = (x: number, y: number, z = 0): Point => ({ x: (x - y) * 39, y: (x + y) * 20 - z });
+export const unproject = (p:Point):Point => ({x:p.x/78+p.y/40,y:p.y/40-p.x/78});
 
 // Drawing and picking share exactly the same projected prism faces.
 export function prismFaces(x: number, y: number, w: number, d: number, top: number, bottom = 0): Point[][] {

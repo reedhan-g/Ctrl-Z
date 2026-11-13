@@ -5,6 +5,7 @@ import { dependencies, upstreamPaths } from './dependencies.ts';
 import { diagnoseDependency } from './investigation.ts';
 import { buildingShell, lightFacade, streetDetails, neon } from './cityArt.ts';
 import { fleet, vehiclePosition } from './traffic.ts';
+import {world as land,isRoad} from './world.ts';
 
 type SceneState = Snapshot & { selected: BuildingId | null; trace: boolean };
 
@@ -19,11 +20,11 @@ export function buildCityScene() {
   const world = new Container();
   const ground = new Graphics();
   world.addChild(ground);
-  prism(ground, -.8, -.8, 11.3, 11.3, 18, 0x292634, 0x0c111c, 0x171725);
-  for (let x = 0; x < 10; x++) for (let y = 0; y < 10; y++) {
+  prism(ground, land.min, land.min, land.size, land.size, -1, 0x292634, 0x0c111c, 0x171725);
+  for (let x = land.min; x < land.max; x++) for (let y = land.min; y < land.max; y++) {
     const p = iso(x, y);
-    ground.poly([p.x, p.y, p.x + 38, p.y + 19, p.x, p.y + 38, p.x - 38, p.y + 19])
-      .fill(x === 4 || y === 4 || x === 9 || y === 9 ? 0x10121d : 0x292634);
+    ground.poly(flatten(prismFaces(x,y,1,1,0)[2]))
+      .fill(isRoad(x)||isRoad(y) ? 0x10121d : 0x292634);
   }
   const lampPoints: { x: number; y: number }[] = [];
   const decorativeWindows: { x: number; y: number }[] = [];
