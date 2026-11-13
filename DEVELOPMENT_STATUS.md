@@ -79,3 +79,6 @@ Earlier brief/status claims about blocked npm, missing references, unborn Git hi
 - Upstream integration: retained the creator's Vite /Ctrl-Z/ base path and Pages workflow. The creator clarified that the existing Pages push trigger must remain active; static.yml was restored byte-for-byte to the upstream version before committing. Browser tests now use the configured base path. No deployment was invoked.
 
 GitHub Pages clarification: the creator explicitly authorizes preserving the existing .github/workflows/static.yml deployment on every push to main, with workflow_dispatch also available. Do not disable its push trigger or add a duplicate deployment workflow. ci.yml is testing/build only. This supersedes earlier no-deployment wording for this existing Pages setup; repository visibility remains unchanged.
+
+- Upstream integration: 94213fb pushed and remote SHA verified; 39 unit checks, 10 browser checks and production build pass with /Ctrl-Z/.
+- CI: ci.yml validates main pushes and pull requests on Node 24 with npm ci, npm test and npm run build. YAML/commands/read-only permissions checked locally; the same unit/build commands pass. It has no deployment steps and does not replace static.yml. Hosted results require checking GitHub Actions after push.
