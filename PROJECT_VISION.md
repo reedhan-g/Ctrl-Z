@@ -50,7 +50,7 @@ Examples: hospitals use generators until fuel is exhausted and also need water; 
 
 Keep a time-indexed decision/event journal and consistent snapshots for undo, seeking, replay and branching. Seeking must reconstruct earlier decisions accurately; branching must preserve the previous response for comparison. Simulation-generated events and explanations should agree with inspection and overlays. Tests should cover reproducibility, thresholds, cascades, intervention tradeoffs, restoration and replay consistency.
 
-The existing pure reducer and shared dependency graph are foundations, not a complete capacity/inventory engine. The current 100 ms timer advances simulation by a fixed amount per callback; it is not yet an elapsed-time accumulator with a defined background-tab policy. Replay is now integrated through a time-indexed decision journal; future expansion must preserve its branch and undo consistency.
+The existing pure reducer and shared dependency graph are foundations, not a complete capacity/inventory engine. The clock now uses a fixed-step elapsed-time accumulator and discards background-tab time. Replay is now integrated through a time-indexed decision journal; future expansion must preserve its branch and undo consistency.
 
 ## Map, mobile interaction and accessibility
 

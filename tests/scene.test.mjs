@@ -14,9 +14,9 @@ hooks.deregister();
 
 test('simulation ticks reuse all scene objects without redrawing unchanged visuals', () => {
   const scene = buildCityScene(), state = { ...createInitialState(), outage: true };
-  scene.update(state);
+  assert.equal(scene.update(state), true);
   const created = stats.created, drawn = stats.drawn, children = [...scene.world.children];
-  for (let tick = 1; tick < 100; tick++) scene.update({ ...state, time: tick / 100 });
+  for (let tick = 1; tick < 100; tick++) assert.equal(scene.update({ ...state, time: tick / 100 }), false);
   assert.equal(stats.created, created); assert.equal(stats.drawn, drawn);
   assert.deepEqual(scene.world.children, children);
   scene.world.destroy();

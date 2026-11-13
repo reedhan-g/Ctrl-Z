@@ -84,3 +84,9 @@ GitHub Pages clarification: the creator explicitly authorizes preserving the exi
 - CI: ci.yml validates main pushes and pull requests on Node 24 with npm ci, npm test and npm run build. YAML/commands/read-only permissions checked locally; the same unit/build commands pass. It has no deployment steps and does not replace static.yml. Hosted results require checking GitHub Actions after push.
 
 - Hosted verification: GitHub CI and existing Pages deployment both succeeded for 66395d2. Replay preserves the earlier helper rather than replacing it.
+
+## Clock and rendering milestone
+
+43 unit checks, production build and all 14 desktop/mobile browser checks pass. The fixed-step clock accumulates 100ms steps, discards hidden-tab time and stalls over one second, and does not dispatch idle ticks. Pixi renders on changed visuals/camera/resize instead of running a continuous ticker; browser GPU instrumentation confirms idle draw calls stop on desktop and mobile and camera actions draw again. Lazy city loading splits the entry (~250 kB) and renderer (~298 kB), removing the large-chunk warning.
+
+Actual desktop/mobile screenshots were captured and inspected. They confirm the city remains too sparse/muted relative to the primary pixel reference and the promotional mobile heading needs layout cleanup. These are the next visual milestone, not claims of finished art. No physical-device FPS/battery claim is made.

@@ -18,19 +18,27 @@ export default function City() {
     };
     (async () => {
       const el = host.current!;
-      await app.init({ backgroundAlpha: 0, antialias: true, resolution: Math.min(devicePixelRatio, 2),
-        autoDensity: true, resizeTo: el, preference: 'webgl' });
+      await app.init({ backgroundAlpha: 0, antialias: false, autoStart: false, resolution: Math.min(devicePixelRatio, 2),
+        autoDensity: true, width: el.clientWidth, height: el.clientHeight, preference: 'webgl' });
       initialized = true;
       if (disposed) { destroy(); return; }
       el.appendChild(app.canvas);
       const scene = buildCityScene(), camera = new CameraGesture();
       app.stage.addChild(scene.world);
       const origin = () => ({ x: el.clientWidth / 2, y: el.clientHeight * .19 });
+      let frame = 0;
+      const render = () => {
+        if (frame || document.hidden || disposed) return;
+        frame = requestAnimationFrame(() => { frame = 0; if (!disposed) app.render(); });
+      };
       function fit() {
+        if (app.screen.width !== el.clientWidth || app.screen.height !== el.clientHeight)
+          app.renderer.resize(el.clientWidth, el.clientHeight);
         const baseScale = Math.min(el.clientWidth / 880, el.clientHeight / 650);
         scene.world.scale.set(baseScale * camera.zoom);
         const center = origin();
         scene.world.position.set(center.x + camera.pan.x, center.y + camera.pan.y);
+        render();
       }
       const localPoint = (e: PointerEvent | WheelEvent) => {
         const rect = el.getBoundingClientRect();
@@ -61,9 +69,11 @@ export default function City() {
       el.addEventListener('lostpointercapture', cancel);
       el.addEventListener('wheel', wheel, { passive: false }); el.addEventListener('camera', command);
       const observer = new ResizeObserver(fit); observer.observe(el);
-      const unsubscribe = useGame.subscribe(scene.update);
+      const unsubscribe = useGame.subscribe(state => { if (scene.update(state)) render(); });
+      document.addEventListener('visibilitychange', render);
       cleanup = () => {
-        observer.disconnect(); unsubscribe();
+        observer.disconnect(); unsubscribe(); cancelAnimationFrame(frame);
+        document.removeEventListener('visibilitychange', render);
         el.removeEventListener('pointerdown', down); el.removeEventListener('pointermove', move);
         el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', cancel);
         el.removeEventListener('lostpointercapture', cancel);

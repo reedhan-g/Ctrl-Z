@@ -1,4 +1,4 @@
-﻿import { Container, Graphics, Text } from 'pixi.js';
+import { Container, Graphics, Text } from 'pixi.js';
 import { buildings, status, type Snapshot, type BuildingId } from './simulation.ts';
 import { iso, prismFaces, flatten, sortedBuildings } from './geometry.ts';
 import { dependencies, upstreamPaths } from './dependencies.ts';
@@ -75,8 +75,9 @@ export function buildCityScene() {
   });
 
   function update(s: SceneState) {
+    let changed = false;
     if (previousOutage !== s.outage) {
-      lamps.clear();
+      changed = true; lamps.clear();
       for (const p of lampPoints) lamps.circle(p.x, p.y, 3).fill({ color: s.outage ? 0x46606a : 0xffcf89, alpha: .8 });
       for (const p of decorativeWindows) lamps.rect(p.x - 1, p.y, 3, 5).fill(s.outage ? 0x3a4c54 : 0xe6b578);
       previousOutage = s.outage;
@@ -84,7 +85,7 @@ export function buildCityScene() {
     const diagnostics = dependencies.map(edge => diagnoseDependency(edge, s));
     const traceKey = `${s.trace}:${s.selected}:${diagnostics.map(d => `${d.sourceOnline}:${d.available}`).join(',')}`;
     if (previousTrace !== traceKey) {
-      links.clear(); previousTrace = traceKey;
+      changed = true; links.clear(); previousTrace = traceKey;
       if (s.trace) {
         const paths = s.selected ? upstreamPaths(s.selected) : [];
         for (const edge of diagnostics) {
@@ -101,7 +102,7 @@ export function buildCityScene() {
       const { b, windows, indicator, selection, p } = view;
       const tone = status(b.id, s).tone;
       if (view.tone !== tone) {
-        windows.clear(); indicator.clear(); view.tone = tone;
+        changed = true; windows.clear(); indicator.clear(); view.tone = tone;
         const color = tone === 'good' ? 0x8ddbc4 : tone === 'warn' ? 0xf1ba76 : 0xf17d70;
         for (let side = 0; side < 2; side++) for (let row = 0; row < Math.floor(b.height / 15) - 1; row++) for (let col = 0; col < 4; col++) {
           const x = b.x + (side ? 1.78 : .27 + col * .36), y = b.y + (side ? .27 + col * .36 : 1.78);
@@ -113,12 +114,13 @@ export function buildCityScene() {
       }
       const selected = s.selected === b.id;
       if (view.selected !== selected) {
-        view.selected = selected; selection.clear();
+        changed = true; view.selected = selected; selection.clear();
         view.label.style.fill = selected ? 0xb9f3e4 : 0xabc0c6;
         if (selected) selection.poly(flatten(prismFaces(b.x - .05, b.y - .05, 2.05, 2.05, 8)[2]))
           .stroke({ color: 0x8de4d1, width: 2 });
       }
     }
+    return changed;
   }
   return { world, update };
 }
