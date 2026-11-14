@@ -1,5 +1,11 @@
 # Ctrl Z - Development Status
 
+## Visual overhaul priority — 2026-11-14
+
+CODEX_CITY_VISUAL_OVERHAUL.md is the highest-priority corrective brief. All three reference images were opened, including the supplied secondary JPG. Primary: pixel-city-reference-2.png; secondary: neon-city-secondary-reference.jpg; tertiary: ctrl-z-city-reference.png. docs/VISUAL_OVERHAUL.md records the audit and plan; opening before screenshots are preserved in docs/visual-review/before/.
+
+Readability milestone: retained 40x40 geography/minimap and all six service locations, replaced four-lot packing with two setback parcels per outer block, reduced scenery height to at most 80 projected pixels, and connected sidewalk strips. Existing service picking/framing is unchanged. 64 unit checks, build and 10 desktop/mobile gameplay/minimap/quality specifications pass. Actual opening screenshots were opened: streets and facades are more separated, but the primitive facades still fall short of the primary reference. The next milestone replaces them with detailed original pixel textures rather than declaring the density change sufficient. Existing result notes below are historical until final overhaul QA.
+
 ## Current result - 2026-11-13
 
 Meridian now has a finite 40x40-tile city (16 times the original land area), five district regions, 248 scenery buildings and 64 retained ground chunks inside the existing fixed responsive viewport. Bounded navigation and an interactive projection-correct minimap preserve the electricity investigation loop, interventions, replay, reports and local saves.

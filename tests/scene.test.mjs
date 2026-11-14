@@ -35,7 +35,7 @@ test('culling hides distant geometry without discarding identity or offscreen ou
  const scene=buildCityScene(),state=createInitialState();scene.update(state);
  const children=[...scene.world.children],created=stats.created;
  const counts=scene.cull({x:-150,y:0,width:300,height:250});
- assert.ok(counts.total>250);assert.ok(counts.visible<counts.total/2);
+ assert.ok(counts.total>100);assert.ok(counts.visible<counts.total/2);
  scene.cull({x:700,y:500,width:300,height:200});
  scene.update({...state,outage:true,time:20});
  scene.cull({x:-150,y:0,width:300,height:250});

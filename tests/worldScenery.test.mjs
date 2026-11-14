@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {cityScenery} from '../src/worldScenery.ts';
 import {buildings} from '../src/simulation.ts';
 test('dense scenery has stable unique coordinates, varied districts and no service footprint collisions',()=>{
- assert.ok(cityScenery.length>200);
+ assert.ok(cityScenery.length<150,'street composition takes priority over building count');
+ assert.ok(cityScenery.every(b=>b.height<=80),'scenery must not form a foreground tower wall');
  assert.equal(new Set(cityScenery.map(b=>b.id)).size,cityScenery.length);
  assert.equal(new Set(cityScenery.map(b=>b.district.id)).size,5);
  assert.equal(new Set(cityScenery.map(b=>b.variant)).size,4);

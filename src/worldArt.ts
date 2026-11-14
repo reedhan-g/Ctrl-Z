@@ -17,7 +17,11 @@ export function buildWorldArt(parent:Container){
     if(isRoad(x)&&!isRoad(y))g.moveTo(p.x,p.y).lineTo(q.x,q.y).stroke({color:0x81758c,width:1});
     if(isRoad(y)&&!isRoad(x)){const a=iso(x+.3,y+.5),b=iso(x+.7,y+.5);g.moveTo(a.x,a.y).lineTo(b.x,b.y).stroke({color:0x81758c,width:1});}
     if(isRoad(x)&&isRoad(y))for(let i=0;i<5;i++)g.poly(polygonNumbers(groundPolygon(x+.1+i*.16,y+.1,.09))).fill(0x9c8eaa);
-   }else if(isRoad(x+1)||isRoad(y+1))g.poly(polygonNumbers(groundPolygon(x+.85,y+.85,.15))).fill(0x625568);
+   }else{
+    // Continuous sidewalk bands and curb edges, not isolated corner dots.
+    if(isRoad(x+1)||isRoad(x-1)){const a=isRoad(x+1)?x+.72:x;g.poly(polygonNumbers([iso(a,y),iso(a+.28,y),iso(a+.28,y+1),iso(a,y+1)])).fill(0x555062);}
+    if(isRoad(y+1)||isRoad(y-1)){const a=isRoad(y+1)?y+.72:y;g.poly(polygonNumbers([iso(x,a),iso(x+1,a),iso(x+1,a+.28),iso(x,a+.28)])).fill(0x555062);}
+   }
   }
   entries.push({node:g,bounds:boundsOf(groundPolygon(chunk.x,chunk.y,5),2),kind:'ground'});
  }

@@ -1,5 +1,11 @@
 # Ctrl Z - Product Vision
 
+## Highest-priority visual correction — 2026-11-14
+
+CODEX_CITY_VISUAL_OVERHAUL.md supersedes the earlier emphasis on procedural building count. The whole city must read as a larger explorable interpretation of design/pixel-city-reference-2.png: individually detailed pixel-art architecture, believable multi-story facades, vivid original shop signage, roof machinery, external stairs, visible sidewalks and a recognizable crossroads at opening zoom. Dark architectural mass and street breathing room matter more than quantity. design/neon-city-secondary-reference.jpg is secondary composition guidance; design/ctrl-z-city-reference.png is tertiary only. All three images are available and visually inspected.
+
+Recompose the current 40x40 land first, then extend useful geography toward 60x60 if measurements support it. Preserve fixed viewport sizing, minimap accuracy, gameplay and saves. Use curated parcels and original local pixel textures with crisp filtering rather than repeating tall cuboids. Reference fidelity requires real screenshot review across districts and mobile; passing functional tests alone cannot certify it. docs/VISUAL_OVERHAUL.md records the audit and plan.
+
 ## Authority and reference images
 
 This is the current consolidated product vision, aligned with the creator's instructions and reference review on 2026-11-13. Use it with AGENTS.md for development workflow and DEVELOPMENT_STATUS.md for actual implementation status. It supersedes conflicting product/style statements in older briefs and CTRL_Z_PROJECT_VISION.md; that original source is retained for provenance. Planned behavior below is not a claim that it already exists.
