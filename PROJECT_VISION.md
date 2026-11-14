@@ -1,6 +1,16 @@
 # Ctrl Z - Product Vision
 
-## Highest-priority visual correction — 2026-11-14
+## Current visual direction — Antahonist Neon City, 2026-11-14
+
+The primary reference is [Neon City: Cyberpunk Pixel Building Kit by Antahonist](https://antahonist.itch.io/neon-city-cyberpunk-pixel-building-kit). Preserve `design/pixel-city-reference-2.png` as secondary inspiration; the other local images remain supplementary. This supersedes older reference rankings below and in earlier task documents. Mekai Games is not the current reference.
+
+Continue from approved commit `9fcac4a4e1e06a549bda4f51b4b1c5f3e09d823f`, verified on local and GitHub main before this documentation milestone. Do not reintroduce the city-design work of rejected commits `9a7707f` and `b11256d`. Preserve the existing 60×60 world, six services, minimap, causal gameplay, saves and Pages workflow.
+
+Begin with an authored Lantern Yard neighborhood: street-aligned entrances and footprints, consistent floor/roof proportions, original readable signage and light sources attached to architecture. `docs/NEON_NEIGHBORHOOD_PLAN.md` defines the proposed parcel composition, projection/pivot contract and small tested milestones. The first milestone documents this plan; the new art is not implemented yet. No licensed Antahonist source pack has been verified. Reference use and any future licensed-asset integration must remain explicitly distinguished.
+
+Current visual development uses `neon-city-antahonist-from-27`, based directly on the approved SHA. AGENTS.md records frequent tested checkpoints and verified pushes to this branch, superseding older main-destination wording for this task. Do not automatically merge to main or deploy the development branch.
+
+## Earlier visual correction — historical context
 
 CODEX_CITY_VISUAL_OVERHAUL.md supersedes the earlier emphasis on procedural building count. The whole city must read as a larger explorable interpretation of design/pixel-city-reference-2.png: individually detailed pixel-art architecture, believable multi-story facades, vivid original shop signage, roof machinery, external stairs, visible sidewalks and a recognizable crossroads at opening zoom. Dark architectural mass and street breathing room matter more than quantity. design/neon-city-secondary-reference.jpg is secondary composition guidance; design/ctrl-z-city-reference.png is tertiary only. All three images are available and visually inspected.
 
@@ -12,7 +22,7 @@ The first correction now uses original local pixel textures city-wide and a fini
 
 This is the current consolidated product vision, aligned with the creator's instructions and reference review on 2026-11-13. Use it with AGENTS.md for development workflow and DEVELOPMENT_STATUS.md for actual implementation status. It supersedes conflicting product/style statements in older briefs and CTRL_Z_PROJECT_VISION.md; that original source is retained for provenance. Planned behavior below is not a claim that it already exists.
 
-The primary visual direction is **design/pixel-city-reference-2.png**. **design/neon-city-secondary-reference.jpg** supplies secondary street-composition guidance; **design/ctrl-z-city-reference.png** is tertiary world guidance. All were opened and inspected. CODEX_CITY_VISUAL_OVERHAUL.md establishes this order. References guide original interactive assets, not flattened runtime backgrounds or artwork copied into released assets.
+The current reference order is **Antahonist Neon City**, followed by **design/pixel-city-reference-2.png**. **design/neon-city-secondary-reference.jpg** and **design/ctrl-z-city-reference.png** remain supplementary context. This replaces the order in CODEX_CITY_VISUAL_OVERHAUL.md. References guide original interactive assets, not flattened runtime backgrounds or artwork copied into released assets.
 
 ## Identity and complete gameplay loop
 

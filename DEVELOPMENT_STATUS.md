@@ -1,5 +1,19 @@
 # Ctrl Z - Development Status
 
+## Continuation documentation milestone — 2026-11-14
+
+Before changes, local `main` and live GitHub `refs/heads/main` both resolved to approved baseline `9fcac4a4e1e06a549bda4f51b4b1c5f3e09d823f`. No restoration, reset or rejected commit import was required. The handoff was initially the only untracked file. `CODEX_NEON_CITY_FROM_COMMIT_27.md` appeared during inspection; the creator subsequently requested incorporating its instructions. Fetched origin and created `neon-city-antahonist-from-27` directly at the verified baseline, preserving all current changes. Tested checkpoints now publish to this branch; main integration/deployment requires separate approval.
+
+Read the complete handoff, AGENTS.md, vision, status and architecture; inspected world/scenery, atlas generation/placement, projection, picking, culling and gameplay/domain boundaries. Fresh baseline checks pass: **67 unit checks, all 46 desktop/mobile Chromium browser specifications (4.1 minutes), and production build**. Local Node is 26.10.0; unchanged CI uses Node 24. Browser emulation remains distinct from physical iOS/Android/Safari testing.
+
+Primary visual reference is now **Neon City by Antahonist**, with `design/pixel-city-reference-2.png` preserved as secondary. Official page/banner, secondary PNG, current desktop opening and mobile market captures were inspected. Repeated roof masses and similar facades remain visible; no visual completion is claimed. Preview is held only in ignored test output. No licensed kit archive or entitlement has been verified locally.
+
+`docs/NEON_NEIGHBORHOOD_PLAN.md` proposes the first authored Lantern Yard block and surrounding neighborhood: exact footprints and frontages, continuous sidewalks, a useful court, stepped heights, original signs, paired light states and shared pivot/geometry bounds. The first documentation checkpoint includes the handoff and supplied task document, aligns vision/brief/architecture, and records frequent meaningful tested commits in AGENTS.md. New art, street-network changes and broader visual acceptance remain future milestones. Runtime code, secondary image, minimap, gameplay and both workflows are unchanged.
+
+Next checkpoint: implement one original-art architectural exemplar and explicit Lantern Yard placements, test footprint/road/occlusion contracts, build and inspect desktop/mobile images before expansion. Licensed pack availability remains unverified; original project art is the available route. Larger work will be split into independent tested commits, each pushed with remote SHA verification to the authorized development branch. No incomplete runtime functionality will be committed merely for frequency.
+
+The sections below record the approved baseline and older milestones. Their former reference rankings are historical; the Antahonist direction above governs continuation.
+
 ## Visual overhaul priority — 2026-11-14
 
 Pixel-art milestone: 16 original building designs plus three car colors and a streetlamp use a shared local atlas with powered/unpowered frames. All districts and six service landmarks now use these textures, with original shop lettering, facade posters, external stairs, glazing, awnings, roof machinery, railings and usage-specific roofs. A reusable pixel street block replaces per-tile Graphics draw batches. Default architectural scale is closer while overview remains available through zoom-out/minimap. Parcel layouts vary; no scenery overlaps another parcel or a road. The core's narrow roadside strips remain open instead of forcing shops across road 9.
