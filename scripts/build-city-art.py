@@ -10,6 +10,7 @@ import lantern_art
 import city_architecture
 import street_art
 import infrastructure_art
+import light_art
 
 ROOT = Path(__file__).resolve().parents[1]
 MODELS = [
@@ -195,7 +196,7 @@ def make(model, powered):
 atlas=Image.new('RGBA',(2048,((len(MODELS)*2+7)//8)*256)); metadata={}
 for i,model in enumerate(MODELS):
     for state in range(2):
-        index=i*2+state; atlas.paste(make(model,state==0),((index%8)*256,(index//8)*256))
+        index=i*2+state; atlas.paste(light_art.apply(make(model,state==0),model,state==0),((index%8)*256,(index//8)*256))
     name,w,d,h,*_=model;metadata[name]={'index':i*2,'width':w,'depth':d,'height':h}
 out=ROOT/'src/assets';out.mkdir(parents=True,exist_ok=True)
 atlas.save(out/'city-atlas.png',optimize=True)

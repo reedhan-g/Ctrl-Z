@@ -2,8 +2,9 @@
 from PIL import Image, ImageDraw
 
 def build():
-    atlas=Image.new('RGBA',(2048,1024))
-    for mask in range(16):
+    atlas=Image.new('RGBA',(2048,2048))
+    for index in range(32):
+        mask=index%16;powered=index<16
         im=Image.new('RGBA',(400,224));g=ImageDraw.Draw(im)
         def p(x,y):return round(200+(x-y)*39),round(12+(x+y)*20)
         def tile(x,y,w,d,c):g.polygon([p(x,y),p(x+w,y),p(x+w,y+d),p(x,y+d)],fill=c)
@@ -38,5 +39,13 @@ def build():
             tile(.35,4.12,3.2,.68,'#344e4b')
             for i in range(4):tile(.5+i*.7,4.25,.42,.4,'#496459')
         tile(3.42,3.42,.2,.2,'#717b7e')
-        atlas.paste(im,((mask%4)*512,(mask//4)*256))
+        if powered:
+            # Emissive studs sit at curbs; the warm pool belongs to the lamp.
+            for i in range(4):
+                if east:tile(3.91,.3+i*.85,.045,.2,'#448e99')
+                if south:tile(.3+i*.85,3.91,.2,.045,'#448e99')
+            glow=Image.new('RGBA',im.size);gg=ImageDraw.Draw(glow)
+            gg.polygon([p(3.3,3.7),p(3.8,3.25),p(4.35,3.8),p(3.8,4.3)],fill=(245,198,131,24))
+            im=Image.alpha_composite(im,glow)
+        atlas.paste(im,((index%4)*512,(index//4)*256))
     return atlas

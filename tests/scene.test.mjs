@@ -50,6 +50,19 @@ test('simulation ticks reuse all scene objects without redrawing unchanged visua
   assert.deepEqual(scene.world.children, children);
   scene.world.destroy();
 });
+
+test('junction illumination swaps with grid state while hospital reserve illumination survives',()=>{
+ const grounds=Array.from({length:16},(_,i)=>({on:{id:`ground-${i}:on`},off:{id:`ground-${i}:off`}}));
+ const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{},lanternGround:{},grounds};
+ const scene=buildCityScene(textures),state=createInitialState();scene.update(state);
+ const collect=n=>[n,...n.children.flatMap(collect)],all=collect(scene.world);
+ const junction=all.find(n=>n.texture===grounds[15].on),hospital=all.find(n=>n.texture===textures.hospital.on);
+ assert.ok(junction&&hospital);const created=stats.created;
+ scene.update({...state,outage:true,time:5});
+ assert.equal(junction.texture,grounds[15].off);assert.equal(hospital.texture,textures.hospital.on);
+ scene.update(state);assert.equal(junction.texture,grounds[15].on);assert.equal(stats.created,created);
+ scene.world.destroy();
+});
 test('failure thresholds and inspection update existing layers instead of recreating the city', () => {
   const scene = buildCityScene(), state = { ...createInitialState(), outage: true };
   scene.update(state);
