@@ -1,5 +1,7 @@
 # Ctrl Z — Antahonist Neon City Rebuild from Commit 27
 
+> Current override: CODEX_CURRENT_TASK.md authorizes tested development commits and pushes directly to `origin/main`, superseding this document's former branch-only/main-integration pause. The commit-27 lineage and rejection of commits 28/29 remain. Prioritize visible changes throughout the opening city and a complete neighborhood; preserve gameplay and the existing Pages workflow.
+
 > **Current top-priority task.** Rebuild the *visual city and world layout* of Ctrl Z using **Neon City: Cyberpunk Pixel Building Kit by Antahonist** as the primary reference. **Begin from commit 27, not commits 28 or 29.** Preserve working gameplay, the expanded map, and the minimap.
 
 ## 1. Confirm the exact Git starting point

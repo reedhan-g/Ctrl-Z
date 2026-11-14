@@ -1,5 +1,7 @@
 # Ctrl Z - Product Vision
 
+Current execution: CODEX_CURRENT_TASK.md authorizes direct tested pushes to main and a substantial visible redesign across the opening city and Lantern Yard. This supersedes older branch-only/main-approval wording below. Preserve commit-27 gameplay lineage and the existing Pages deployment.
+
 ## Current visual direction — Antahonist Neon City, 2026-11-14
 
 The primary reference is [Neon City: Cyberpunk Pixel Building Kit by Antahonist](https://antahonist.itch.io/neon-city-cyberpunk-pixel-building-kit). Preserve `design/pixel-city-reference-2.png` as secondary inspiration; the other local images remain supplementary. This supersedes older reference rankings below and in earlier task documents. Mekai Games is not the current reference.

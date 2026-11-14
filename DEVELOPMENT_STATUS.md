@@ -1,5 +1,11 @@
 # Ctrl Z - Development Status
 
+## Active visual overhaul on main — 2026-11-14
+
+CODEX_CURRENT_TASK.md now authorizes tested commits/pushes directly to main. Fetched origin, inspected merged PR #2 at `76f8d8e`, confirmed it matches the existing Lantern Yard checkout, switched to local main and fast-forwarded safely. Preserved the current task file. No unfinished work was discarded and no rejected commit-28/29 changes were imported. The former branch-only/main-approval restriction is superseded.
+
+The creator finds the isolated block insufficient. Current work must visibly replace architecture across the opening playable city, complete the Lantern Yard neighborhood, introduce purposeful shared streets, distinguish infrastructure, improve lighting and frame the redesign at first load. Separate tested runtime commits and actual screenshot review will record those results. Existing 69 unit checks / 48 browser checks and build are the starting validation, not evidence that the broader redesign is complete.
+
 ## Lantern Yard architectural exemplar — 2026-11-14
 
 Fetched origin and inspected PR #1 before this checkpoint. GitHub main is merge commit `0334947d0762868dccd25895919ca677fce46db5`, with parents `9fcac4a` and `154fd5b`. Its tree matches the previously pushed documentation checkpoint exactly; no documentation re-import or automatic branch merge was performed. Development continues on `neon-city-antahonist-from-27`, retaining the commit-27 runtime baseline and excluding rejected commit-28/29 designs. Local main was not moved.

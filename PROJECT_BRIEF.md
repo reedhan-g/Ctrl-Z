@@ -1,5 +1,7 @@
 # Ctrl Z - Project Brief
 
+Current execution: CODEX_CURRENT_TASK.md authorizes tested commits/pushes directly to main. Deliver visible city-wide architecture, purposeful streets, recognizable infrastructure, lighting and default framing as separate tested milestones. This supersedes older branch-only/main-integration wording below; preserve the existing Pages workflow.
+
 ## Product direction
 
 **Ctrl Z - Undo the World.** An interactive browser-based isometric city simulation/investigation game in the fictional city of Meridian. Remove infrastructure or technology, explore causal consequences, inspect dependencies, intervene with limited resources, recover services, and rewind/branch to compare outcomes. Sandbox and hidden-cause Investigation are intended modes; a saved/shareable Resilience Report completes the experience.
