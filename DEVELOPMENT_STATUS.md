@@ -2,6 +2,8 @@
 
 ## Active visual overhaul on main — 2026-11-14
 
+Artwork checkpoint: replaced all ten general scenery building designs in the actual shared atlas, across every district and the opening view. Original stepped retail/office masses, balcony housing, distinct food/arcade/cinema frontages, sawtooth workshops and ribbed depots now replace the former shared shell. Existing dimensions, nearest sampling and powered/unpowered pairs remain. 69 unit checks, build and eight desktop/mobile gameplay/quality/visual checks pass; actual opening render was inspected. Streets and six old service designs remain the next separate runtime changes.
+
 CODEX_CURRENT_TASK.md now authorizes tested commits/pushes directly to main. Fetched origin, inspected merged PR #2 at `76f8d8e`, confirmed it matches the existing Lantern Yard checkout, switched to local main and fast-forwarded safely. Preserved the current task file. No unfinished work was discarded and no rejected commit-28/29 changes were imported. The former branch-only/main-approval restriction is superseded.
 
 The creator finds the isolated block insufficient. Current work must visibly replace architecture across the opening playable city, complete the Lantern Yard neighborhood, introduce purposeful shared streets, distinguish infrastructure, improve lighting and frame the redesign at first load. Separate tested runtime commits and actual screenshot review will record those results. Existing 69 unit checks / 48 browser checks and build are the starting validation, not evidence that the broader redesign is complete.

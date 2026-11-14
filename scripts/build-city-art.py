@@ -7,6 +7,7 @@ from pathlib import Path
 import json
 from PIL import Image, ImageDraw
 import lantern_art
+import city_architecture
 
 ROOT = Path(__file__).resolve().parents[1]
 MODELS = [
@@ -50,6 +51,8 @@ def make(model, powered):
     name,w,d,h,floors,sign,accent,role=model
     if role == 'yard':
         return lantern_art.render(model, powered, FONT)
+    if name in city_architecture.STYLES:
+        return city_architecture.render(model, powered, FONT)
     im=Image.new('RGBA',(256,256)); g=ImageDraw.Draw(im)
     light=accent if powered else '#41404f'
     warm='#e7b36f' if powered else '#343643'
