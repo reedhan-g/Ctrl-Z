@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { registerHooks } from 'node:module';
 import { createInitialState } from '../src/gameState.ts';
+import {cityModels} from '../src/cityModels.ts';
 
 const hooks = registerHooks({ resolve(specifier, context, nextResolve) {
   return specifier === 'pixi.js'
@@ -11,6 +12,19 @@ const hooks = registerHooks({ resolve(specifier, context, nextResolve) {
 const { buildCityScene } = await import('../src/CityScene.ts');
 const { stats } = await import('./fixtures/pixi.mjs');
 hooks.deregister();
+
+test('atlas lighting swaps retained textures and keeps service backup distinct from city outage',()=>{
+ const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{id:'street'}};
+ const scene=buildCityScene(textures);scene.update(createInitialState());
+ const collect=node=>[node,...node.children.flatMap(collect)];
+ const all=collect(scene.world),hospital=all.find(n=>n.texture===textures.hospital.on),shop=all.find(n=>n.texture===textures.market.on);
+ assert.ok(hospital&&shop);const created=stats.created;
+ scene.update({...createInitialState(),outage:true,time:0});
+ assert.equal(shop.texture,textures.market.off);assert.equal(hospital.texture,textures.hospital.on);
+ scene.update({...createInitialState(),outage:true,time:24});assert.equal(hospital.texture,textures.hospital.off);
+ scene.update(createInitialState());assert.equal(shop.texture,textures.market.on);assert.equal(hospital.texture,textures.hospital.on);
+ assert.equal(stats.created,created);scene.world.destroy();
+});
 
 test('simulation ticks reuse all scene objects without redrawing unchanged visuals', () => {
   const scene = buildCityScene(), state = { ...createInitialState(), outage: true };

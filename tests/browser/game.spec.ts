@@ -29,8 +29,8 @@ test('outage, inspection, supplies, time travel and recovery',async({page})=>{
 test('canvas selection and camera drag',async({page})=>{
  await page.goto('./');const canvas=page.locator('canvas');await expect(canvas).toBeVisible();
  const box=(await canvas.boundingBox())!;
- const scale=Math.min(box.width/880,box.height/650);
- await canvas.click({position:{x:box.width/2+156*scale,y:box.height*.19+151*scale}});
+ const v=await page.locator('.city-canvas').evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!));
+ await canvas.click({position:{x:v.origin.x+v.pan.x+156*v.scale,y:v.origin.y+v.pan.y+151*v.scale}});
  await expect(page.getByRole('heading',{name:'St. Mira Hospital',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Close inspection'}).click();
  // Building selection is also exposed as ordinary buttons for keyboard and touch users.

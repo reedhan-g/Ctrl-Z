@@ -7,6 +7,7 @@ import { CameraGesture } from './camera';
 import {boundedView,cameraOrigin} from './worldCamera';
 import {useNavigation} from './navigation';
 import {pickVehicle,vehiclePosition} from './traffic';
+import {loadCityTextures} from './pixelArt';
 
 export default function City({lowPower=false}:{lowPower?:boolean}) {
   const host = useRef<HTMLDivElement>(null);
@@ -26,9 +27,11 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
         autoDensity: true, width: el.clientWidth, height: el.clientHeight, preference: 'webgl' });
       initialized = true;
       if (disposed) { destroy(); return; }
-      el.appendChild(app.canvas);
-      const scene = buildCityScene();
+      const textures=await loadCityTextures();
+      if(disposed){destroy();return;}
+      const scene = buildCityScene(textures);
       app.stage.addChild(scene.world);
+      el.appendChild(app.canvas);
       const size=()=>({width:el.clientWidth,height:el.clientHeight});
       const origin=()=>cameraOrigin(size());
       let frame = 0;

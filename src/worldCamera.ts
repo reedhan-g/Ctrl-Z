@@ -4,7 +4,9 @@ import type { CameraGesture } from './camera.ts';
 
 export interface ViewSize {width:number;height:number}
 export interface CameraView extends ViewSize {scale:number;origin:Point;pan:Point;zoom:number;footprint:{x:number;y:number;width:number;height:number}}
-export const baseScale=(s:ViewSize)=>Math.max(.001,Math.min(s.width/880,s.height/650));
+// Ordinary exploration shows architecture; the existing zoom-out controls
+// remain the overview. Do not fit the entire expanded world into the opening.
+export const baseScale=(s:ViewSize)=>Math.max(.001,Math.min(s.width/650,s.height/480));
 export const cameraOrigin=(s:ViewSize):Point=>({x:s.width/2,y:s.height*.19});
 export function boundedView(camera:CameraGesture,s:ViewSize):CameraView {
  const base=baseScale(s);

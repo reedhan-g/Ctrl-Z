@@ -21,8 +21,8 @@ test('late water delivery recovers a depleted reserve and keyboard undo works fr
 
 test('foreground residence roof selects residences and help returns focus',async({page})=>{
  await page.goto('./');const canvas=page.locator('canvas');await expect(canvas).toBeVisible();
- const box=(await canvas.boundingBox())!,scale=Math.min(box.width/880,box.height/650);
- await canvas.click({position:{x:box.width/2,y:box.height*.19+156.6*scale}});
+ const v=await page.locator('.city-canvas').evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!));
+ await canvas.click({position:{x:v.origin.x+v.pan.x,y:v.origin.y+v.pan.y+156.6*v.scale}});
  await expect(page.getByRole('heading',{name:'Maple residences',exact:true})).toBeVisible();
  const help=page.getByRole('button',{name:'How to play'});await help.click();
  await expect(page.getByRole('button',{name:'Close help'})).toBeFocused();

@@ -1,9 +1,11 @@
 import { buildings } from './simulation.ts';
 import {world,districtAt} from './world.ts';
 import {iso,prismFaces,flatten,type Point} from './geometry.ts';
+import {cityModels,type CityModel} from './cityModels.ts';
 
 export interface Rect {x:number;y:number;width:number;height:number}
-export interface Scenery {id:string;x:number;y:number;width:number;depth:number;height:number;variant:number;district:ReturnType<typeof districtAt>;faces:Point[][];bounds:Rect}
+export interface Scenery {id:string;x:number;y:number;width:number;depth:number;height:number;variant:number;model:CityModel;district:ReturnType<typeof districtAt>;faces:Point[][];bounds:Rect}
+export const sceneryDepth=(b:Scenery)=>(b.x+b.y+(b.width+b.depth)/2)*100;
 export function boundsOf(points:Point[],margin=0):Rect {
  const xs=points.map(p=>p.x),ys=points.map(p=>p.y);
  const x=Math.min(...xs)-margin,y=Math.min(...ys)-margin;
@@ -11,18 +13,26 @@ export function boundsOf(points:Point[],margin=0):Rect {
 }
 export const intersects=(a:Rect,b:Rect,margin=0)=>a.x+a.width>=b.x-margin&&a.x<=b.x+b.width+margin&&a.y+a.height>=b.y-margin&&a.y<=b.y+b.height+margin;
 const scenery:Scenery[]=[];
-function add(x:number,y:number,height?:number){
- if(buildings.some(b=>x<b.x+2&&x+1.8>b.x&&y<b.y+2&&y+1.8>b.y))return;
- const hash=((x+30)*73856093^(y+30)*19349663)>>>0,variant=hash%4,district=districtAt(x,y);
- const h=height??(district.id==='industry'?24+hash%20:district.id==='residential'?48+hash%30:40+hash%40);
- const faces=prismFaces(x+.08,y+.08,1.65,1.65,h);
- scenery.push({id:`scenery:${x}:${y}`,x:x+.08,y:y+.08,width:1.65,depth:1.65,height:h,variant,district,faces,bounds:boundsOf(faces.flat(),12)});
+function add(x:number,y:number,chosen?:CityModel){
+ const district=districtAt(x,y),blockX=Math.floor(x/5),blockY=Math.floor(y/5),variant=((blockX*3+blockY*5+Math.floor((x-blockX*5)*2))%4+4)%4;
+ const choices:Record<string,CityModel[]>={market:['market','noodle','cinema','arcade'],industry:['workshop','warehouse','studio','workshop'],residential:['walkup','cafe','apartments','walkup'],logistics:['warehouse','workshop','cafe','studio'],civic:['cafe','market','studio','walkup']};
+ const model=chosen??choices[district.id][variant],m=cityModels[model];
+ if(buildings.some(b=>x<b.x+2.1&&x+m.width>b.x-.1&&y<b.y+2.1&&y+m.depth>b.y-.1))return;
+ // Preserve an open approach around service frontages, not a wall of decoration.
+ const faces=prismFaces(x,y,m.width,m.depth,m.height);
+ scenery.push({id:`scenery:${x}:${y}`,x,y,width:m.width,depth:m.depth,height:m.height,variant,model,district,faces,bounds:boundsOf(faces.flat(),40)});
 }
 // Two composed parcels per block leave a service alley/courtyard instead of
 // filling all four lots. Low frontages keep the diagonal street sightline open.
 for(let x=world.min;x<world.max;x+=5)for(let y=world.min;y<world.max;y+=5)
- for(const [dx,dy] of [[.15,.15],[2.1,1.9]]){const a=x+dx,b=y+dy;if(a>=0&&a<10&&b>=0&&b<10)continue;add(a,b);}
-for(const [x,y,h] of [[0,0,40],[8,0,44],[0,8,34],[8,8,25],[6,8,28],[8,6,30],[2,0,32],[0,2,37]])add(x,y,h);
+ {const layout=((x/5+y/5)%3+3)%3;
+  const parcels=layout===0?[[.15,.15],[2.1,2.1]]:layout===1?[[.15,1.85],[2.1,.15]]:[[1.85,.15],[.15,2.1]];
+  parcels.forEach(([dx,dy],i)=>{const a=x+dx,b=y+dy;if(a>=0&&a<10&&b>=0&&b<10)return;
+   add(a,b,i===1?(['noodle','walkup','cafe'] as const)[layout]:undefined);});
+ }
+// The narrow strips beside core services are courtyards, not undersized lots
+// with buildings spilling across road 9. Keep the service approaches open.
+for(const [x,y,model] of [[0,0,'market'],[2,0,'arcade'],[0,2,'walkup']] as const)add(x,y,model);
 export const cityScenery:readonly Scenery[]=scenery;
 export const groundPolygon=(x:number,y:number,size:number)=>prismFaces(x,y,size,size,0)[2];
 export const polygonNumbers=(p:Point[])=>flatten(p);

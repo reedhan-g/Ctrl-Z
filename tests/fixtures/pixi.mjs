@@ -1,5 +1,8 @@
 // Scene-graph test double only. GPU rendering is covered by Playwright separately.
 export const stats = { created: 0, destroyed: 0, drawn: 0 };
+export const Assets={};
+export class Rectangle {}
+export class Texture {}
 export class Container {
   children = [];
   x=0; y=0;
@@ -8,6 +11,7 @@ export class Container {
   addChild(...children) { this.children.push(...children); return children[0]; }
   destroy() { stats.destroyed++; this.children.forEach(child => child.destroy()); }
 }
+export class Sprite extends Container { constructor(texture){super();this.texture=texture;} }
 export class Graphics extends Container {
   clears = 0;
   clear() { this.clears++; return this; }
