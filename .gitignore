@@ -7,3 +7,5 @@ dist/
 *.tsbuildinfo
 playwright-report/
 test-results/
+__pycache__/
+debug.log

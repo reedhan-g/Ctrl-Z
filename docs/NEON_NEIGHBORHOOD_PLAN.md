@@ -2,6 +2,8 @@
 
 Prepared 14 November 2026 against `9fcac4a4e1e06a549bda4f51b4b1c5f3e09d823f`. This is a design and implementation plan, not a claim that the new neighborhood is rendered or visually accepted.
 
+Progress: the documentation checkpoint merged as PR #1 / `0334947`. The first three-building Lantern Yard block is now implemented with original project art, authored placements and its court ground variant. DEVELOPMENT_STATUS.md records tests and actual screenshot review; the surrounding neighborhood, shared street redesign and visual acceptance remain outstanding. The proposal below remains the expansion contract.
+
 ## Reference and asset route
 
 Primary: [Neon City: Cyberpunk Pixel Building Kit by Antahonist](https://antahonist.itch.io/neon-city-cyberpunk-pixel-building-kit). Secondary: `design/pixel-city-reference-2.png`. The official banner and local secondary image were opened during this continuation. Mekai Games is not the governing reference. The public banner is retained only in ignored `test-results`, not shipped or committed as game art.

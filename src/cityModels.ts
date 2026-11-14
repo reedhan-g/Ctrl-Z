@@ -119,6 +119,24 @@ export const cityModels = {
   "width": 0.12,
   "depth": 0.12,
   "height": 36
+ },
+ "yardHouse": {
+  "index": 40,
+  "width": 1.65,
+  "depth": 1.5,
+  "height": 76
+ },
+ "lanternNoodles": {
+  "index": 42,
+  "width": 1.2,
+  "depth": 1.5,
+  "height": 48
+ },
+ "lanternCafe": {
+  "index": 44,
+  "width": 1.2,
+  "depth": 1.25,
+  "height": 28
  }
 } as const;
 export type CityModel = keyof typeof cityModels;
