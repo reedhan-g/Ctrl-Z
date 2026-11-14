@@ -8,6 +8,12 @@ export interface CameraView extends ViewSize {scale:number;origin:Point;pan:Poin
 // remain the overview. Do not fit the entire expanded world into the opening.
 export const baseScale=(s:ViewSize)=>Math.max(.001,Math.min(s.width/650,s.height/480));
 export const cameraOrigin=(s:ViewSize):Point=>({x:s.width/2,y:s.height*.19});
+// Present the authored civic crossroads away from the desktop minimap, with
+// room above the timeline. Gesture reset and minimap Home share this framing.
+export function frameOpening(camera:CameraGesture,s:ViewSize){
+ camera.reset();
+ camera.focus(iso(4.5,4.5),cameraOrigin(s),{x:s.width*(s.width<=760?.5:.58),y:s.height*(s.width<=760?.59:.68)},baseScale(s));
+}
 export function boundedView(camera:CameraGesture,s:ViewSize):CameraView {
  const base=baseScale(s);
  // All four inverse-projected viewport corners must remain on the finite land.

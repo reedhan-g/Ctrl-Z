@@ -61,6 +61,7 @@ export function buildCityScene(textures?:CityTextures) {
     const label = new Text({ text: b.id === 'grid' ? 'SUBSTATION' : b.id === 'hospital' ? 'HOSPITAL' : b.id === 'water' ? 'WATERWORKS' : b.id==='telecom'?'TELECOM':b.id==='logistics'?'DELIVERY HUB':'RESIDENCES',
       style: { fontFamily: 'monospace', fontSize: 10, fill: 0xabc0c6, letterSpacing: 1 } });
     label.anchor.set(.5); label.position.set(p.x, p.y - 24);
+    label.visible=false; // Architecture/signs lead; selection reveals the large label.
     layer.addChild(label); world.addChild(layer);
     return { b, layer, windows, indicator, selection, label, p, facade,tone: '', selected: false };
   });
@@ -97,6 +98,7 @@ export function buildCityScene(textures?:CityTextures) {
       if (view.selected !== selected) {
         changed = true; view.selected = selected; selection.clear();
         view.label.style.fill = selected ? 0xb9f3e4 : 0xabc0c6;
+        view.label.visible=selected;
         if (selected) selection.poly(flatten(prismFaces(b.x - .05, b.y - .05, 2.05, 2.05, 8)[2]))
           .stroke({ color: 0x8de4d1, width: 2 });
       }

@@ -1,5 +1,9 @@
 # Ctrl Z architecture
 
+## Visible overhaul on main
+
+CODEX_CURRENT_TASK.md now authorizes tested direct main pushes. Runtime architecture is original offline pixel art from city_architecture.py, infrastructure_art.py and lantern_art.py; light_art.py bakes paired architectural illumination. streetPlan.json defines the connected named street segments; world.ts roadAt/chunkRoadMask and minimapGeometry.ts consume the same data. street_art.py provides sixteen cached ground masks with on/off states. worldArt swaps these only when grid power changes, while service frames follow real status/reserves. neighborhoods.ts explicitly composes fifteen civic/Lantern blocks. City initialization, Reset and minimap Home use the pure frameOpening helper; low-power renderer recreation retains the player's camera. Domain, replay and v1 persistence remain independent and unchanged.
+
 ## Continuation contract — 2026-11-14
 
 Approved source baseline: `9fcac4a`. The primary reference is Antahonist Neon City; `design/pixel-city-reference-2.png` is secondary. `docs/NEON_NEIGHBORHOOD_PLAN.md` defines the proposed original-art exemplar and its origin/footprint/entrance/height contract. No new rendering system or third-party kit is integrated in the documentation milestone. Rejected commit-28/29 art, lighting, picking and overview code must not be imported.
