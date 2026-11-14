@@ -1,5 +1,5 @@
 import {Container,Graphics,Sprite,Text} from 'pixi.js';
-import {chunks,isRoad,places} from './world.ts';
+import {chunks,isRoad,roadAt,chunkRoadMask,places} from './world.ts';
 import {cityScenery,sceneryDepth,boundsOf,groundPolygon,polygonNumbers,type Rect} from './worldScenery.ts';
 import {iso} from './geometry.ts';
 import {block} from './cityArt.ts';
@@ -12,10 +12,10 @@ export function buildWorldArt(parent:Container,textures?:CityTextures){
  const facades:ReturnType<typeof architecture>[]=[];
  for(const chunk of chunks){
   const yard=chunk.x===lanternYard.x&&chunk.y===lanternYard.y;
-  const g=textures?new Sprite(yard?textures.lanternGround:textures.ground):new Graphics();g.zIndex=-9999;parent.addChild(g);
+  const g=textures?new Sprite(yard?textures.lanternGround:(textures.grounds?.[chunkRoadMask(chunk.x,chunk.y)]??textures.ground)):new Graphics();g.zIndex=-9999;parent.addChild(g);
   if(textures){const p=iso(chunk.x,chunk.y);g.position.set(p.x-200,p.y-12);}
   if(g instanceof Graphics)for(let x=chunk.x;x<chunk.x+5;x++)for(let y=chunk.y;y<chunk.y+5;y++){
-   const road=isRoad(x)||isRoad(y),color=road?0x151b29:0x252735;
+   const road=roadAt(x+.5,y+.5),color=road?0x151b29:0x252735;
    g.poly(polygonNumbers(groundPolygon(x,y,1))).fill(color);
    if(road){
     const p=iso(x+.5,y+.3),q=iso(x+.5,y+.7);
@@ -40,7 +40,7 @@ export function buildWorldArt(parent:Container,textures?:CityTextures){
   if(textures){
    const lamp=architecture(textures,'streetlamp',chunk.x+3.78,chunk.y+3.78);lamp.sprite.zIndex=(chunk.x+chunk.y+7.7)*100;parent.addChild(lamp.sprite);facades.push(lamp);
    const p=iso(chunk.x+3.78,chunk.y+3.78);entries.push({node:lamp.sprite,bounds:{x:p.x-15,y:p.y-42,width:30,height:55},kind:'scenery'});
-   if((chunk.x/5+chunk.y/5)%3===0){const car=architecture(textures,'carAmber',chunk.x+4.22,chunk.y+1.1);car.sprite.zIndex=(chunk.x+chunk.y+6)*100;parent.addChild(car.sprite);
+   if(roadAt(chunk.x+4.22,chunk.y+1.1)&&(chunk.x/5+chunk.y/5)%3===0){const car=architecture(textures,'carAmber',chunk.x+4.22,chunk.y+1.1);car.sprite.zIndex=(chunk.x+chunk.y+6)*100;parent.addChild(car.sprite);
     const p=iso(chunk.x+4.22,chunk.y+1.1);entries.push({node:car.sprite,bounds:{x:p.x-25,y:p.y-20,width:50,height:45},kind:'scenery'});}
   }
  }

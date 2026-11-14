@@ -1,11 +1,16 @@
 import { iso, type Point } from './geometry.ts';
+import streetPlan from './streetPlan.json' with {type:'json'};
 
 // The original service coordinates stay unchanged inside the expanded city.
 export const world = { min: -25, max: 35, size: 60, chunkSize: 5 } as const;
 export const landCorners = [iso(world.min,world.min),iso(world.max,world.min),iso(world.max,world.max),iso(world.min,world.max)];
 export const projectedBounds = {x:-world.size*39,y:world.min*40,width:world.size*78,height:world.size*40};
-export const roadAxes = Array.from({length:world.size/5},(_,i)=>world.min+i*5+4);
+export const streets=streetPlan;
+export const roadAxes = [...new Set(streets.map(s=>s.at))];
 export const isRoad = (n:number) => roadAxes.includes(Math.floor(n));
+export const roadAt=(x:number,y:number)=>streets.some(s=>s.axis==='x'?x>=s.at&&x<s.at+1&&y>=s.from&&y<s.to:y>=s.at&&y<s.at+1&&x>=s.from&&x<s.to);
+// East/south/west/north road edges select shared, offline rasterized ground.
+export const chunkRoadMask=(x:number,y:number)=>Number(roadAt(x+4.5,y+2))*1+Number(roadAt(x+2,y+4.5))*2+Number(roadAt(x-.5,y+2))*4+Number(roadAt(x+2,y-.5))*8;
 export const districts = [
  {id:'market',name:'Neon Market',x:-25,y:-25,w:30,d:30,color:0x48324e,accent:0xe582c6},
  {id:'industry',name:'Foundry Ward',x:5,y:-25,w:30,d:30,color:0x343a45,accent:0xeabb69},

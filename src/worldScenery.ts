@@ -3,6 +3,7 @@ import {world,districtAt,places} from './world.ts';
 import {iso,prismFaces,flatten,type Point} from './geometry.ts';
 import {cityModels,type CityModel} from './cityModels.ts';
 import {lanternYard} from './lanternYard.ts';
+import {neighborhoodBlocks} from './neighborhoods.ts';
 
 export interface Rect {x:number;y:number;width:number;height:number}
 export interface Scenery {id:string;x:number;y:number;width:number;depth:number;height:number;variant:number;model:CityModel;district:ReturnType<typeof districtAt>;faces:Point[][];bounds:Rect}
@@ -30,6 +31,11 @@ for(let x:number=world.min;x<world.max;x+=5)for(let y:number=world.min;y<world.m
   const place=places.find(p=>p.x===x&&p.y===y);
   if(x===lanternYard.x&&y===lanternYard.y){
    lanternYard.parcels.forEach(p=>add(p.x,p.y,p.model));continue;
+  }
+  const authored=neighborhoodBlocks.find(b=>b.x===x&&b.y===y);
+  if(authored){
+   add(x+.30,y+.30,authored.rear);
+   const front=cityModels[authored.front];add(x+3.55-front.width,y+3.55-front.depth,authored.front);continue;
   }
   if(place){
    const models:Record<typeof place.layout,CityModel[]>={market:['market','noodle','cafe'],works:['workshop'],housing:['walkup','cafe'],transport:['warehouse','cafe']};

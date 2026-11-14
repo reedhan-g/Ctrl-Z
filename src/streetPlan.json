@@ -1,0 +1,20 @@
+[
+ {"axis":"x","at":-21,"from":-25,"to":35,"name":"West Ring"},
+ {"axis":"x","at":4,"from":-25,"to":35,"name":"Meridian Avenue"},
+ {"axis":"x","at":29,"from":-25,"to":35,"name":"Freight Avenue"},
+ {"axis":"y","at":-21,"from":-25,"to":35,"name":"Lantern Boulevard"},
+ {"axis":"y","at":4,"from":-25,"to":35,"name":"Civic Avenue"},
+ {"axis":"y","at":29,"from":-25,"to":35,"name":"South Ring"},
+ {"axis":"x","at":-11,"from":-21,"to":4,"name":"Market Street"},
+ {"axis":"x","at":-1,"from":-11,"to":19,"name":"West Service Street"},
+ {"axis":"x","at":9,"from":-1,"to":29,"name":"Medical Street"},
+ {"axis":"x","at":19,"from":4,"to":29,"name":"Exchange Street"},
+ {"axis":"x","at":34,"from":19,"to":35,"name":"Freight Access"},
+ {"axis":"y","at":-11,"from":-21,"to":29,"name":"Foundry Street"},
+ {"axis":"y","at":-1,"from":-11,"to":9,"name":"North Service Street"},
+ {"axis":"y","at":9,"from":-1,"to":29,"name":"Maple Street"},
+ {"axis":"y","at":19,"from":-21,"to":9,"name":"Garden Street"},
+ {"axis":"y","at":34,"from":29,"to":35,"name":"Freight Yard Access"},
+ {"axis":"x","at":-16,"from":-21,"to":-11,"name":"Lantern Lane"},
+ {"axis":"y","at":-16,"from":-21,"to":-11,"name":"Lantern Court Street"}
+]

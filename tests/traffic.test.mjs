@@ -2,13 +2,14 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createInitialState,reduceGame} from '../src/gameState.ts';
 import {vehiclePosition,pickVehicle,vehicleRoute} from '../src/traffic.ts';
-import {isRoad,world} from '../src/world.ts';
+import {roadAt,world} from '../src/world.ts';
 const run=(...a)=>a.reduce(reduceGame,createInitialState());
 test('expanded courier route crosses outer districts on connected finite roads',()=>{
  assert.ok(vehicleRoute.some(p=>p.x<0));assert.ok(vehicleRoute.some(p=>p.y>10));
  for(let i=1;i<vehicleRoute.length;i++){
   const a=vehicleRoute[i-1],b=vehicleRoute[i];
-  assert.ok((a.x===b.x&&isRoad(a.x))||(a.y===b.y&&isRoad(a.y)));
+  assert.ok(a.x===b.x||a.y===b.y);
+  for(let t=0;t<=1;t+=.01)assert.ok(roadAt(a.x+(b.x-a.x)*t,a.y+(b.y-a.y)*t),'entire courier route remains on the shared street network');
   for(const n of [a.x,a.y,b.x,b.y])assert.ok(n>=world.min&&n<=world.max);
  }
 });
