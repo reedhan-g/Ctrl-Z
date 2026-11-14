@@ -10,7 +10,7 @@ Read **PROJECT_VISION.md** for the current consolidated vision. It incorporates 
 
 A readable, detailed dark neon pixel-art isometric city: individually distinguishable facades, entrances, storefront signs, roof equipment, stairs and visible intersections. Dark charcoal/purple mass with selective cyan, pink, lavender and amber light. Contemporary minimal UI; no generic vector towers, photorealism, full retro 8-bit styling or glossy dashboard aesthetic. Architectural quality and street breathing room take priority over building count.
 
-Primary reference: **design/pixel-city-reference-2.png**. Secondary: **design/neon-city-secondary-reference.jpg** for composition; tertiary: **design/ctrl-z-city-reference.png**. All were opened. CODEX_CITY_VISUAL_OVERHAUL.md is the highest-priority correction. The locally authored atlas is original artwork, not a reference background. Screenshot review is required; further bespoke silhouettes and reference detail remain improvements.
+Primary reference: **[Neon City by Antahonist](https://antahonist.itch.io/neon-city-cyberpunk-pixel-building-kit)**. Secondary: **design/pixel-city-reference-2.png**. Other local references remain supplementary. This supersedes the earlier visual-overhaul ranking; Mekai Games is not the governing reference. The locally authored atlas is original artwork, not purchased-kit art. No licensed Antahonist archive has been verified. The authored Lantern Yard plan is in **docs/NEON_NEIGHBORHOOD_PLAN.md**; actual new neighborhood art remains to be implemented and reviewed on desktop/mobile.
 
 ## Current foundation
 
@@ -26,9 +26,11 @@ The finite 60x60 world contains five visual districts, 284 scenery buildings, 14
 4. Verify mobile usability, portrait/landscape layouts, reduced motion and measured performance. Validate the existing persistence and rendering optimizations on real devices.
 5. Only after the first experience works well, consider internet, GPS/GNSS, digital payments and municipal water disruptions.
 
-CODEX_CITY_VISUAL_OVERHAUL.md takes priority over the earlier expansion-count target. The atlas and larger composed world are implemented; further reference refinement and real-device measurement precede additional scenarios. Named scenery destinations do not claim new dependency mechanics.
+The Antahonist neighborhood plan takes priority over the earlier expansion-count target. Continue from approved baseline `9fcac4a`; do not reintroduce rejected commit-28/29 city designs. The existing atlas and expanded world are implemented; the new authored neighborhood is planned. Reference refinement and real-device measurement precede additional scenarios. Named scenery destinations do not claim new dependency mechanics.
 
 ## Boundaries and Git authorization
+
+For the current Antahonist task, commit and push small, completed, tested checkpoints to `origin/neon-city-antahonist-from-27`, based directly on commit 27. This supersedes the standing main destination below. No automatic main merge or branch deployment. See AGENTS.md and CODEX_NEON_CITY_FROM_COMMIT_27.md for the active workflow; keep the handoff and status current.
 
 Work in this project; no public deployment or repository-visibility changes without separate approval. Keep simulation separate from rendering. Follow AGENTS.md and CODEX_TASK.md: the user explicitly authorizes automatic tested Conventional Commits and pushes to origin/main in reedhan-g/Ctrl-Z after every completed logical milestone. Review staged files and verify each push; never force-push, rewrite history or discard unrelated work. This supersedes the earlier documentation-review pause. Request elevated permissions when necessary and report blockers.
 
