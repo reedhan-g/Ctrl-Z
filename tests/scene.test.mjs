@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { registerHooks } from 'node:module';
 import { createInitialState } from '../src/gameState.ts';
 import {cityModels} from '../src/cityModels.ts';
+import {iso} from '../src/geometry.ts';
 
 const hooks = registerHooks({ resolve(specifier, context, nextResolve) {
   return specifier === 'pixi.js'
@@ -14,7 +15,7 @@ const { stats } = await import('./fixtures/pixi.mjs');
 hooks.deregister();
 
 test('atlas lighting swaps retained textures and keeps service backup distinct from city outage',()=>{
- const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{id:'street'}};
+ const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{id:'street'},lanternGround:{id:'yard'}};
  const scene=buildCityScene(textures);scene.update(createInitialState());
  const collect=node=>[node,...node.children.flatMap(collect)];
  const all=collect(scene.world),hospital=all.find(n=>n.texture===textures.hospital.on),shop=all.find(n=>n.texture===textures.market.on);
@@ -23,6 +24,20 @@ test('atlas lighting swaps retained textures and keeps service backup distinct f
  assert.equal(shop.texture,textures.market.off);assert.equal(hospital.texture,textures.hospital.on);
  scene.update({...createInitialState(),outage:true,time:24});assert.equal(hospital.texture,textures.hospital.off);
  scene.update(createInitialState());assert.equal(shop.texture,textures.market.on);assert.equal(hospital.texture,textures.hospital.on);
+ assert.equal(stats.created,created);scene.world.destroy();
+});
+
+test('authored Lantern Yard uses its ground and retained outage frames without creating services',()=>{
+ const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{id:'street'},lanternGround:{id:'yard'}};
+ const scene=buildCityScene(textures),state=createInitialState();scene.update(state);
+ const nodes=node=>[node,...node.children.flatMap(nodes)],all=nodes(scene.world);
+ assert.equal(all.filter(n=>n.texture===textures.lanternGround).length,1);
+ const views=['yardHouse','lanternNoodles','lanternCafe'].map(id=>({id,node:all.find(n=>n.texture===textures[id].on)}));
+ assert.ok(views.every(v=>v.node));const created=stats.created;
+ assert.deepEqual(scene.pick(iso(-17.05,-17.075,28)),{building:null,blocked:true},'café roof occludes picks as scenery');
+ scene.update({...state,outage:true});
+ for(const v of views)assert.equal(v.node.texture,textures[v.id].off);
+ scene.update(state);for(const v of views)assert.equal(v.node.texture,textures[v.id].on);
  assert.equal(stats.created,created);scene.world.destroy();
 });
 

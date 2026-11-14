@@ -4,13 +4,15 @@ import {cityScenery,sceneryDepth,boundsOf,groundPolygon,polygonNumbers,type Rect
 import {iso} from './geometry.ts';
 import {block} from './cityArt.ts';
 import {architecture,type CityTextures} from './pixelArt.ts';
+import {lanternYard} from './lanternYard.ts';
 
 export interface CullEntry {node:Container;bounds:Rect;kind:'ground'|'scenery'|'service'}
 export function buildWorldArt(parent:Container,textures?:CityTextures){
  const entries:CullEntry[]=[],lights: {g:Graphics;draw:(on:boolean)=>void}[]=[];
  const facades:ReturnType<typeof architecture>[]=[];
  for(const chunk of chunks){
-  const g=textures?new Sprite(textures.ground):new Graphics();g.zIndex=-9999;parent.addChild(g);
+  const yard=chunk.x===lanternYard.x&&chunk.y===lanternYard.y;
+  const g=textures?new Sprite(yard?textures.lanternGround:textures.ground):new Graphics();g.zIndex=-9999;parent.addChild(g);
   if(textures){const p=iso(chunk.x,chunk.y);g.position.set(p.x-200,p.y-12);}
   if(g instanceof Graphics)for(let x=chunk.x;x<chunk.x+5;x++)for(let y=chunk.y;y<chunk.y+5;y++){
    const road=isRoad(x)||isRoad(y),color=road?0x151b29:0x252735;
