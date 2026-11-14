@@ -8,6 +8,8 @@ This document is for a Codex account with no conversation history. It records th
 
 ### Active task and publishing destination — supersedes earlier branch restrictions
 
+Infrastructure checkpoint uses `scripts/infrastructure_art.py` for all six facility identities. It changes rendered architecture, not entity IDs, coordinates, failure rules or save schema. The hospital has separate emergency/patient wings; grid has a transformer yard; water has paired tanks; homes has terraces; telecom has an antenna exchange; logistics has loading bays. 71 unit checks, build and eight focused browser checks pass, with actual opening review.
+
 Street/layout checkpoint now shares 18 named partial/arterial street segments between world ground and minimap (`src/streetPlan.json`). `scripts/street_art.py` rasterizes sixteen shared ground masks; no per-frame ground drawing was added. Fifteen authored civic/Lantern block programs replace generic layouts in the key neighborhoods. 71 unit checks, build and ten browser checks pass, including full-route road validation and unchanged offscreen/replay/save behavior. Roads remain rectilinear in the isometric world, but no longer form an every-five-tile full-map crosshatch.
 
 Main artwork checkpoint replaces the ten general scenery sprites city-wide using `scripts/city_architecture.py`; this is original code-authored art with setbacks, balcony housing and role-specific shop/industrial silhouettes, not purchased kit pixels. 69 unit checks, build and eight focused browser checks pass; opening screenshot inspected. Continue with shared street layout, service identities, lighting and presentation; do not treat this first city-wide asset change as the completed overhaul.

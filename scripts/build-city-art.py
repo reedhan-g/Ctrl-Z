@@ -9,6 +9,7 @@ from PIL import Image, ImageDraw
 import lantern_art
 import city_architecture
 import street_art
+import infrastructure_art
 
 ROOT = Path(__file__).resolve().parents[1]
 MODELS = [
@@ -54,6 +55,8 @@ def make(model, powered):
         return lantern_art.render(model, powered, FONT)
     if name in city_architecture.STYLES:
         return city_architecture.render(model, powered, FONT)
+    if name in infrastructure_art.SERVICES:
+        return infrastructure_art.render(model, powered, FONT)
     im=Image.new('RGBA',(256,256)); g=ImageDraw.Draw(im)
     light=accent if powered else '#41404f'
     warm='#e7b36f' if powered else '#343643'
