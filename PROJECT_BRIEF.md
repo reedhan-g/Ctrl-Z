@@ -8,15 +8,15 @@ Read **PROJECT_VISION.md** for the current consolidated vision. It incorporates 
 
 ## Art direction
 
-A dense, handcrafted-looking dark neon 2D isometric city with moderate pixel-art influence. Dark charcoal/black base, cyan, pink, purple and warm yellow highlights. Crisp, readable, slightly pixel-inspired world assets; modern, clean, minimal UI; restrained smooth neon effects. Avoid photorealism, full retro 8-bit styling, generic concept art and glossy vector-dashboard aesthetics.
+A readable, detailed dark neon pixel-art isometric city: individually distinguishable facades, entrances, storefront signs, roof equipment, stairs and visible intersections. Dark charcoal/purple mass with selective cyan, pink, lavender and amber light. Contemporary minimal UI; no generic vector towers, photorealism, full retro 8-bit styling or glossy dashboard aesthetic. Architectural quality and street breathing room take priority over building count.
 
-Primary reference: **design/pixel-city-reference-2.png**. Secondary inspiration: **design/ctrl-z-city-reference.png** (the corrected filename). CODEX_TASK.md establishes this updated priority. Both were opened and inspected. Use them to guide original modular, independently interactive entities, not as a flattened game background. The expanded city has varied modular geometry; bespoke pixel detail and further reference fidelity remain unfinished. Compare actual desktop/mobile screenshots with the references before accepting art completion.
+Primary reference: **design/pixel-city-reference-2.png**. Secondary: **design/neon-city-secondary-reference.jpg** for composition; tertiary: **design/ctrl-z-city-reference.png**. All were opened. CODEX_CITY_VISUAL_OVERHAUL.md is the highest-priority correction. The locally authored atlas is original artwork, not a reference background. Screenshot review is required; further bespoke silhouettes and reference detail remain improvements.
 
 ## Current foundation
 
 React, TypeScript, Vite, PixiJS and Zustand. Six selectable buildings: substation, hospital, waterworks, residences, telecom and delivery hub. Rule-based electricity/water dependency effects, reserve depletion, two instantaneous supply actions, restore, exact manual-intervention undo, time controls, dependency tracing and an incident log. Pan, anchored zoom/pinch, mobile inspection and accessible building buttons exist.
 
-64 unit/regression checks, 44 desktop/mobile Chromium specifications and the TypeScript/Vite production build pass. Preserved-decision replay, branch comparison, two evidence-based investigation cases, reports with JSON export, and validated local saves are implemented. The finite 40x40 world contains five visual districts and 248 scenery buildings with retained culling. Three couriers follow connected outer-district roads with dispatch capacity. The interactive minimap shares actual projection, camera footprint and service state; camera navigation never advances simulation. See DEVELOPMENT_STATUS.md for limitations and physical-device QA gaps.
+The finite 60x60 world contains five visual districts, 284 scenery buildings, 144 shared ground sprites and six outer destinations with distinct block compositions. Six simulated services, three dispatch-driven couriers, both investigation cases, replay/comparison, report JSON and v1 saves are preserved. Camera/minimap navigation never advances simulation. Local textures use nearest filtering and retained culling; normal zoom shows architecture, City overview offers wider navigation. DEVELOPMENT_STATUS.md records current validation and device gaps.
 
 ## Development priority
 
@@ -26,7 +26,7 @@ React, TypeScript, Vite, PixiJS and Zustand. Six selectable buildings: substatio
 4. Verify mobile usability, portrait/landscape layouts, reduced motion and measured performance. Validate the existing persistence and rendering optimizations on real devices.
 5. Only after the first experience works well, consider internet, GPS/GNSS, digital payments and municipal water disruptions.
 
-CODEX_EXPANDED_CITY.md takes priority: the first finite expansion and interactive minimap are implemented and tested. Further simulated entity counts remain aspirations; scenery does not claim new dependency mechanics. Next refine reference fidelity and measure real-device performance while preserving the electricity experience. Additional scenarios follow that work.
+CODEX_CITY_VISUAL_OVERHAUL.md takes priority over the earlier expansion-count target. The atlas and larger composed world are implemented; further reference refinement and real-device measurement precede additional scenarios. Named scenery destinations do not claim new dependency mechanics.
 
 ## Boundaries and Git authorization
 

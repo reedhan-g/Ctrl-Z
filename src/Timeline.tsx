@@ -3,13 +3,21 @@ import { useGame, buildings, status } from './game';
 import { outageMessage } from './simulation';
 import { replayAt } from './replay';
 import { formatTime } from './time';
+import {useEffect,useRef} from 'react';
 
 export default function Timeline() {
  const s=useGame();
+ const element=useRef<HTMLDivElement>(null);
+ useEffect(()=>{
+  const node=element.current!,world=node.parentElement!;
+  const measure=()=>world.style.setProperty('--timeline-clearance',`${Math.ceil(world.clientHeight-node.offsetTop)}px`);
+  const observer=new ResizeObserver(measure);observer.observe(node);measure();
+  return ()=>{observer.disconnect();world.style.removeProperty('--timeline-clearance');};
+ },[]);
  const clock=formatTime(s.time);
  const baseline=replayAt(s.branches[0],s.time);
  const online=(snapshot: typeof baseline)=>buildings.filter(b=>status(b.id,snapshot).tone!=='bad').length;
- return <div className="timeline">
+ return <div className="timeline" ref={element}>
   {s.history.length>0&&<div className="branch-controls">
    <label>Timeline <select aria-label="Replay branch" value={s.activeBranch} onChange={e=>s.branch(Number(e.target.value))}>
     {s.branches.map(b=><option value={b.id} key={b.id}>{b.name}</option>)}

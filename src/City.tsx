@@ -92,6 +92,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
       const command = (e: Event) => {
         const action = (e as CustomEvent<string>).detail;
         if (action === 'reset') camera.reset();
+        else if(action==='overview'){camera.zoom=0;camera.pan={x:0,y:0};}
         else camera.zoomAt(action === 'in' ? 1.2 : 1 / 1.2, origin(), origin());
         fit();
       };

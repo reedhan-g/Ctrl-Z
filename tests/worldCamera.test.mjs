@@ -5,8 +5,8 @@ import {boundedView,screenToWorld,worldToScreen} from '../src/worldCamera.ts';
 import {iso,unproject} from '../src/geometry.ts';
 import {world} from '../src/world.ts';
 
-test('projection round trips and expanded land has sixteen times the tile area',()=>{
- assert.equal(world.size**2,1600);
+test('projection round trips and expanded land has thirty-six times the original tile area',()=>{
+ assert.equal(world.size**2,3600);
  for(const p of [{x:-15,y:25},{x:6,y:2},{x:25,y:25}])assert.deepEqual(unproject(iso(p.x,p.y)),p);
 });
 test('every viewport corner remains on finite land at extreme pans, zooms and sizes',()=>{

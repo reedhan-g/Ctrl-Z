@@ -4,6 +4,8 @@
 
 scripts/build-city-art.py authors original raster architecture and one reusable street texture offline. Committed PNGs and cityModels.ts make Node builds independent of Python/Pillow. pixelArt.ts loads Vite-hashed local assets, sets nearest-neighbor filtering, shares atlas frames and positions sprites using the same projection. City waits for textures before exposing the canvas. CityScene and worldArt retain sprites and swap powered/unpowered textures only on state changes; services follow actual status, scenery follows grid power. Domain/replay/save data do not contain texture or camera fields. The Graphics fallback exists for geometry/scene unit checks; browser checks exercise actual atlas rendering.
 
+world.ts now derives the finite 60x60 bounds/roads/chunks and defines six outer scenery destinations. worldScenery.ts composes non-overlapping street-clear parcels, with explicit destination overrides; minimap markers/navigation share those coordinates. Timeline.tsx measures its actual occupied vertical clearance through ResizeObserver so mobile controls and inspection do not overlap wrapped branch/event content. This adapter only publishes a CSS layout variable, never domain state.
+
 Keep modules separated by responsibility; move files only when an actual dependency or ownership problem warrants it.
 
 | Boundary | Modules | Rule |

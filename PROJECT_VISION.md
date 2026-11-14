@@ -6,11 +6,13 @@ CODEX_CITY_VISUAL_OVERHAUL.md supersedes the earlier emphasis on procedural buil
 
 Recompose the current 40x40 land first, then extend useful geography toward 60x60 if measurements support it. Preserve fixed viewport sizing, minimap accuracy, gameplay and saves. Use curated parcels and original local pixel textures with crisp filtering rather than repeating tall cuboids. Reference fidelity requires real screenshot review across districts and mobile; passing functional tests alone cannot certify it. docs/VISUAL_OVERHAUL.md records the audit and plan.
 
+The first correction now uses original local pixel textures city-wide and a finite 60x60 world, with composed parcels, six named outer destinations and a closer normal exploration scale. Services, minimap navigation, offscreen rules and v1 saves retain their identities. City overview is a separate wide view; it does not define the normal architectural scale. The atlas is an original modular vocabulary rather than a claim of exact reference fidelity. Further bespoke architecture and real-device profiling remain future refinement.
+
 ## Authority and reference images
 
 This is the current consolidated product vision, aligned with the creator's instructions and reference review on 2026-11-13. Use it with AGENTS.md for development workflow and DEVELOPMENT_STATUS.md for actual implementation status. It supersedes conflicting product/style statements in older briefs and CTRL_Z_PROJECT_VISION.md; that original source is retained for provenance. Planned behavior below is not a claim that it already exists.
 
-The primary visual direction is **design/pixel-city-reference-2.png**, the uploaded neon pixel-art reference. **design/ctrl-z-city-reference.png** is secondary inspiration for urban composition and consistent isometric streets. Both images were opened and inspected. CODEX_TASK.md explicitly establishes this priority, superseding the earlier ordering. References guide original interactive assets, not flattened game backgrounds. Neither image is a runtime asset or an assertion that its artwork may be redistributed in a released game.
+The primary visual direction is **design/pixel-city-reference-2.png**. **design/neon-city-secondary-reference.jpg** supplies secondary street-composition guidance; **design/ctrl-z-city-reference.png** is tertiary world guidance. All were opened and inspected. CODEX_CITY_VISUAL_OVERHAUL.md establishes this order. References guide original interactive assets, not flattened runtime backgrounds or artwork copied into released assets.
 
 ## Identity and complete gameplay loop
 

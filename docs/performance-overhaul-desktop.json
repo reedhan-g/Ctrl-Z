@@ -1,0 +1,12 @@
+{
+  "project": "desktop",
+  "readyMs": 2040,
+  "idleDrawCalls": 0,
+  "dragMs": 3059,
+  "dragDrawCalls": 30,
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "device": "Emulated Chromium; software GPU, not physical-device FPS"
+}

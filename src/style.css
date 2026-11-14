@@ -66,3 +66,7 @@
 @media(max-width:760px){.minimap{top:70px;left:auto;right:14px;width:220px;padding:0}.minimap-heading{position:absolute;left:-46px;top:0}.minimap-heading>span,.minimap-legend{display:none}.minimap-heading button{width:44px;height:44px;font-size:9px}.minimap[data-expanded=false]{width:44px;height:44px;border:0;background:none;box-shadow:none}.minimap[data-expanded=false] .minimap-heading{left:0}.inspector{bottom:310px;max-height:210px}}
 
 .minimap svg{cursor:crosshair}.minimap svg:focus-visible{outline:2px solid #8de4d1;outline-offset:3px}.minimap-landmarks{width:100%;min-height:44px;background:#1a2536;color:#c9e9e4;border:1px solid #55627a;border-radius:4px;font-size:10px;margin-top:4px}@media(max-width:760px){.minimap-landmarks{display:none}}
+
+/* Branch comparisons and wrapped incident text change the timeline height.
+   Keep full touch targets clear rather than relying on a fixed bottom offset. */
+@media(max-width:760px){.world .map-controls,.world:has(.inspector) .map-controls{bottom:calc(var(--timeline-clearance,260px) + 12px)}.world .inspector{bottom:calc(var(--timeline-clearance,260px) + 68px);max-height:max(120px,calc(100% - var(--timeline-clearance,260px) - 258px))}}

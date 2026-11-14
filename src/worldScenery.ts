@@ -1,5 +1,5 @@
 import { buildings } from './simulation.ts';
-import {world,districtAt} from './world.ts';
+import {world,districtAt,places} from './world.ts';
 import {iso,prismFaces,flatten,type Point} from './geometry.ts';
 import {cityModels,type CityModel} from './cityModels.ts';
 
@@ -24,8 +24,14 @@ function add(x:number,y:number,chosen?:CityModel){
 }
 // Two composed parcels per block leave a service alley/courtyard instead of
 // filling all four lots. Low frontages keep the diagonal street sightline open.
-for(let x=world.min;x<world.max;x+=5)for(let y=world.min;y<world.max;y+=5)
+for(let x:number=world.min;x<world.max;x+=5)for(let y:number=world.min;y<world.max;y+=5)
  {const layout=((x/5+y/5)%3+3)%3;
+  const place=places.find(p=>p.x===x&&p.y===y);
+  if(place){
+   const models:Record<typeof place.layout,CityModel[]>={market:['market','noodle','cafe'],works:['workshop'],housing:['walkup','cafe'],transport:['warehouse','cafe']};
+   const m=models[place.layout];add(x+.15,y+.15,m[0]);
+   if(m[1])add(x+2.1,y+2.1,m[1]);if(m[2])add(x+2.1,y+.15,m[2]);continue;
+  }
   const parcels=layout===0?[[.15,.15],[2.1,2.1]]:layout===1?[[.15,1.85],[2.1,.15]]:[[1.85,.15],[.15,2.1]];
   parcels.forEach(([dx,dy],i)=>{const a=x+dx,b=y+dy;if(a>=0&&a<10&&b>=0&&b<10)return;
    add(a,b,i===1?(['noodle','walkup','cafe'] as const)[layout]:undefined);});

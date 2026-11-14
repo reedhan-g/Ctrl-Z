@@ -15,7 +15,8 @@ export const sortedBuildings = [...buildings].sort((a, b) => (a.x + a.y) - (b.x 
 export function buildingFaces(b: typeof buildings[number]): Point[][] {
   return [
     ...prismFaces(b.x, b.y, 1.9, 1.9, 7),
-    ...prismFaces(b.x + .12, b.y + .12, 1.65, 1.65, b.height, 7),
+    // Atlas masonry is inset .03 within the shared 1.9-tile service footprint.
+    ...prismFaces(b.x + .03, b.y + .03, 1.84, 1.84, b.height, 5),
     ...prismFaces(b.x + .4, b.y + .4, 1, 1, b.height + 6, b.height),
   ];
 }
