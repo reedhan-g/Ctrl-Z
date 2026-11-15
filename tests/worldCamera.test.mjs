@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {CameraGesture} from '../src/camera.ts';
 import {boundedView,screenToWorld,worldToScreen,frameOpening,frameInspection,unobstructedViewport} from '../src/worldCamera.ts';
 import {iso,unproject} from '../src/geometry.ts';
+import {buildings} from '../src/simulation.ts';
 import {world} from '../src/world.ts';
 
 test('projection round trips and expanded land has thirty-six times the original tile area',()=>{
@@ -30,7 +31,7 @@ test('opening frames the civic intersection clear of the desktop minimap and mob
   assert.equal(camera.zoom,1);
   assert.ok(Math.abs(cross.x-size.width*(size.width<=760?.5:.58))<1e-6);
   assert.ok(Math.abs(cross.y-size.height*(size.width<=760?.59:.68))<1e-6);
-  const hospital=worldToScreen(iso(6.9,2.9,40),view);
+  const b=buildings.find(b=>b.id==='hospital'),hospital=worldToScreen(iso(b.x+.9,b.y+.9,40),view);
   assert.ok(hospital.x>size.width*.5&&hospital.x<size.width);
   assert.ok(hospital.y>0&&hospital.y<size.height*.8);
  }

@@ -1,6 +1,7 @@
 import {test,expect} from '@playwright/test';
 import {buildings} from '../../src/simulation';
 import {spriteBounds} from '../../src/spriteHit';
+import {iso} from '../../src/geometry';
 import {worldToScreen} from '../../src/worldCamera';
 
 test('all six services frame their complete silhouettes clear of measured overlays',async({page},info)=>{
@@ -25,7 +26,11 @@ test('all six services frame their complete silhouettes clear of measured overla
  };
  for(const b of buildings){
   await page.locator('.building-list').getByRole('button',{name:new RegExp(b.name)}).click();await verify(b.id);
-  if(['hospital','water','logistics'].includes(b.id))await page.locator('.world').screenshot({path:info.outputPath(`framed-${b.id}.png`)});
+  await host.scrollIntoViewIfNeeded();const box=(await host.boundingBox())!,view=await host.evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!)),point=worldToScreen(iso(b.x+.9,b.y+.9,b.height*.45),view),scroll=await page.evaluate(()=>scrollY);
+  if(info.project.name==='mobile')await page.touchscreen.tap(box.x+point.x,box.y+point.y);else await page.mouse.click(box.x+point.x,box.y+point.y);
+  await verify(b.id);expect(await page.evaluate(()=>scrollY)).toBe(scroll);
+  expect((await host.boundingBox())!.height).toBe(box.height);
+  await page.locator('.world').screenshot({path:info.outputPath(`framed-${b.id}.png`)});
  }
  if(info.project.name==='mobile'){await panel.getByRole('button',{name:'Collapse inspection'}).click();await verify('logistics');await panel.getByRole('button',{name:'Expand inspection'}).click();await verify('logistics');}
  // Reselecting the same service after manual navigation must also reframe.
@@ -34,7 +39,9 @@ test('all six services frame their complete silhouettes clear of measured overla
  const expand=page.getByRole('button',{name:'Expand minimap'});if(await expand.isVisible())await expand.click();
  if(info.project.name==='desktop')await page.getByLabel('Minimap landmark navigation').selectOption('hospital');else await page.locator('[data-landmark="hospital"]').press('Enter');await verify('hospital');
  if(await expand.isVisible())await expand.click();
- await page.locator('[data-landmark="water"]').press('Enter');await verify('water');
+ const marker=page.locator('[data-landmark="water"]');await marker.scrollIntoViewIfNeeded();
+ const target=await marker.evaluate(el=>{const q=new DOMPoint(0,0).matrixTransform((el as SVGGraphicsElement).getScreenCTM()!);return {x:q.x,y:q.y};});
+ if(info.project.name==='mobile')await page.touchscreen.tap(target.x,target.y);else await page.mouse.click(target.x,target.y);await verify('water');
  // A real canvas hit uses the same framing path, without changing page layout.
  await host.scrollIntoViewIfNeeded();const box=(await host.boundingBox())!,view=await host.evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!));
  const b=buildings.find(b=>b.id==='water')!,bounds=spriteBounds(b.id,b.x,b.y),p=worldToScreen({x:bounds.x+bounds.width/2,y:bounds.y+bounds.height/2},view);

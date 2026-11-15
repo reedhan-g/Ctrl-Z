@@ -1,4 +1,7 @@
 import {test,expect} from '@playwright/test';
+import {buildings} from '../../src/simulation';
+import {iso} from '../../src/geometry';
+const hospital=buildings.find(b=>b.id==='hospital')!,hospitalPoint=iso(hospital.x+.9,hospital.y+.9,30);
 test('outage, inspection, supplies, time travel and recovery',async({page})=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto('./');
@@ -30,7 +33,7 @@ test('canvas selection and camera drag',async({page})=>{
  await page.goto('./');const canvas=page.locator('canvas');await expect(canvas).toBeVisible();
  const box=(await canvas.boundingBox())!;
  const v=await page.locator('.city-canvas').evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!));
- await canvas.click({position:{x:v.origin.x+v.pan.x+156*v.scale,y:v.origin.y+v.pan.y+151*v.scale}});
+ await canvas.click({position:{x:v.origin.x+v.pan.x+hospitalPoint.x*v.scale,y:v.origin.y+v.pan.y+hospitalPoint.y*v.scale}});
  await expect(page.getByRole('heading',{name:'St. Mira Hospital',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Close inspection'}).click();
  // Building selection is also exposed as ordinary buttons for keyboard and touch users.

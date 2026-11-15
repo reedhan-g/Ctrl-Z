@@ -2,7 +2,7 @@ import {memo,useEffect,useState,useRef,type PointerEvent as ReactPointerEvent} f
 import {useGame,buildings,status,type BuildingId} from './game';
 import {useNavigation} from './navigation';
 import {fleet,vehiclePosition} from './traffic';
-import {places} from './world';
+import {places,placeFocus} from './world';
 import {iso} from './geometry';
 import {findScenery,sceneryInfo} from './sceneryInfo';
 import {minimapBounds as box,minimapDistricts,minimapLand,minimapRoads,landmarkPoint,symbols,MinimapDrag} from './minimapGeometry';
@@ -11,7 +11,7 @@ const Geography=memo(function Geography(){return <g aria-hidden="true">
  <polygon points={minimapLand} fill="#151a29" stroke="#68808c" strokeWidth="12"/>
  {minimapDistricts.map(d=><polygon key={d.id} points={d.points} fill={`#${d.color.toString(16).padStart(6,'0')}`} stroke="#626071" strokeWidth="8"/>)}
  {minimapRoads.map((road,i)=><path key={i} d={`M${road[0].x},${road[0].y} L${road[1].x},${road[1].y}`} stroke="#8b829b" strokeWidth="13" fill="none"/>)}
- {places.map(place=>{const p=iso(place.x+2.5,place.y+2.5);return <g key={place.id}><circle cx={p.x} cy={p.y} r="28" fill="#e5a6d3"/><title>{place.name} — scenery destination</title></g>;})}
+ {places.map(place=>{const p=placeFocus(place);return <g key={place.id}><circle cx={p.x} cy={p.y} r="28" fill="#e5a6d3"/><title>{place.name} — scenery destination</title></g>;})}
  </g>;});
 
 export default function Minimap(){
@@ -33,7 +33,11 @@ export default function Minimap(){
   const p=point(e);if(!p)return;
   e.currentTarget.focus({preventScroll:true});e.currentTarget.setPointerCapture(e.pointerId);pointer.current=e.pointerId;
   const grabbed=(e.target as Element).getAttribute('data-footprint')==='true';
-  const landmark=(e.target as Element).closest('[data-landmark]')?.getAttribute('data-landmark') as BuildingId|null;
+  const candidate=(e.target as Element).closest('[data-landmark]')?.getAttribute('data-landmark') as BuildingId|null;
+  // Native touch adjustment can retarget empty land to a nearby focusable SVG.
+  // Accept the service only inside its visible marker, using canvas coordinates.
+  const center=candidate?landmarkPoint(candidate):null;
+  const landmark=center&&Math.hypot(p.x-center.x,p.y-center.y)<=80?candidate:null;
   tap.current={x:e.clientX,y:e.clientY,point:{x:p.x,y:p.y},moved:false,grabbed,landmark};
   const target=drag.current.down(p,footprint,grabbed);if(!landmark)useNavigation.getState().recenter(target);
  };
@@ -70,7 +74,7 @@ export default function Minimap(){
 
    </svg>
    <p className="minimap-legend">P power · H hospital · W water · T telecom · L logistics · R homes<br/>! interrupted · ~ reserve. Other buildings are scenery.</p>
-   <select className="minimap-landmarks" aria-label="Minimap landmark navigation" defaultValue="" onChange={e=>{const place=places.find(p=>p.id===e.target.value);if(place)useNavigation.getState().recenter(iso(place.x+2.5,place.y+2.5));else if(e.target.value)s.select(e.target.value as BuildingId);e.target.value='';}}>
+   <select className="minimap-landmarks" aria-label="Minimap landmark navigation" defaultValue="" onChange={e=>{const place=places.find(p=>p.id===e.target.value);if(place)useNavigation.getState().recenter(placeFocus(place));else if(e.target.value)s.select(e.target.value as BuildingId);e.target.value='';}}>
     <option value="">Navigate to a place…</option><optgroup label="Simulated services">{buildings.map(b=><option value={b.id} key={b.id}>{b.name}</option>)}</optgroup><optgroup label="District destinations (scenery)">{places.map(p=><option value={p.id} key={p.id}>{p.name}</option>)}</optgroup>
    </select>
   </>}

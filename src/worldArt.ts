@@ -36,7 +36,7 @@ export function buildWorldArt(parent:Container,textures?:CityTextures){
   entries.push({node:g,bounds:boundsOf(groundPolygon(chunk.x,chunk.y,5),2),kind:'ground'});
   const place=places.find(p=>p.x===chunk.x&&p.y===chunk.y);
   if(place){
-   const p=iso(chunk.x+3,chunk.y+3),label=new Text({text:place.name.toUpperCase(),style:{fontFamily:'monospace',fontSize:10,fill:0xc2b7c8,letterSpacing:1}});
+   const p=iso(chunk.x+3.55,chunk.y+3.55),label=new Text({text:place.name.toUpperCase(),style:{fontFamily:'monospace',fontSize:10,fill:0xc2b7c8,letterSpacing:1}});
    label.anchor.set(.5);label.position.set(p.x,p.y+8);label.zIndex=-9990;parent.addChild(label);
    entries.push({node:label,bounds:{x:p.x-70,y:p.y,width:140,height:30},kind:'scenery'});
   }

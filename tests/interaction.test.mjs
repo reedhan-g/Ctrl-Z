@@ -1,15 +1,17 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { iso, pickBuilding, prismFaces, pointInPolygon } from '../src/geometry.ts';
+import {buildings} from '../src/simulation.ts';
+const at=(id,x,y,z)=>{const b=buildings.find(b=>b.id===id);return iso(b.x+x,b.y+y,z);};
 import { shortcutFor } from '../src/keyboard.ts';
 
-test('residence roof selects the foreground residence, not the substation', () => {
-  assert.equal(pickBuilding(iso(6.94, 6.94, 121)), 'homes');
+test('residence roof selects its stable service identity', () => {
+  assert.equal(pickBuilding(at('homes',.94,.94,121)), 'homes');
 });
 test('roof and facade taps select hospital and waterworks', () => {
-  assert.equal(pickBuilding(iso(6.94, 2.94, 100)), 'hospital');
-  assert.equal(pickBuilding(iso(2.94, 6.94, 63)), 'water');
-  assert.equal(pickBuilding(iso(7.77, 2.8, 30)), 'hospital');
+  assert.equal(pickBuilding(at('hospital',.94,.94,100)), 'hospital');
+  assert.equal(pickBuilding(at('water',.94,.94,63)), 'water');
+  assert.equal(pickBuilding(at('hospital',1.77,.8,30)), 'hospital');
 });
 test('empty streets and off-map taps do not select a nearby building', () => {
   assert.equal(pickBuilding(iso(4.5, 9.5)), null);

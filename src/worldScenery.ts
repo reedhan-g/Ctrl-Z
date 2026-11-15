@@ -17,7 +17,7 @@ export const intersects=(a:Rect,b:Rect,margin=0)=>a.x+a.width>=b.x-margin&&a.x<=
 const scenery:Scenery[]=[];
 function add(x:number,y:number,chosen?:CityModel){
  const district=districtAt(x,y),blockX=Math.floor(x/5),blockY=Math.floor(y/5),variant=((blockX*3+blockY*5+Math.floor((x-blockX*5)*2))%4+4)%4;
- const choices:Record<string,CityModel[]>={market:['market','noodle','cinema','arcade'],industry:['workshop','warehouse','studio','workshop'],residential:['walkup','cafe','apartments','walkup'],logistics:['warehouse','workshop','cafe','studio'],civic:['cafe','market','studio','walkup']};
+ const choices:Record<string,CityModel[]>={market:['market','noodle','cinema','arcade'],industry:['workshop','warehouse','studio','workshop'],residential:['walkup','cafe','apartments','walkup'],logistics:['warehouse','workshop','cafe','studio'],utility:['workshop','warehouse','cafe','workshop'],civic:['cafe','market','studio','walkup']};
  const model=chosen??choices[district.id][variant],m=cityModels[model];
  if(buildings.some(b=>x<b.x+2.1&&x+m.width>b.x-.1&&y<b.y+2.1&&y+m.depth>b.y-.1))return;
  // Preserve an open approach around service frontages, not a wall of decoration.
@@ -46,9 +46,9 @@ for(let x:number=world.min;x<world.max;x+=5)for(let y:number=world.min;y<world.m
   parcels.forEach(([dx,dy],i)=>{const a=x+dx,b=y+dy;if(a>=0&&a<10&&b>=0&&b<10)return;
    add(a,b,i===1?(['noodle','walkup','cafe'] as const)[layout]:undefined);});
  }
-// The narrow strips beside core services are courtyards, not undersized lots
-// with buildings spilling across road 9. Keep the service approaches open.
-for(const [x,y,model] of [[0,0,'market'],[2,0,'arcade'],[0,2,'walkup']] as const)add(x,y,model);
+// Retain the existing civic shops; infill vacated service lots behind sidewalks.
+// Service footprint/approach exclusion above also applies to these parcels.
+for(const [x,y,model] of [[0,0,'market'],[2,0,'arcade'],[0,2,'walkup'],[1.9,2.1,'cafe']] as const)add(x,y,model);
 export const cityScenery:readonly Scenery[]=scenery;
 export const groundPolygon=(x:number,y:number,size:number)=>prismFaces(x,y,size,size,0)[2];
 export const polygonNumbers=(p:Point[])=>flatten(p);

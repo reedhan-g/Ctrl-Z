@@ -4,6 +4,7 @@ import { registerHooks } from 'node:module';
 import { createInitialState } from '../src/gameState.ts';
 import {cityModels} from '../src/cityModels.ts';
 import {iso} from '../src/geometry.ts';
+import {buildings} from '../src/simulation.ts';
 
 const hooks = registerHooks({ resolve(specifier, context, nextResolve) {
   return specifier === 'pixi.js'
@@ -104,4 +105,16 @@ test('scenery selection uses the same paint layer and clears when a service or e
  scene.update({...state,selected:'hospital',selectedScenery:id});assert.deepEqual(scene.selectionState().highlighted,['hospital']);
  assert.deepEqual(scene.pick({x:-10000,y:-10000}),{building:null,scenery:null,blocked:false});
  scene.update(state);assert.deepEqual(scene.selectionState().highlighted,[]);scene.world.destroy();
+});
+
+// The same retained renderer and alpha picking must follow relocated metadata.
+test('all six relocated landmarks remain directly pickable and highlight their own layer',()=>{
+ const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`},highlight:{id:`${id}:highlight`}}])),ground:{},lanternGround:{}};
+ const scene=buildCityScene(textures),state=createInitialState();
+ for(const b of buildings){
+  scene.update({...state,selected:b.id});
+  assert.deepEqual(scene.selectionState().highlighted,[b.id]);
+  assert.equal(scene.pick(iso(b.x+.9,b.y+.9,b.height*.45)).building,b.id);
+ }
+ scene.world.destroy();
 });

@@ -1,4 +1,7 @@
 import {test,expect} from '@playwright/test';
+import {buildings} from '../../src/simulation';
+import {iso} from '../../src/geometry';
+const hospital=buildings.find(b=>b.id==='hospital')!,hospitalPoint=iso(hospital.x+.9,hospital.y+.9,30);
 const viewOf=async(page:import('@playwright/test').Page)=>page.locator('.city-canvas').evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!));
 
 test('culled services keep outage, replay, report and saved response state',async({page},info)=>{
@@ -12,7 +15,8 @@ test('culled services keep outage, replay, report and saved response state',asyn
  for(let i=0;i<6;i++)await page.getByRole('button',{name:'Zoom in'}).click();
  if(await page.getByRole('button',{name:'Expand minimap'}).isVisible())await page.getByRole('button',{name:'Expand minimap'}).click();
  const map=page.getByRole('application',{name:'Interactive city minimap'});await map.scrollIntoViewIfNeeded();
- const p=await map.evaluate(el=>{const p=new DOMPoint(0,800).matrixTransform((el as SVGSVGElement).getScreenCTM()!);return {x:p.x,y:p.y};});
+ // This central empty-road view stays clear of the now-distributed services.
+ const p=await map.evaluate(el=>{const p=new DOMPoint(0,600).matrixTransform((el as SVGSVGElement).getScreenCTM()!);return {x:p.x,y:p.y};});
  if(info.project.name==='mobile')await page.touchscreen.tap(p.x,p.y);else await page.mouse.click(p.x,p.y);
  await expect.poll(()=>page.locator('.city-canvas').evaluate(el=>JSON.parse((el as HTMLElement).dataset.scene!).servicesVisible)).toBe(0);
  await expect(page.locator('[data-landmark="hospital"]')).toHaveAttribute('aria-label',/No water/);
@@ -38,6 +42,6 @@ test('native pinch and subsequent transformed picking preserve selection accurac
  expect((await viewOf(page)).zoom).toBeGreaterThan(before.zoom);await expect(page.getByRole('region',{name:'Building inspection'})).not.toBeVisible();
  await page.locator('.building-list').getByRole('button',{name:/St. Mira Hospital/}).click();await page.getByRole('button',{name:'Close inspection'}).click();
  await host.scrollIntoViewIfNeeded();const v=await viewOf(page);
- await page.locator('canvas').click({position:{x:v.origin.x+v.pan.x+156*v.scale,y:v.origin.y+v.pan.y+151*v.scale}});
+ await page.locator('canvas').click({position:{x:v.origin.x+v.pan.x+hospitalPoint.x*v.scale,y:v.origin.y+v.pan.y+hospitalPoint.y*v.scale}});
  await expect(page.getByRole('region',{name:'Building inspection'}).getByRole('heading',{name:'St. Mira Hospital'})).toBeVisible();
 });

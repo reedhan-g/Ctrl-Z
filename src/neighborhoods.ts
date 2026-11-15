@@ -9,6 +9,8 @@ export const neighborhoodBlocks:readonly {x:number;y:number;rear:CityModel;front
  {x:10,y:-5,rear:'workshop',front:'noodle',court:'Repair yard'},
  {x:-5,y:0,rear:'walkup',front:'cafe',court:'West garden'},
  {x:10,y:0,rear:'market',front:'noodle',court:'Medical shops'},
+ {x:0,y:5,rear:'workshop',front:'cafe',court:'Civic repair court'},
+ {x:5,y:5,rear:'walkup',front:'noodle',court:'Civic garden'},
  {x:-5,y:5,rear:'workshop',front:'cafe',court:'Dispatch access'},
  {x:10,y:5,rear:'walkup',front:'noodle',court:'Maple passage'},
  {x:-5,y:10,rear:'cinema',front:'cafe',court:'South forecourt'},

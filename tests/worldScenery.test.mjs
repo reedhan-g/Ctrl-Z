@@ -8,7 +8,7 @@ test('dense scenery has stable unique coordinates, varied districts and no servi
  assert.ok(cityScenery.filter(b=>b.height>100).length<cityScenery.length/4,'tall silhouettes remain occasional');
  assert.ok(new Set(cityScenery.map(b=>b.model)).size>=8,'districts need meaningful architectural variety');
  assert.equal(new Set(cityScenery.map(b=>b.id)).size,cityScenery.length);
- assert.equal(new Set(cityScenery.map(b=>b.district.id)).size,5);
+ assert.equal(new Set(cityScenery.map(b=>b.district.id)).size,6);
  assert.equal(new Set(cityScenery.map(b=>b.variant)).size,4);
  for(const b of cityScenery)for(const service of buildings)
   assert.ok(!(b.x<service.x+1.9&&b.x+b.width>service.x&&b.y<service.y+1.9&&b.y+b.depth>service.y),`${b.id} overlaps ${service.id}`);

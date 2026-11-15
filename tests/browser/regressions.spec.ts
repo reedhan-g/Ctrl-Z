@@ -1,4 +1,6 @@
 import {test,expect} from '@playwright/test';
+import {buildings} from '../../src/simulation';
+import {iso} from '../../src/geometry';
 
 test('late water delivery recovers a depleted reserve and keyboard undo works from a focused button',async({page})=>{
  await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
@@ -19,10 +21,12 @@ test('late water delivery recovers a depleted reserve and keyboard undo works fr
  await page.keyboard.press('Escape');await expect(panel).not.toBeVisible();
 });
 
-test('foreground residence roof selects residences and help returns focus',async({page})=>{
+test('relocated residence roof selects residences and help returns focus',async({page})=>{
  await page.goto('./');const canvas=page.locator('canvas');await expect(canvas).toBeVisible();
+ await page.locator('.building-list').getByRole('button',{name:/Maple residences/}).click();await page.getByRole('button',{name:'Close inspection'}).click();
+ const home=buildings.find(b=>b.id==='homes')!,roof=iso(home.x+.6,home.y+.6,home.height+3);
  const v=await page.locator('.city-canvas').evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!));
- await canvas.click({position:{x:v.origin.x+v.pan.x,y:v.origin.y+v.pan.y+156.6*v.scale}});
+ await canvas.click({position:{x:v.origin.x+v.pan.x+roof.x*v.scale,y:v.origin.y+v.pan.y+roof.y*v.scale}});
  await expect(page.getByRole('heading',{name:'Maple residences',exact:true})).toBeVisible();
  const help=page.getByRole('button',{name:'How to play'});await help.click();
  await expect(page.getByRole('button',{name:'Close help'})).toBeFocused();

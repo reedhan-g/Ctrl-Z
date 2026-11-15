@@ -1,6 +1,5 @@
 import {test,expect} from '@playwright/test';
-import {places} from '../../src/world';
-import {iso} from '../../src/geometry';
+import {places,placeFocus} from '../../src/world';
 
 test('captures opening, distinct outer districts, overview, outage and service framing',async({page},info)=>{
  test.setTimeout(120000);await page.emulateMedia({reducedMotion:'reduce'});
@@ -12,7 +11,7 @@ test('captures opening, distinct outer districts, overview, outage and service f
  for(const place of places.slice(0,4)){
   const expand=page.getByRole('button',{name:'Expand minimap'});if(await expand.isVisible())await expand.click();
   const map=page.getByRole('application',{name:'Interactive city minimap'});await map.scrollIntoViewIfNeeded();
-  const target=iso(place.x+2.5,place.y+2.5);
+  const target=placeFocus(place);
   if(info.project.name==='desktop')await page.getByRole('combobox',{name:'Minimap landmark navigation'}).selectOption(place.id);
   else{const p=await map.evaluate((el,p)=>{const q=new DOMPoint(p.x,p.y).matrixTransform((el as SVGSVGElement).getScreenCTM()!);return {x:q.x,y:q.y};},target);await page.touchscreen.tap(p.x,p.y);}
   const v=await host.evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!));
