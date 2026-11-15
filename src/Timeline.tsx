@@ -3,10 +3,10 @@ import { useGame, buildings, status } from './game';
 import { outageMessage } from './simulation';
 import { replayAt } from './replay';
 import { formatTime } from './time';
-import {useEffect,useRef} from 'react';
+import {useEffect,useRef,useState} from 'react';
 
 export default function Timeline() {
- const s=useGame();
+ const s=useGame(),[expanded,setExpanded]=useState(false);
  const element=useRef<HTMLDivElement>(null);
  useEffect(()=>{
   const node=element.current!,world=node.parentElement!;
@@ -17,7 +17,8 @@ export default function Timeline() {
  const clock=formatTime(s.time);
  const baseline=replayAt(s.branches[0],s.time);
  const online=(snapshot: typeof baseline)=>buildings.filter(b=>status(b.id,snapshot).tone!=='bad').length;
- return <div className="timeline" ref={element} aria-label="Simulation controls">
+ return <div className="timeline" ref={element} aria-label="Simulation controls" data-expanded={expanded}>
+  <button className="timeline-disclosure" aria-expanded={expanded} onClick={()=>setExpanded(!expanded)}>{expanded?'Less timeline detail':'Timeline details'}</button>
   {s.history.length>0&&<div className="branch-controls">
    <label>Timeline <select aria-label="Replay branch" value={s.activeBranch} onChange={e=>s.branch(Number(e.target.value))}>
     {s.branches.map(b=><option value={b.id} key={b.id}>{b.name}</option>)}

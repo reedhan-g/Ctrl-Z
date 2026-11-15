@@ -1,5 +1,12 @@
 # Ctrl Z — complete Codex account handoff
 
+## UI milestone 4 - phone console
+
+Inspection milestone e2ed567 is pushed with successful CI/Pages. Mobile now shows a compact mode/action row, six horizontally scrollable real system cards and the city before secondary tools. A compact transport retains native scrubbing; Timeline details reveals branches/events. Sheets remain independently scrollable and collapsible. Explicit facility accessible names preserve navigation when location text is visually hidden. Safe-area padding and dvh are used. A minimum 600px inspection stage on short phones is a narrowly scoped UI-overlap accommodation: smaller stages cannot fit tall approved sprites at existing minimum zoom. No camera/render/domain code changed.
+
+Build and 12 focused desktop/mobile cases pass, covering all-six framing, offscreen rules, save/resume, replay/facing and real UI captures. Earlier mobile naming/clearance failures were fixed rather than weakening assertions. Viewport captures/checks cover 320/360/375/390/430/768/1366/1440 widths; actual opening/selected renders reviewed in docs/ui-overhaul/mobile. Replay-related tests now explicitly open mobile Timeline details before using branch controls. Next: optional guide, final all-suite/performance/landscape checks and deployed verification.
+
+
 ## UI milestone 3 - inspection and feedback
 
 Resumed preserved changes at 8ed65c0 (systems milestone; CI/Pages succeeded). Inspector presents purpose, real condition and supply/reconnection actions before metrics; typography, disable explanations and secondary details are clearer. Save result has inline contrast; honest startup messaging remains until the canvas exists. Build and six inspector/low-power/real UI-review desktop/mobile cases pass; actual hospital screenshots reviewed and saved in docs/ui-overhaul/inspection. Approved map code/assets, simulation and persistence remain untouched. Next: map-first mobile shell, optional action-driven guide and final regression/deployed verification.

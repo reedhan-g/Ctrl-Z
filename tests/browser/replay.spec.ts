@@ -12,8 +12,10 @@ test('scrubbing preserves a response and compares it with the original outage',a
  await slider.press('End');for(let i=0;i<48;i++)await slider.press('ArrowLeft');
  await expect(panel.getByText('Backup power',{exact:true})).toBeVisible();
  await expect(panel.getByRole('button',{name:'Supplies delivered',exact:true})).toBeDisabled();
+ {const detail=page.getByRole('button',{name:'Timeline details',exact:true});if(await detail.isVisible())await detail.click();}
  await page.getByRole('combobox',{name:'Replay branch'}).selectOption('0');
  await expect(panel.getByText('Offline',{exact:true})).toBeVisible();
+ {const detail=page.getByRole('button',{name:'Timeline details',exact:true});if(await detail.isVisible())await detail.click();}
  await page.getByRole('combobox',{name:'Replay branch'}).selectOption('1');
  await expect(panel.getByText('Backup power',{exact:true})).toBeVisible();
  await expect(page.getByLabel('Outcome comparison')).toContainText('vs original');

@@ -67,6 +67,7 @@ test('vehicle facing survives pause, speed, recovery, rewind and response branch
  const panel=page.getByRole('region',{name:'Building inspection'});await panel.getByRole('button',{name:'Send backup supplies'}).click();state=reduceGame(state,{type:'boost',id:'water'});const branch=state.activeBranch;await assertTraffic(page,state);
  await seek(page,1);state=reduceGame(state,{type:'seek',time:1});
  await page.locator('.building-list').getByRole('button',{name:/Meridian telecom/}).click();await panel.getByRole('button',{name:'Send backup supplies'}).click();state=reduceGame(state,{type:'boost',id:'telecom'});await assertTraffic(page,state);
+ {const detail=page.getByRole('button',{name:'Timeline details',exact:true});if(await detail.isVisible())await detail.click();}
  await page.getByRole('combobox',{name:'Replay branch'}).selectOption(String(branch));state=reduceGame(state,{type:'branch',id:branch});
  await seek(page,3);state=reduceGame(state,{type:'seek',time:3});await assertTraffic(page,state);
  await page.getByRole('button',{name:'Restore electricity',exact:true}).click();state=reduceGame(state,{type:'restore'});await assertTraffic(page,state);

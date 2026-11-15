@@ -27,6 +27,7 @@ test('culled services keep outage, replay, report and saved response state',asyn
  await expect(page.locator('[data-landmark="hospital"]')).toHaveAttribute('aria-label',/No water/);
  await page.getByRole('button',{name:'Save experiment',exact:true}).click();
  await page.getByRole('button',{name:'Reset experiment'}).click();await page.getByRole('button',{name:'Resume saved',exact:true}).click();
+ {const detail=page.getByRole('button',{name:'Timeline details',exact:true});if(await detail.isVisible())await detail.click();}
  await expect(page.getByRole('slider')).toHaveValue('24');await expect(page.getByRole('combobox',{name:'Replay branch'})).toHaveValue('1');
  await expect(page.getByRole('table',{name:'Service availability by response'})).toBeVisible();
  await page.getByRole('button',{name:'Restore electricity',exact:true}).click();

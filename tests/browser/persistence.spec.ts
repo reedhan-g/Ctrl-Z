@@ -14,6 +14,7 @@ test('saved responses survive reload and resume paused with exact undo',async({p
  await page.getByRole('button',{name:'Resume saved',exact:true}).click();
  await expect(page.getByText('Saved experiment resumed, paused.')).toBeVisible();
  await expect(page.getByRole('slider')).toHaveValue('24');
+ {const detail=page.getByRole('button',{name:'Timeline details',exact:true});if(await detail.isVisible())await detail.click();}
  await expect(page.getByRole('combobox',{name:'Replay branch'})).toHaveValue('1');
  await page.getByRole('button',{name:'Undo',exact:true}).click();
  await expect(page.getByRole('slider')).toHaveValue('0');
