@@ -1,5 +1,11 @@
 # Ctrl Z — complete Codex account handoff
 
+## Map corrections in progress ? 2026-11-15
+
+CODEX_MAP_FIX.md is the active bounded task: camera centering first, facility distribution second, exactly two tested commits pushed to origin/main. Origin was fetched/inspected at d2bee90 before this checkpoint; PR #1 is already incorporated at 0334947. Do not repeat the handoff import or restore the historic development-branch restrictions below. Keep Antahonist primary, the secondary PNG and approved commit-27 runtime lineage; rejected commit-28/29 designs remain excluded.
+
+The first correction measures actual overlays after React layout and centers/fits sprite-alpha bounds in the largest unobstructed rectangle. Navigation requests handle reselecting the same service; minimap service markers/chooser select consistently, while free-map taps and footprint dragging remain camera-only. Inspector resizing/collapse and minimap changes reframe; manual pan/zoom do not continuously recenter. Camera/page dimensions and v1 data remain unchanged. 82 unit checks, production build and ten focused desktop/mobile browser checks pass; actual hospital renders inspected. Next commit must move the six stable service IDs into appropriate districts, preserve simulation/dependencies/saves, verify clear entrances/roads/scenery and new courier geography, then run full regression/build and capture selected facilities at new locations. No further redesign is part of this task.
+
 Prepared: 14 November 2026. Project root: `C:\Ctrl Z`. Repository: <https://github.com/reedhan-g/Ctrl-Z>.
 
 This document is for a Codex account with no conversation history. It records the creator's requirements, the approved development baseline, verified implementation details, rejected experiments, and a practical continuation plan. It does not grant permissions that the new account's environment lacks.

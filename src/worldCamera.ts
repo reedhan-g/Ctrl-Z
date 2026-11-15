@@ -3,6 +3,23 @@ import { world } from './world.ts';
 import type { CameraGesture } from './camera.ts';
 
 export interface ViewSize {width:number;height:number}
+export interface ViewRect {x:number;y:number;width:number;height:number}
+// Largest unobstructed rectangle, measured in canvas pixels. Overlay edges
+// partition the available space; selections only pay this cost when reframed.
+export function unobstructedViewport(s:ViewSize,obstacles:ViewRect[]):ViewRect {
+ const margin=10,box={x:margin,y:margin,width:Math.max(1,s.width-2*margin),height:Math.max(1,s.height-2*margin)};
+ const right=box.x+box.width,bottom=box.y+box.height;
+ const blocked=obstacles.map(r=>({x:Math.max(box.x,r.x-margin),y:Math.max(box.y,r.y-margin),right:Math.min(right,r.x+r.width+margin),bottom:Math.min(bottom,r.y+r.height+margin)})).filter(r=>r.right>r.x&&r.bottom>r.y);
+ const xs=[...new Set([box.x,right,...blocked.flatMap(r=>[r.x,r.right])])].sort((a,b)=>a-b);
+ const ys=[...new Set([box.y,bottom,...blocked.flatMap(r=>[r.y,r.bottom])])].sort((a,b)=>a-b);
+ let best={...box,width:0,height:0};
+ for(let a=0;a<xs.length-1;a++)for(let b=a+1;b<xs.length;b++)for(let c=0;c<ys.length-1;c++)for(let d=c+1;d<ys.length;d++){
+  const x=xs[a],y=ys[c],width=xs[b]-x,height=ys[d]-y;
+  if(width*height<=best.width*best.height||blocked.some(r=>x<r.right&&xs[b]>r.x&&y<r.bottom&&ys[d]>r.y))continue;
+  best={x,y,width,height};
+ }
+ return best.width?best:box;
+}
 export interface CameraView extends ViewSize {scale:number;origin:Point;pan:Point;zoom:number;footprint:{x:number;y:number;width:number;height:number}}
 // Ordinary exploration shows architecture; the existing zoom-out controls
 // remain the overview. Do not fit the entire expanded world into the opening.
@@ -16,10 +33,12 @@ export function frameOpening(camera:CameraGesture,s:ViewSize){
 }
 // A selected edge building may need sky/ground margin around its roof. Extend
 // the finite center range only as far as that authored selection requires.
-export function frameInspection(camera:CameraGesture,s:ViewSize,point:Point,mobile:boolean,scenery=false){
- camera.zoom=Math.max(camera.zoom,mobile?1.5:scenery?1.2:1);
+export function frameInspection(camera:CameraGesture,s:ViewSize,bounds:ViewRect,free:ViewRect,mobile:boolean,scenery=false){
+ boundedView(camera,s);
+ const fitted=Math.min(free.width/bounds.width,free.height/bounds.height)/baseScale(s);
+ camera.zoom=Math.max(camera.minZoom,Math.min(camera.maxZoom,fitted,Math.max(camera.zoom,mobile?1.5:scenery?1.2:1)));
  const scale=baseScale(s)*camera.zoom,origin=cameraOrigin(s);
- camera.focus(point,origin,{x:s.width*(mobile?.5:.34),y:mobile?95:s.height*.38},scale);
+ camera.focus({x:bounds.x+bounds.width/2,y:bounds.y+bounds.height/2},origin,{x:free.x+free.width/2,y:free.y+free.height/2},scale);
  camera.inspectionCenter=unproject({x:(s.width/2-origin.x-camera.pan.x)/scale,y:(s.height/2-origin.y-camera.pan.y)/scale});
 }
 export function boundedView(camera:CameraGesture,s:ViewSize):CameraView {

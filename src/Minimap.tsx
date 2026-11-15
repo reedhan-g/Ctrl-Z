@@ -1,5 +1,5 @@
 import {memo,useEffect,useState,useRef,type PointerEvent as ReactPointerEvent} from 'react';
-import {useGame,buildings,status} from './game';
+import {useGame,buildings,status,type BuildingId} from './game';
 import {useNavigation} from './navigation';
 import {fleet,vehiclePosition} from './traffic';
 import {places} from './world';
@@ -22,7 +22,7 @@ export default function Minimap(){
  useEffect(()=>{if(window.innerWidth<=760)setExpanded(false);},[s.selected,s.selectedVehicle,sceneryId]);
  const footprint=view?.footprint;
  const drag=useRef(new MinimapDrag()),pointer=useRef<number|null>(null);
- const tap=useRef<{x:number;y:number;point:{x:number;y:number};moved:boolean;grabbed:boolean}|null>(null);
+ const tap=useRef<{x:number;y:number;point:{x:number;y:number};moved:boolean;grabbed:boolean;landmark:BuildingId|null}|null>(null);
  useEffect(()=>{if(!expanded){pointer.current=null;drag.current.end();tap.current=null;}},[expanded]);
  const point=(e:ReactPointerEvent<SVGSVGElement>)=>{
   const matrix=e.currentTarget.getScreenCTM();if(!matrix)return null;
@@ -33,8 +33,9 @@ export default function Minimap(){
   const p=point(e);if(!p)return;
   e.currentTarget.focus({preventScroll:true});e.currentTarget.setPointerCapture(e.pointerId);pointer.current=e.pointerId;
   const grabbed=(e.target as Element).getAttribute('data-footprint')==='true';
-  tap.current={x:e.clientX,y:e.clientY,point:{x:p.x,y:p.y},moved:false,grabbed};
-  useNavigation.getState().recenter(drag.current.down(p,footprint,grabbed));
+  const landmark=(e.target as Element).closest('[data-landmark]')?.getAttribute('data-landmark') as BuildingId|null;
+  tap.current={x:e.clientX,y:e.clientY,point:{x:p.x,y:p.y},moved:false,grabbed,landmark};
+  const target=drag.current.down(p,footprint,grabbed);if(!landmark)useNavigation.getState().recenter(target);
  };
  const move=(e:ReactPointerEvent<SVGSVGElement>)=>{
   if(pointer.current!==e.pointerId)return;e.stopPropagation();e.preventDefault();if(tap.current&&Math.hypot(e.clientX-tap.current.x,e.clientY-tap.current.y)>(tap.current.grabbed?.5:4))tap.current.moved=true;
@@ -42,7 +43,7 @@ export default function Minimap(){
  };
  const end=(e:ReactPointerEvent<SVGSVGElement>)=>{
   if(pointer.current!==e.pointerId)return;e.stopPropagation();pointer.current=null;drag.current.end();
-  if(e.type==='pointerup'&&tap.current&&!tap.current.moved)useNavigation.getState().recenter(point(e)??tap.current.point);
+  if(e.type==='pointerup'&&tap.current&&!tap.current.moved){if(tap.current.landmark)s.select(tap.current.landmark);else useNavigation.getState().recenter(point(e)??tap.current.point);}
   tap.current=null;
   if(e.currentTarget.hasPointerCapture(e.pointerId))e.currentTarget.releasePointerCapture(e.pointerId);
  };
@@ -57,18 +58,19 @@ export default function Minimap(){
      else if(delta[e.key]){e.preventDefault();e.stopPropagation();useNavigation.getState().recenter({x:center.x+delta[e.key][0],y:center.y+delta[e.key][1]});}}}>
     <desc id="minimap-instructions">Tap to recenter. Drag the outlined viewport to pan. Arrow keys navigate; Home resets. P power, H hospital, W water, T telecom, L logistics, R homes. ! interrupted; ~ reserve. Other buildings are scenery.</desc>
     <Geography/>
+    {footprint&&<rect data-footprint="true" data-testid="camera-footprint" x={footprint.x} y={footprint.y} width={footprint.width} height={footprint.height} fill="#8be5e21a" stroke="#d8fff4" strokeWidth="17"/>}
     {selectedScenery&&(()=>{const b=selectedScenery,p=iso(b.x+b.width/2,b.y+b.depth/2);return <g data-scenery={b.id} role="img" aria-label={`${sceneryInfo(b).name}: informational scenery, selected`} transform={`translate(${p.x} ${p.y})`}><title>{sceneryInfo(b).name} — informational scenery</title><path d="M0,-65 L80,0 L0,65 L-80,0 Z" fill="#163c43" stroke="#8de4d1" strokeWidth="18"/></g>;})()}
-    {buildings.map(b=>{const p=landmarkPoint(b.id),state=status(b.id,s),selected=s.selected===b.id;return <g key={b.id} role="img" aria-label={`${b.name}: ${state.label}${selected?', selected':''}`} data-landmark={b.id} transform={`translate(${p.x} ${p.y})`}>
+    {buildings.map(b=>{const p=landmarkPoint(b.id),state=status(b.id,s),selected=s.selected===b.id;return <g key={b.id} role="img" aria-label={`${b.name}: ${state.label}${selected?', selected':''}`} data-landmark={b.id} tabIndex={0} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();s.select(b.id);}}} transform={`translate(${p.x} ${p.y})`}>
      <title>{b.name}: {state.label}</title>
      <circle r={selected?65:50} fill={state.tone==='bad'?'#542d40':state.tone==='warn'?'#5d4c32':'#203e43'} stroke={selected?'#fff0fb':state.tone==='bad'?'#f39180':state.tone==='warn'?'#e9ba7b':'#75d8d9'} strokeWidth={selected?18:12}/>
      <text y="31" textAnchor="middle" fill="#f5edf6" fontSize="100" fontFamily="monospace">{symbols[b.id]}</text>
      {state.tone!=='good'&&<text x="48" y="-35" fill="#ffe3b0" fontSize="105" fontFamily="monospace">{state.tone==='bad'?'!':'~'}</text>}
     </g>;})}
     {fleet.map(v=>{const selected=s.selectedVehicle===v.id,p=selected&&vehiclePoint?vehiclePoint:vehiclePosition(v.id,s);return <g key={v.id} data-courier={v.id} aria-label={`${v.name}: ${status('logistics',s).label}${selected?', selected':''}`} transform={`translate(${p.x} ${p.y})`} role="img"><title>{v.name}: {status('logistics',s).label}</title><path d="M0,-45 L40,35 L-40,35 Z" fill={selected?'#fff3ca':'#eabb69'} stroke="#17222d" strokeWidth="10"/>{selected&&<circle r="65" fill="none" stroke="#fff" strokeWidth="12"/>}</g>;})}
-    {footprint&&<rect data-footprint="true" data-testid="camera-footprint" x={footprint.x} y={footprint.y} width={footprint.width} height={footprint.height} fill="#8be5e21a" stroke="#d8fff4" strokeWidth="17"/>}
+
    </svg>
    <p className="minimap-legend">P power · H hospital · W water · T telecom · L logistics · R homes<br/>! interrupted · ~ reserve. Other buildings are scenery.</p>
-   <select className="minimap-landmarks" aria-label="Minimap landmark navigation" defaultValue="" onChange={e=>{const place=places.find(p=>p.id===e.target.value);if(place)useNavigation.getState().recenter(iso(place.x+2.5,place.y+2.5));else if(e.target.value)useNavigation.getState().recenter(landmarkPoint(e.target.value as typeof buildings[number]['id']));e.target.value='';}}>
+   <select className="minimap-landmarks" aria-label="Minimap landmark navigation" defaultValue="" onChange={e=>{const place=places.find(p=>p.id===e.target.value);if(place)useNavigation.getState().recenter(iso(place.x+2.5,place.y+2.5));else if(e.target.value)s.select(e.target.value as BuildingId);e.target.value='';}}>
     <option value="">Navigate to a place…</option><optgroup label="Simulated services">{buildings.map(b=><option value={b.id} key={b.id}>{b.name}</option>)}</optgroup><optgroup label="District destinations (scenery)">{places.map(p=><option value={p.id} key={p.id}>{p.name}</option>)}</optgroup>
    </select>
   </>}

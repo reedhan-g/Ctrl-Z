@@ -26,17 +26,18 @@ test('minimap taps, footprint drag and keyboard navigation move only the camera'
  await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Zoom in'}).click();await page.getByRole('button',{name:'Zoom in'}).click();await openMap(page);
  const map=page.getByRole('application',{name:'Interactive city minimap'});await map.scrollIntoViewIfNeeded();
- const target=await projectedToClient(map,{x:0,y:480});
+ // Empty land clear of the now-interactive service markers and native touch target slop.
+ const target=await projectedToClient(map,{x:0,y:680});
  if(info.project.name==='mobile')await page.touchscreen.tap(target.x,target.y);else await page.mouse.click(target.x,target.y);
- let view=await viewOf(page);expect(view.footprint.x+view.footprint.width/2).toBeCloseTo(0);expect(view.footprint.y+view.footprint.height/2).toBeCloseTo(480);
- const grab=await projectedToClient(map,{x:0,y:480}),end=await projectedToClient(map,{x:60,y:440}),scroll=await page.evaluate(()=>scrollY);
+ let view=await viewOf(page);expect(view.footprint.x+view.footprint.width/2).toBeCloseTo(0);expect(view.footprint.y+view.footprint.height/2).toBeCloseTo(680);
+ const grab=await projectedToClient(map,{x:0,y:680}),end=await projectedToClient(map,{x:60,y:640}),scroll=await page.evaluate(()=>scrollY);
  if(info.project.name==='mobile'){
   const cdp=await page.context().newCDPSession(page);
   await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:grab.x,y:grab.y}]});
   await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:end.x,y:end.y}]});
   await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await cdp.detach();
  }else{await page.mouse.move(grab.x,grab.y);await page.mouse.down();await page.mouse.move(end.x,end.y,{steps:5});await page.mouse.up();}
- view=await viewOf(page);expect(view.footprint.x+view.footprint.width/2).toBeCloseTo(60);expect(view.footprint.y+view.footprint.height/2).toBeCloseTo(440);
+ view=await viewOf(page);expect(view.footprint.x+view.footprint.width/2).toBeCloseTo(60);expect(view.footprint.y+view.footprint.height/2).toBeCloseTo(640);
  expect(await page.evaluate(()=>scrollY)).toBe(scroll);await expect(page.getByRole('region',{name:'Building inspection'})).not.toBeVisible();
  await expect(page.getByRole('slider')).toHaveValue('0');
  await map.focus();await page.keyboard.press('Home');expect((await viewOf(page)).zoom).toBe(1);

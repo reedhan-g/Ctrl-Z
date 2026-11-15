@@ -2,9 +2,9 @@
 import { Application } from 'pixi.js';
 import { useGame, buildings } from './game';
 import { buildCityScene } from './CityScene';
-import { iso } from './geometry';
+import {spriteBounds} from './spriteHit';
 import { CameraGesture } from './camera';
-import {boundedView,cameraOrigin,frameOpening,frameInspection} from './worldCamera';
+import {boundedView,cameraOrigin,frameOpening,frameInspection,unobstructedViewport} from './worldCamera';
 import {useNavigation} from './navigation';
 import {pickVehicle,vehiclePosition} from './traffic';
 import {loadCityTextures} from './pixelArt';
@@ -115,28 +115,43 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
       const keys=(e:KeyboardEvent)=>{const delta:{[key:string]:[number,number]}={ArrowLeft:[90,0],ArrowRight:[-90,0],ArrowUp:[0,90],ArrowDown:[0,-90]};
         if(e.target!==el||!delta[e.key])return;e.preventDefault();camera.pan.x+=delta[e.key][0];camera.pan.y+=delta[e.key][1];fit();};
       el.addEventListener('keydown',keys);
-      const observer = new ResizeObserver(fit); observer.observe(el);
       const updateScene=()=>scene.update({...useGame.getState(),selectedScenery:useNavigation.getState().sceneryId});
-      const frameSelection=(point:{x:number;y:number},scenery=false)=>{
-        frameInspection(camera,size(),point,window.innerWidth<=760,scenery);fit();
+      let inspectionFrame=0;
+      const frameSelection=()=>{
+        if(inspectionFrame||disposed)return;
+        inspectionFrame=requestAnimationFrame(()=>{
+          inspectionFrame=0;
+          const state=useGame.getState(),scenery=findScenery(useNavigation.getState().sceneryId);
+          const building=buildings.find(b=>b.id===state.selected);
+          if(!scenery&&!building)return;
+          const rect=el.getBoundingClientRect();
+          const obstacles=[...el.parentElement!.querySelectorAll<HTMLElement>('.minimap,.inspector,.timeline,.map-controls,.world-top,.map-hint,.map-caption')]
+            .filter(node=>node.getClientRects().length).map(node=>{const r=node.getBoundingClientRect();return {x:r.left-rect.left,y:r.top-rect.top,width:r.width,height:r.height};});
+          const free=unobstructedViewport(size(),obstacles);
+          const vehicle=state.selectedVehicle?vehiclePosition(state.selectedVehicle,state,visualHours):null;
+          const bounds=vehicle?{x:vehicle.x-25,y:vehicle.y-25,width:50,height:50}:scenery?spriteBounds(scenery.model,scenery.x,scenery.y):spriteBounds(building!.id,building!.x,building!.y);
+          frameInspection(camera,size(),bounds,free,window.innerWidth<=760,!!scenery);fit();
+          el.dataset.inspection=JSON.stringify({bounds,free});
+        });
       };
+      const observer=new ResizeObserver(()=>{fit();frameSelection();});observer.observe(el);
+      const overlays=new ResizeObserver(frameSelection);
+      el.parentElement!.querySelectorAll('.minimap,.timeline,.map-controls').forEach(node=>overlays.observe(node));
+      window.addEventListener('inspection-layout',frameSelection);
       const unsubscribeNavigation=useNavigation.subscribe((state,previous)=>{
-        if(state.sceneryId===previous.sceneryId)return;
-        const b=findScenery(state.sceneryId);
-        if(b)frameSelection(iso(b.x+b.width/2,b.y+b.depth/2,b.height*.45),true);
+        if(state.sceneryId===previous.sceneryId&&state.inspectionRequest===previous.inspectionRequest)return;
+        frameSelection();
         if(updateScene())render();
       });
       const unsubscribe = useGame.subscribe((state,previous) => {
         if(state.selected&&(state.selected!==previous.selected||state.selectedVehicle!==previous.selectedVehicle)){
-          const b=buildings.find(b=>b.id===state.selected)!;
-          const point=state.selectedVehicle?vehiclePosition(state.selectedVehicle,state,visualHours):iso(b.x+.9,b.y+.9,b.height*.45);
-          frameSelection(point);
+          frameSelection();
         }
         lastTick=performance.now(); if (updateScene()){const view=useNavigation.getState().view;if(view)scene.cull(view.footprint);render();} schedule();publishVehicle();
       });
       document.addEventListener('visibilitychange', render);
       cleanup = () => {
-        observer.disconnect(); viewport.disconnect(); unsubscribe();unsubscribeNavigation(); cancelAnimationFrame(frame); cancelAnimationFrame(animation);
+        observer.disconnect();overlays.disconnect();window.removeEventListener('inspection-layout',frameSelection);cancelAnimationFrame(inspectionFrame); viewport.disconnect(); unsubscribe();unsubscribeNavigation(); cancelAnimationFrame(frame); cancelAnimationFrame(animation);
         motion.removeEventListener('change',schedule);document.removeEventListener('visibilitychange',schedule);
         document.removeEventListener('visibilitychange', render);el.removeEventListener('keydown',keys);
         useNavigation.setState({view:null,vehiclePoint:null,recenter:()=>{},reset:()=>{}});

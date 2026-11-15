@@ -3,6 +3,7 @@ import {X,ChevronDown,ChevronUp} from 'lucide-react';
 
 export default function InspectionShell({title,category,status,onClose,children}:{title:string;category:string;status?:{label:string;tone:string};onClose:()=>void;children:ReactNode}){
  const [collapsed,setCollapsed]=useState(false),root=useRef<HTMLElement>(null);
+ useEffect(()=>{const observer=new ResizeObserver(()=>window.dispatchEvent(new Event('inspection-layout')));if(root.current)observer.observe(root.current);return()=>observer.disconnect();},[]);
  useEffect(()=>{
   const previous=document.activeElement as HTMLElement|null,node=root.current;
   const media=matchMedia('(max-width:760px)'),resize=()=>{if(!media.matches)setCollapsed(false);};

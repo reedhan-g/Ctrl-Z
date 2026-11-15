@@ -30,6 +30,7 @@ export const useGame = create<GameData & Actions>((set) => {
   const dispatch = (action: Action) => {
     if(['select','selectVehicle','startCase','reset'].includes(action.type)&&useNavigation.getState().sceneryId)useNavigation.setState({sceneryId:null});
     set(state => reduceGame(state, action));
+    if(action.type==='select'||action.type==='selectVehicle')useNavigation.setState(s=>({inspectionRequest:s.inspectionRequest+1}));
   };
   return {
     ...createInitialState(),

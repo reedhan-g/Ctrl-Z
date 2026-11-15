@@ -1,5 +1,13 @@
 # Ctrl Z - Development Status
 
+## Map correction checkpoint 1 ? 2026-11-15
+
+Active brief: CODEX_MAP_FIX.md, limited to two fixes and two tested commits. Fetched origin and inspected branch history: main and origin/main were both d2bee90; PR #1 documentation is already merged at 0334947 and was not imported again. Development continues directly on main, retaining commit-27 gameplay lineage, Antahonist direction and exclusion of rejected designs.
+
+Selection now measures real minimap/inspector/timeline/control rectangles after layout, finds the largest clear canvas region and fits the full sprite-alpha silhouette including its outline. Sidebar, minimap service chooser/markers, map picks and repeated selection share framing. Mobile sheet collapse/expansion and viewport changes remeasure free space. No canvas/page resizing, save fields, simulation rules or workflow changes. Ordinary pan/zoom and finite bounds remain.
+
+Validation: 82 unit checks, production build and all ten focused desktop/mobile navigation, minimap, selection and inspector checks pass. Actual desktop/mobile selected hospital renders were inspected. An initial mobile chooser test incorrectly targeted the intentionally hidden desktop dropdown; it now uses marker keyboard navigation. Native touch adjustment at the old empty-map test coordinate selected a nearby service marker; the free-map tap/drag test now uses clear empty land with the same exact assertions. Next: distribute all six facilities, reserve road-connected frontage, update courier geography and capture new-location evidence. Physical Safari/device checks remain outstanding.
+
 ## Building interaction improvements — 2026-11-15
 
 Final test checkpoint completes the benchmark follow-up recorded below. The benchmark now scrolls the mobile canvas into view and requires positive draw activity plus a real camera-position change. Desktop/mobile samples recorded **zero idle draws and 32 scripted-drag draws** (including hover changes), ready ~2066/1240 ms and drag ~3457/3353 ms; Chromium software rendering is not phone FPS. Four focused benchmark/scenery checks pass, including save while a scenery inspector is open, exclusion from save data and cleared selection on resume. Across the completed task, 81 unit checks, build and all 56 browser specs are validated (serial recovery of parallel startup/time-limit failures is recorded below). Three runtime milestones deliver silhouette highlighting, contextual service inspection and informational scenery/keyboard/minimap integration; this final independent test commit strengthens measurement and save coverage. Remaining external checks are real-device/Safari usability/memory and creator visual feedback.

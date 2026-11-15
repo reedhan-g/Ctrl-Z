@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {CameraGesture} from '../src/camera.ts';
-import {boundedView,screenToWorld,worldToScreen,frameOpening,frameInspection} from '../src/worldCamera.ts';
+import {boundedView,screenToWorld,worldToScreen,frameOpening,frameInspection,unobstructedViewport} from '../src/worldCamera.ts';
 import {iso,unproject} from '../src/geometry.ts';
 import {world} from '../src/world.ts';
 
@@ -39,10 +39,22 @@ test('opening frames the civic intersection clear of the desktop minimap and mob
 test('inspection can frame an authored edge building and reset restores normal land bounds',()=>{
  for(const size of [{width:1045,height:480},{width:390,height:415}]){
   const mobile=size.width<760,camera=new CameraGesture(),point=iso(-24,-24,45);
-  frameInspection(camera,size,point,mobile,true);const view=boundedView(camera,size),shown=worldToScreen(point,view);
-  assert.ok(Math.abs(shown.x-size.width*(mobile?.5:.34))<1e-6);
-  assert.ok(Math.abs(shown.y-(mobile?95:size.height*.38))<1e-6);
+  const bounds={x:point.x-60,y:point.y-80,width:120,height:160},free=unobstructedViewport(size,[{x:size.width-200,y:0,width:200,height:300}]);
+  frameInspection(camera,size,bounds,free,mobile,true);const view=boundedView(camera,size),shown=worldToScreen(point,view);
+  assert.ok(Math.abs(shown.x-(free.x+free.width/2))<1e-6);
+  assert.ok(Math.abs(shown.y-(free.y+free.height/2))<1e-6);
   camera.pan={x:1e9,y:1e9};const bounded=boundedView(camera,size);assert.ok(Math.abs(bounded.pan.x)<100000&&Math.abs(bounded.pan.y)<100000);
   frameOpening(camera,size);assert.equal(camera.inspectionCenter,null);
+ }
+});
+
+test('free viewport excludes measured overlays and fits a full tall silhouette',()=>{
+ for(const size of [{width:1045,height:480},{width:390,height:415}]){
+  const mobile=size.width<760,obstacles=mobile?[{x:0,y:220,width:390,height:195}]:[{x:0,y:22,width:232,height:300},{x:756,y:22,width:264,height:350}];
+  const free=unobstructedViewport(size,obstacles),camera=new CameraGesture(),bounds={x:-70,y:-155,width:140,height:200};
+  frameInspection(camera,size,bounds,free,mobile);const view=boundedView(camera,size);
+  const top=worldToScreen(bounds,view),bottom=worldToScreen({x:bounds.x+bounds.width,y:bounds.y+bounds.height},view);
+  assert.ok(top.x>=free.x-1e-6&&top.y>=free.y-1e-6&&bottom.x<=free.x+free.width+1e-6&&bottom.y<=free.y+free.height+1e-6);
+  for(const r of obstacles)assert.ok(free.x>=r.x+r.width||free.x+free.width<=r.x||free.y>=r.y+r.height||free.y+free.height<=r.y);
  }
 });
