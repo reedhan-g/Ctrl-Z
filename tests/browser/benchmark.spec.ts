@@ -17,6 +17,10 @@ test('records reproducible browser rendering measurements',async({page},info)=>{
  await page.waitForTimeout(300);
  const idleDrawCalls=await page.evaluate(()=>(window as typeof window & {cityDrawCalls:number}).cityDrawCalls)-before;
  expect(idleDrawCalls).toBe(0);
+ // Mobile sidebar controls can place the canvas below the initial viewport.
+ // Measure real camera input rather than an offscreen synthetic mouse path.
+ await page.locator('canvas').scrollIntoViewIfNeeded();
+ const cameraBefore=await page.locator('.city-canvas').evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!).pan);
  const box=(await page.locator('canvas').boundingBox())!;
  const dragStart=Date.now();
  await page.mouse.move(box.x+box.width*.5,box.y+box.height*.4);await page.mouse.down();
@@ -24,6 +28,9 @@ test('records reproducible browser rendering measurements',async({page},info)=>{
  await page.mouse.up();await page.waitForTimeout(100);
  const dragMs=Date.now()-dragStart;
  const dragDrawCalls=await page.evaluate(()=>(window as typeof window & {cityDrawCalls:number}).cityDrawCalls)-before;
+ expect(dragDrawCalls).toBeGreaterThan(0);
+ const cameraAfter=await page.locator('.city-canvas').evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!).pan);
+ expect(cameraAfter).not.toEqual(cameraBefore);
  const metrics={project:info.project.name,readyMs,idleDrawCalls,dragMs,dragDrawCalls,viewport:page.viewportSize(),device:'Emulated Chromium; software GPU, not physical-device FPS'};
  await writeFile(info.outputPath('metrics.json'),JSON.stringify(metrics,null,2));
  console.log(JSON.stringify(metrics));

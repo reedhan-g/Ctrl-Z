@@ -41,8 +41,12 @@ test('scenery information, real canvas selection, minimap marker and keyboard cl
  if(info.project.name==='mobile')await page.touchscreen.tap(empty!.x,empty!.y);else await page.mouse.click(empty!.x,empty!.y);
  await expect(panel).not.toBeVisible();
  await chooser.selectOption(id);
- await host.focus();await page.keyboard.press('Escape');await expect(panel).not.toBeVisible();
- await expect(page.getByRole('slider')).toHaveValue('0');
  await page.getByRole('button',{name:'Save experiment',exact:true}).click();
  expect(await page.evaluate(()=>localStorage.getItem('ctrl-z:experiment:v1'))).not.toContain('scenery:');
+ await page.getByRole('button',{name:'Resume saved',exact:true}).click();
+ await expect(panel).not.toBeVisible();
+ expect((await host.evaluate(el=>JSON.parse((el as HTMLElement).dataset.selection!))).scenery).toBe(null);
+ await chooser.selectOption(id);
+ await host.focus();await page.keyboard.press('Escape');await expect(panel).not.toBeVisible();
+ await expect(page.getByRole('slider')).toHaveValue('0');
 });
