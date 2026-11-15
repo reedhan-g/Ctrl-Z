@@ -23,6 +23,10 @@ You are developing Ctrl Z, a browser-based isometric city simulation game.
 - Preserve existing functionality and unrelated changes. Finish an in-progress operation safely before applying new workflow instructions; never restart, reset or discard progress to adopt them.
 - Update DEVELOPMENT_STATUS.md regularly with progress, decisions, unfinished tasks and the next milestone. Keep CODEX_HANDOFF_README.md current so another session/account can resume from the actual branch and tested state.
 
+### Current UI overhaul - supersedes historical city redesign scope
+
+CODEX_CTRL_Z_UI_OVERHAUL.md is the active task. The creator approves the current map and artwork. Redesign only the surrounding UI/UX in its specified tested milestones; preserve city assets, renderer, camera math, service labels/gold, routes, simulation and saves. Continue verified pushes to origin/main and the existing Pages workflow. Historical city-redesign priorities below do not authorize changing the approved environment during this task.
+
 ### Current Neon City branch and baseline
 
 CODEX_CURRENT_TASK.md is the active visual task. The creator now authorizes development, tested commits and verified pushes directly to `origin/main`. This supersedes the former `neon-city-antahonist-from-27` destination and its main-integration pause in older instructions. Safely fetch/inspect and synchronize before work; preserve unfinished changes. The approved runtime lineage remains commit `9fcac4a4e1e06a549bda4f51b4b1c5f3e09d823f` (commit 27), without rejected commit-28/29 designs. Preserve the existing main-triggered Pages workflow.

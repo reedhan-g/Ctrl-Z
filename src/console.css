@@ -1,0 +1,26 @@
+/* Interface tokens and shell. The approved map's styling stays in style.css. */
+:root{--ui-bg:#0d121b;--ui-surface:#141e29;--ui-surface-raised:#1c2b36;--ui-border:#334651;--ui-text:#e6eeeb;--ui-muted:#a3b5bd;--ui-cyan:#85d8d5;--ui-gold:#e9c283;--ui-success:#a5d8bd;--ui-warning:#e9ba7b;--ui-danger:#f39180;--ui-radius:6px;--ui-space-1:4px;--ui-space-2:8px;--ui-space-3:12px;--ui-space-4:16px;--ui-shadow:0 12px 32px #04091060}
+.app>header{height:64px;padding:0 24px;background:var(--ui-bg)}
+.brand{color:var(--ui-text);font-size:26px}.edition{font-size:11px;letter-spacing:1.5px;color:var(--ui-muted)}
+.header-right{gap:16px}.prototype{font-size:11px;color:var(--ui-cyan);letter-spacing:1px}.chapter{font-size:12px}.header-right .icon{min-width:44px;min-height:44px}
+.sidebar{background:var(--ui-bg);padding:24px 18px;gap:0}
+.sidebar h1{font:500 30px/1.1 'Space Grotesk',sans-serif;letter-spacing:-1px;margin:12px 0}.title-dot{color:var(--ui-cyan)}
+.premise{font-size:14px;line-height:1.6;color:var(--ui-muted);margin:0 0 20px}
+.mode-tabs{margin:0 0 8px;gap:4px}.mode-tabs button{font-size:12px;border-color:var(--ui-border)}
+.mode-tabs button[aria-pressed=true]{background:var(--ui-surface-raised);color:var(--ui-cyan);border-color:#60898d}
+.mode-hint{font-size:12px;line-height:1.5;color:var(--ui-muted);margin:0 0 14px}
+.scenario-panel .primary{min-height:48px;font-size:13px;border-radius:var(--ui-radius);background:var(--ui-cyan);color:#10272b;gap:6px}
+.scenario-panel .primary.restore{background:#243c38;border:1px solid #6caaa0;color:#c9eee1}
+.sidebar .section-heading{font-size:10px;letter-spacing:1px;color:var(--ui-muted);display:flex;gap:6px}
+.sidebar .section-heading span+span{color:var(--ui-cyan);letter-spacing:0}
+.building-row{padding:10px 4px;gap:8px;min-height:52px}.building-row>span{font-size:12px;color:var(--ui-text)}.building-row small{font-size:12px;color:var(--ui-muted)}
+.building-row.selected{background:var(--ui-surface-raised);box-shadow:inset 2px 0 var(--ui-cyan)}
+.secondary-tools{margin-top:18px;border-top:1px solid var(--ui-border);padding-top:8px}
+.secondary-tools summary{font-size:13px;min-height:44px;cursor:pointer}.secondary-tools select,.save-controls button{font-size:12px}
+.save-controls p,.report-panel p,.case-brief{font-size:13px;line-height:1.6}.report-panel table{font-size:12px}
+.world-top h2{font-size:20px;letter-spacing:-.3px}.world-top .eyebrow{font-size:10px}.state-pill{font-size:10px;border-radius:4px}
+.help{box-shadow:var(--ui-shadow)}.help p,.help li{font-size:14px}.help .primary{font-size:14px;min-height:44px}
+button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--ui-cyan);outline-offset:3px}
+@media(max-width:760px){
+ .app>header{padding:0 14px;height:56px}.sidebar{display:flex;flex-direction:column;padding:16px}.sidebar h1{font-size:26px;margin:8px 0}.premise{margin-bottom:14px}.sidebar .building-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.sidebar .buildings-heading{margin:16px 0 8px}.secondary-tools{margin-top:12px}.building-row{justify-content:flex-start;padding:10px}.building-row>span{flex:1}.mode-hint{font-size:13px}
+}

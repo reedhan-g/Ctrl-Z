@@ -1,5 +1,10 @@
 # Ctrl Z — complete Codex account handoff
 
+## Active UI-only overhaul - 2026-11-15
+
+Read CODEX_CTRL_Z_UI_OVERHAUL.md completely. It supersedes prior visual tasks: current city/art are approved and protected. Work through shell, live systems/timeline, inspector feedback, mobile and optional guide milestones, with tested commits/pushes to origin/main. Started from verified 6cb71f8; baseline 100 unit/build and eight browser checks pass, plus a real deployed desktop gameplay review. Before captures are in docs/ui-overhaul/before. Shell work is in progress; consult DEVELOPMENT_STATUS.md for completion receipts. Preserve all unfinished changes and approved map/domain/workflow files.
+
+
 ## Curbside/landmark polish complete - 2026-11-15
 
 CODEX_PARKED_CARS_POI_HOVER.md was read completely twice, including the updated persistent-glow requirement. Both focused improvements are complete on main: parking checkpoint 4e26042 is already pushed with successful CI/Pages runs, followed by the independently tested landmark commit containing this receipt. Earlier car work (84b3466 artwork / e9ec4c8 orientation), map corrections and approved commit-27 gameplay lineage are preserved. Origin was fetched/inspected at 4e26042 before the second checkpoint. No reset/discard, rejected commit-28/29 import, simulation rewrite or deployment change occurred. Antahonist remains primary; design/pixel-city-reference-2.png remains secondary.

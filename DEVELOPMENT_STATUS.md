@@ -1,5 +1,12 @@
 # Ctrl Z - Development Status
 
+## UI overhaul in progress - 2026-11-15
+
+Active task: CODEX_CTRL_Z_UI_OVERHAUL.md, read completely. Approved city/art are frozen; the work concerns surrounding controls and presentation. Fetched origin; main/origin both at 6cb71f8. Baseline: 100 unit tests/build and eight desktop/mobile gameplay/review/benchmark cases pass. A separate actual GitHub Pages desktop review passes blackout, inspection, supply, scrub, restore and undo. Fourteen real before images are saved in docs/ui-overhaul/before. Observed issues: tiny essential typography, duplicate electricity controls, sidebar tools ahead of destinations and a long mobile pre-map section.
+
+Milestone 1 implements centralized console tokens, stronger branding/live state, a plain-language premise, one primary electricity action, readable mode/service controls and secondary-tool grouping. Runtime map assets/rendering/camera/domain remain untouched. Shell checkpoint validation: production build and six desktop/mobile gameplay/review cases pass. Actual opening/interaction renders reviewed and saved in docs/ui-overhaul/shell. The mobile pre-map section still needs milestone 4; no mobile completion claimed. Next: truthful reusable systems summary/timeline, inspector feedback, dedicated map-first mobile composition, then optional action-driven guide and final full regression/deployed review.
+
+
 ## Landmark glow and readable names complete - 2026-11-15
 
 The second CODEX_PARKED_CARS_POI_HOVER.md checkpoint is complete in the commit containing this receipt, following pushed parking checkpoint 4e26042. Origin was fetched/inspected and matched local main before the landmark commit. All earlier vehicle/map work remains intact. No reset, discarded changes, rejected commit-28/29 designs or workflow changes occurred; Antahonist remains primary and design/pixel-city-reference-2.png remains secondary.
