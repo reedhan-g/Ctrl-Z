@@ -12,7 +12,7 @@ import {pointInPolygon,buildingFaces,unproject} from './geometry.ts';
 import {architecture,highlightSprite,type CityTextures} from './pixelArt.ts';
 import {spriteHit} from './spriteHit.ts';
 
-type SceneState = Snapshot & { selected: BuildingId | null; trace: boolean };
+type SceneState = Snapshot & { selected: BuildingId | null; trace: boolean;selectedScenery?:string|null };
 
 /** Allocate scene objects once; updates only change affected graphics and labels. */
 export function buildCityScene(textures?:CityTextures) {
@@ -41,7 +41,7 @@ export function buildCityScene(textures?:CityTextures) {
   }
   let previousOutage: boolean | null = null;
   let previousTrace: string | null = null;
-  let selectedId:BuildingId|null=null,hoveredId:BuildingId|null=null;
+  let selectedId:BuildingId|null=null,selectedScenery:string|null=null,hoveredId:string|null=null;
   const views = sortedBuildings.map(b => {
     // Keep each building's solids, windows and signs in the same depth layer.
     const layer = new Container(), selection = new Graphics(), body = new Graphics(), windows = new Graphics();
@@ -71,18 +71,18 @@ export function buildCityScene(textures?:CityTextures) {
   });
 
   function showHighlights(){
-    let changed=false;
+    let changed=art.selectScenery(selectedScenery,hoveredId);
     for(const v of views)if(v.highlight){
       const visible=v.b.id===selectedId||v.b.id===hoveredId,alpha=v.b.id===selectedId?1:.4;
       if(v.highlight.visible!==visible||v.highlight.alpha!==alpha){v.highlight.visible=visible;v.highlight.alpha=alpha;changed=true;}
     }
     return changed;
   }
-  function preview(id:BuildingId|null){const changed=hoveredId!==id;hoveredId=id;return showHighlights()||changed;}
+  function preview(id:string|null){const changed=hoveredId!==id;hoveredId=id;return showHighlights()||changed;}
 
   function update(s: SceneState) {
     let changed = false;
-    selectedId=s.selected;changed=showHighlights()||changed;
+    selectedId=s.selected;selectedScenery=s.selected?null:s.selectedScenery??null;changed=showHighlights()||changed;
     if(previousOutage!==s.outage){previousOutage=s.outage;changed=art.update(s.outage)||changed;}
     const diagnostics = dependencies.map(edge => diagnoseDependency(edge, s));
     const traceKey = `${s.trace}:${s.selected}:${diagnostics.map(d => `${d.sourceOnline}:${d.available}`).join(',')}`;
@@ -125,9 +125,9 @@ export function buildCityScene(textures?:CityTextures) {
     for(const v of vehicles)v.sprite.visible=intersects({x:v.sprite.x-16,y:v.sprite.y-16,width:32,height:32},rect,60);
     return {total:entries.length,visible,servicesVisible};
   }
-  const occluders=[...cityScenery.map(b=>({depth:sceneryDepth(b),faces:b.faces,model:b.model,x:b.x,y:b.y,building:null as BuildingId|null})),...buildings.map(b=>({depth:(b.x+b.y+1.9)*100,faces:buildingFaces(b),model:b.id,x:b.x,y:b.y,building:b.id as BuildingId|null}))].sort((a,b)=>b.depth-a.depth);
-  function pick(point:{x:number;y:number}){const hit=occluders.find(o=>textures?spriteHit(o.model,o.x,o.y,point):o.faces.some(face=>pointInPolygon(point,face)));return {building:hit?.building??null,blocked:!!hit};}
+  const occluders=[...cityScenery.map(b=>({depth:sceneryDepth(b),order:0,faces:b.faces,model:b.model,x:b.x,y:b.y,scenery:b.id as string|null,building:null as BuildingId|null})),...buildings.map(b=>({depth:(b.x+b.y+1.9)*100,order:1,faces:buildingFaces(b),model:b.id,x:b.x,y:b.y,scenery:null as string|null,building:b.id as BuildingId|null}))].sort((a,b)=>b.depth-a.depth||b.order-a.order);
+  function pick(point:{x:number;y:number}){const hit=occluders.find(o=>textures?spriteHit(o.model,o.x,o.y,point):o.faces.some(face=>pointInPolygon(point,face)));return {building:hit?.building??null,scenery:hit?.scenery??null,blocked:!!hit};}
   const getVehiclePosition=(id:string)=>{const sprite=vehicles.find(v=>v.vehicle.id===id)!.sprite;return {x:sprite.x,y:sprite.y};};
-  const selectionState=()=>({selected:selectedId,hovered:hoveredId,highlighted:views.filter(v=>v.highlight?.visible).map(v=>v.b.id)});
+  const selectionState=()=>({selected:selectedId,scenery:selectedScenery,hovered:hoveredId,highlighted:[...views.filter(v=>v.highlight?.visible).map(v=>v.b.id),...art.highlighted()]});
   return { world, update, animate, cull, pick, preview, selectionState, getVehiclePosition };
 }

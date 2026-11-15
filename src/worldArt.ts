@@ -3,13 +3,14 @@ import {chunks,isRoad,roadAt,chunkRoadMask,places} from './world.ts';
 import {cityScenery,sceneryDepth,boundsOf,groundPolygon,polygonNumbers,type Rect} from './worldScenery.ts';
 import {iso} from './geometry.ts';
 import {block} from './cityArt.ts';
-import {architecture,type CityTextures} from './pixelArt.ts';
+import {architecture,highlightSprite,type CityTextures} from './pixelArt.ts';
 import {lanternYard} from './lanternYard.ts';
 
 export interface CullEntry {node:Container;bounds:Rect;kind:'ground'|'scenery'|'service'}
 export function buildWorldArt(parent:Container,textures?:CityTextures){
  const entries:CullEntry[]=[],lights: {g:Graphics;draw:(on:boolean)=>void}[]=[];
  const facades:ReturnType<typeof architecture>[]=[];
+ const selections:{id:string;sprite:Sprite}[]=[];
  for(const chunk of chunks){
   const yard=chunk.x===lanternYard.x&&chunk.y===lanternYard.y;
   const frames=textures?.grounds?.[chunkRoadMask(chunk.x,chunk.y)];
@@ -47,7 +48,11 @@ export function buildWorldArt(parent:Container,textures?:CityTextures){
   }
  }
  for(const b of cityScenery){
-  if(textures){const art=architecture(textures,b.model,b.x,b.y);art.sprite.zIndex=sceneryDepth(b);parent.addChild(art.sprite);facades.push(art);entries.push({node:art.sprite,bounds:b.bounds,kind:'scenery'});continue;}
+  if(textures){
+   const art=architecture(textures,b.model,b.x,b.y),layer=new Container(),highlight=highlightSprite(textures,b.model,b.x,b.y);
+   layer.zIndex=sceneryDepth(b);layer.addChild(art.sprite,highlight);parent.addChild(layer);
+   selections.push({id:b.id,sprite:highlight});facades.push(art);entries.push({node:layer,bounds:b.bounds,kind:'scenery'});continue;
+  }
   const layer=new Container(),solid=new Graphics(),glow=new Graphics();layer.zIndex=sceneryDepth(b);
   layer.addChild(solid,glow);parent.addChild(layer);
   const h=b.height,accent=b.district.accent;
@@ -74,5 +79,12 @@ export function buildWorldArt(parent:Container,textures?:CityTextures){
   entries.push({node:layer,bounds:b.bounds,kind:'scenery'});
  }
  let previous:boolean|null=null;
- return {entries,update(outage:boolean){if(previous===outage)return false;previous=outage;for(const light of lights)light.draw(!outage);for(const facade of facades)facade.setPowered(!outage);return true;}};
+ let previousSelected:string|null|undefined,previousHover:string|null|undefined,highlighted:string[]=[];
+ function selectScenery(selected:string|null,hovered:string|null){
+  if(previousSelected===selected&&previousHover===hovered)return false;
+  previousSelected=selected;previousHover=hovered;highlighted=[];
+  for(const v of selections){v.sprite.visible=v.id===selected||v.id===hovered;v.sprite.alpha=v.id===selected?1:.4;if(v.sprite.visible)highlighted.push(v.id);}
+  return true;
+ }
+ return {entries,selectScenery,highlighted:()=>highlighted,update(outage:boolean){if(previous===outage)return false;previous=outage;for(const light of lights)light.draw(!outage);for(const facade of facades)facade.setPowered(!outage);return true;}};
 }

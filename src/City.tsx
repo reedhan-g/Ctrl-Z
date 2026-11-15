@@ -4,10 +4,12 @@ import { useGame, buildings } from './game';
 import { buildCityScene } from './CityScene';
 import { iso } from './geometry';
 import { CameraGesture } from './camera';
-import {boundedView,cameraOrigin,frameOpening} from './worldCamera';
+import {boundedView,cameraOrigin,frameOpening,frameInspection} from './worldCamera';
 import {useNavigation} from './navigation';
 import {pickVehicle,vehiclePosition} from './traffic';
 import {loadCityTextures} from './pixelArt';
+import {inspectScenery} from './selection';
+import {findScenery} from './sceneryInfo';
 
 export default function City({lowPower=false}:{lowPower?:boolean}) {
   const host = useRef<HTMLDivElement>(null);
@@ -83,7 +85,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
       };
       const move = (e: PointerEvent) => {
         if(camera.move(e.pointerId, localPoint(e), origin()))fit();
-        else if(e.pointerType==='mouse'&&!e.buttons&&!camera.interacting){const p=localPoint(e),hit=scene.pick({x:(p.x-scene.world.x)/scene.world.scale.x,y:(p.y-scene.world.y)/scene.world.scale.y});if(scene.preview(hit.building))render();}
+        else if(e.pointerType==='mouse'&&!e.buttons&&!camera.interacting){const p=localPoint(e),hit=scene.pick({x:(p.x-scene.world.x)/scene.world.scale.x,y:(p.y-scene.world.y)/scene.world.scale.y});if(scene.preview(hit.building??hit.scenery))render();}
       };
       const leave=()=>{if(scene.preview(null))render();};
       const up = (e: PointerEvent) => {
@@ -91,7 +93,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
           const p = localPoint(e);
           const point={x:(p.x-scene.world.x)/scene.world.scale.x,y:(p.y-scene.world.y)/scene.world.scale.y};
           const state=useGame.getState(),hit=scene.pick(point),building=hit.building,vehicle=hit.blocked?null:pickVehicle(point,state,visualHours);
-          if(vehicle)state.selectVehicle(vehicle);else state.select(building);
+          if(hit.scenery)inspectScenery(hit.scenery);else if(vehicle)state.selectVehicle(vehicle);else state.select(building);
         }
       };
       const cancel = (e: PointerEvent) => camera.cancel(e.pointerId);
@@ -114,20 +116,27 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
         if(e.target!==el||!delta[e.key])return;e.preventDefault();camera.pan.x+=delta[e.key][0];camera.pan.y+=delta[e.key][1];fit();};
       el.addEventListener('keydown',keys);
       const observer = new ResizeObserver(fit); observer.observe(el);
+      const updateScene=()=>scene.update({...useGame.getState(),selectedScenery:useNavigation.getState().sceneryId});
+      const frameSelection=(point:{x:number;y:number},scenery=false)=>{
+        frameInspection(camera,size(),point,window.innerWidth<=760,scenery);fit();
+      };
+      const unsubscribeNavigation=useNavigation.subscribe((state,previous)=>{
+        if(state.sceneryId===previous.sceneryId)return;
+        const b=findScenery(state.sceneryId);
+        if(b)frameSelection(iso(b.x+b.width/2,b.y+b.depth/2,b.height*.45),true);
+        if(updateScene())render();
+      });
       const unsubscribe = useGame.subscribe((state,previous) => {
         if(state.selected&&(state.selected!==previous.selected||state.selectedVehicle!==previous.selectedVehicle)){
           const b=buildings.find(b=>b.id===state.selected)!;
           const point=state.selectedVehicle?vehiclePosition(state.selectedVehicle,state,visualHours):iso(b.x+.9,b.y+.9,b.height*.45);
-          const mobile=window.innerWidth<=760;
-          if(mobile)camera.zoom=Math.max(camera.zoom,1.5);
-          camera.focus(point,origin(),{x:el.clientWidth*(mobile?.5:.34),y:mobile?95:el.clientHeight*.38},scene.world.scale.x);
-          fit();
+          frameSelection(point);
         }
-        lastTick=performance.now(); if (scene.update(state)){const view=useNavigation.getState().view;if(view)scene.cull(view.footprint);render();} schedule();publishVehicle();
+        lastTick=performance.now(); if (updateScene()){const view=useNavigation.getState().view;if(view)scene.cull(view.footprint);render();} schedule();publishVehicle();
       });
       document.addEventListener('visibilitychange', render);
       cleanup = () => {
-        observer.disconnect(); viewport.disconnect(); unsubscribe(); cancelAnimationFrame(frame); cancelAnimationFrame(animation);
+        observer.disconnect(); viewport.disconnect(); unsubscribe();unsubscribeNavigation(); cancelAnimationFrame(frame); cancelAnimationFrame(animation);
         motion.removeEventListener('change',schedule);document.removeEventListener('visibilitychange',schedule);
         document.removeEventListener('visibilitychange', render);el.removeEventListener('keydown',keys);
         useNavigation.setState({view:null,vehiclePoint:null,recenter:()=>{},reset:()=>{}});
@@ -139,7 +148,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
         destroy();
       };
       if(!openingApplied.current){frameOpening(camera,size());openingApplied.current=true;}
-      scene.update(useGame.getState()); fit(); schedule();
+      updateScene();fit();schedule();
     })().catch(e => {
       if (!disposed) {
         cleanup();

@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {CameraGesture} from '../src/camera.ts';
-import {boundedView,screenToWorld,worldToScreen,frameOpening} from '../src/worldCamera.ts';
+import {boundedView,screenToWorld,worldToScreen,frameOpening,frameInspection} from '../src/worldCamera.ts';
 import {iso,unproject} from '../src/geometry.ts';
 import {world} from '../src/world.ts';
 
@@ -33,5 +33,16 @@ test('opening frames the civic intersection clear of the desktop minimap and mob
   const hospital=worldToScreen(iso(6.9,2.9,40),view);
   assert.ok(hospital.x>size.width*.5&&hospital.x<size.width);
   assert.ok(hospital.y>0&&hospital.y<size.height*.8);
+ }
+});
+
+test('inspection can frame an authored edge building and reset restores normal land bounds',()=>{
+ for(const size of [{width:1045,height:480},{width:390,height:415}]){
+  const mobile=size.width<760,camera=new CameraGesture(),point=iso(-24,-24,45);
+  frameInspection(camera,size,point,mobile,true);const view=boundedView(camera,size),shown=worldToScreen(point,view);
+  assert.ok(Math.abs(shown.x-size.width*(mobile?.5:.34))<1e-6);
+  assert.ok(Math.abs(shown.y-(mobile?95:size.height*.38))<1e-6);
+  camera.pan={x:1e9,y:1e9};const bounded=boundedView(camera,size);assert.ok(Math.abs(bounded.pan.x)<100000&&Math.abs(bounded.pan.y)<100000);
+  frameOpening(camera,size);assert.equal(camera.inspectionCenter,null);
  }
 });

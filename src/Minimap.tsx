@@ -4,6 +4,7 @@ import {useNavigation} from './navigation';
 import {fleet,vehiclePosition} from './traffic';
 import {places} from './world';
 import {iso} from './geometry';
+import {findScenery,sceneryInfo} from './sceneryInfo';
 import {minimapBounds as box,minimapDistricts,minimapLand,minimapRoads,landmarkPoint,symbols,MinimapDrag} from './minimapGeometry';
 
 const Geography=memo(function Geography(){return <g aria-hidden="true">
@@ -16,8 +17,9 @@ const Geography=memo(function Geography(){return <g aria-hidden="true">
 export default function Minimap(){
  const s=useGame(),view=useNavigation(state=>state.view);
  const vehiclePoint=useNavigation(state=>state.vehiclePoint);
+ const sceneryId=useNavigation(state=>state.sceneryId),selectedScenery=findScenery(sceneryId);
  const [expanded,setExpanded]=useState(()=>window.innerWidth>760);
- useEffect(()=>{if(window.innerWidth<=760)setExpanded(false);},[s.selected,s.selectedVehicle]);
+ useEffect(()=>{if(window.innerWidth<=760)setExpanded(false);},[s.selected,s.selectedVehicle,sceneryId]);
  const footprint=view?.footprint;
  const drag=useRef(new MinimapDrag()),pointer=useRef<number|null>(null);
  const tap=useRef<{x:number;y:number;point:{x:number;y:number};moved:boolean;grabbed:boolean}|null>(null);
@@ -55,6 +57,7 @@ export default function Minimap(){
      else if(delta[e.key]){e.preventDefault();e.stopPropagation();useNavigation.getState().recenter({x:center.x+delta[e.key][0],y:center.y+delta[e.key][1]});}}}>
     <desc id="minimap-instructions">Tap to recenter. Drag the outlined viewport to pan. Arrow keys navigate; Home resets. P power, H hospital, W water, T telecom, L logistics, R homes. ! interrupted; ~ reserve. Other buildings are scenery.</desc>
     <Geography/>
+    {selectedScenery&&(()=>{const b=selectedScenery,p=iso(b.x+b.width/2,b.y+b.depth/2);return <g data-scenery={b.id} role="img" aria-label={`${sceneryInfo(b).name}: informational scenery, selected`} transform={`translate(${p.x} ${p.y})`}><title>{sceneryInfo(b).name} — informational scenery</title><path d="M0,-65 L80,0 L0,65 L-80,0 Z" fill="#163c43" stroke="#8de4d1" strokeWidth="18"/></g>;})()}
     {buildings.map(b=>{const p=landmarkPoint(b.id),state=status(b.id,s),selected=s.selected===b.id;return <g key={b.id} role="img" aria-label={`${b.name}: ${state.label}${selected?', selected':''}`} data-landmark={b.id} transform={`translate(${p.x} ${p.y})`}>
      <title>{b.name}: {state.label}</title>
      <circle r={selected?65:50} fill={state.tone==='bad'?'#542d40':state.tone==='warn'?'#5d4c32':'#203e43'} stroke={selected?'#fff0fb':state.tone==='bad'?'#f39180':state.tone==='warn'?'#e9ba7b':'#75d8d9'} strokeWidth={selected?18:12}/>

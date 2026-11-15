@@ -3,6 +3,7 @@ import { createInitialState, reduceGame, type Action, type GameData } from './ga
 import type { BuildingId } from './simulation';
 import type { VehicleId } from './traffic';
 import type { CaseId } from './cases';
+import {useNavigation} from './navigation';
 export { buildings, status, reserveDeadline } from './simulation';
 export type { BuildingId } from './simulation';
 
@@ -26,7 +27,10 @@ interface Actions {
 }
 
 export const useGame = create<GameData & Actions>((set) => {
-  const dispatch = (action: Action) => set(state => reduceGame(state, action));
+  const dispatch = (action: Action) => {
+    if(['select','selectVehicle','startCase','reset'].includes(action.type)&&useNavigation.getState().sceneryId)useNavigation.setState({sceneryId:null});
+    set(state => reduceGame(state, action));
+  };
   return {
     ...createInitialState(),
     select: id => dispatch({ type: 'select', id }),

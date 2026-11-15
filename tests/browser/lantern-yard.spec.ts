@@ -36,7 +36,8 @@ test('Lantern Yard is reachable, scenery blocks inspection, and outage lighting 
   expect(point.y).toBeGreaterThan(box.y);expect(point.y).toBeLessThan(box.y+box.height);
   if(info.project.name==='mobile')await page.touchscreen.tap(point.x,point.y);
   else await page.mouse.click(point.x,point.y);
-  await expect(page.getByRole('region',{name:'Building inspection'})).not.toBeVisible();
+  await expect(page.getByRole('region',{name:'Building inspection'}).getByRole('heading',{name:'Lantern Café',exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'Close inspection'}).click();
   await page.locator('.world').screenshot({path:info.outputPath('yard-close.png')});
   const lit=await page.locator('canvas').screenshot();
   await page.getByRole('button',{name:'Remove electricity',exact:true}).click();

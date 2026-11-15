@@ -14,6 +14,14 @@ export function frameOpening(camera:CameraGesture,s:ViewSize){
  camera.reset();
  camera.focus(iso(4.5,4.5),cameraOrigin(s),{x:s.width*(s.width<=760?.5:.58),y:s.height*(s.width<=760?.59:.68)},baseScale(s));
 }
+// A selected edge building may need sky/ground margin around its roof. Extend
+// the finite center range only as far as that authored selection requires.
+export function frameInspection(camera:CameraGesture,s:ViewSize,point:Point,mobile:boolean,scenery=false){
+ camera.zoom=Math.max(camera.zoom,mobile?1.5:scenery?1.2:1);
+ const scale=baseScale(s)*camera.zoom,origin=cameraOrigin(s);
+ camera.focus(point,origin,{x:s.width*(mobile?.5:.34),y:mobile?95:s.height*.38},scale);
+ camera.inspectionCenter=unproject({x:(s.width/2-origin.x-camera.pan.x)/scale,y:(s.height/2-origin.y-camera.pan.y)/scale});
+}
 export function boundedView(camera:CameraGesture,s:ViewSize):CameraView {
  const base=baseScale(s);
  // All four inverse-projected viewport corners must remain on the finite land.
@@ -24,8 +32,8 @@ export function boundedView(camera:CameraGesture,s:ViewSize):CameraView {
  const scale=base*camera.zoom,origin=cameraOrigin(s);
  const center=unproject({x:(s.width/2-origin.x-camera.pan.x)/scale,y:(s.height/2-origin.y-camera.pan.y)/scale});
  const half=(s.width/156+s.height/80)/scale;
- const clamp=(n:number)=>Math.max(world.min+half,Math.min(world.max-half,n));
- const p=iso(clamp(center.x),clamp(center.y));
+ const clamp=(n:number,anchor:number|undefined)=>Math.max(Math.min(world.min+half,anchor??Infinity),Math.min(Math.max(world.max-half,anchor??-Infinity),n));
+ const p=iso(clamp(center.x,camera.inspectionCenter?.x),clamp(center.y,camera.inspectionCenter?.y));
  camera.pan={x:s.width/2-origin.x-p.x*scale,y:s.height/2-origin.y-p.y*scale};
  return { ...s,scale,origin,pan:{...camera.pan},zoom:camera.zoom,
   footprint:{x:(-origin.x-camera.pan.x)/scale,y:(-origin.y-camera.pan.y)/scale,width:s.width/scale,height:s.height/scale}};

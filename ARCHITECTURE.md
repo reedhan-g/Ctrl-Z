@@ -1,5 +1,11 @@
 # Ctrl Z architecture
 
+## Building inspection and presentation selection
+
+selection_art.py generates selection-atlas.png and compact spriteHitRows.json from original lit/unlit alpha. spriteHit.ts tests opaque rows in painter order, including transparent roof setbacks; geometry remains the no-texture test fallback. CityScene/worldArt retain sprite-aligned highlight children within each building's depth/cull layer. Desktop preview is weaker than persistent selection; no lighting/outline ticker or GPU readback is needed.
+
+BuildingInspector and inspection.ts reuse real state/actions for service conditions, reserves, dependencies and recovery requirements; InspectionShell owns mobile collapse/focus. SceneryInspector/sceneryInfo present informational roles only. selection.ts and the game adapter coordinate exclusive service/scenery selection; scenery IDs live only in navigation.ts, never GameData/replay/save schema. The minimap and accessible SceneryBrowser share those identities. frameInspection provides a finite edge-roof framing allowance that Reset clears; it does not resize the world.
+
 ## Visible overhaul on main
 
 CODEX_CURRENT_TASK.md now authorizes tested direct main pushes. Runtime architecture is original offline pixel art from city_architecture.py, infrastructure_art.py and lantern_art.py; light_art.py bakes paired architectural illumination. streetPlan.json defines the connected named street segments; world.ts roadAt/chunkRoadMask and minimapGeometry.ts consume the same data. street_art.py provides sixteen cached ground masks with on/off states. worldArt swaps these only when grid power changes, while service frames follow real status/reserves. neighborhoods.ts explicitly composes fifteen civic/Lantern blocks. City initialization, Reset and minimap Home use the pure frameOpening helper; low-power renderer recreation retains the player's camera. Domain, replay and v1 persistence remain independent and unchanged.

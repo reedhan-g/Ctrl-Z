@@ -5,6 +5,7 @@ export class CameraGesture {
   minZoom = .55;
   maxZoom = 2.8;
   pan: Point = { x: 0, y: 0 };
+  inspectionCenter:Point|null=null;
   private pointers = new Map<number, Point>();
   private start: Point = { x: 0, y: 0 };
   private last: Point = { x: 0, y: 0 };
@@ -55,7 +56,7 @@ export class CameraGesture {
       y: point.y - origin.y - (point.y - origin.y - this.pan.y) * ratio };
     this.zoom = next;
   }
-  reset() { this.zoom = 1; this.pan = { x: 0, y: 0 }; this.pointers.clear(); this.moved = true; }
+  reset() { this.zoom = 1; this.pan = { x: 0, y: 0 };this.inspectionCenter=null; this.pointers.clear(); this.moved = true; }
   focus(point:Point,origin:Point,target:Point,scale:number) {
     this.pan={x:target.x-origin.x-point.x*scale,y:target.y-origin.y-point.y*scale};
   }

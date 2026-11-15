@@ -34,7 +34,7 @@ test('authored Lantern Yard uses its ground and retained outage frames without c
  assert.equal(all.filter(n=>n.texture===textures.lanternGround).length,1);
  const views=['yardHouse','lanternNoodles','lanternCafe'].map(id=>({id,node:all.find(n=>n.texture===textures[id].on)}));
  assert.ok(views.every(v=>v.node));const created=stats.created;
- assert.deepEqual(scene.pick(iso(-17.05,-17.075,28)),{building:null,blocked:true},'café roof occludes picks as scenery');
+ assert.deepEqual(scene.pick(iso(-17.05,-17.075,28)),{building:null,scenery:'scenery:-17.65:-17.7',blocked:true},'café roof occludes picks as scenery');
  scene.update({...state,outage:true});
  for(const v of views)assert.equal(v.node.texture,textures[v.id].off);
  scene.update(state);for(const v of views)assert.equal(v.node.texture,textures[v.id].on);
@@ -94,4 +94,14 @@ test('silhouette highlights transfer exclusively, retain outage state and previe
  assert.deepEqual(scene.selectionState().highlighted,['water']);
  scene.update(state);assert.deepEqual(scene.selectionState().highlighted,[]);
  assert.equal(stats.created,created);scene.world.destroy();
+});
+
+test('scenery selection uses the same paint layer and clears when a service or empty land is chosen',()=>{
+ const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
+ const scene=buildCityScene(textures),state=createInitialState(),id='scenery:-17.65:-17.7';
+ scene.update({...state,selectedScenery:id});assert.deepEqual(scene.selectionState().highlighted,[id]);
+ assert.equal(scene.pick(iso(-17.05,-17.075,28)).scenery,id);
+ scene.update({...state,selected:'hospital',selectedScenery:id});assert.deepEqual(scene.selectionState().highlighted,['hospital']);
+ assert.deepEqual(scene.pick({x:-10000,y:-10000}),{building:null,scenery:null,blocked:false});
+ scene.update(state);assert.deepEqual(scene.selectionState().highlighted,[]);scene.world.destroy();
 });

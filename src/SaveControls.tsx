@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {useGame} from './game';
 import {saveKey,encodeExperiment,decodeExperiment} from './persistence';
+import {useNavigation} from './navigation';
 
 export default function SaveControls(){
  const [message,setMessage]=useState('');
@@ -8,7 +9,7 @@ export default function SaveControls(){
   catch{setMessage('Could not save. Browser storage may be unavailable or the experiment too large.');}};
  const load=()=>{try{const saved=localStorage.getItem(saveKey),state=saved?decodeExperiment(saved):null;
    if(!state){setMessage('No compatible saved experiment found. Current experiment kept.');return;}
-   useGame.setState(state);setMessage('Saved experiment resumed, paused.');
+   useNavigation.setState({sceneryId:null});useGame.setState(state);setMessage('Saved experiment resumed, paused.');
   }catch{setMessage('Could not read browser storage. Current experiment kept.');}};
  return <div className="save-controls"><div><button onClick={save}>Save experiment</button><button onClick={load}>Resume saved</button></div>
   {message&&<p role="status">{message}</p>}</div>;
