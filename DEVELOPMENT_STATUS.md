@@ -1,5 +1,13 @@
 # Ctrl Z - Development Status
 
+## Vehicle artwork checkpoint - 2026-11-15
+
+Active brief: CODEX_CAR_FIX.md, read completely. Fetched origin and inspected history: main and origin/main both started at bf69179, with no unfinished changes other than the new brief. The bug is confirmed: traffic.ts returns position only and CityScene always uses one fixed car frame. Routes and dispatch mechanics do not need alteration.
+
+The first checkpoint adds original geometry-projected directional cars in amber/cyan/pink: four world-axis directions, each with lit/unlit lamps, sloped front/rear glazing, visible wheels and fixed world-space shading. No rotated/mirrored raster or third-party pixels. scripts/vehicle_art.py can rebuild the compact 512x192 atlas independently; the full existing art generator also invokes it. vehicleAtlas.ts owns shared 64-pixel frames and centered road-contact origin. The atlas is 8.82 kB compressed and 0.375 MiB decoded; nearest sampling and retained frame swaps preserve crisp pixels. Parked cars now use the new Y-axis frame at exactly their former road footprints. Moving couriers still use the legacy frame until the next checkpoint.
+
+Validation: two offline art checks, 89 unit checks, production build and all six focused desktop/mobile visual/traffic/idle-render browser checks pass. Actual opening captures were inspected on desktop/mobile. Tests cover all generated frames, lamp visibility, identity colors, distinct perspectives, stable sprite/contact points and parked road alignment. Next: derive a deterministic pose from the active route segment, wire all three courier sprites and fallback geometry to it, test all turns/replay/pause/branches/zoom/mobile and capture before/after turns. Simulation, saves, minimap and deployment remain unchanged.
+
 ## Map corrections complete ? 2026-11-15
 
 Completed the two requested corrections on main. Camera checkpoint ac8d869 was tested, pushed and verified before distribution work. The six stable service IDs now occupy Foundry Ward (grid 26.65, ?18.65), Civic & Medical (hospital 6.65, 1.65), Municipal Utilities (water ?18.65, 16.65), Maple Heights (homes ?8.65, 26.65), Neon Market (telecom ?8.35, ?3.35) and East Exchange (logistics 26.65, 26.65). Every pair is at least twelve tiles apart; all sites retain five-tile interior world margins, clear footprints/frontage and existing connected roads. The utility subdistrict reuses original existing architecture. Removed scenery collisions at new sites; two vacated civic service blocks receive modest existing-model infill. The city contains 280 informational scenery parcels, six services and three couriers.

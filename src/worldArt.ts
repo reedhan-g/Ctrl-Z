@@ -5,6 +5,7 @@ import {iso} from './geometry.ts';
 import {block} from './cityArt.ts';
 import {architecture,highlightSprite,type CityTextures} from './pixelArt.ts';
 import {lanternYard} from './lanternYard.ts';
+import {vehicleSprite} from './vehicleArt.ts';
 
 export interface CullEntry {node:Container;bounds:Rect;kind:'ground'|'scenery'|'service'}
 export function buildWorldArt(parent:Container,textures?:CityTextures){
@@ -43,8 +44,8 @@ export function buildWorldArt(parent:Container,textures?:CityTextures){
   if(textures){
    const lamp=architecture(textures,'streetlamp',chunk.x+3.78,chunk.y+3.78);lamp.sprite.zIndex=(chunk.x+chunk.y+7.7)*100;parent.addChild(lamp.sprite);facades.push(lamp);
    const p=iso(chunk.x+3.78,chunk.y+3.78);entries.push({node:lamp.sprite,bounds:{x:p.x-15,y:p.y-42,width:30,height:55},kind:'scenery'});
-   if(roadAt(chunk.x+4.22,chunk.y+1.1)&&(chunk.x/5+chunk.y/5)%3===0){const car=architecture(textures,'carAmber',chunk.x+4.22,chunk.y+1.1);car.sprite.zIndex=(chunk.x+chunk.y+6)*100;parent.addChild(car.sprite);
-    const p=iso(chunk.x+4.22,chunk.y+1.1);entries.push({node:car.sprite,bounds:{x:p.x-25,y:p.y-20,width:50,height:45},kind:'scenery'});}
+   if(roadAt(chunk.x+4.22,chunk.y+1.1)&&(chunk.x/5+chunk.y/5)%3===0){const car=vehicleSprite(textures.vehicles,'amber','y+',chunk.x+4.41,chunk.y+1.5);car.sprite.label=`parked:${chunk.x}:${chunk.y}:y+`;car.sprite.zIndex=(chunk.x+chunk.y+6)*100;parent.addChild(car.sprite);
+    const p=iso(chunk.x+4.41,chunk.y+1.5);entries.push({node:car.sprite,bounds:{x:p.x-32,y:p.y-40,width:64,height:64},kind:'scenery'});}
   }
  }
  for(const b of cityScenery){

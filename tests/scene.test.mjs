@@ -3,8 +3,10 @@ import assert from 'node:assert/strict';
 import { registerHooks } from 'node:module';
 import { createInitialState } from '../src/gameState.ts';
 import {cityModels} from '../src/cityModels.ts';
-import {iso} from '../src/geometry.ts';
+import {iso,unproject} from '../src/geometry.ts';
+import {roadAt} from '../src/world.ts';
 import {buildings} from '../src/simulation.ts';
+import {vehicleTextures} from './fixtures/vehicleTextures.mjs';
 
 const hooks = registerHooks({ resolve(specifier, context, nextResolve) {
   return specifier === 'pixi.js'
@@ -16,7 +18,7 @@ const { stats } = await import('./fixtures/pixi.mjs');
 hooks.deregister();
 
 test('atlas lighting swaps retained textures and keeps service backup distinct from city outage',()=>{
- const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{id:'street'},lanternGround:{id:'yard'}};
+ const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{id:'street'},lanternGround:{id:'yard'}};
  const scene=buildCityScene(textures);scene.update(createInitialState());
  const collect=node=>[node,...node.children.flatMap(collect)];
  const all=collect(scene.world),hospital=all.find(n=>n.texture===textures.hospital.on),shop=all.find(n=>n.texture===textures.market.on);
@@ -29,7 +31,7 @@ test('atlas lighting swaps retained textures and keeps service backup distinct f
 });
 
 test('authored Lantern Yard uses its ground and retained outage frames without creating services',()=>{
- const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{id:'street'},lanternGround:{id:'yard'}};
+ const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{id:'street'},lanternGround:{id:'yard'}};
  const scene=buildCityScene(textures),state=createInitialState();scene.update(state);
  const nodes=node=>[node,...node.children.flatMap(nodes)],all=nodes(scene.world);
  assert.equal(all.filter(n=>n.texture===textures.lanternGround).length,1);
@@ -54,7 +56,7 @@ test('simulation ticks reuse all scene objects without redrawing unchanged visua
 
 test('junction illumination swaps with grid state while hospital reserve illumination survives',()=>{
  const grounds=Array.from({length:16},(_,i)=>({on:{id:`ground-${i}:on`},off:{id:`ground-${i}:off`}}));
- const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{},lanternGround:{},grounds};
+ const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{},lanternGround:{},grounds};
  const scene=buildCityScene(textures),state=createInitialState();scene.update(state);
  const collect=n=>[n,...n.children.flatMap(collect)],all=collect(scene.world);
  const junction=all.find(n=>n.texture===grounds[15].on),hospital=all.find(n=>n.texture===textures.hospital.on);
@@ -87,7 +89,7 @@ test('culling hides distant geometry without discarding identity or offscreen ou
 });
 
 test('silhouette highlights transfer exclusively, retain outage state and preview without allocations',()=>{
- const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`},highlight:{id:`${id}:highlight`}}])),ground:{},lanternGround:{}};
+ const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`},highlight:{id:`${id}:highlight`}}])),ground:{},lanternGround:{}};
  const scene=buildCityScene(textures),state=createInitialState();scene.update({...state,selected:'hospital'});
  assert.deepEqual(scene.selectionState().highlighted,['hospital']);const created=stats.created;
  scene.preview('water');assert.deepEqual(new Set(scene.selectionState().highlighted),new Set(['hospital','water']));
@@ -98,7 +100,7 @@ test('silhouette highlights transfer exclusively, retain outage state and previe
 });
 
 test('scenery selection uses the same paint layer and clears when a service or empty land is chosen',()=>{
- const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
+ const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
  const scene=buildCityScene(textures),state=createInitialState(),id='scenery:-17.65:-17.7';
  scene.update({...state,selectedScenery:id});assert.deepEqual(scene.selectionState().highlighted,[id]);
  assert.equal(scene.pick(iso(-17.05,-17.075,28)).scenery,id);
@@ -109,12 +111,25 @@ test('scenery selection uses the same paint layer and clears when a service or e
 
 // The same retained renderer and alpha picking must follow relocated metadata.
 test('all six relocated landmarks remain directly pickable and highlight their own layer',()=>{
- const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`},highlight:{id:`${id}:highlight`}}])),ground:{},lanternGround:{}};
+ const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`},highlight:{id:`${id}:highlight`}}])),ground:{},lanternGround:{}};
  const scene=buildCityScene(textures),state=createInitialState();
  for(const b of buildings){
   scene.update({...state,selected:b.id});
   assert.deepEqual(scene.selectionState().highlighted,[b.id]);
   assert.equal(scene.pick(iso(b.x+.9,b.y+.9,b.height*.45)).building,b.id);
+ }
+ scene.world.destroy();
+});
+
+test('parked directional cars retain their existing street footprints and contact points',()=>{
+ const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
+ const scene=buildCityScene(textures),nodes=n=>[n,...n.children.flatMap(nodes)];
+ const parked=nodes(scene.world).filter(n=>n.label?.startsWith('parked:'));
+ assert.ok(parked.length>0);
+ for(const car of parked){
+  assert.equal(car.texture,textures.vehicles.amber['y+'].on);
+  const p=unproject({x:car.x+32,y:car.y+40});
+  for(const dx of [-.19,.19])for(const dy of [-.4,.4])assert.ok(roadAt(p.x+dx,p.y+dy),'parked wheels/body stay within the Y-axis road');
  }
  scene.world.destroy();
 });

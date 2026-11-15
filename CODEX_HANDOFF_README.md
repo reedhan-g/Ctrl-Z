@@ -1,5 +1,11 @@
 # Ctrl Z — complete Codex account handoff
 
+## Directional vehicle artwork in progress - 2026-11-15
+
+CODEX_CAR_FIX.md is the active focused task. Origin was fetched/inspected at bf69179; continue tested commits and verified pushes directly to main. The first artwork checkpoint introduces original 3D-projected car perspectives for amber/cyan/pink in all four world-axis directions, with paired light states. scripts/vehicle_art.py generates vehicle-atlas.png and vehicleAtlas.ts; build-city-art.py invokes it too. The separate 512x192 atlas adds 8.82 kB PNG / 0.375 MiB decoded, loads with nearest sampling and shares a centered ground-contact origin. vehicleArt.ts swaps retained texture frames without rotation or mirroring. Parked cars use the new Y-axis frame with their existing footprints; their placement is checked against real roads. No third-party artwork or rejected design was imported.
+
+Two art checks, 89 unit checks, build and six focused desktop/mobile browser checks pass; actual opening captures inspected. Moving orientation remains unfinished in this checkpoint: traffic.ts returns positions and CityScene still uses one fixed legacy car sprite. Next implement a shared route-segment pose/direction for all three couriers, preserve routes/dispatch integration/replay/save/minimap behavior, validate every turn and capture desktop/mobile before/after views at multiple zooms. Keep Antahonist direction, prior map fixes, commit-27 gameplay lineage and existing main-triggered Pages workflow.
+
 ## Current map-fix completion ? 2026-11-15
 
 CODEX_MAP_FIX.md is complete in exactly two tested checkpoints on origin/main: ac8d869 (camera centering) followed by the facility-distribution checkpoint containing this receipt. PR #1 documentation remains incorporated at 0334947; no repeat import or old-branch merge occurred. Historical branch/coordinate restrictions below are superseded by current main authorization and the explicit relocation brief. Antahonist remains primary, design/pixel-city-reference-2.png remains secondary, approved runtime lineage remains commit 27 and rejected commit-28/29 designs remain excluded.
