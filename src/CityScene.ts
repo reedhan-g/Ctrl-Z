@@ -4,13 +4,14 @@ import { iso, prismFaces, flatten, sortedBuildings } from './geometry.ts';
 import { dependencies, upstreamPaths } from './dependencies.ts';
 import { diagnoseDependency } from './investigation.ts';
 import { buildingShell, lightFacade } from './cityArt.ts';
-import { fleet, vehiclePosition } from './traffic.ts';
+import { fleet, vehiclePose } from './traffic.ts';
 import {world as land} from './world.ts';
 import {buildWorldArt,type CullEntry} from './worldArt.ts';
 import {cityScenery,sceneryDepth,boundsOf,intersects,type Rect} from './worldScenery.ts';
-import {pointInPolygon,buildingFaces,unproject} from './geometry.ts';
+import {pointInPolygon,buildingFaces} from './geometry.ts';
 import {architecture,highlightSprite,type CityTextures} from './pixelArt.ts';
 import {spriteHit} from './spriteHit.ts';
+import {vehicleSprite,drawVehicleFallback} from './vehicleArt.ts';
 
 type SceneState = Snapshot & { selected: BuildingId | null; trace: boolean;selectedScenery?:string|null };
 
@@ -23,20 +24,22 @@ export function buildCityScene(textures?:CityTextures) {
   const art=buildWorldArt(world,textures);
   const links = new Graphics();
   world.addChild(links);links.zIndex=-9997;
-  const vehicles=fleet.map((vehicle,i)=>{
+  const vehicles=fleet.map(vehicle=>{
     const sprite=new Container();
-    if(textures){const art=architecture(textures,(['carAmber','carCyan','carPink'] as const)[i],0,0);art.sprite.position.set(-120,-145);sprite.addChild(art.sprite);}
-    else {const shape=new Graphics();sprite.addChild(shape);shape.poly([-9,0,0,-5,10,0,1,6]).fill(vehicle.color)
-      .poly([-6,-3,0,-7,7,-3,0,1]).fill(0x44445a)
-      .rect(-8,1,3,3).fill(0xf8e3a0).rect(5,1,3,3).fill(0xf8e3a0);}
-    world.addChild(sprite);return {vehicle,sprite};
+    const art=textures?vehicleSprite(textures.vehicles,vehicle.art,'y+',0,0,4):null;
+    const shape=art?null:new Graphics();
+    if(art)sprite.addChild(art.sprite);else {shape!.position.set(0,4);sprite.addChild(shape!);}
+    world.addChild(sprite);return {vehicle,sprite,art,shape,direction:null as ReturnType<typeof vehiclePose>['direction']|null};
   });
   let previousVehicleKey='';
   function animate(s:Snapshot,visualHours=0) {
-    const positions=vehicles.map(v=>vehiclePosition(v.vehicle.id,s,visualHours));
-    const key=positions.map(p=>`${Math.round(p.x)},${Math.round(p.y)}`).join(':');
+    const poses=vehicles.map(v=>vehiclePose(v.vehicle.id,s,visualHours));
+    const key=poses.map(p=>`${Math.round(p.point.x)},${Math.round(p.point.y)},${p.direction}`).join(':');
     if(key===previousVehicleKey)return false;
-    positions.forEach((p,i)=>{vehicles[i].sprite.position.set(Math.round(p.x),Math.round(p.y));const tile=unproject({x:p.x,y:p.y+4});vehicles[i].sprite.zIndex=(tile.x+tile.y+.2)*100;});
+    poses.forEach((pose,i)=>{const v=vehicles[i],p=pose.point;
+      v.sprite.position.set(Math.round(p.x),Math.round(p.y));v.sprite.zIndex=(pose.tile.x+pose.tile.y+.2)*100;
+      if(v.direction!==pose.direction){v.art?.setDirection(pose.direction);if(v.shape)drawVehicleFallback(v.shape,v.vehicle.color,pose.direction);v.direction=pose.direction;}
+    });
     previousVehicleKey=key;return true;
   }
   let previousOutage: boolean | null = null;
@@ -122,12 +125,13 @@ export function buildCityScene(textures?:CityTextures) {
   const entries:CullEntry[]=[...art.entries,...views.map(v=>({node:v.layer,bounds:boundsOf(buildingFaces(v.b).flat(),60),kind:'service' as const}))];
   function cull(rect:Rect){
     let visible=0,servicesVisible=0;for(const entry of entries){entry.node.visible=intersects(entry.bounds,rect,100);if(entry.node.visible){visible++;if(entry.kind==='service')servicesVisible++;}}
-    for(const v of vehicles)v.sprite.visible=intersects({x:v.sprite.x-16,y:v.sprite.y-16,width:32,height:32},rect,60);
+    for(const v of vehicles)v.sprite.visible=intersects({x:v.sprite.x-32,y:v.sprite.y-36,width:64,height:64},rect,60);
     return {total:entries.length,visible,servicesVisible};
   }
   const occluders=[...cityScenery.map(b=>({depth:sceneryDepth(b),order:0,faces:b.faces,model:b.model,x:b.x,y:b.y,scenery:b.id as string|null,building:null as BuildingId|null})),...buildings.map(b=>({depth:(b.x+b.y+1.9)*100,order:1,faces:buildingFaces(b),model:b.id,x:b.x,y:b.y,scenery:null as string|null,building:b.id as BuildingId|null}))].sort((a,b)=>b.depth-a.depth||b.order-a.order);
   function pick(point:{x:number;y:number}){const hit=occluders.find(o=>textures?spriteHit(o.model,o.x,o.y,point):o.faces.some(face=>pointInPolygon(point,face)));return {building:hit?.building??null,scenery:hit?.scenery??null,blocked:!!hit};}
   const getVehiclePosition=(id:string)=>{const sprite=vehicles.find(v=>v.vehicle.id===id)!.sprite;return {x:sprite.x,y:sprite.y};};
+  const vehicleState=()=>vehicles.map(v=>({id:v.vehicle.id,color:v.vehicle.art,direction:v.direction,x:v.sprite.x,y:v.sprite.y,visible:v.sprite.visible,frame:v.art?.sprite.texture.frame,rotation:v.art?.sprite.rotation??0,offset:v.art?{x:v.art.sprite.x,y:v.art.sprite.y}:null}));
   const selectionState=()=>({selected:selectedId,scenery:selectedScenery,hovered:hoveredId,highlighted:[...views.filter(v=>v.highlight?.visible).map(v=>v.b.id),...art.highlighted()]});
-  return { world, update, animate, cull, pick, preview, selectionState, getVehiclePosition };
+  return { world, update, animate, cull, pick, preview, selectionState, getVehiclePosition, vehicleState };
 }

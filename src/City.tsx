@@ -40,6 +40,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
       let frame = 0;
       const render = () => {
         el.dataset.selection=JSON.stringify(scene.selectionState());
+        el.dataset.traffic=JSON.stringify(scene.vehicleState());
         if (frame || document.hidden || disposed) return;
         frame = requestAnimationFrame(() => { frame = 0; if (!disposed) app.render(); });
       };

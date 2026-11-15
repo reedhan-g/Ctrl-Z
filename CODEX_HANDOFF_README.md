@@ -1,6 +1,12 @@
 # Ctrl Z — complete Codex account handoff
 
-## Directional vehicle artwork in progress - 2026-11-15
+## Vehicle orientation complete - 2026-11-15
+
+CODEX_CAR_FIX.md is complete in two tested checkpoints on main: original-art commit 84b3466 (already pushed/verified) and the route-orientation fix containing this receipt. One VehiclePose owns world direction, road tile, projected point and depth; vehiclePosition remains the old minimap/camera/picking adapter. All three retained color sprites swap frames at route turns, including same-rounded-pixel turns; fallback geometry and culling use the same direction/contact contract. Routes, fleet IDs/offsets, integrated dispatch, game/replay/persistence data and both workflows remain unchanged. No new ticker, runtime rotation or mirroring is used.
+
+94 unit checks, two offline raster checks, production build and all 62 desktop/mobile browser specifications pass. The final serial gate took 10.2 minutes and supersedes the interrupted, resource-heavy two-worker attempt. It covers orientation in all four world directions, every route vertex, three colors, pause/resume, speed, undo, scrubbing, branch changes, gameplay/minimap/v1 saves, zoom/mobile and retained rendering. Both benchmark projects retain zero idle draws and 32 scripted-drag draws. Twelve reviewed before/after/color captures and provenance are in docs/vehicle-review. Tests force an actual slider endpoint change rather than mistaking its rounded DOM value for exact simulation time; runtime clock behavior is preserved. Keep Antahonist direction, commit-27 lineage, map corrections and existing main-triggered Pages. Physical-device/Safari verification and creator feedback remain outstanding; await the next creator-directed task instead of restarting the older redesign.
+
+## Directional vehicle artwork checkpoint - 2026-11-15
 
 CODEX_CAR_FIX.md is the active focused task. Origin was fetched/inspected at bf69179; continue tested commits and verified pushes directly to main. The first artwork checkpoint introduces original 3D-projected car perspectives for amber/cyan/pink in all four world-axis directions, with paired light states. scripts/vehicle_art.py generates vehicle-atlas.png and vehicleAtlas.ts; build-city-art.py invokes it too. The separate 512x192 atlas adds 8.82 kB PNG / 0.375 MiB decoded, loads with nearest sampling and shares a centered ground-contact origin. vehicleArt.ts swaps retained texture frames without rotation or mirroring. Parked cars use the new Y-axis frame with their existing footprints; their placement is checked against real roads. No third-party artwork or rejected design was imported.
 

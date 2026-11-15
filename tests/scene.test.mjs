@@ -7,6 +7,8 @@ import {iso,unproject} from '../src/geometry.ts';
 import {roadAt} from '../src/world.ts';
 import {buildings} from '../src/simulation.ts';
 import {vehicleTextures} from './fixtures/vehicleTextures.mjs';
+import {fleet,vehicleRoute,vehiclePose} from '../src/traffic.ts';
+import {vehicleAtlas} from '../src/vehicleAtlas.ts';
 
 const hooks = registerHooks({ resolve(specifier, context, nextResolve) {
   return specifier === 'pixi.js'
@@ -48,7 +50,8 @@ test('simulation ticks reuse all scene objects without redrawing unchanged visua
   const scene = buildCityScene(), state = { ...createInitialState(), outage: true };
   assert.equal(scene.update(state), true);
   const created = stats.created, drawn = stats.drawn, children = [...scene.world.children];
-  for (let tick = 1; tick < 100; tick++) scene.update({ ...state, time: tick / 100 });
+  // Stay before the first turn: a changed heading is now a real visual change.
+  for (let tick = 1; tick < 100; tick++) scene.update({ ...state, time: tick / 1000 });
   assert.equal(stats.created, created); assert.equal(stats.drawn, drawn);
   assert.deepEqual(scene.world.children, children);
   scene.world.destroy();
@@ -132,4 +135,25 @@ test('parked directional cars retain their existing street footprints and contac
   for(const dx of [-.19,.19])for(const dy of [-.4,.4])assert.ok(roadAt(p.x+dx,p.y+dy),'parked wheels/body stay within the Y-axis road');
  }
  scene.world.destroy();
+});
+
+test('retained courier textures turn before rounded positions change without allocating scene objects',()=>{
+ const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
+ const scene=buildCityScene(textures),state=createInitialState();scene.update(state);
+ const created=stats.created,drawn=stats.drawn,circuit=vehicleRoute.slice(1).reduce((n,b,i)=>n+Math.hypot(b.x-vehicleRoute[i].x,b.y-vehicleRoute[i].y),0);
+ for(const vehicle of fleet){let boundary=0;
+  for(let i=1;i<vehicleRoute.length;i++){
+   boundary+=Math.hypot(vehicleRoute[i].x-vehicleRoute[i-1].x,vehicleRoute[i].y-vehicleRoute[i-1].y);
+   const before=(boundary-vehicle.offset+circuit-.0001)/5,after=before+.00004;
+   scene.animate(state,before);const a=scene.vehicleState().find(v=>v.id===vehicle.id);
+   const changed=scene.animate(state,after),b=scene.vehicleState().find(v=>v.id===vehicle.id),pose=vehiclePose(vehicle.id,state,after);
+   assert.equal(b.direction,pose.direction);assert.ok(a.x===b.x&&a.y===b.y);
+   if(a.direction!==b.direction)assert.equal(changed,true,'orientation invalidates the rounded-position cache');
+   const index=vehicleAtlas.colors[vehicle.art][pose.direction].on;
+   assert.equal(b.frame.x,index%8*64);assert.equal(b.frame.y,Math.floor(index/8)*64);
+   assert.deepEqual(b.offset,{x:-32,y:-36});assert.equal(b.rotation,0);
+   assert.deepEqual(scene.getVehiclePosition(vehicle.id),{x:b.x,y:b.y});
+  }
+ }
+ assert.equal(stats.created,created);assert.equal(stats.drawn,drawn);scene.world.destroy();
 });

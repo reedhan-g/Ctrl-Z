@@ -1,5 +1,13 @@
 # Ctrl Z - Development Status
 
+## Vehicle orientation complete - 2026-11-15
+
+Artwork checkpoint 84b3466 is pushed and verified on origin/main. The moving fix now samples position, road tile and world-axis direction from one active route segment. Every turn uses its outgoing direction, including opposite traffic. CityScene reuses all three sprites, swaps the corresponding color/direction frame and includes heading in its rounded-position cache key. The geometry fallback follows the same direction. Compact-frame culling and a shared road-contact origin replace the old ad hoc sprite offset. Minimap/camera/picking retain vehiclePosition's existing z=4 API. Routes, fleet offsets, dispatch rules, saves and deployment are unchanged.
+
+Final validation: **94 unit checks, two offline art checks, production build and all 62 desktop/mobile browser specifications pass**. The complete serial browser gate took 10.2 minutes. Tests compare old/new positions through outages and recovery, verify all three couriers on every segment/vertex, road footprints and scene reuse, and exercise pause/resume, speed, undo, seeking and branch switching. Initial browser fixture failures came from native range-step rounding: the test now forces a genuine Home/End input event and tests fractional pause stability separately. No runtime clock/slider behavior was changed or assertions/timeouts weakened. Twelve actual inspector-open before/after/color captures were reviewed and saved in docs/vehicle-review.
+
+An earlier two-worker attempt was stopped after severe software-rendering contention and a canvas-startup timeout; the full serial pass supersedes that partial run. Final benchmark samples retained zero idle draws and 32 scripted-drag draws on both projects (ready 1470/1610 ms, drag 4098/4203 ms desktop/mobile; software GPU timing is not phone FPS). The prior unchanged-visual scene test now samples before the first heading change; separate coverage requires an orientation-only turn to update without allocating scene objects or redrawing texture-backed geometry. CODEX_CAR_FIX.md is complete in the artwork checkpoint and this independently tested route/rendering checkpoint. No unrelated redesign or gameplay expansion was begun. Physical-device/Safari verification and creator feedback remain external follow-ups; the next feature milestone awaits creator direction.
+
 ## Vehicle artwork checkpoint - 2026-11-15
 
 Active brief: CODEX_CAR_FIX.md, read completely. Fetched origin and inspected history: main and origin/main both started at bf69179, with no unfinished changes other than the new brief. The bug is confirmed: traffic.ts returns position only and CityScene always uses one fixed car frame. Routes and dispatch mechanics do not need alteration.

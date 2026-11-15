@@ -1,5 +1,13 @@
 # Ctrl Z architecture
 
+## Directional vehicles
+
+traffic.ts samples a single deterministic VehiclePose (road tile, projected z=4 point, outgoing segment and world-axis direction). vehiclePosition remains the compatibility wrapper for minimap, camera and picking. Route coordinates, fleet offsets and integrated dispatch/capacity rules are unchanged; orientation is derived from the segment delta, never from screen displacement or the previous frame. At a vertex the outgoing segment owns the heading.
+
+scripts/vehicle_art.py projects original body/cabin/lamp/wheel geometry into four perspectives for each existing courier color. It writes a separate 512x192 vehicle-atlas.png and vehicleAtlas.ts; the full city-art generator invokes it too. Twenty-four 64x64 frames share one nearest-sampled GPU source and a centered (32,40) road-contact origin. vehicleArt.ts swaps frames on retained sprites with no rotation/reflection/filter. Moving sprites cancel the existing pose's four-pixel height at wheel contact; parked Y-axis cars retain their old footprint. Legacy city-atlas car slots remain for atlas-index stability but are no longer used to draw cars.
+
+CityScene caches rounded position plus direction, so a turn updates even within one rounded pixel. Depth uses the same sampled road tile; culling includes the compact frame. The geometry-only test fallback follows the same directions. City publishes actual texture frame/pose diagnostics alongside existing camera/selection diagnostics for browser verification. No direction/camera fields are persisted in v1 experiments and no additional animation ticker is introduced.
+
 ## Building inspection and presentation selection
 
 selection_art.py generates selection-atlas.png and compact spriteHitRows.json from original lit/unlit alpha. spriteHit.ts tests opaque rows in painter order, including transparent roof setbacks; geometry remains the no-texture test fallback. CityScene/worldArt retain sprite-aligned highlight children within each building's depth/cull layer. Desktop preview is weaker than persistent selection; no lighting/outline ticker or GPU readback is needed.
