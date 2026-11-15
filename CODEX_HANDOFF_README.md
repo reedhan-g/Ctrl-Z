@@ -1,5 +1,11 @@
 # Ctrl Z — complete Codex account handoff
 
+## Deployed UI overhaul verified - 2026-11-15
+
+All five runtime milestones are complete and pushed to origin/main: 8d4beb4, 8ed65c0, e2ed567, 427bf3f and c0ba5ab. Runtime SHA c0ba5ab3c3c840bb0c2230d639bb8b62d2342695 has successful CI (43739791304) and Pages deployment (43739791251). Actual https://reedhan-g.github.io/Ctrl-Z/ passed four desktop/mobile guide and gameplay review cases in 29.1 seconds after deployment. The real published flow includes blackout, pause, facility inspection, supplies, timeline seeking, restoration and undo; guide tests verify actual-action progression, skip/replay and preserved experiment time. Deployed opening/guide images are in docs/ui-overhaul/deployed and were visually reviewed.
+
+Local validation: 100 unit tests and production build pass; 80 browser cases validated via the full run and 14 focused follow-ups described below. Reviewed before/after evidence and exact viewport/benchmark receipts are in docs/ui-overhaul/README.md. Protected map/render/camera/art/domain/save/workflow files remain unchanged from 6cb71f8. This final checkpoint records evidence only, with no runtime changes. No unfinished requested implementation remains. Physical Android/iOS/Safari usability, battery and memory measurements remain external follow-ups; short viewports can scroll to expanded details. Next work should follow creator feedback/new instructions and preserve the approved city.
+
 ## UI overhaul implementation complete - 2026-11-15
 
 CODEX_CTRL_Z_UI_OVERHAUL.md is implemented through five tested runtime checkpoints, based on approved city 6cb71f8. Pushed milestones: 8d4beb4 (design system/header/hierarchy), 8ed65c0 (real six-system summary/timeline), e2ed567 (inspection/feedback) and 427bf3f (mobile). Each has successful CI/Pages results. The final guide/polish changes are in the commit containing this receipt; hosted verification follows its push.
@@ -12,7 +18,7 @@ The UI-only exception reserves a 620px stage for short-phone inspection and 760p
 
 Actual before/after views are in docs/ui-overhaul/README.md with 36 final captures, including opening, blackout, hospital/hub, active timeline, restore/replay, guide and combined overlays. Tested sizes: 320x800, 360x800, 375x812, 390x844, 430x932, 768x1024, 1366x768, 1440x900 and 844x390 landscape, plus default desktop/mobile Chromium projects. Benchmark samples retain zero idle calls and 32/30 drag draws (desktop/mobile), ready 3016/1774 ms and drag 3576/3343 ms. These are software GPU samples, not physical phone FPS or a startup-speed improvement claim. Physical Android/iOS/Safari, battery and memory measurements remain external follow-ups.
 
-Next: verify the pushed runtime SHA, hosted CI/Pages and actual deployed desktop/mobile guide/gameplay, then record the deployment receipt. Do not restart the older city redesign or change the approved map. Preserve completed work and continue from main only when creator feedback or a new task warrants changes.
+Hosted CI/Pages and actual deployed guide/gameplay verification are complete; see the current receipt above. Do not restart the older city redesign or change the approved map. Preserve completed work and continue from main only when creator feedback or a new task warrants changes.
 
 ## UI milestone 4 - phone console
 

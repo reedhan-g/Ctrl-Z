@@ -8,7 +8,7 @@ The active brief is CODEX_CTRL_Z_UI_OVERHAUL.md. The approved city baseline is 6
 - 8ed65c0: six real system statuses and logistics capacity, navigation through existing selection, readable elapsed time/transport/event feedback. Six systems/replay/review checks and build passed; CI/Pages succeeded.
 - e2ed567: purpose/condition/action-first inspection, readable metrics/disabled reasons, startup and save feedback. Six inspector/quality/review checks and build passed; CI/Pages succeeded.
 - 427bf3f: phone-first compact mode/action row, horizontal six-service strip, map before secondary tools, native slider with expandable timeline details and independently scrolling sheets. Twelve targeted browser cases and build passed; CI/Pages succeeded.
-- Final guide/polish checkpoint: manually opened from How to Play; Skip, Close, Next and replay are available. Progress follows real blackout, facility selection and intervention. No automatic outage, timer progression, save migration, experiment reset, or recurring onboarding prompt. Desktop/mobile guide and combined-overlay checks pass. Final hosted receipt follows the runtime push.
+- c0ba5ab: final guide/polish checkpoint: manually opened from How to Play; Skip, Close, Next and replay are available. Progress follows real blackout, facility selection and intervention. No automatic outage, timer progression, save migration, experiment reset, or recurring onboarding prompt. Desktop/mobile guide and combined-overlay checks pass. Final hosted receipt follows the runtime push.
 
 ## Real screenshot comparison
 
@@ -38,4 +38,8 @@ The short-phone inspection stage has a 620px minimum (760px when full timeline a
 
 [Desktop combined overlay](final/desktop-expanded-timeline-homes.png) / [mobile combined overlay](final/mobile-expanded-timeline-homes.png). The same strict all-six roof/name framing checks pass with timeline details and inspection open together.
 
-The five implementation milestones are complete. The final runtime push is followed by actual deployed desktop/mobile guide/gameplay verification; its receipt is recorded after the hosted run.
+The five implementation milestones are complete and pushed to origin/main. Final runtime SHA: c0ba5ab3c3c840bb0c2230d639bb8b62d2342695. [CI passed](https://github.com/reedhan-g/Ctrl-Z/actions/runs/43739791304) and [Pages deployment passed](https://github.com/reedhan-g/Ctrl-Z/actions/runs/43739791251).
+
+The actual [published game](https://reedhan-g.github.io/Ctrl-Z/) passed all four desktop/mobile guide and gameplay review cases in 29.1 seconds. Tests exercised the published blackout, pause, hospital/hub inspection, supply, seek, restore/undo, optional guide progression, Skip/replay and preserved experiment time. This verification used the built deployed application, not only workflow status.
+
+[Published desktop opening](deployed/desktop-opening.png) / [published mobile opening](deployed/mobile-opening.png). [Published desktop guide](deployed/desktop-guide-complete.png) / [published mobile guide](deployed/mobile-guide-complete.png). These captures were opened and visually reviewed. The final documentation checkpoint records this receipt without runtime changes.
