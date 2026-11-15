@@ -9,7 +9,7 @@ export default function ScenarioPanel(){
  return <div className="scenario-panel" id="scenario">
   <nav className="mode-tabs" aria-label="Game mode"><button aria-pressed={!progress} onClick={s.reset}>Sandbox</button>
    <button aria-pressed={!!progress} onClick={()=>s.startCase('dispatch')}>Investigation</button></nav>
-  <p className="mode-hint">{progress?'Gather evidence. Diagnose a hidden failure.':'Sandbox: break a system and test your response.'}</p>
+  <p className="mode-hint">{progress?'Gather evidence. Diagnose a hidden failure.':'Sandbox: test your response.'}</p>
   {!progress?<>
    <button className={`primary ${s.outage?'restore':''}`} onClick={s.outage?s.restore:s.fail}><Zap size={16}/>{s.outage?'Restore electricity':'Remove electricity'}<ArrowRight size={17}/></button>
   </>:<div className="case-brief">

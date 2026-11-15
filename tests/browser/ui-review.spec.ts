@@ -17,6 +17,7 @@ test('records the real interface through blackout inspection intervention and re
  }
  await page.getByRole('region',{name:'Building inspection'}).getByRole('button',{name:/Send backup supplies/}).click();
  await page.getByRole('button',{name:'Close inspection'}).click();
+ const detail=page.getByRole('button',{name:'Timeline details',exact:true});if(await detail.isVisible())await detail.click();
  await page.getByRole('slider',{name:'Simulation timeline'}).press('End');await capture('timeline');
  await page.getByRole('button',{name:'Restore electricity',exact:true}).click();await capture('restored');
  await page.getByRole('button',{name:'Undo',exact:true}).click();await capture('replay');

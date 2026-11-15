@@ -13,6 +13,7 @@ test('low power rendering preserves the selected response and frames inspection'
  await expect(page.locator('canvas')).toBeVisible();
  expect(await page.locator('canvas').evaluate(canvas=>canvas.width<=canvas.clientWidth+1)).toBeTruthy();
  await expect(panel.getByRole('button',{name:'Supplies delivered',exact:true})).toBeDisabled();
+ {const detail=page.getByRole('button',{name:'Timeline details',exact:true});if(await detail.isVisible())await detail.click();}
  await expect(page.getByRole('combobox',{name:'Replay branch'})).toHaveValue('1');
  await page.getByRole('button',{name:'Zoom in'}).click();
  await page.getByRole('button',{name:'Zoom out'}).click();
