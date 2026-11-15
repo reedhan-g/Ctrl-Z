@@ -1,4 +1,4 @@
-import { Container, Graphics, Text } from 'pixi.js';
+import { Container, Graphics } from 'pixi.js';
 import { buildings, status, type Snapshot, type BuildingId } from './simulation.ts';
 import { iso, prismFaces, flatten, sortedBuildings } from './geometry.ts';
 import { dependencies, upstreamPaths } from './dependencies.ts';
@@ -9,14 +9,14 @@ import {world as land} from './world.ts';
 import {buildWorldArt,type CullEntry} from './worldArt.ts';
 import {cityScenery,sceneryDepth,boundsOf,intersects,type Rect} from './worldScenery.ts';
 import {pointInPolygon,buildingFaces} from './geometry.ts';
-import {architecture,highlightSprite,type CityTextures} from './pixelArt.ts';
+import {architecture,highlightSprite,landmarkGlowSprite,type CityTextures} from './pixelArt.ts';
 import {spriteHit} from './spriteHit.ts';
 import {vehicleSprite,drawVehicleFallback} from './vehicleArt.ts';
 
 type SceneState = Snapshot & { selected: BuildingId | null; trace: boolean;selectedScenery?:string|null };
 
 /** Allocate scene objects once; updates only change affected graphics and labels. */
-export function buildCityScene(textures?:CityTextures) {
+export function buildCityScene(textures?:CityTextures,options:{touch?:boolean}={}) {
   const world = new Container();world.sortableChildren=true;
   const ground = new Graphics();
   world.addChild(ground);
@@ -52,6 +52,8 @@ export function buildCityScene(textures?:CityTextures) {
     layer.addChild(selection, body, windows, roof, indicator);layer.zIndex=(b.x+b.y+1.9)*100;
     const facade=textures?architecture(textures,b.id,b.x,b.y):null;
     if(facade)layer.addChild(facade.sprite);else buildingShell(body,b);
+    const gold=textures?landmarkGlowSprite(textures,b.id,b.x,b.y):null;
+    if(gold)layer.addChild(gold);
     const highlight=textures?highlightSprite(textures,b.id,b.x,b.y):null;
     if(highlight)layer.addChild(highlight);
     const r = iso(b.x + .94, b.y + .94, b.height + 9);
@@ -65,23 +67,26 @@ export function buildCityScene(textures?:CityTextures) {
         .ellipse(r.x, r.y + 7, 17, 8).fill(0x829b9e);
     }
     const p = iso(b.x + .9, b.y + .9, b.height + 30);
-    const label = new Text({ text: b.id === 'grid' ? 'SUBSTATION' : b.id === 'hospital' ? 'HOSPITAL' : b.id === 'water' ? 'WATERWORKS' : b.id==='telecom'?'TELECOM':b.id==='logistics'?'DELIVERY HUB':'RESIDENCES',
-      style: { fontFamily: 'monospace', fontSize: 10, fill: 0xabc0c6, letterSpacing: 1 } });
-    label.anchor.set(.5); label.position.set(p.x, p.y - 24);
-    label.visible=false; // Architecture/signs lead; selection reveals the large label.
-    layer.addChild(label); world.addChild(layer);
-    return { b, layer, windows, indicator, selection, label, p, facade,highlight,tone: '', selected: false };
+    world.addChild(layer);
+    return { b, layer, windows, indicator, selection, p, facade,highlight,gold,tone: '', selected: false,target:.18,from:.18,start:0,tween:false };
   });
 
-  function showHighlights(){
+  function showHighlights(smooth=false,now=performance.now()){
     let changed=art.selectScenery(selectedScenery,hoveredId);
-    for(const v of views)if(v.highlight){
-      const visible=v.b.id===selectedId||v.b.id===hoveredId,alpha=v.b.id===selectedId?1:.4;
-      if(v.highlight.visible!==visible||v.highlight.alpha!==alpha){v.highlight.visible=visible;v.highlight.alpha=alpha;changed=true;}
+    for(const v of views){
+      const selected=v.b.id===selectedId,hovered=v.b.id===hoveredId,target=hovered||(selected&&options.touch)?1:selected?.65:.18;
+      if(v.highlight&&(v.highlight.visible!==selected||v.highlight.alpha!==1)){v.highlight.visible=selected;v.highlight.alpha=1;changed=true;}
+      if(v.gold&&v.target!==target){v.from=v.gold.alpha;v.target=target;v.start=now;v.tween=smooth;changed=true;if(!smooth)v.gold.alpha=target;}
     }
     return changed;
   }
-  function preview(id:string|null){const changed=hoveredId!==id;hoveredId=id;return showHighlights()||changed;}
+  function preview(id:string|null,smooth=false,now=performance.now()){const changed=hoveredId!==id;hoveredId=id;return showHighlights(smooth,now)||changed;}
+  const highlightAnimating=()=>views.some(v=>v.tween);
+  function advanceHighlights(now:number){let changed=false;
+    for(const v of views)if(v.gold&&v.tween){const t=Math.min(1,Math.max(0,(now-v.start)/140)),alpha=t===1?v.target:v.from+(v.target-v.from)*(1-(1-t)**3);
+      changed=changed||v.gold.alpha!==alpha;v.gold.alpha=alpha;if(t===1)v.tween=false;
+    }return changed;
+  }
 
   function update(s: SceneState) {
     let changed = false;
@@ -115,8 +120,6 @@ export function buildCityScene(textures?:CityTextures) {
       const selected = s.selected === b.id;
       if (view.selected !== selected) {
         changed = true; view.selected = selected; selection.clear();
-        view.label.style.fill = selected ? 0xb9f3e4 : 0xabc0c6;
-        view.label.visible=selected;
         if (selected&&!view.highlight)for(const face of buildingFaces(b))selection.poly(flatten(face)).stroke({ color: 0x8de4d1, width: 2 });
       }
     }
@@ -132,6 +135,6 @@ export function buildCityScene(textures?:CityTextures) {
   function pick(point:{x:number;y:number}){const hit=occluders.find(o=>textures?spriteHit(o.model,o.x,o.y,point):o.faces.some(face=>pointInPolygon(point,face)));return {building:hit?.building??null,scenery:hit?.scenery??null,blocked:!!hit};}
   const getVehiclePosition=(id:string)=>{const sprite=vehicles.find(v=>v.vehicle.id===id)!.sprite;return {x:sprite.x,y:sprite.y};};
   const vehicleState=()=>vehicles.map(v=>({id:v.vehicle.id,color:v.vehicle.art,direction:v.direction,x:v.sprite.x,y:v.sprite.y,visible:v.sprite.visible,frame:v.art?.sprite.texture.frame,rotation:v.art?.sprite.rotation??0,offset:v.art?{x:v.art.sprite.x,y:v.art.sprite.y}:null}));
-  const selectionState=()=>({selected:selectedId,scenery:selectedScenery,hovered:hoveredId,highlighted:[...views.filter(v=>v.highlight?.visible).map(v=>v.b.id),...art.highlighted()]});
-  return { world, update, animate, cull, pick, preview, selectionState, getVehiclePosition, vehicleState };
+  const selectionState=()=>({selected:selectedId,scenery:selectedScenery,hovered:hoveredId,highlighted:[...views.filter(v=>v.b.id===selectedId||v.b.id===hoveredId).map(v=>v.b.id),...art.highlighted()],landmarks:views.map(v=>({id:v.b.id,gold:v.gold?.alpha??0,target:v.target,selected:v.b.id===selectedId,hovered:v.b.id===hoveredId}))});
+  return { world, update, animate, cull, pick, preview, advanceHighlights,highlightAnimating,selectionState, getVehiclePosition, vehicleState };
 }

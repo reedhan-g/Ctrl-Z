@@ -27,7 +27,7 @@ test('captures curbside streets and landmark normal hover selection states',asyn
 test('reviews parked curbside bays across market residential and logistics streets',async({page},info)=>{
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Zoom in',exact:true}).click();
- for(const [name,x,y] of [['market',4.5,-4.25],['housing',-20.5,7.75],['exchange',29.5,18]] as const){
+ for(const [name,x,y] of [['market',4.5,-4.25],['housing',4.5,11],['exchange',29.5,18]] as const){
   const expand=page.getByRole('button',{name:'Expand minimap'});if(await expand.isVisible())await expand.click();
   const map=page.getByRole('application',{name:'Interactive city minimap'});await map.scrollIntoViewIfNeeded();
   const target=await map.evaluate((el,p)=>{const q=new DOMPoint(p.x,p.y).matrixTransform((el as SVGSVGElement).getScreenCTM()!);return {x:q.x,y:q.y};},iso(x,y));

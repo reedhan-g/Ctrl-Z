@@ -77,3 +77,10 @@
 /* Keep close/collapse reachable even when a short mobile sheet must scroll. */
 .inspector{overflow-y:auto;overscroll-behavior:contain;scroll-padding-top:50px}.inspector-top{position:sticky;top:0;background:#17242a;z-index:2;box-shadow:0 3px 8px #17242a}.inspector-body{padding-right:3px}.inspector .inspection-condition.warn{color:#e9ba7b}.inspector .inspection-condition.bad{color:#f39180}.inspector .inspection-condition.good{color:#a5d8bd}.status-text.scenery{color:#90cbd1}.status-text.scenery i{background:#90cbd1}.scenery-note{border-left:2px solid #6fb5c2;padding-left:10px}.scenery-browser{margin-top:12px;font-size:10px;color:#9fbdc2}.scenery-browser summary{cursor:pointer;min-height:44px;display:flex;align-items:center}.scenery-browser label,.scenery-browser small{display:block;line-height:1.6;margin:6px 0}.scenery-browser select{width:100%;max-width:100%;min-height:44px;background:#1b2c35;color:#d0e6e2;border:1px solid #4c6870;border-radius:4px;padding:6px;font-size:10px}
 @media(max-width:760px){.inspector[data-collapsed=true]{max-height:160px}.scenery-browser{grid-column:1/-1;grid-row:7;margin:0}.scenery-browser summary{min-height:44px}}
+
+/* Service names stay legible in CSS pixels while their anchors follow the map. */
+.landmark-label-layer{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.landmark-name{position:absolute;display:block;box-sizing:border-box;text-align:center;white-space:nowrap;padding:2px 7px;font:600 12px/16px ui-monospace,Consolas,monospace;color:#e8d7ad;background:#0b1726ed;border:1px solid #77654c;border-radius:3px;box-shadow:0 2px 0 #040a12cc}
+.landmark-name[data-emphasized=true]{font-size:14px;line-height:18px;padding:3px 7px;color:#fff0c5;border-color:#e8b965;background:#101b29f5}
+.landmark-name[data-selected=true]{border-bottom:2px solid #8de4d1}
+.landmark-announcement{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}

@@ -10,6 +10,7 @@ import {pickVehicle,vehiclePosition} from './traffic';
 import {loadCityTextures} from './pixelArt';
 import {inspectScenery} from './selection';
 import {findScenery} from './sceneryInfo';
+import LandmarkLabels from './LandmarkLabels';
 
 export default function City({lowPower=false}:{lowPower?:boolean}) {
   const host = useRef<HTMLDivElement>(null);
@@ -32,20 +33,30 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
       if (disposed) { destroy(); return; }
       const textures=await loadCityTextures();
       if(disposed){destroy();return;}
-      const scene = buildCityScene(textures);
+      const hoverEnabled=matchMedia('(hover: hover) and (pointer: fine)');
+      const scene = buildCityScene(textures,{touch:!hoverEnabled.matches});
       app.stage.addChild(scene.world);
       el.appendChild(app.canvas);
       const size=()=>({width:el.clientWidth,height:el.clientHeight});
       const origin=()=>cameraOrigin(size());
-      let frame = 0;
+      let frame = 0,hoverFrame=0;
       const render = () => {
         el.dataset.selection=JSON.stringify(scene.selectionState());
         el.dataset.traffic=JSON.stringify(scene.vehicleState());
         if (frame || document.hidden || disposed) return;
         frame = requestAnimationFrame(() => { frame = 0; if (!disposed) app.render(); });
       };
+      const highlightStep=(now:number)=>{hoverFrame=0;if(disposed)return;if(scene.advanceHighlights(now))render();if(scene.highlightAnimating())hoverFrame=requestAnimationFrame(highlightStep);};
+      const preview=(id:string|null,smooth=false)=>{
+        const changed=scene.preview(id,smooth);
+        const hoveredLandmark=buildings.find(b=>b.id===id)?.id??null;
+        if(useNavigation.getState().hoveredLandmark!==hoveredLandmark)useNavigation.setState({hoveredLandmark});
+        if(changed)render();
+        if(scene.highlightAnimating()&&!hoverFrame)hoverFrame=requestAnimationFrame(highlightStep);
+        else if(!scene.highlightAnimating()){cancelAnimationFrame(hoverFrame);hoverFrame=0;}
+      };
       function fit() {
-        scene.preview(null);
+        preview(null);
         if (app.screen.width !== el.clientWidth || app.screen.height !== el.clientHeight)
           app.renderer.resize(el.clientWidth, el.clientHeight);
         const view=boundedView(camera,size());
@@ -82,13 +93,13 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
       };
       const down = (e: PointerEvent) => {
         if (e.pointerType === 'mouse' && e.button !== 0) return;
-        if(scene.preview(null))render();el.setPointerCapture(e.pointerId); camera.down(e.pointerId, localPoint(e));
+        preview(null);el.setPointerCapture(e.pointerId); camera.down(e.pointerId, localPoint(e));
       };
       const move = (e: PointerEvent) => {
         if(camera.move(e.pointerId, localPoint(e), origin()))fit();
-        else if(e.pointerType==='mouse'&&!e.buttons&&!camera.interacting){const p=localPoint(e),hit=scene.pick({x:(p.x-scene.world.x)/scene.world.scale.x,y:(p.y-scene.world.y)/scene.world.scale.y});if(scene.preview(hit.building??hit.scenery))render();}
+        else if(e.pointerType==='mouse'&&hoverEnabled.matches&&!e.buttons&&!camera.interacting){const p=localPoint(e),hit=scene.pick({x:(p.x-scene.world.x)/scene.world.scale.x,y:(p.y-scene.world.y)/scene.world.scale.y});preview(hit.building??hit.scenery,!lowPower&&!motion.matches);}
       };
-      const leave=()=>{if(scene.preview(null))render();};
+      const leave=()=>{preview(null,!lowPower&&!motion.matches);};
       const up = (e: PointerEvent) => {
         if (camera.up(e.pointerId)) {
           const p = localPoint(e);
@@ -131,7 +142,9 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
           const free=unobstructedViewport(size(),obstacles);
           const vehicle=state.selectedVehicle?vehiclePosition(state.selectedVehicle,state,visualHours):null;
           const bounds=vehicle?{x:vehicle.x-25,y:vehicle.y-25,width:50,height:50}:scenery?spriteBounds(scenery.model,scenery.x,scenery.y):spriteBounds(building!.id,building!.x,building!.y);
-          frameInspection(camera,size(),bounds,free,window.innerWidth<=760,!!scenery);fit();
+          const reserve=building&&!vehicle&&!scenery?Math.min(26,free.height*.22):0;
+          const framed={...free,y:free.y+reserve,height:free.height-reserve*2};
+          frameInspection(camera,size(),bounds,framed,window.innerWidth<=760,!!scenery);fit();
           el.dataset.inspection=JSON.stringify({bounds,free});
         });
       };
@@ -152,10 +165,10 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
       });
       document.addEventListener('visibilitychange', render);
       cleanup = () => {
-        observer.disconnect();overlays.disconnect();window.removeEventListener('inspection-layout',frameSelection);cancelAnimationFrame(inspectionFrame); viewport.disconnect(); unsubscribe();unsubscribeNavigation(); cancelAnimationFrame(frame); cancelAnimationFrame(animation);
+        observer.disconnect();overlays.disconnect();window.removeEventListener('inspection-layout',frameSelection);cancelAnimationFrame(inspectionFrame); viewport.disconnect(); unsubscribe();unsubscribeNavigation(); cancelAnimationFrame(frame); cancelAnimationFrame(hoverFrame); cancelAnimationFrame(animation);
         motion.removeEventListener('change',schedule);document.removeEventListener('visibilitychange',schedule);
         document.removeEventListener('visibilitychange', render);el.removeEventListener('keydown',keys);
-        useNavigation.setState({view:null,vehiclePoint:null,recenter:()=>{},reset:()=>{}});
+        useNavigation.setState({view:null,vehiclePoint:null,hoveredLandmark:null,recenter:()=>{},reset:()=>{}});
         el.removeEventListener('pointerdown', down); el.removeEventListener('pointermove', move);
         el.removeEventListener('pointerleave',leave);
         el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', cancel);
@@ -177,5 +190,5 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
   }, [lowPower,camera]);
   return <div ref={host} className="city-canvas" tabIndex={0}
     aria-label="Interactive isometric city. Drag to pan, pinch or scroll to zoom, tap a building to inspect."
-    role="application">{error && <p role="alert">{error}</p>}</div>;
+    role="application" aria-describedby="landmark-selected-name"><LandmarkLabels/>{error && <p role="alert">{error}</p>}</div>;
 }

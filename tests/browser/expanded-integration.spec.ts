@@ -12,7 +12,12 @@ test('culled services keep outage, replay, report and saved response state',asyn
  await page.locator('.building-list').getByRole('button',{name:/St. Mira Hospital/}).click();
  await page.getByRole('region',{name:'Building inspection'}).getByRole('button',{name:'Send backup supplies'}).click();
  await page.getByRole('button',{name:'Close inspection'}).click();
- for(let i=0;i<6;i++)await page.getByRole('button',{name:'Zoom in'}).click();
+ // Inspection may fit a tall landmark more widely to leave its name clear.
+ // Reach the actual zoom limit rather than relying on its previous fit zoom.
+ for(let i=0;i<16;i++){
+  const before=(await viewOf(page)).zoom;await page.getByRole('button',{name:'Zoom in'}).click();
+  if((await viewOf(page)).zoom===before)break;
+ }
  if(await page.getByRole('button',{name:'Expand minimap'}).isVisible())await page.getByRole('button',{name:'Expand minimap'}).click();
  const map=page.getByRole('application',{name:'Interactive city minimap'});await map.scrollIntoViewIfNeeded();
  // This central empty-road view stays clear of the now-distributed services.

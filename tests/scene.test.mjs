@@ -7,7 +7,7 @@ import {iso,unproject} from '../src/geometry.ts';
 import {roadAt} from '../src/world.ts';
 import {parkedCars} from '../src/parking.ts';
 import {buildings} from '../src/simulation.ts';
-import {vehicleTextures} from './fixtures/vehicleTextures.mjs';
+import {vehicleTextures,landmarkTextures} from './fixtures/vehicleTextures.mjs';
 import {fleet,vehicleRoute,vehiclePose} from '../src/traffic.ts';
 import {vehicleAtlas} from '../src/vehicleAtlas.ts';
 
@@ -21,7 +21,7 @@ const { stats } = await import('./fixtures/pixi.mjs');
 hooks.deregister();
 
 test('atlas lighting swaps retained textures and keeps service backup distinct from city outage',()=>{
- const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{id:'street'},lanternGround:{id:'yard'}};
+ const textures={vehicles:vehicleTextures(),landmarkGlow:landmarkTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{id:'street'},lanternGround:{id:'yard'}};
  const scene=buildCityScene(textures);scene.update(createInitialState());
  const collect=node=>[node,...node.children.flatMap(collect)];
  const all=collect(scene.world),hospital=all.find(n=>n.texture===textures.hospital.on),shop=all.find(n=>n.texture===textures.market.on);
@@ -34,7 +34,7 @@ test('atlas lighting swaps retained textures and keeps service backup distinct f
 });
 
 test('authored Lantern Yard uses its ground and retained outage frames without creating services',()=>{
- const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{id:'street'},lanternGround:{id:'yard'}};
+ const textures={vehicles:vehicleTextures(),landmarkGlow:landmarkTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{id:'street'},lanternGround:{id:'yard'}};
  const scene=buildCityScene(textures),state=createInitialState();scene.update(state);
  const nodes=node=>[node,...node.children.flatMap(nodes)],all=nodes(scene.world);
  assert.equal(all.filter(n=>n.texture===textures.lanternGround).length,1);
@@ -60,7 +60,7 @@ test('simulation ticks reuse all scene objects without redrawing unchanged visua
 
 test('junction illumination swaps with grid state while hospital reserve illumination survives',()=>{
  const grounds=Array.from({length:16},(_,i)=>({on:{id:`ground-${i}:on`},off:{id:`ground-${i}:off`}}));
- const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{},lanternGround:{},grounds};
+ const textures={vehicles:vehicleTextures(),landmarkGlow:landmarkTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`}}])),ground:{},lanternGround:{},grounds};
  const scene=buildCityScene(textures),state=createInitialState();scene.update(state);
  const collect=n=>[n,...n.children.flatMap(collect)],all=collect(scene.world);
  const junction=all.find(n=>n.texture===grounds[15].on),hospital=all.find(n=>n.texture===textures.hospital.on);
@@ -93,7 +93,7 @@ test('culling hides distant geometry without discarding identity or offscreen ou
 });
 
 test('silhouette highlights transfer exclusively, retain outage state and preview without allocations',()=>{
- const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`},highlight:{id:`${id}:highlight`}}])),ground:{},lanternGround:{}};
+ const textures={vehicles:vehicleTextures(),landmarkGlow:landmarkTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`},highlight:{id:`${id}:highlight`}}])),ground:{},lanternGround:{}};
  const scene=buildCityScene(textures),state=createInitialState();scene.update({...state,selected:'hospital'});
  assert.deepEqual(scene.selectionState().highlighted,['hospital']);const created=stats.created;
  scene.preview('water');assert.deepEqual(new Set(scene.selectionState().highlighted),new Set(['hospital','water']));
@@ -104,7 +104,7 @@ test('silhouette highlights transfer exclusively, retain outage state and previe
 });
 
 test('scenery selection uses the same paint layer and clears when a service or empty land is chosen',()=>{
- const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
+ const textures={vehicles:vehicleTextures(),landmarkGlow:landmarkTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
  const scene=buildCityScene(textures),state=createInitialState(),id='scenery:-17.65:-17.7';
  scene.update({...state,selectedScenery:id});assert.deepEqual(scene.selectionState().highlighted,[id]);
  assert.equal(scene.pick(iso(-17.05,-17.075,28)).scenery,id);
@@ -115,7 +115,7 @@ test('scenery selection uses the same paint layer and clears when a service or e
 
 // The same retained renderer and alpha picking must follow relocated metadata.
 test('all six relocated landmarks remain directly pickable and highlight their own layer',()=>{
- const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`},highlight:{id:`${id}:highlight`}}])),ground:{},lanternGround:{}};
+ const textures={vehicles:vehicleTextures(),landmarkGlow:landmarkTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`},highlight:{id:`${id}:highlight`}}])),ground:{},lanternGround:{}};
  const scene=buildCityScene(textures),state=createInitialState();
  for(const b of buildings){
   scene.update({...state,selected:b.id});
@@ -126,7 +126,7 @@ test('all six relocated landmarks remain directly pickable and highlight their o
 });
 
 test('parked directional cars use validated curbside bays and stable contact points',()=>{
- const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
+ const textures={vehicles:vehicleTextures(),landmarkGlow:landmarkTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
  const scene=buildCityScene(textures),nodes=n=>[n,...n.children.flatMap(nodes)];
  const parked=nodes(scene.world).filter(n=>n.label?.startsWith('parking:'));
  assert.equal(parked.length,parkedCars.length);
@@ -141,7 +141,7 @@ test('parked directional cars use validated curbside bays and stable contact poi
 });
 
 test('retained courier textures turn before rounded positions change without allocating scene objects',()=>{
- const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
+ const textures={vehicles:vehicleTextures(),landmarkGlow:landmarkTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
  const scene=buildCityScene(textures),state=createInitialState();scene.update(state);
  const created=stats.created,drawn=stats.drawn,circuit=vehicleRoute.slice(1).reduce((n,b,i)=>n+Math.hypot(b.x-vehicleRoute[i].x,b.y-vehicleRoute[i].y),0);
  for(const vehicle of fleet){let boundary=0;
@@ -159,4 +159,33 @@ test('retained courier textures turn before rounded positions change without all
   }
  }
  assert.equal(stats.created,created);assert.equal(stats.drawn,drawn);scene.world.destroy();
+});
+
+test('six service silhouettes retain subtle gold, strengthen on hover and preserve selected outage state',()=>{
+ const textures={vehicles:vehicleTextures(),landmarkGlow:landmarkTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
+ const scene=buildCityScene(textures),state=createInitialState();scene.update(state);const created=stats.created;
+ assert.ok(scene.selectionState().landmarks.every(v=>v.gold===.18));
+ for(const b of buildings){
+  scene.preview(b.id);assert.equal(scene.selectionState().landmarks.find(v=>v.id===b.id).gold,1);
+  scene.update({...state,selected:b.id});scene.preview(null);
+  assert.equal(scene.selectionState().landmarks.find(v=>v.id===b.id).gold,.65);
+  scene.update({...state,outage:true,time:24,selected:b.id});
+  assert.equal(scene.selectionState().landmarks.find(v=>v.id===b.id).gold,.65);
+  assert.deepEqual(scene.selectionState().highlighted,[b.id]);scene.update(state);
+ }
+ scene.preview('scenery:-17.65:-17.7');assert.ok(scene.selectionState().landmarks.every(v=>v.gold===.18));
+ assert.equal(stats.created,created);scene.world.destroy();
+ const touch=buildCityScene(textures,{touch:true});touch.update({...state,selected:'water'});assert.equal(touch.selectionState().landmarks.find(v=>v.id==='water').gold,1);touch.world.destroy();
+});
+
+test('gold transitions finish in finite time and immediate preview performs no animation',()=>{
+ const textures={vehicles:vehicleTextures(),landmarkGlow:landmarkTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
+ const scene=buildCityScene(textures),state=createInitialState();scene.update(state);
+ scene.preview('grid',true,0);assert.equal(scene.highlightAnimating(),true);scene.advanceHighlights(70);
+ const middle=scene.selectionState().landmarks.find(v=>v.id==='grid').gold;assert.ok(middle>.18&&middle<1);
+ scene.update({...state,time:1});assert.equal(scene.selectionState().landmarks.find(v=>v.id==='grid').gold,middle,'simulation ticks do not restart or jump hover transitions');
+ scene.advanceHighlights(140);assert.equal(scene.highlightAnimating(),false);assert.equal(scene.advanceHighlights(200),false);
+ scene.preview(null,true,200);scene.advanceHighlights(270);assert.ok(scene.selectionState().landmarks.find(v=>v.id==='grid').gold>.18);
+ scene.advanceHighlights(340);assert.equal(scene.highlightAnimating(),false);assert.equal(scene.selectionState().landmarks.find(v=>v.id==='grid').gold,.18,'fade ends at the exact retained resting value');
+ scene.preview(null);assert.equal(scene.highlightAnimating(),false);assert.ok(scene.selectionState().landmarks.every(v=>v.gold===.18));scene.world.destroy();
 });

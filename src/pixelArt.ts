@@ -3,8 +3,9 @@ import {cityModels,type CityModel} from './cityModels.ts';
 import {iso} from './geometry.ts';
 import {vehicleAtlas} from './vehicleAtlas.ts';
 import type {VehicleTextures} from './vehicleArt.ts';
+import {buildings,type BuildingId} from './simulation.ts';
 
-export type CityTextures=Record<CityModel,{on:Texture;off:Texture;highlight:Texture}>&{ground:Texture;lanternGround:Texture;grounds:{on:Texture;off:Texture}[];vehicles:VehicleTextures};
+export type CityTextures=Record<CityModel,{on:Texture;off:Texture;highlight:Texture}>&{ground:Texture;lanternGround:Texture;grounds:{on:Texture;off:Texture}[];vehicles:VehicleTextures;landmarkGlow:Record<BuildingId,Texture>};
 let cached:Promise<CityTextures>|undefined;
 export function loadCityTextures(){
  return cached??=(async()=>{
@@ -17,11 +18,13 @@ export function loadCityTextures(){
   const cars=await Assets.load<Texture>(new URL('./assets/vehicle-atlas.png',import.meta.url).href);cars.source.scaleMode='nearest';
   const carFrame=(i:number)=>new Texture({source:cars.source,frame:new Rectangle(i%vehicleAtlas.columns*vehicleAtlas.frameSize,Math.floor(i/vehicleAtlas.columns)*vehicleAtlas.frameSize,vehicleAtlas.frameSize,vehicleAtlas.frameSize)});
   const vehicles=Object.fromEntries(Object.entries(vehicleAtlas.colors).map(([color,directions])=>[color,Object.fromEntries(Object.entries(directions).map(([direction,frames])=>[direction,{on:carFrame(frames.on),off:carFrame(frames.off)}]))])) as VehicleTextures;
+  const gold=await Assets.load<Texture>(new URL('./assets/landmark-glow.png',import.meta.url).href);gold.source.scaleMode='nearest';
+  const landmarkGlow=Object.fromEntries(buildings.map((b,i)=>[b.id,new Texture({source:gold.source,frame:new Rectangle(i%3*256,Math.floor(i/3)*256,256,256)})])) as Record<BuildingId,Texture>;
   return {...Object.fromEntries(Object.entries(cityModels).map(([id,m])=>{
    const frame=(i:number)=>new Texture({source:atlas.source,frame:new Rectangle(i%8*256,Math.floor(i/8)*256,256,256)});
    const i=m.index/2,highlight=new Texture({source:outlines.source,frame:new Rectangle(i%8*256,Math.floor(i/8)*256,256,256)});
    return [id,{on:frame(m.index),off:frame(m.index+1),highlight}];
-  })),ground,lanternGround,grounds,vehicles} as CityTextures;
+  })),ground,lanternGround,grounds,vehicles,landmarkGlow} as CityTextures;
  })();
 }
 export function architecture(textures:CityTextures,id:CityModel,x:number,y:number){
@@ -32,5 +35,10 @@ export function architecture(textures:CityTextures,id:CityModel,x:number,y:numbe
 export function highlightSprite(textures:CityTextures,id:CityModel,x:number,y:number){
  const sprite=new Sprite(textures[id].highlight),p=iso(x,y);
  sprite.position.set(p.x-128,p.y-140);sprite.roundPixels=true;sprite.visible=false;
+ return sprite;
+}
+export function landmarkGlowSprite(textures:CityTextures,id:BuildingId,x:number,y:number){
+ const sprite=new Sprite(textures.landmarkGlow[id]),p=iso(x,y);
+ sprite.position.set(p.x-128,p.y-140);sprite.roundPixels=true;sprite.alpha=.18;
  return sprite;
 }
