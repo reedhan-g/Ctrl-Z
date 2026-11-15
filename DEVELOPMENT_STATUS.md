@@ -1,5 +1,10 @@
 # Ctrl Z - Development Status
 
+## UI milestone 3 - inspection and feedback
+
+Resumed preserved changes at 8ed65c0 (systems milestone; CI/Pages succeeded). Inspector presents purpose, real condition and supply/reconnection actions before metrics; typography, disable explanations and secondary details are clearer. Save result has inline contrast; honest startup messaging remains until the canvas exists. Build and six inspector/low-power/real UI-review desktop/mobile cases pass; actual hospital screenshots reviewed and saved in docs/ui-overhaul/inspection. Approved map code/assets, simulation and persistence remain untouched. Next: map-first mobile shell, optional action-driven guide and final regression/deployed verification.
+
+
 ## UI milestone 2 - live systems and timeline
 
 Shell milestone 8d4beb4 is pushed; CI/Pages succeeded. CitySystems now renders all six domain statuses and the real logistics capacity, with existing facility selection. Timeline controls, clock, range labels and outageMessage feedback have readable hierarchy and 44px transport buttons. Domain/clock/replay and protected map files remain untouched. Build and six desktop/mobile systems/replay/review checks pass, including actual 0/4/6/18/24h status thresholds and all six navigation targets. Actual blackout screenshots reviewed; evidence in docs/ui-overhaul/systems. Next: inspector/feedback, dedicated mobile layout, optional guide, final regression and deployed review.

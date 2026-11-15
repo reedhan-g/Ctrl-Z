@@ -12,7 +12,7 @@ export default function BuildingInspector({building:id}:{building:BuildingId}){
  const recorded=!!s.caseStudy&&s.caseStudy.diagnosis==='correct'&&s.caseStudy.evidence.some(e=>e.building===id&&e.time===s.time);
  return <InspectionShell title={s.selectedVehicle?fleet.find(v=>v.id===s.selectedVehicle)!.name:b.name} category={b.kind} status={st} onClose={()=>s.select(null)}>
   <p className="inspection-purpose">{info.purpose}</p>
-  <dl className="inspection-metrics">{info.metrics.map(m=><div key={m.label}><dt>{m.label}</dt><dd>{m.value}</dd></div>)}</dl>
+
   <p className={`inspection-condition ${st.tone}`} role="status">{info.problem}</p>
   {b.reserve>0&&<>
    <div className="reserve"><span>{id==='hospital'?'GENERATOR FUEL':id==='telecom'?'BATTERY RESERVE':'BACKUP RESERVE'}</span><strong>{st.remaining.toFixed(1)} <small>hours</small></strong></div>
@@ -21,6 +21,7 @@ export default function BuildingInspector({building:id}:{building:BuildingId}){
    <small id="supply-requirement" className="resource-note">{supplyReason??`${2-s.boosted.length} delivery teams available. Delivery adds eight hours to this facility's reserve deadline.`}</small>
   </>}
   {id==='grid'&&<><div className="dependency">Regional electricity grid · {s.outage?'Disconnected':'Connected'}</div><button className="supply" disabled={!!gridReason} aria-describedby="grid-requirement" onClick={s.outage?s.restore:s.fail}>{s.outage?'Reconnect the district':'Disconnect the grid'}<ArrowRight size={15}/></button><small id="grid-requirement" className="resource-note">{gridReason??(s.outage?'Reconnect power to restore dependent services.':'Disconnect power to begin a reproducible outage experiment.')}</small></>}
+  <dl className="inspection-metrics">{info.metrics.map(m=><div key={m.label}><dt>{m.label}</dt><dd>{m.value}</dd></div>)}</dl>
   <button className="supply" aria-pressed={s.trace} onClick={s.toggleTrace}><Network size={15}/>{s.trace?'Hide dependency trace':'Trace dependencies'}</button>
   {outcome&&<div className="logistics-outcome"><p>Fleet depends on East delivery hub power and dispatch.</p><strong>{Math.round(outcome.capacity*100)}% dispatch capacity</strong><p>{outcome.dispatched.toFixed(1)} consignments dispatched / {outcome.backlog.toFixed(1)} delayed</p><div className="fleet-list">{fleet.map(v=><button key={v.id} onClick={()=>s.selectVehicle(v.id)}>{v.name}</button>)}</div></div>}
   {s.caseStudy&&<><button className="supply" disabled={recorded} aria-describedby="evidence-requirement" onClick={()=>s.evidence(id)}>Record evidence</button><small id="evidence-requirement" className="resource-note">{recorded?'These readings already support the confirmed diagnosis.':'Record the current time and service readings for this investigation.'}</small></>}
