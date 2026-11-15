@@ -1,5 +1,10 @@
 # Ctrl Z - Development Status
 
+## UI milestone 2 - live systems and timeline
+
+Shell milestone 8d4beb4 is pushed; CI/Pages succeeded. CitySystems now renders all six domain statuses and the real logistics capacity, with existing facility selection. Timeline controls, clock, range labels and outageMessage feedback have readable hierarchy and 44px transport buttons. Domain/clock/replay and protected map files remain untouched. Build and six desktop/mobile systems/replay/review checks pass, including actual 0/4/6/18/24h status thresholds and all six navigation targets. Actual blackout screenshots reviewed; evidence in docs/ui-overhaul/systems. Next: inspector/feedback, dedicated mobile layout, optional guide, final regression and deployed review.
+
+
 ## UI overhaul in progress - 2026-11-15
 
 Active task: CODEX_CTRL_Z_UI_OVERHAUL.md, read completely. Approved city/art are frozen; the work concerns surrounding controls and presentation. Fetched origin; main/origin both at 6cb71f8. Baseline: 100 unit tests/build and eight desktop/mobile gameplay/review/benchmark cases pass. A separate actual GitHub Pages desktop review passes blackout, inspection, supply, scrub, restore and undo. Fourteen real before images are saved in docs/ui-overhaul/before. Observed issues: tiny essential typography, duplicate electricity controls, sidebar tools ahead of destinations and a long mobile pre-map section.

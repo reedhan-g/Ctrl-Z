@@ -1,5 +1,5 @@
 import {useEffect,useState,lazy,Suspense} from 'react';
-import {Map as MapIcon,ArrowUpRight,ArrowRight,Plus,Minus,Maximize,Network,Zap,X,Hospital,Droplets,Building2,ChevronRight,Undo2,Box,Info,Radio,Truck} from 'lucide-react';
+import {Map as MapIcon,ArrowUpRight,ArrowRight,Plus,Minus,Maximize,Network,X,Undo2,Box,Info} from 'lucide-react';
 import {SimulationClock} from './clock';
 const City=lazy(()=>import('./City'));
 import BuildingInspector from './BuildingInspector';
@@ -7,14 +7,14 @@ import SceneryInspector from './SceneryInspector';
 import SceneryBrowser from './SceneryBrowser';
 import {useNavigation} from './navigation';
 import {findScenery} from './sceneryInfo';
-import {buildings,status,useGame} from './game';
+import {buildings,useGame} from './game';
 import Timeline from './Timeline';
+import CitySystems from './CitySystems';
 import ScenarioPanel from './ScenarioPanel';
 import ReportPanel from './ReportPanel';
 import SaveControls from './SaveControls';
 import Minimap from './Minimap';
 import {shortcutFor} from './keyboard';
-const icons={grid:Zap,hospital:Hospital,water:Droplets,homes:Building2,telecom:Radio,logistics:Truck};
 export default function App(){const s=useGame();const [help,setHelp]=useState(false);const [lowPower,setLowPower]=useState(false);
  const sceneryId=useNavigation(n=>n.sceneryId),scenery=findScenery(sceneryId);
  useEffect(()=>{
@@ -52,10 +52,10 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
   dialog?.addEventListener('keydown',trap);
   return()=>{dialog?.removeEventListener('keydown',trap);previous?.focus();};
  },[help]);
- const online=buildings.filter(b=>status(b.id,s).tone!=='bad').length;const selected=buildings.find(b=>b.id===s.selected);
+ const selected=buildings.find(b=>b.id===s.selected);
  const cameraAction=(detail:string)=>document.querySelector('.city-canvas')?.dispatchEvent(new CustomEvent('camera',{detail}));
  return <div className="app"><header><a className="brand" href="./" aria-label="Ctrl Z home"><span className="brand-icon"><Undo2 size={24}/></span>Ctrl Z<span className="edition">UNDO THE WORLD</span></a><div className="header-right"><span className="prototype">{s.caseStudy?'CASE IN PROGRESS':s.outage?'GRID DISCONNECTED':s.restoredAt!==null?'POWER RESTORED':'SIMULATION READY'} <i/></span><button className="icon" aria-label="How to play" onClick={()=>setHelp(true)}><Info size={18}/></button><a className="chapter" href="#scenario">01 <span>/ ELECTRICITY</span><ArrowUpRight size={15}/></a></div></header>
- <main><aside className="sidebar"><div className="eyebrow">EXPERIMENT 001</div><h1>Undo the World<span className="title-dot">.</span></h1><p className="premise">Remove electricity. Watch a city unravel. Change the outcome.</p><ScenarioPanel/><div className="section-heading buildings-heading"><span>CITY SYSTEMS</span><span>{online}/{buildings.length} ONLINE</span></div><div className="building-list">{buildings.map(b=>{const Icon=icons[b.id],v=status(b.id,s);return <button key={b.id} aria-pressed={s.selected===b.id} className={`building-row ${s.selected===b.id?'selected':''}`} onClick={()=>s.select(b.id)}><Icon size={17}/><span>{b.name}<small>{v.label}</small></span><i className={v.tone}/></button>;})}</div><div className="secondary-tools"><SceneryBrowser/><ReportPanel/><SaveControls/></div><div className="sidebar-foot"><Box size={17}/><p>Nothing exists in isolation.<br/><span>Not even a light switch.</span></p></div></aside>
+ <main><aside className="sidebar"><div className="eyebrow">EXPERIMENT 001</div><h1>Undo the World<span className="title-dot">.</span></h1><p className="premise">Remove electricity. Watch a city unravel. Change the outcome.</p><ScenarioPanel/><CitySystems/><div className="secondary-tools"><SceneryBrowser/><ReportPanel/><SaveControls/></div><div className="sidebar-foot"><Box size={17}/><p>Nothing exists in isolation.<br/><span>Not even a light switch.</span></p></div></aside>
  <section className="world" aria-label="City simulation"><div className="world-top"><div><div className="eyebrow">MERIDIAN <span> / LIVE SIMULATION</span></div><h2>Meridian / Control room</h2></div><span className={`state-pill ${s.outage?'outage':''}`}><i/>{s.caseStudy?'CASE IN PROGRESS':s.outage?'GRID OFFLINE':'SYSTEMS NOMINAL'}</span></div><div className="map-grid"/><Suspense fallback={<p className="city-loading" role="status">Loading Meridian...</p>}><City lowPower={lowPower}/></Suspense><div className="map-caption"><span className="north-arrow">&#8593;</span><span>MERIDIAN<br/><small>28.75 N / 77.12 E</small></span></div>
  <div className="map-controls"><button className="trace" aria-label="Low power mode" aria-pressed={lowPower} onClick={()=>setLowPower(!lowPower)}>Low power</button><button aria-label="Dependencies" aria-pressed={s.trace} className={`trace ${s.trace?'on':''}`} onClick={s.toggleTrace}><Network size={16}/><span>Dependencies</span></button><div><button aria-label="Zoom in" onClick={()=>cameraAction('in')}><Plus size={18}/></button><button aria-label="Zoom out" onClick={()=>cameraAction('out')}><Minus size={18}/></button><button aria-label="City overview" onClick={()=>cameraAction('overview')}><MapIcon size={17}/></button><button aria-label="Reset camera" onClick={()=>cameraAction('reset')}><Maximize size={17}/></button></div></div>
  {!selected&&!scenery&&<div className="map-hint"><span className="hint-dot"/>{s.outage?'Watch the cascade. Tap a building to intervene.':'Tap a building to discover its connections.'}</div>}

@@ -1,5 +1,10 @@
 # Ctrl Z — complete Codex account handoff
 
+## UI milestone 2 - live systems and timeline
+
+Shell milestone 8d4beb4 is pushed; CI/Pages succeeded. CitySystems now renders all six domain statuses and the real logistics capacity, with existing facility selection. Timeline controls, clock, range labels and outageMessage feedback have readable hierarchy and 44px transport buttons. Domain/clock/replay and protected map files remain untouched. Build and six desktop/mobile systems/replay/review checks pass, including actual 0/4/6/18/24h status thresholds and all six navigation targets. Actual blackout screenshots reviewed; evidence in docs/ui-overhaul/systems. Next: inspector/feedback, dedicated mobile layout, optional guide, final regression and deployed review.
+
+
 ## Active UI-only overhaul - 2026-11-15
 
 Read CODEX_CTRL_Z_UI_OVERHAUL.md completely. It supersedes prior visual tasks: current city/art are approved and protected. Work through shell, live systems/timeline, inspector feedback, mobile and optional guide milestones, with tested commits/pushes to origin/main. Started from verified 6cb71f8; baseline 100 unit/build and eight browser checks pass, plus a real deployed desktop gameplay review. Before captures are in docs/ui-overhaul/before. Shell work is in progress; consult DEVELOPMENT_STATUS.md for completion receipts. Preserve all unfinished changes and approved map/domain/workflow files.

@@ -17,14 +17,14 @@ export default function Timeline() {
  const clock=formatTime(s.time);
  const baseline=replayAt(s.branches[0],s.time);
  const online=(snapshot: typeof baseline)=>buildings.filter(b=>status(b.id,snapshot).tone!=='bad').length;
- return <div className="timeline" ref={element}>
+ return <div className="timeline" ref={element} aria-label="Simulation controls">
   {s.history.length>0&&<div className="branch-controls">
    <label>Timeline <select aria-label="Replay branch" value={s.activeBranch} onChange={e=>s.branch(Number(e.target.value))}>
     {s.branches.map(b=><option value={b.id} key={b.id}>{b.name}</option>)}
    </select></label>
    <span aria-label="Outcome comparison">{online(s)}/{buildings.length} online <span className="muted">vs original {online(baseline)}/{buildings.length} at {clock}</span></span>
   </div>}
-  <div className="timeline-heading"><div><span className="eyebrow">TIME SINCE DELETION</span><strong>{clock}<small> HRS</small></strong></div>
+  <div className="timeline-heading"><div><span className="eyebrow">ELAPSED TIME</span><strong>{clock}<small> HRS</small></strong></div>
    <div className="playback">
     <button aria-label={s.playing?'Pause simulation':'Play simulation'} disabled={!s.outage||s.time>=24} onClick={s.toggle}>{s.playing?<Pause size={17}/>:<Play size={17}/>}</button>
     <button className="speed" onClick={()=>s.setSpeed(s.speed===1?4:s.speed===4?12:1)} aria-label="Change simulation speed">{s.speed}x</button>
