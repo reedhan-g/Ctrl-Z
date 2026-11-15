@@ -93,7 +93,7 @@ export function buildCityScene(textures?:CityTextures) {
         for (const edge of diagnostics) {
           const from = buildings.find(b => b.id === edge.source)!, to = buildings.find(b => b.id === edge.target)!;
           const a = iso(from.x + .9, from.y + .9), b = iso(to.x + .9, to.y + .9);
-          const relevant = !s.selected || paths.some(path => path.some((id, i) => id === edge.source && path[i + 1] === edge.target));
+          const relevant = !s.selected || edge.source===s.selected || paths.some(path => path.some((id, i) => id === edge.source && path[i + 1] === edge.target));
           links.moveTo(a.x, a.y).lineTo(b.x, b.y).stroke({ width: relevant ? 2 : 1,
             color: edge.sourceOnline ? (edge.system === 'water' ? 0x6cabc8 : 0x70d8c0) : edge.available ? 0xf1ba76 : 0xf48676,
             alpha: relevant ? .9 : .18 });

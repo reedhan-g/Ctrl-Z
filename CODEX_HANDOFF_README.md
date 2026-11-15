@@ -8,6 +8,8 @@ This document is for a Codex account with no conversation history. It records th
 
 ### Building interaction continuation — 15 November 2026
 
+Inspector milestone extracts the existing service panel into BuildingInspector with a shared collapsible InspectionShell. inspection.ts derives live capacities, water buffer, upstream/downstream links and disabled-action explanations from the existing state; no statistics or actions are decorative. Hospital generator fuel is distinct from its water buffer. Existing investigation/evidence, logistics fleet, supplies, grid recovery and tracing remain wired to the reducer. Mobile collapse and focus return work. 78 unit checks, build and ten focused browser checks pass, with the isolated rerun of a concurrent desktop logistics timeout; desktop/mobile actual inspector images were reviewed.
+
 The current additive brief is `CODEX_BUILDING_IMPROVEMENT.md` (singular filename). It extends the existing selection/inspector rather than replacing the simulation. The first tested checkpoint generates true sprite-alpha teal highlights and compact opaque-pixel hit rows offline (`selection_art.py`). Persistent selection is stronger than desktop hover, remains aligned through camera transforms/outages, and respects foreground paint order. No rejected commit code or external art was imported. 75 unit checks, build, ten existing focused browser checks and two new selection checks pass; desktop highlighted hospital inspected. Detailed inspection, contextual disabled explanations, scenery information/mobile sheet/minimap integration follow next. The six already-distinct infrastructure designs are preserved.
 
 ### Active task and publishing destination — supersedes earlier branch restrictions
