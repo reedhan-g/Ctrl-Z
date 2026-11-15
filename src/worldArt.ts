@@ -6,6 +6,7 @@ import {block} from './cityArt.ts';
 import {architecture,highlightSprite,type CityTextures} from './pixelArt.ts';
 import {lanternYard} from './lanternYard.ts';
 import {vehicleSprite} from './vehicleArt.ts';
+import {parkedCars,parkingPoint} from './parking.ts';
 
 export interface CullEntry {node:Container;bounds:Rect;kind:'ground'|'scenery'|'service'}
 export function buildWorldArt(parent:Container,textures?:CityTextures){
@@ -44,10 +45,27 @@ export function buildWorldArt(parent:Container,textures?:CityTextures){
   if(textures){
    const lamp=architecture(textures,'streetlamp',chunk.x+3.78,chunk.y+3.78);lamp.sprite.zIndex=(chunk.x+chunk.y+7.7)*100;parent.addChild(lamp.sprite);facades.push(lamp);
    const p=iso(chunk.x+3.78,chunk.y+3.78);entries.push({node:lamp.sprite,bounds:{x:p.x-15,y:p.y-42,width:30,height:55},kind:'scenery'});
-   if(roadAt(chunk.x+4.22,chunk.y+1.1)&&(chunk.x/5+chunk.y/5)%3===0){const car=vehicleSprite(textures.vehicles,'amber','y+',chunk.x+4.41,chunk.y+1.5);car.sprite.label=`parked:${chunk.x}:${chunk.y}:y+`;car.sprite.zIndex=(chunk.x+chunk.y+6)*100;parent.addChild(car.sprite);
-    const p=iso(chunk.x+4.41,chunk.y+1.5);entries.push({node:car.sprite,bounds:{x:p.x-32,y:p.y-40,width:64,height:64},kind:'scenery'});}
+
   }
  }
+ // Explicit asphalt pockets keep parked bodies outside the through lanes. The
+ // continuous sidewalk bends behind each bay; no ground is redrawn per frame.
+ for(const parking of parkedCars){
+  const ground=new Graphics(),point=(n:number,a:number)=>{const p=parkingPoint(parking,n,a);return iso(p.x,p.y);};
+  const polygon=(p:{x:number;y:number}[])=>polygonNumbers(p.map(p=>iso(p.x,p.y)));
+  const r=parking.envelope;
+  ground.poly(polygon([{x:r.x,y:r.y},{x:r.x+r.width,y:r.y},{x:r.x+r.width,y:r.y+r.depth},{x:r.x,y:r.y+r.depth}])).fill(0x303e49);
+  ground.poly(polygon(parking.surface)).fill(0x101c29);
+  ground.poly(polygon(parking.walk)).fill(0x59616c);
+  for(const a of [-.6,-.3,0,.3,.6]){const p=point(.66,a),q=point(.9,a);ground.moveTo(p.x,p.y).lineTo(q.x,q.y).stroke({color:0x79808a,width:1});}
+  for(const a of [-.53,.53]){const p=point(.07,a),q=point(.51,a);ground.moveTo(p.x,p.y).lineTo(q.x,q.y).stroke({color:0x9aa79e,width:1});}
+  ground.zIndex=-9998;parent.addChild(ground);entries.push({node:ground,bounds:boundsOf(parking.walk.map(p=>iso(p.x,p.y)),3),kind:'ground'});
+  if(textures){const car=vehicleSprite(textures.vehicles,'amber',parking.direction,parking.center.x,parking.center.y);
+   car.sprite.label=parking.id;car.sprite.zIndex=(parking.center.x+parking.center.y+.2)*100;parent.addChild(car.sprite);
+   const p=iso(parking.center.x,parking.center.y);entries.push({node:car.sprite,bounds:{x:p.x-32,y:p.y-40,width:64,height:64},kind:'scenery'});
+  }
+ }
+
  for(const b of cityScenery){
   if(textures){
    const art=architecture(textures,b.model,b.x,b.y),layer=new Container(),highlight=highlightSprite(textures,b.model,b.x,b.y);

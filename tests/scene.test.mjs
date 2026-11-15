@@ -5,6 +5,7 @@ import { createInitialState } from '../src/gameState.ts';
 import {cityModels} from '../src/cityModels.ts';
 import {iso,unproject} from '../src/geometry.ts';
 import {roadAt} from '../src/world.ts';
+import {parkedCars} from '../src/parking.ts';
 import {buildings} from '../src/simulation.ts';
 import {vehicleTextures} from './fixtures/vehicleTextures.mjs';
 import {fleet,vehicleRoute,vehiclePose} from '../src/traffic.ts';
@@ -124,15 +125,17 @@ test('all six relocated landmarks remain directly pickable and highlight their o
  scene.world.destroy();
 });
 
-test('parked directional cars retain their existing street footprints and contact points',()=>{
+test('parked directional cars use validated curbside bays and stable contact points',()=>{
  const textures={vehicles:vehicleTextures(),...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{},off:{},highlight:{}}])),ground:{},lanternGround:{}};
  const scene=buildCityScene(textures),nodes=n=>[n,...n.children.flatMap(nodes)];
- const parked=nodes(scene.world).filter(n=>n.label?.startsWith('parked:'));
- assert.ok(parked.length>0);
+ const parked=nodes(scene.world).filter(n=>n.label?.startsWith('parking:'));
+ assert.equal(parked.length,parkedCars.length);
  for(const car of parked){
-  assert.equal(car.texture,textures.vehicles.amber['y+'].on);
+  const space=parkedCars.find(p=>p.id===car.label);assert.ok(space);
+  assert.equal(car.texture,textures.vehicles.amber[space.direction].on);
   const p=unproject({x:car.x+32,y:car.y+40});
-  for(const dx of [-.19,.19])for(const dy of [-.4,.4])assert.ok(roadAt(p.x+dx,p.y+dy),'parked wheels/body stay within the Y-axis road');
+  assert.ok(Math.hypot(p.x-space.center.x,p.y-space.center.y)<1e-8);
+  assert.equal(roadAt(p.x,p.y),false,'parked car is outside the active asphalt lane');
  }
  scene.world.destroy();
 });

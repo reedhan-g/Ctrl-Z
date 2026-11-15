@@ -1,5 +1,11 @@
 # Ctrl Z — complete Codex account handoff
 
+## Current curbside/landmark polish task - 2026-11-15
+
+Active brief is CODEX_PARKED_CARS_POI_HOVER.md, including its new persistent subtle gold glow and stronger smooth hover requirement. Read completely twice as directed. The prior car work is safe on origin/main: 84b3466 (art) and e9ec4c8 (orientation), with CI/Pages success. No reset/discard occurred. Current parking work remains a separate checkpoint: parking.ts defines 31 geometry-validated curbside asphalt pockets with continuous rear sidewalk detours; worldArt places only stationary cars there, leaving all three couriers/ambient movement unchanged. 96 unit checks, build and all 12 focused desktop/mobile street/direction/idle browser checks pass; actual renders reviewed. The tested parking milestone is now committed with this receipt. Before evidence is saved in docs/curb-hover-review/before; see DEVELOPMENT_STATUS.md for the current receipt and next step.
+
+After the tested parking commit/push, implement the six-service-only persistent/hover golden silhouette emphasis and readable full names. Preserve teal click selection, inspector/picking/minimap, true outage status, touch/reduced-motion/low-power behavior and idle GPU performance. Capture/review actual desktop/mobile before/after evidence. Continue small tested commits directly to origin/main and verify remote SHA/CI, preserving the existing Pages workflow and Antahonist/commit-27 lineage. No unrelated redesign is authorized by this task.
+
 ## Vehicle orientation complete - 2026-11-15
 
 CODEX_CAR_FIX.md is complete in two tested checkpoints on main: original-art commit 84b3466 (already pushed/verified) and the route-orientation fix containing this receipt. One VehiclePose owns world direction, road tile, projected point and depth; vehiclePosition remains the old minimap/camera/picking adapter. All three retained color sprites swap frames at route turns, including same-rounded-pixel turns; fallback geometry and culling use the same direction/contact contract. Routes, fleet IDs/offsets, integrated dispatch, game/replay/persistence data and both workflows remain unchanged. No new ticker, runtime rotation or mirroring is used.

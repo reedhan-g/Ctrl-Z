@@ -1,5 +1,13 @@
 # Ctrl Z - Development Status
 
+## Curbside parking checkpoint complete - 2026-11-15
+
+Active brief: CODEX_PARKED_CARS_POI_HOVER.md, read completely and reread after the creator's update. Main/origin started at e9ec4c8; prior vehicle sprites/orientation work remains committed and deployed. The working parking change separates static scenery from the three moving/ambient couriers. parking.ts derives 31 sparse, deterministic roadside pockets from actual street geometry and checks world bounds, real road continuity, crossings/T-junction approaches, service access, depot driveways, occupied parcels, landscaping, props and neighboring parking. Invalid candidates are omitted. Tires sit on marked asphalt outside through lanes; a continuous .28-tile sidewalk detours behind each inset bay. Existing directional sprites, depth sorting and culling are retained. No moving routes, vehicle poses, simulation or deployment code changes.
+
+96 unit checks and production build pass. Before screenshots of the opening and three landmark normal/hover/selected states are saved in docs/curb-hover-review/before. Actual desktop/mobile market/housing/exchange street renders were reviewed. All 12 focused browser checks pass (review, moving traffic, every direction, replay and idle rendering). Evidence is in docs/curb-hover-review/parking. A regression caught a bay intruding into a road ending at a T-junction; validity now tests the entire roadside envelope rather than only the main lane center.
+
+Next milestone: the updated brief explicitly requires a subtle persistent gold silhouette glow/brightening on all six services, stronger smooth hover emphasis, preserved persistent selection, touch/keyboard discoverability and substantially clearer full-name labels with overlay-aware decluttering. That landmark milestone is not yet implemented. Preserve existing gameplay/minimap/saves/inspector and do not restart the task or discard the current parking work.
+
 ## Vehicle orientation complete - 2026-11-15
 
 Artwork checkpoint 84b3466 is pushed and verified on origin/main. The moving fix now samples position, road tile and world-axis direction from one active route segment. Every turn uses its outgoing direction, including opposite traffic. CityScene reuses all three sprites, swaps the corresponding color/direction frame and includes heading in its rounded-position cache key. The geometry fallback follows the same direction. Compact-frame culling and a shared road-contact origin replace the old ad hoc sprite offset. Minimap/camera/picking retain vehiclePosition's existing z=4 API. Routes, fleet offsets, dispatch rules, saves and deployment are unchanged.
