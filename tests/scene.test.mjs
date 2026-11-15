@@ -84,3 +84,14 @@ test('culling hides distant geometry without discarding identity or offscreen ou
  assert.deepEqual(scene.world.children,children);assert.equal(stats.created,created);
  scene.world.destroy();
 });
+
+test('silhouette highlights transfer exclusively, retain outage state and preview without allocations',()=>{
+ const textures={...Object.fromEntries(Object.keys(cityModels).map(id=>[id,{on:{id:`${id}:on`},off:{id:`${id}:off`},highlight:{id:`${id}:highlight`}}])),ground:{},lanternGround:{}};
+ const scene=buildCityScene(textures),state=createInitialState();scene.update({...state,selected:'hospital'});
+ assert.deepEqual(scene.selectionState().highlighted,['hospital']);const created=stats.created;
+ scene.preview('water');assert.deepEqual(new Set(scene.selectionState().highlighted),new Set(['hospital','water']));
+ scene.preview(null);scene.update({...state,selected:'water',outage:true,time:10});
+ assert.deepEqual(scene.selectionState().highlighted,['water']);
+ scene.update(state);assert.deepEqual(scene.selectionState().highlighted,[]);
+ assert.equal(stats.created,created);scene.world.destroy();
+});

@@ -1,5 +1,7 @@
 # Original Ctrl Z city art
 
+`selection_art.py` derives `selection-atlas.png` and `spriteHitRows.json` from the union of the original lit/unlit sprite alpha (excluding faint spill). The shared two-pixel teal outline follows actual roofs/equipment instead of a rectangle. Opaque hit rows use the same silhouette with no runtime GPU readback. Regenerate them through the standard art build whenever sprites change.
+
 Current overhaul sources: `city_architecture.py` draws the ten general city models; `infrastructure_art.py` draws the six facility identities; `lantern_art.py` draws the three initial Lantern models/court; `light_art.py` bakes architectural illumination; `street_art.py` draws paired street/court masks. Run `python -B scripts/build-city-art.py` to rebuild committed assets. None contains purchased sprites, public-preview pixels or external fonts. Antahonist Neon City is visual guidance, with pixel-city-reference-2.png secondary.
 
 The city atlas is 2048×1536 (~168 kB PNG); the shared paired street atlas is 2048×2048 (~117 kB PNG). Sixteen road-edge masks have powered/unpowered variants. `streetPlan.json` is the shared runtime street truth for world/minimap; `chunkRoadMask` selects the matching ground frame. The separate Lantern court variant and all building sprites retain the original projection/pivots. Lighting switches through retained textures, not per-frame filters or animation.

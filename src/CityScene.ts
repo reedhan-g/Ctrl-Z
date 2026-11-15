@@ -9,7 +9,8 @@ import {world as land} from './world.ts';
 import {buildWorldArt,type CullEntry} from './worldArt.ts';
 import {cityScenery,sceneryDepth,boundsOf,intersects,type Rect} from './worldScenery.ts';
 import {pointInPolygon,buildingFaces,unproject} from './geometry.ts';
-import {architecture,type CityTextures} from './pixelArt.ts';
+import {architecture,highlightSprite,type CityTextures} from './pixelArt.ts';
+import {spriteHit} from './spriteHit.ts';
 
 type SceneState = Snapshot & { selected: BuildingId | null; trace: boolean };
 
@@ -40,6 +41,7 @@ export function buildCityScene(textures?:CityTextures) {
   }
   let previousOutage: boolean | null = null;
   let previousTrace: string | null = null;
+  let selectedId:BuildingId|null=null,hoveredId:BuildingId|null=null;
   const views = sortedBuildings.map(b => {
     // Keep each building's solids, windows and signs in the same depth layer.
     const layer = new Container(), selection = new Graphics(), body = new Graphics(), windows = new Graphics();
@@ -47,6 +49,8 @@ export function buildCityScene(textures?:CityTextures) {
     layer.addChild(selection, body, windows, roof, indicator);layer.zIndex=(b.x+b.y+1.9)*100;
     const facade=textures?architecture(textures,b.id,b.x,b.y):null;
     if(facade)layer.addChild(facade.sprite);else buildingShell(body,b);
+    const highlight=textures?highlightSprite(textures,b.id,b.x,b.y):null;
+    if(highlight)layer.addChild(highlight);
     const r = iso(b.x + .94, b.y + .94, b.height + 9);
     if (!facade && b.id === 'hospital') {
       roof.rect(r.x - 8, r.y - 3, 16, 6).fill(0xa9ddd3).rect(r.x - 3, r.y - 8, 6, 16).fill(0xa9ddd3);
@@ -63,11 +67,22 @@ export function buildCityScene(textures?:CityTextures) {
     label.anchor.set(.5); label.position.set(p.x, p.y - 24);
     label.visible=false; // Architecture/signs lead; selection reveals the large label.
     layer.addChild(label); world.addChild(layer);
-    return { b, layer, windows, indicator, selection, label, p, facade,tone: '', selected: false };
+    return { b, layer, windows, indicator, selection, label, p, facade,highlight,tone: '', selected: false };
   });
+
+  function showHighlights(){
+    let changed=false;
+    for(const v of views)if(v.highlight){
+      const visible=v.b.id===selectedId||v.b.id===hoveredId,alpha=v.b.id===selectedId?1:.4;
+      if(v.highlight.visible!==visible||v.highlight.alpha!==alpha){v.highlight.visible=visible;v.highlight.alpha=alpha;changed=true;}
+    }
+    return changed;
+  }
+  function preview(id:BuildingId|null){const changed=hoveredId!==id;hoveredId=id;return showHighlights()||changed;}
 
   function update(s: SceneState) {
     let changed = false;
+    selectedId=s.selected;changed=showHighlights()||changed;
     if(previousOutage!==s.outage){previousOutage=s.outage;changed=art.update(s.outage)||changed;}
     const diagnostics = dependencies.map(edge => diagnoseDependency(edge, s));
     const traceKey = `${s.trace}:${s.selected}:${diagnostics.map(d => `${d.sourceOnline}:${d.available}`).join(',')}`;
@@ -99,8 +114,7 @@ export function buildCityScene(textures?:CityTextures) {
         changed = true; view.selected = selected; selection.clear();
         view.label.style.fill = selected ? 0xb9f3e4 : 0xabc0c6;
         view.label.visible=selected;
-        if (selected) selection.poly(flatten(prismFaces(b.x - .05, b.y - .05, 2.05, 2.05, 8)[2]))
-          .stroke({ color: 0x8de4d1, width: 2 });
+        if (selected&&!view.highlight)for(const face of buildingFaces(b))selection.poly(flatten(face)).stroke({ color: 0x8de4d1, width: 2 });
       }
     }
     return animate(s)||changed;
@@ -111,8 +125,9 @@ export function buildCityScene(textures?:CityTextures) {
     for(const v of vehicles)v.sprite.visible=intersects({x:v.sprite.x-16,y:v.sprite.y-16,width:32,height:32},rect,60);
     return {total:entries.length,visible,servicesVisible};
   }
-  const occluders=[...cityScenery.map(b=>({depth:sceneryDepth(b),faces:b.faces,building:null as BuildingId|null})),...buildings.map(b=>({depth:(b.x+b.y+1.9)*100,faces:buildingFaces(b),building:b.id as BuildingId|null}))].sort((a,b)=>b.depth-a.depth);
-  function pick(point:{x:number;y:number}){const hit=occluders.find(o=>o.faces.some(face=>pointInPolygon(point,face)));return {building:hit?.building??null,blocked:!!hit};}
+  const occluders=[...cityScenery.map(b=>({depth:sceneryDepth(b),faces:b.faces,model:b.model,x:b.x,y:b.y,building:null as BuildingId|null})),...buildings.map(b=>({depth:(b.x+b.y+1.9)*100,faces:buildingFaces(b),model:b.id,x:b.x,y:b.y,building:b.id as BuildingId|null}))].sort((a,b)=>b.depth-a.depth);
+  function pick(point:{x:number;y:number}){const hit=occluders.find(o=>textures?spriteHit(o.model,o.x,o.y,point):o.faces.some(face=>pointInPolygon(point,face)));return {building:hit?.building??null,blocked:!!hit};}
   const getVehiclePosition=(id:string)=>{const sprite=vehicles.find(v=>v.vehicle.id===id)!.sprite;return {x:sprite.x,y:sprite.y};};
-  return { world, update, animate, cull, pick, getVehiclePosition };
+  const selectionState=()=>({selected:selectedId,hovered:hoveredId,highlighted:views.filter(v=>v.highlight?.visible).map(v=>v.b.id)});
+  return { world, update, animate, cull, pick, preview, selectionState, getVehiclePosition };
 }

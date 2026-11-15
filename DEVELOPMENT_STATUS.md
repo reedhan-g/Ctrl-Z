@@ -1,5 +1,11 @@
 # Ctrl Z - Development Status
 
+## Building interaction improvements — 2026-11-15
+
+Active brief: `CODEX_BUILDING_IMPROVEMENT.md` (the supplied file uses the singular name). First checkpoint replaces footprint-only selection with a two-pixel teal outline and faint overlay generated from the real sprite-alpha silhouette. Stable lit/unlit hit rows also remove bounding-prism hits in transparent stepped-wing gaps. Selection remains exclusive, desktop hover is weaker and clears during camera gestures, and highlights remain in their building's paint layer for occlusion. No continuous rendering or GPU filter/readback was added. Existing bespoke identities for all six facilities are retained.
+
+Validation: 75 unit checks, production build, ten existing desktop/mobile gameplay/offscreen/pinch/idle checks and two new selection checks pass. The first desktop hover diagnostic assertion found stale diagnostic state when an already-selected highlight did not visually change; it was corrected and the focused checks rerun. Actual selected-hospital desktop render was inspected. Selection atlas is ~15.7 kB PNG (2048×768, ~6 MiB decoded); hit rows are ~27 kB JSON. Next checkpoints: detailed real-state inspector/action explanations, scenery information, mobile collapse and scenery minimap/keyboard navigation.
+
 ## Active visual overhaul on main — 2026-11-14
 
 Presentation/final review: first load, Reset and minimap Home now share a civic-crossroads frame, offset away from the desktop minimap and clear of mobile timeline controls. Renderer quality changes preserve the player's camera. Large facility labels appear on selection instead of overlapping the default skyline; mobile selection leaves additional roof clearance. The new browser review captures default desktop/mobile, the intersection, all six facilities, two views of the complete four-block Lantern neighborhood, and all four map edges. Curated evidence is in `docs/current-city-review/`. Actual renders were compared with the Antahonist banner: dark teal masonry, coherent floor proportions, stepped roofs, warm/cyan windows and restrained colored signs now appear across the opening/main playable area, rather than only in a remote exemplar. This is original project art, not the purchased pack or a claim of exact reference reproduction.

@@ -9,6 +9,7 @@ export class CameraGesture {
   private start: Point = { x: 0, y: 0 };
   private last: Point = { x: 0, y: 0 };
   private moved = false;
+  get interacting(){return this.pointers.size>0;}
 
   down(id: number, p: Point) {
     if (this.pointers.size >= 2) return;

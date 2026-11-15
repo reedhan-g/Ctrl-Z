@@ -37,10 +37,12 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
       const origin=()=>cameraOrigin(size());
       let frame = 0;
       const render = () => {
+        el.dataset.selection=JSON.stringify(scene.selectionState());
         if (frame || document.hidden || disposed) return;
         frame = requestAnimationFrame(() => { frame = 0; if (!disposed) app.render(); });
       };
       function fit() {
+        scene.preview(null);
         if (app.screen.width !== el.clientWidth || app.screen.height !== el.clientHeight)
           app.renderer.resize(el.clientWidth, el.clientHeight);
         const view=boundedView(camera,size());
@@ -77,9 +79,13 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
       };
       const down = (e: PointerEvent) => {
         if (e.pointerType === 'mouse' && e.button !== 0) return;
-        el.setPointerCapture(e.pointerId); camera.down(e.pointerId, localPoint(e));
+        if(scene.preview(null))render();el.setPointerCapture(e.pointerId); camera.down(e.pointerId, localPoint(e));
       };
-      const move = (e: PointerEvent) => { if(camera.move(e.pointerId, localPoint(e), origin()))fit(); };
+      const move = (e: PointerEvent) => {
+        if(camera.move(e.pointerId, localPoint(e), origin()))fit();
+        else if(e.pointerType==='mouse'&&!e.buttons&&!camera.interacting){const p=localPoint(e),hit=scene.pick({x:(p.x-scene.world.x)/scene.world.scale.x,y:(p.y-scene.world.y)/scene.world.scale.y});if(scene.preview(hit.building))render();}
+      };
+      const leave=()=>{if(scene.preview(null))render();};
       const up = (e: PointerEvent) => {
         if (camera.up(e.pointerId)) {
           const p = localPoint(e);
@@ -98,6 +104,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
         fit();
       };
       el.addEventListener('pointerdown', down); el.addEventListener('pointermove', move);
+      el.addEventListener('pointerleave',leave);
       el.addEventListener('pointerup', up); el.addEventListener('pointercancel', cancel);
       el.addEventListener('lostpointercapture', cancel);
       el.addEventListener('wheel', wheel, { passive: false }); el.addEventListener('camera', command);
@@ -125,6 +132,7 @@ export default function City({lowPower=false}:{lowPower?:boolean}) {
         document.removeEventListener('visibilitychange', render);el.removeEventListener('keydown',keys);
         useNavigation.setState({view:null,vehiclePoint:null,recenter:()=>{},reset:()=>{}});
         el.removeEventListener('pointerdown', down); el.removeEventListener('pointermove', move);
+        el.removeEventListener('pointerleave',leave);
         el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', cancel);
         el.removeEventListener('lostpointercapture', cancel);
         el.removeEventListener('wheel', wheel); el.removeEventListener('camera', command);

@@ -11,6 +11,7 @@ import city_architecture
 import street_art
 import infrastructure_art
 import light_art
+import selection_art
 
 ROOT = Path(__file__).resolve().parents[1]
 MODELS = [
@@ -200,6 +201,7 @@ for i,model in enumerate(MODELS):
     name,w,d,h,*_=model;metadata[name]={'index':i*2,'width':w,'depth':d,'height':h}
 out=ROOT/'src/assets';out.mkdir(parents=True,exist_ok=True)
 atlas.save(out/'city-atlas.png',optimize=True)
+selection_art.build(atlas,MODELS,ROOT)
 # One reusable street block, exact full-resolution world projection. Streets
 # sit at local axis 4 in every block, matching world.ts/minimap/vehicle routes.
 street=Image.new('RGBA',(400,224));g=ImageDraw.Draw(street)

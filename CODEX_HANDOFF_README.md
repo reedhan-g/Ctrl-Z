@@ -6,6 +6,10 @@ This document is for a Codex account with no conversation history. It records th
 
 ## Continuation receipt — 14 November 2026
 
+### Building interaction continuation — 15 November 2026
+
+The current additive brief is `CODEX_BUILDING_IMPROVEMENT.md` (singular filename). It extends the existing selection/inspector rather than replacing the simulation. The first tested checkpoint generates true sprite-alpha teal highlights and compact opaque-pixel hit rows offline (`selection_art.py`). Persistent selection is stronger than desktop hover, remains aligned through camera transforms/outages, and respects foreground paint order. No rejected commit code or external art was imported. 75 unit checks, build, ten existing focused browser checks and two new selection checks pass; desktop highlighted hospital inspected. Detailed inspection, contextual disabled explanations, scenery information/mobile sheet/minimap integration follow next. The six already-distinct infrastructure designs are preserved.
+
 ### Active task and publishing destination — supersedes earlier branch restrictions
 
 The substantial visible overhaul is implemented across the main playable city: all ten general scenery designs and all six service designs replaced; fifteen authored civic/Lantern block programs; eighteen shared connected street segments with courts/gardens; baked state-responsive architecture/junction lighting; and a new opening/reset frame. The full Lantern junction now comprises the original court block plus three authored adjacent blocks. Source remains original offline art, with no rejected commit-28/29 implementation or paid kit pixels. Large roof labels are selection-only and mobile inspection leaves roof clearance. Continue development directly on main.
