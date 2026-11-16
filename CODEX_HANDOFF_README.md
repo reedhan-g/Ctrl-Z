@@ -1,5 +1,11 @@
 # Ctrl Z — complete Codex account handoff
 
+## Current landing-page task - 2026-11-16
+
+The creator now requests only a minimal editorial website landing page. The prior UI overhaul below is finished and remains protected in full, along with all city artwork/rendering, gameplay, controls, minimap, saves and workflows. Do not resume older city/HUD redesign tasks. Start from main 0ac6f5a; fetched origin/main and origin/UI_FIX match that commit. PR #1 is already incorporated at 0334947; do not repeat its documentation import or merge branches automatically.
+
+Read docs/landing-page/PLAN.md for the audit, pinned design and checkpoints; PRODUCT.md captures confirmed constraints and open assumptions. Plan a separate static simulation.html entry and lightweight root homepage with actual game screenshots. Optional placement/workflow questions remain unanswered; do not treat these as stored user preferences. Existing user-added skill/config files are unrelated and must be preserved. Baseline 100 unit tests/build pass. Runtime implementation and desktop/mobile visual validation are next; continue small tested commits and verified pushes to origin/main. Keep Antahonist primary, design/pixel-city-reference-2.png secondary, commit-27 lineage and exclusion of rejected commit-28/29 designs.
+
 ## Deployed UI overhaul verified - 2026-11-15
 
 All five runtime milestones are complete and pushed to origin/main: 8d4beb4, 8ed65c0, e2ed567, 427bf3f and c0ba5ab. Runtime SHA c0ba5ab3c3c840bb0c2230d639bb8b62d2342695 has successful CI (43739791304) and Pages deployment (43739791251). Actual https://reedhan-g.github.io/Ctrl-Z/ passed four desktop/mobile guide and gameplay review cases in 29.1 seconds after deployment. The real published flow includes blackout, pause, facility inspection, supplies, timeline seeking, restoration and undo; guide tests verify actual-action progression, skip/replay and preserved experiment time. Deployed opening/guide images are in docs/ui-overhaul/deployed and were visually reviewed.

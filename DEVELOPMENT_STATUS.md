@@ -1,5 +1,13 @@
 # Ctrl Z - Development Status
 
+## Landing-page audit checkpoint - 2026-11-16
+
+New creator scope is landing-page-only: minimal editorial presentation with actual game previews and a clear entry CTA. The previous five-milestone UI overhaul is complete; do not repeat or redesign it. Fetched origin and inspected branches: main and origin/main are 0ac6f5a; UI_FIX is the same commit. PR #1 remains incorporated at 0334947. Untracked user skill/config files are preserved.
+
+Audit/plan: docs/landing-page/PLAN.md. PRODUCT.md records explicit product constraints and the unanswered optional entry-placement assumption. Plan a separate simulation.html entry so the homepage does not load game code or global styles; retain all game modules, saves and both workflows. Antahonist, the secondary reference and commit-27 lineage remain protected; no rejected design import.
+
+Validation before this documentation checkpoint: 100 unit tests and production build pass on unchanged runtime. Next: implement the scoped homepage, update existing browser-test destinations without changing gameplay assertions, verify desktop/mobile and record real screenshots before the runtime commit.
+
 ## Deployed UI overhaul verified - 2026-11-15
 
 All five runtime milestones are complete and pushed to origin/main: 8d4beb4, 8ed65c0, e2ed567, 427bf3f and c0ba5ab. Runtime SHA c0ba5ab3c3c840bb0c2230d639bb8b62d2342695 has successful CI (43739791304) and Pages deployment (43739791251). Actual https://reedhan-g.github.io/Ctrl-Z/ passed four desktop/mobile guide and gameplay review cases in 29.1 seconds after deployment. The real published flow includes blackout, pause, facility inspection, supplies, timeline seeking, restoration and undo; guide tests verify actual-action progression, skip/replay and preserved experiment time. Deployed opening/guide images are in docs/ui-overhaul/deployed and were visually reviewed.
