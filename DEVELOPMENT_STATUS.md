@@ -1,5 +1,13 @@
 # Ctrl Z - Development Status
 
+## Editorial landing page complete and deployed - 2026-11-16
+
+Runtime milestone 5dd71931ec762cbf6e941071bf8adf9209791a49 is pushed/remote-verified, with successful CI 43813326844 and Pages deployment 43813326830. The published https://reedhan-g.github.io/Ctrl-Z/ now presents the requested editorial homepage and on-demand embedded simulation, plus full-screen access. All existing game UI/HUD, map/art, domain/clock/replay/persistence, controls, minimap and both workflows remain unchanged. The earlier audit checkpoint is 247c51e; PR #1 remains incorporated at 0334947.
+
+Validation: 100 unit tests, production build and 89 browser passes in the full 90-case gate (one intentional duplicate mobile matrix skip). All 13 deployed desktop/mobile cases are validated through 11 initial passes and two focused passing navigation follow-ups; the published homepage capture test passed twice more. Initial sandbox denial was resolved by running with authorized network access. Remote traces also exposed a transient HTTP 503/cold atlas load and total-test deadlines; a temporary remote-only configuration used 120s total / 20s assertion waits. The final two navigation cases passed in 31.3s and the final two homepage cases in 6.8s. Production code, local test limits and assertions were not changed for this. Physical phones/Safari remain unverified.
+
+Fresh independent Impeccable finish review: ship, no material fixes. DESIGN.md and .impeccable/design.json capture only the new landing system; .impeccable/config.json records the creator's code-first preference. Nine reviewed local captures and six inspected real published captures, exact test/deployment receipts and provenance are in docs/landing-page/REVIEW.md. This final checkpoint preserves evidence/documentation only. No requested implementation remains unfinished; next work should follow creator feedback and preserve the approved game. User-added skill/config directories remain unrelated and uncommitted.
+
 ## Editorial landing page validated - 2026-11-16
 
 Creator confirmed an embedded game below the landing page and code-first development. Root now has a text-led Ctrl Z opening, concept, genuine powered/blackout desktop/mobile previews, three capability descriptions and final entry CTA. Entry reveals the unchanged simulation on demand in a same-origin iframe; #simulation, a Start simulation button and direct simulation.html/full-screen access work. The wrapper forwards the embedded game's home link to the outer site. No game component, rendering/art, domain, clock, camera, controls, saves or workflow changed. Only existing browser-test entry URLs change to simulation.html, retaining every assertion.

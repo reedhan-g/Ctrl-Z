@@ -1,5 +1,13 @@
 # Ctrl Z — complete Codex account handoff
 
+## Editorial homepage complete and deployed - 2026-11-16
+
+The latest landing-only request is complete. Audit 247c51e and runtime 5dd71931ec762cbf6e941071bf8adf9209791a49 are pushed/verified on origin/main. Runtime CI 43813326844 and Pages 43813326830 succeeded. Root now has the text-led Ctrl Z opening, concept, real desktop/mobile powered/blackout previews, capabilities and final CTA. The creator chose embedded play below the landing page and code-first. CTAs load the untouched simulation at #simulation in an isolated same-origin frame; simulation.html remains the full-screen entry. Existing game source/styles, city artwork/rendering, controls, simulation, minimap and saves are protected and unchanged.
+
+100 unit tests/build and the full browser gate pass: 89 passed in 11.5m, one intentional duplicate mobile matrix skip. All 13 actual deployed desktop/mobile cases are validated through the initial 11 passes and two focused follow-ups; final published homepage capture checks also pass on both devices. Initial network sandbox denial and transient HTTP 503/cold-load timing were handled with authorized networking and temporary remote-only 120s test / 20s assertion budgets; no production code, local limit or assertion changed. Final navigation follow-ups passed in 31.3s. See docs/landing-page/REVIEW.md for exact receipts and nine local/six published inspected captures.
+
+Independent Impeccable review returned ship without material fixes. PRODUCT.md, DESIGN.md, .impeccable/design.json, .impeccable/config.json and the surface brief preserve scope, actual landing tokens and confirmed workflow. This final checkpoint is documentation/evidence only; no requested runtime work remains. Preserve unrelated untracked user skills/config files. Keep both workflows, Antahonist/secondary reference, commit-27 lineage and rejected-design exclusions; do not restart completed UI/city briefs. Physical devices/Safari and creator feedback are the remaining external follow-ups. Inspect Git status and latest commits when continuing.
+
 ## Current landing-page task - 2026-11-16
 
 The creator now requests only a minimal editorial website landing page. The prior UI overhaul below is finished and remains protected in full, along with all city artwork/rendering, gameplay, controls, minimap, saves and workflows. Do not resume older city/HUD redesign tasks. Start from main 0ac6f5a; fetched origin/main and origin/UI_FIX match that commit. PR #1 is already incorporated at 0334947; do not repeat its documentation import or merge branches automatically.

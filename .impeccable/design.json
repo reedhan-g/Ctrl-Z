@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-16T05:20:00Z",
+  "title": "Design System: Ctrl Z — Editorial Homepage",
+  "extensions": {
+    "colorMeta": {
+      "page-ground": {"role": "neutral", "displayName": "Graphite", "tonalRamp": ["oklch(15% 0.008 255)", "oklch(26% 0.012 255)", "oklch(37% 0.016 255)", "oklch(49% 0.02 255)", "oklch(60% 0.02 255)", "oklch(72% 0.016 255)", "oklch(84% 0.01 255)", "oklch(95% 0.004 255)"]},
+      "page-raised": {"role": "neutral", "displayName": "Raised graphite", "tonalRamp": ["oklch(15% 0.008 250)", "oklch(26% 0.014 250)", "oklch(37% 0.018 250)", "oklch(49% 0.022 250)", "oklch(60% 0.022 250)", "oklch(72% 0.018 250)", "oklch(84% 0.012 250)", "oklch(95% 0.004 250)"]},
+      "page-ink": {"role": "neutral", "displayName": "Off-white", "tonalRamp": ["oklch(15% 0.003 120)", "oklch(26% 0.005 120)", "oklch(37% 0.008 120)", "oklch(49% 0.01 120)", "oklch(60% 0.01 120)", "oklch(72% 0.008 120)", "oklch(84% 0.006 120)", "oklch(95% 0.003 120)"]},
+      "page-muted": {"role": "neutral", "displayName": "Cool grey", "tonalRamp": ["oklch(15% 0.005 225)", "oklch(26% 0.01 225)", "oklch(37% 0.015 225)", "oklch(49% 0.018 225)", "oklch(60% 0.018 225)", "oklch(72% 0.015 225)", "oklch(84% 0.01 225)", "oklch(95% 0.004 225)"]},
+      "page-accent": {"role": "primary", "displayName": "Window cyan", "tonalRamp": ["oklch(15% 0.018 187)", "oklch(26% 0.035 187)", "oklch(37% 0.05 187)", "oklch(49% 0.065 187)", "oklch(60% 0.075 187)", "oklch(72% 0.07 187)", "oklch(84% 0.05 187)", "oklch(95% 0.015 187)"]},
+      "page-edge": {"role": "neutral", "displayName": "Quiet edge", "tonalRamp": ["oklch(15% 0.007 245)", "oklch(26% 0.012 245)", "oklch(37% 0.018 245)", "oklch(49% 0.022 245)", "oklch(60% 0.022 245)", "oklch(72% 0.018 245)", "oklch(84% 0.012 245)", "oklch(95% 0.004 245)"]}
+    },
+    "typographyMeta": {
+      "display": {"displayName": "Display", "purpose": "Ctrl Z opening title; mobile uses clamp(4rem, 16vw, 5rem)."},
+      "headline": {"displayName": "Headline", "purpose": "Balanced section headings."},
+      "tagline": {"displayName": "Tagline", "purpose": "The short opening premise."},
+      "title": {"displayName": "Title", "purpose": "Feature-list terms."},
+      "body": {"displayName": "Body", "purpose": "Default reading text."},
+      "intro": {"displayName": "Introduction", "purpose": "Opening supporting copy; mobile uses 17px."},
+      "label": {"displayName": "Label", "purpose": "Navigation and supporting links; mobile navigation uses 12px."},
+      "action": {"displayName": "Action", "purpose": "Primary entry controls."},
+      "caption": {"displayName": "Caption", "purpose": "Preview captions, entry notes and supporting status."}
+    },
+    "shadows": [],
+    "motion": [
+      {"name": "preview-dissolve", "value": "opacity 180ms ease-out", "purpose": "User-triggered preview change; transition is removed under prefers-reduced-motion: reduce."}
+    ],
+    "breakpoints": [
+      {"name": "middle", "value": "900px"},
+      {"name": "mobile", "value": "600px"}
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Entry Action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The clear, restrained action used to enter the live simulation.",
+      "html": "<button class=\"ds-enter\" type=\"button\">Enter Simulation</button>",
+      "css": ".ds-enter { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 13px 24px; border: 0; border-radius: 4px; font-family: Manrope, sans-serif; font-size: 14px; font-weight: 800; line-height: 1.65; background: var(--page-accent); color: var(--page-ground); cursor: pointer; } .ds-enter:hover { background: var(--page-ink); } .ds-enter:focus-visible { outline: 2px solid var(--page-accent); outline-offset: 6px; }"
+    },
+    {
+      "name": "Editorial Navigation",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Quiet sentence-case links with an underlined cyan entry link.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"#about\">The idea</a><a href=\"#preview\">Preview</a><a class=\"ds-entry-link\" href=\"#simulation\">Enter Simulation</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 32px; align-items: center; font-family: Manrope, sans-serif; font-size: 14px; font-weight: 500; line-height: 1.65; } .ds-nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--page-ink); text-decoration: none; text-underline-offset: 5px; text-decoration-thickness: 1px; } .ds-nav a:hover { color: var(--page-accent); } .ds-nav .ds-entry-link { color: var(--page-accent); text-decoration: underline; } .ds-nav a:focus-visible { outline: 2px solid var(--page-accent); outline-offset: 6px; } @media (max-width: 600px) { .ds-nav { gap: 16px; font-size: 12px; } .ds-nav > a:first-child { display: none; } }"
+    },
+    {
+      "name": "Gameplay Preview Switch",
+      "kind": "custom",
+      "refersTo": "preview-group",
+      "description": "A two-option group showing the selected actual gameplay state.",
+      "html": "<div class=\"ds-preview-switch\" role=\"group\" aria-label=\"Gameplay preview state\"><button type=\"button\" aria-pressed=\"true\">Quiet evening</button><button type=\"button\" aria-pressed=\"false\">Power removed</button></div>",
+      "css": ".ds-preview-switch { display: flex; gap: 4px; padding: 4px; background: var(--page-raised); border-radius: 6px; } .ds-preview-switch button { font-family: Manrope, sans-serif; font-size: 13px; font-weight: 600; line-height: 1.65; color: var(--page-muted); border: 0; background: transparent; border-radius: 3px; padding: 10px 14px; min-height: 44px; cursor: pointer; } .ds-preview-switch button[aria-pressed='true'] { color: var(--page-ground); background: var(--page-accent); } .ds-preview-switch button:hover { color: var(--page-ink); } .ds-preview-switch button[aria-pressed='true']:hover { color: var(--page-ground); } .ds-preview-switch button:focus-visible { outline: 2px solid var(--page-accent); outline-offset: 6px; } @media (max-width: 600px) { .ds-preview-switch { width: 100%; } .ds-preview-switch button { flex: 1; } }"
+    },
+    {
+      "name": "Open Feature List",
+      "kind": "custom",
+      "refersTo": "feature-list-item",
+      "description": "Definition-list rows organize capabilities with typography and quiet separators.",
+      "html": "<dl class=\"ds-features\"><div><dt>See the whole system</dt><dd>Electricity, healthcare, water, homes, communications and logistics. Inspect buildings to discover how a failure reaches beyond its source.</dd></div><div><dt>Choose what to protect</dt><dd>Time and backup supplies are limited. Send support where it matters, or investigate a failure to understand what went wrong.</dd></div></dl>",
+      "css": ".ds-features { margin: 0; font-family: Manrope, sans-serif; font-size: 16px; font-weight: 400; line-height: 1.65; color: var(--page-ink); } .ds-features > div { padding-block: 24px; border-top: 1px solid var(--page-edge); } .ds-features > div:first-child { padding-top: 0; border-top: 0; } .ds-features dt { font-size: 20px; font-weight: 600; letter-spacing: -.02em; margin-bottom: 10px; } .ds-features dd { margin: 0; color: var(--page-muted); max-width: 52ch; text-wrap: pretty; }"
+    },
+    {
+      "name": "Closing Invitation",
+      "kind": "custom",
+      "refersTo": "closing-invitation",
+      "description": "A flat raised band repeats the editorial rhythm and entry action.",
+      "html": "<section class=\"ds-closing\"><div class=\"ds-closing-inner\"><h2>What would you<br>keep running?</h2><div><p>The city is connected.<br>The next decision is yours.</p><a class=\"ds-closing-action\" href=\"#simulation\">Enter Simulation</a></div></div></section>",
+      "css": ".ds-closing { background: var(--page-raised); color: var(--page-ink); font-family: Manrope, sans-serif; font-size: 16px; line-height: 1.65; } .ds-closing-inner { width: min(1200px, calc(100% - 112px)); margin-inline: auto; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 64px; padding-block: 72px; } .ds-closing h2 { margin: 0; font-size: clamp(1.85rem, 3.3vw, 2.75rem); line-height: 1.2; font-weight: 500; letter-spacing: -.035em; text-wrap: balance; } .ds-closing p { margin: 0 0 24px; color: var(--page-muted); } .ds-closing-action { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 13px 24px; border-radius: 4px; font-size: 14px; font-weight: 800; background: var(--page-accent); color: var(--page-ground); text-decoration: none; } .ds-closing-action:hover { background: var(--page-ink); } .ds-closing-action:focus-visible { outline: 2px solid var(--page-accent); outline-offset: 6px; } @media (max-width: 900px) { .ds-closing-inner { width: calc(100% - 64px); gap: 32px; } } @media (max-width: 600px) { .ds-closing-inner { width: calc(100% - 40px); grid-template-columns: 1fr; padding-block: 48px; gap: 28px; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Minimal editorial",
+    "overview": "Strong typography and clean hierarchy introduce the playable city through a dark reading surface, generous spacing and restrained neon accents. Open text blocks and actual game previews carry the presentation. The mood is calm, direct and precise; the controls feel clear and restrained.\n\nThis system applies only to the homepage implemented in `src/Landing.tsx` and `src/landing.css`, loaded by `src/landing-main.tsx` through `index.html`. The embedded and full-screen game at `simulation.html` is a separate, approved system. Its `src/console.css` and `src/style.css`, HUD, controls, service identities, city artwork, renderer, camera, simulation and saves remain protected. These landing tokens must not replace incumbent game tokens. The city retains the Antahonist Neon City direction, secondary `design/pixel-city-reference-2.png` inspiration and commit-27 lineage; rejected commit-28/29 designs remain excluded.",
+    "keyCharacteristics": ["Strong typography and clean hierarchy.", "Generous spacing and open text blocks.", "Dark overall theme with restrained neon accents.", "Actual gameplay imagery with clear preview captions.", "An isolated, on-demand playable game below the introduction."],
+    "rules": [
+      {"name": "The Restrained Neon Rule", "body": "Use window cyan for entry, selection and focus; let the actual city previews carry the richer game palette.", "section": "colors"},
+      {"name": "The Clean Hierarchy Rule", "body": "Establish emphasis with size, weight and space; preserve readable text rather than adding tracked eyebrows or ornamental labels.", "section": "typography"},
+      {"name": "The Flat Surface Rule", "body": "Keep editorial surfaces flat; reserve tonal layering for the preview switch and closing invitation.", "section": "elevation"}
+    ],
+    "dos": [
+      "**Do** use strong typography, clean hierarchy and generous spacing.",
+      "**Do** use window cyan for entry, selection and focus.",
+      "**Do** use actual game previews with readable captions and accurate alternative text.",
+      "**Do** preserve visible keyboard focus, touch target sizes and reduced-motion behavior.",
+      "**Do** keep homepage styles isolated from the approved game system."
+    ],
+    "donts": [
+      "**Don't** introduce generic SaaS cards, glass, decorative glow or ornamental cyberpunk clutter into the homepage.",
+      "**Don't** invent metrics, testimonials, awards or unimplemented gameplay scenarios.",
+      "**Don't** replace the protected game UI, city artwork or game tokens with this landing system.",
+      "**Don't** add tracked eyebrows, section numbers or decorative icon grids to establish hierarchy."
+    ]
+  }
+}
