@@ -5,7 +5,7 @@ import {worldToScreen} from '../../src/worldCamera';
 
 // Repeat this same UI-driven review before and after both polish checkpoints.
 test('captures curbside streets and landmark normal hover selection states',async({page},info)=>{
- test.setTimeout(120000);await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ test.setTimeout(120000);await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  const host=page.locator('.city-canvas');
  const capture=async(name:string)=>page.locator('.world').screenshot({path:info.outputPath(`${name}.png`)});
  await capture('opening-street');
@@ -25,7 +25,7 @@ test('captures curbside streets and landmark normal hover selection states',asyn
 });
 
 test('reviews parked curbside bays across market residential and logistics streets',async({page},info)=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Zoom in',exact:true}).click();
  for(const [name,x,y] of [['market',4.5,-4.25],['housing',4.5,11],['exchange',29.5,18]] as const){
   const expand=page.getByRole('button',{name:'Expand minimap'});if(await expand.isVisible())await expand.click();

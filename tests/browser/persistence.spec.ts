@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 test('saved responses survive reload and resume paused with exact undo',async({page})=>{
- await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();
  await page.getByRole('button',{name:'Pause simulation'}).click();
  const slider=page.getByRole('slider',{name:'Simulation timeline'});
@@ -21,7 +21,7 @@ test('saved responses survive reload and resume paused with exact undo',async({p
  await expect(page.getByRole('button',{name:'Play simulation'})).toBeVisible();
 });
 test('invalid browser saves leave the current experiment intact',async({page})=>{
- await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();
  await page.getByRole('button',{name:'Pause simulation'}).click();
  await page.evaluate(()=>localStorage.setItem('ctrl-z:experiment:v1','{"version":99}'));

@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 test('delivery vehicles expose their dispatch dependency and lose service with hub power',async({page})=>{
- await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:/East delivery hub/}).click();
  const panel=page.getByRole('region',{name:'Building inspection'});
  await panel.getByRole('button',{name:'Courier 01',exact:true}).click();

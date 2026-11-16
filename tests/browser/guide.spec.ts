@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 test('optional guide follows real actions and replay never resets an experiment',async({page},info)=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto(process.env.CTRL_Z_REVIEW_URL||'./');await expect(page.locator('canvas')).toBeVisible();
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto(process.env.CTRL_Z_REVIEW_URL||'./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  const guide=page.getByRole('region',{name:'Guided experiment'});await expect(guide).not.toBeVisible();
  await page.getByRole('button',{name:'How to play',exact:true}).click();await page.getByRole('button',{name:'Start guided experiment'}).click();
  await expect(guide.getByRole('heading',{name:'This is Meridian.'})).toBeVisible();await guide.getByRole('button',{name:'Next',exact:true}).click();

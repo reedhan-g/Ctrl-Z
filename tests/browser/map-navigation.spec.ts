@@ -5,7 +5,7 @@ import {iso} from '../../src/geometry';
 import {worldToScreen} from '../../src/worldCamera';
 
 test('all six services frame their complete silhouettes clear of measured overlays',async({page},info)=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  const host=page.locator('.city-canvas'),panel=page.getByRole('region',{name:'Building inspection'});
  const verify=async(id:string)=>{
   await expect.poll(()=>host.evaluate(el=>JSON.parse((el as HTMLElement).dataset.selection!).selected)).toBe(id);

@@ -1,7 +1,7 @@
 import {test,expect} from '@playwright/test';
 
 test('inspector explains actions, exposes real dependencies and supports mobile collapse',async({page},info)=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  const hospital=page.locator('.building-list').getByRole('button',{name:/St. Mira Hospital/});await hospital.click();
  const panel=page.getByRole('region',{name:'Building inspection'});
  await expect(panel.getByRole('heading',{name:'St. Mira Hospital',exact:true})).toBeVisible();

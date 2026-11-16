@@ -1,7 +1,7 @@
 import {test,expect} from '@playwright/test';
 const camera=async(page:import('@playwright/test').Page)=>page.locator('.city-canvas').evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!));
 test('fixed window reveals finite world sections in both axes without changing simulation',async({page})=>{
- await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Zoom in'}).click();
  const canvas=page.locator('.city-canvas'),box=(await canvas.boundingBox())!,before=await camera(page);
  await canvas.focus();await page.keyboard.press('ArrowRight');

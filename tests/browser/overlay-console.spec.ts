@@ -4,7 +4,7 @@ import {spriteBounds} from '../../src/spriteHit';
 import {worldToScreen} from '../../src/worldCamera';
 
 test('expanded timeline and inspection leave all six silhouettes and names clear',async({page},info)=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();await page.getByRole('button',{name:'Pause simulation'}).click();await page.getByRole('slider').press('End');
  const details=page.getByRole('button',{name:'Timeline details',exact:true});if(await details.isVisible())await details.click();
  const host=page.locator('.city-canvas');

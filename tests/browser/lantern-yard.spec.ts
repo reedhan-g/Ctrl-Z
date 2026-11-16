@@ -3,7 +3,7 @@ import {iso} from '../../src/geometry';
 
 test('Lantern Yard is reachable, scenery blocks inspection, and outage lighting restores',async({page},info)=>{
   await page.emulateMedia({reducedMotion:'reduce'});
-  await page.goto('./');const host=page.locator('.city-canvas');
+  await page.goto('./simulation.html');const host=page.locator('.city-canvas');
   await expect(page.locator('canvas')).toBeVisible();
   const target=iso(-17.5,-17.5);
   async function visitYard(){

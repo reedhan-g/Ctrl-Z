@@ -6,7 +6,7 @@ Requested 2026-11-16: a minimal editorial homepage, not an in-game redesign. Ins
 
 The root currently boots the entire control room, including game styles and Pixi. There is no separate project introduction, preview sequence or final entry CTA. The existing interface is functional and approved; its global header/main/section rules make mounting promotional content in the same document needlessly fragile. Existing tests assume root is the game, so only their navigation destination must change when root becomes the homepage.
 
-Use a second static HTML entry, simulation.html, on the same origin and base path. Keep src/main.tsx and every game component unchanged. Root imports only the landing-page module/styles. Existing home link naturally returns to root. Saved experiments remain on the same origin under the same key. Direct game links and reload work without a SPA rewrite or a deployment-workflow change. This is the recommended placement assumption pending the optional user question, not a new standing preference.
+Use a second static HTML entry, simulation.html, on the same origin and base path. Keep src/main.tsx and every game component unchanged. Root imports only the landing-page module/styles. The creator answered: embed the game below the landing page, and build directly in code. Entry CTAs reveal an on-demand same-origin iframe below the editorial content; direct #simulation links also start it. Open full-screen retains direct access without a SPA rewrite or deployment-workflow change. The wrapper forwards only the embedded game's unmodified home-link click to the outer homepage, avoiding a nested homepage. Saved experiments remain on the same origin under the same key. Code-first is recorded in .impeccable/config.json.
 
 ## Design plan
 
@@ -40,6 +40,9 @@ Inside Meridian        Actual game preview + readable caption
 
 What would you          [Enter Simulation]
 keep running?
+
+Play Ctrl Z             [Open full-screen]
+                        On-demand, isolated playable game
 ```
 
 Compared a centered headline over a full-bleed city hero; rejected it because it makes the image the opening and repeats the cinematic game-site pattern the creator explicitly ruled out. The chosen asymmetric text composition spends its emphasis on the name and premise; screenshots appear as inspectable supporting evidence. No icon cards, fake metrics, glow, decorative grid, clipped geometry, tracked eyebrows or section numbers. Motion is limited to a short user-triggered preview dissolve, with an immediate reduced-motion alternative.
@@ -50,11 +53,11 @@ THESIS: Present the consequences of one electricity decision through editorial t
 
 OWN-WORLD: Graphite, off-white, muted cool grey and restrained window cyan; Manrope; open text blocks, a documentary image figure and clear entry links. No card grid or ornamental cyberpunk chrome.
 
-STORY: Understand the premise, examine Meridian before/after a power cut, learn about dependencies, supplies and rewind, then enter the unchanged game.
+STORY: Understand the premise, examine Meridian before/after a power cut, learn about dependencies, supplies and rewind, then play the unchanged game below the landing content.
 
 FIRST VIEWPORT: Small brand/navigation above a left-aligned 96px Ctrl Z title, offset premise and entry action; the concept begins below generous whitespace. Mobile stacks title, premise and CTA without hiding content.
 
-FORM: seed: none (pinned). Creator's words: "Minimal editorial style", "Strong typography and clean hierarchy", "Dark overall theme with restrained neon accents", "A strong text-led opening section with the title 'Ctrl Z'", and the explicit concept, preview, features and final-CTA sequence. Build from the actual captures; no invented visual reference or standing workflow default.
+FORM: seed: none (pinned). Creator's words: "Minimal editorial style", "Strong typography and clean hierarchy", "Dark overall theme with restrained neon accents", "A strong text-led opening section with the title 'Ctrl Z'", and the explicit concept, preview, features and final-CTA sequence. Build from actual captures under the confirmed code-first preference; no invented visual reference.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 

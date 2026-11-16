@@ -3,7 +3,7 @@ import {test,expect} from '@playwright/test';
 test('records the real interface through blackout inspection intervention and replay',async({page},info)=>{
  test.setTimeout(120000);
  await page.emulateMedia({reducedMotion:'reduce'});
- await page.goto(process.env.CTRL_Z_REVIEW_URL||'./');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto(process.env.CTRL_Z_REVIEW_URL||'./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  const capture=async(name:string)=>page.screenshot({path:info.outputPath(`${name}.png`),fullPage:true});
  await capture('opening');
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();

@@ -5,7 +5,7 @@ import {cityScenery} from '../../src/worldScenery';
 import {buildings} from '../../src/simulation';
 
 test('scenery information, real canvas selection, minimap marker and keyboard clearing preserve experiment state',async({page},info)=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByText('Explore city buildings',{exact:true}).click();
  const chooser=page.getByRole('combobox',{name:'Inspect a city building'}),id='scenery:-17.65:-17.7';await chooser.selectOption(id);
  const panel=page.getByRole('region',{name:'Building inspection'}),host=page.locator('.city-canvas');

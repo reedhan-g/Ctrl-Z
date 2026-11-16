@@ -3,7 +3,7 @@ import {buildings} from '../../src/simulation';
 import {iso} from '../../src/geometry';
 
 test('whole-building selection transfers, previews on desktop and clears with Escape',async({page},info)=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./simulation.html');
  const host=page.locator('.city-canvas');await expect(page.locator('canvas')).toBeVisible();
  const state=()=>host.evaluate(el=>JSON.parse((el as HTMLElement).dataset.selection!));
  await page.locator('.building-list').getByRole('button',{name:/St. Mira Hospital/}).click();

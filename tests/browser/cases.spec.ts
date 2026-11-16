@@ -3,7 +3,7 @@ for(const scenario of [
  {id:'dispatch',names:['East delivery hub','Meridian telecom','North substation'],source:'Meridian telecom',answer:'telecom'},
  {id:'wards',names:['St. Mira Hospital','Waterworks','North substation'],source:'Waterworks',answer:'water'},
 ])test(`investigation ${scenario.id} requires evidence and tests recovery`,async({page})=>{
- await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Investigation',exact:true}).click();
  await page.getByRole('combobox',{name:'Investigation case'}).selectOption(scenario.id);
  await expect(page.getByRole('button',{name:'Test diagnosis'})).toBeDisabled();

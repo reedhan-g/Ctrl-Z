@@ -1,7 +1,7 @@
 import {test,expect} from '@playwright/test';
 import {buildings,status,serviceCapacity,initial} from '../../src/simulation';
 test('six system cards reflect real reserve transitions and navigate to their facilities',async({page})=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await expect(page.locator('[data-system]')).toHaveCount(6);
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();await page.getByRole('button',{name:'Pause simulation'}).click();
  const slider=page.getByRole('slider',{name:'Simulation timeline'});

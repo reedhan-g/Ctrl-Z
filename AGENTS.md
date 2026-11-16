@@ -3,7 +3,7 @@
 
 ## Current landing-page task — 2026-11-16
 
-The creator's latest scope supersedes earlier UI/city redesign briefs: create a minimal editorial homepage that introduces and links to the existing game. Preserve the complete in-game UI/HUD, controls, city rendering/artwork, simulation and saves. Use actual game previews, test desktop/mobile entry and keep the existing Pages workflow. Continue tested checkpoints and verified pushes to origin/main. See docs/landing-page/PLAN.md for the audit and current plan.
+The creator's latest scope supersedes earlier UI/city redesign briefs: create a minimal editorial homepage that introduces the existing game, embedded below the landing content. The creator confirmed code-first development with Frontend Design and Impeccable. Preserve the complete in-game UI/HUD, controls, city rendering/artwork, simulation and saves. Use actual game previews, test desktop/mobile entry and keep the existing Pages workflow. Continue tested checkpoints and verified pushes to origin/main. See docs/landing-page/PLAN.md for the audit and current plan.
 
 You are developing Ctrl Z, a browser-based isometric city simulation game.
 

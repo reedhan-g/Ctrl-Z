@@ -4,7 +4,7 @@ import {iso} from '../../src/geometry';
 const hospital=buildings.find(b=>b.id==='hospital')!,hospitalPoint=iso(hospital.x+.9,hospital.y+.9,30);
 test('outage, inspection, supplies, time travel and recovery',async({page})=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto('./');
+ await page.goto('./simulation.html');
  await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();
  await page.getByRole('button',{name:'Pause simulation'}).click();
@@ -30,7 +30,7 @@ test('outage, inspection, supplies, time travel and recovery',async({page})=>{
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
 });
 test('canvas selection and camera drag',async({page})=>{
- await page.goto('./');const canvas=page.locator('canvas');await expect(canvas).toBeVisible();
+ await page.goto('./simulation.html');const canvas=page.locator('canvas');await expect(canvas).toBeVisible();
  const box=(await canvas.boundingBox())!;
  const v=await page.locator('.city-canvas').evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!));
  await canvas.click({position:{x:v.origin.x+v.pan.x+hospitalPoint.x*v.scale,y:v.origin.y+v.pan.y+hospitalPoint.y*v.scale}});

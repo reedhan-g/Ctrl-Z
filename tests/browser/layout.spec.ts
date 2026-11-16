@@ -1,7 +1,7 @@
 import {test,expect} from '@playwright/test';
 test('city controls and inspection remain usable in a short landscape viewport',async({page},testInfo)=>{
  await page.setViewportSize({width:844,height:390});
- await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
  await page.getByRole('button',{name:/Meridian telecom/}).click();
  const panel=page.getByRole('region',{name:'Building inspection'});

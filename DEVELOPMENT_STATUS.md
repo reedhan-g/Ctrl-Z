@@ -1,5 +1,13 @@
 # Ctrl Z - Development Status
 
+## Editorial landing page validated - 2026-11-16
+
+Creator confirmed an embedded game below the landing page and code-first development. Root now has a text-led Ctrl Z opening, concept, genuine powered/blackout desktop/mobile previews, three capability descriptions and final entry CTA. Entry reveals the unchanged simulation on demand in a same-origin iframe; #simulation, a Start simulation button and direct simulation.html/full-screen access work. The wrapper forwards the embedded game's home link to the outer site. No game component, rendering/art, domain, clock, camera, controls, saves or workflow changed. Only existing browser-test entry URLs change to simulation.html, retaining every assertion.
+
+100 unit tests and production build pass. Full browser regression: 89 passes in 11.5 minutes, one intentionally skipped duplicate mobile viewport matrix. This includes the nine landing checks, embedded minimap/inspection/save flow, all existing game assertions, keyboard preview/skip/reduced-motion, native pinch, all-six framing, vehicles/replay, reports, investigation and low-power behavior. Actual 320/390/768/1280/1440 captures were inspected. Text/action contrast is at least 8:1. Hook and one explicit detector pass returned no deterministic findings. Fresh Impeccable finish reviewer returned ship with no material fixes across all nine supplied captures. DESIGN.md/sidecar were generated and validated with landing-only scope. Curated evidence and deployed verification follow this runtime checkpoint.
+
+Audit checkpoint 247c51e is pushed and remote-verified. Actual assets/provenance are in src/assets/previews; Manrope is self-hosted with OFL in source and public/licenses. User-added skills/config files remain unrelated and preserved. Keep the existing main-triggered Pages workflow and all Antahonist/commit-27 protections. Do not restart completed UI/city work.
+
 ## Landing-page audit checkpoint - 2026-11-16
 
 New creator scope is landing-page-only: minimal editorial presentation with actual game previews and a clear entry CTA. The previous five-milestone UI overhaul is complete; do not repeat or redesign it. Fetched origin and inspected branches: main and origin/main are 0ac6f5a; UI_FIX is the same commit. PR #1 remains incorporated at 0334947. Untracked user skill/config files are preserved.

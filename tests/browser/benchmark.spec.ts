@@ -10,7 +10,7 @@ test('records reproducible browser rendering measurements',async({page},info)=>{
    type.prototype.drawElements=function(...args:Parameters<typeof draw>){counter.cityDrawCalls++;return draw.apply(this,args);};
   }
  });
- const start=Date.now();await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ const start=Date.now();await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  const readyMs=Date.now()-start;
  await page.waitForTimeout(250);
  const before=await page.evaluate(()=>(window as typeof window & {cityDrawCalls:number}).cityDrawCalls);

@@ -23,7 +23,7 @@ async function assertTraffic(page:Page,state:ReturnType<typeof createInitialStat
 }
 
 test('all courier colors render directional frames at road turns and multiple zooms',async({page},info)=>{
- test.setTimeout(120000);await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ test.setTimeout(120000);await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();await page.getByRole('button',{name:'Pause simulation'}).click();
  await seek(page,0);await page.getByRole('button',{name:'Restore electricity',exact:true}).click();
  let state=reduceGame(reduceGame(reduceGame(createInitialState(),{type:'fail'}),{type:'seek',time:0}),{type:'restore'});
@@ -54,7 +54,7 @@ test('all courier colors render directional frames at road turns and multiple zo
 });
 
 test('vehicle facing survives pause, speed, recovery, rewind and response branch changes',async({page})=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();await page.getByRole('button',{name:'Pause simulation'}).click();await seek(page,0);
  let state=reduceGame(reduceGame(createInitialState(),{type:'fail'}),{type:'seek',time:0});
  await assertTraffic(page,state);await page.getByRole('button',{name:'Change simulation speed'}).click();await assertTraffic(page,state);

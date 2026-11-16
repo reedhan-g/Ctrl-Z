@@ -5,7 +5,7 @@ import {buildings} from '../../src/simulation';
 test('reviews redesigned opening, six facilities, civic crossroads, Lantern neighborhood and map edges',async({page},info)=>{
  test.setTimeout(120000);await page.emulateMedia({reducedMotion:'reduce'});
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto('./');const host=page.locator('.city-canvas');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto('./simulation.html');const host=page.locator('.city-canvas');await expect(page.locator('canvas')).toBeVisible();
  const capture=async(name:string)=>page.locator('.world').screenshot({path:info.outputPath(`${name}.png`)});
  const read=()=>host.evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!));
  const initial=await read(),cross=iso(4.5,4.5);

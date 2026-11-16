@@ -4,7 +4,7 @@ import {places,placeFocus} from '../../src/world';
 test('captures opening, distinct outer districts, overview, outage and service framing',async({page},info)=>{
  test.setTimeout(120000);await page.emulateMedia({reducedMotion:'reduce'});
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto('./');const canvas=page.locator('canvas'),host=page.locator('.city-canvas');await expect(canvas).toBeVisible();
+ await page.goto('./simulation.html');const canvas=page.locator('canvas'),host=page.locator('.city-canvas');await expect(canvas).toBeVisible();
  const windowBox=await host.boundingBox();
  await page.locator('.world').screenshot({path:info.outputPath('opening.png')});
  // Use the actual zoom limit so edge destinations remain reachable across UI aspect ratios.

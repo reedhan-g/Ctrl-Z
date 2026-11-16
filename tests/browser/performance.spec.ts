@@ -9,7 +9,7 @@ test('idle city stops GPU drawing and camera changes request a new frame',async(
   }
  });
  await page.emulateMedia({reducedMotion:'reduce'});
- await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  const calls=()=>page.evaluate(()=>(window as typeof window & {drawCalls:number}).drawCalls);
  await expect.poll(calls).toBeGreaterThan(0);
  await page.waitForTimeout(250);

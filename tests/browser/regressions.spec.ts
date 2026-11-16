@@ -3,7 +3,7 @@ import {buildings} from '../../src/simulation';
 import {iso} from '../../src/geometry';
 
 test('late water delivery recovers a depleted reserve and keyboard undo works from a focused button',async({page})=>{
- await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();
  await page.getByRole('button',{name:'Pause simulation'}).click();
  const slider=page.getByRole('slider',{name:'Simulation timeline'});
@@ -22,7 +22,7 @@ test('late water delivery recovers a depleted reserve and keyboard undo works fr
 });
 
 test('relocated residence roof selects residences and help returns focus',async({page})=>{
- await page.goto('./');const canvas=page.locator('canvas');await expect(canvas).toBeVisible();
+ await page.goto('./simulation.html');const canvas=page.locator('canvas');await expect(canvas).toBeVisible();
  await page.locator('.building-list').getByRole('button',{name:/Maple residences/}).click();await page.getByRole('button',{name:'Close inspection'}).click();
  const home=buildings.find(b=>b.id==='homes')!,roof=iso(home.x+.6,home.y+.6,home.height+3);
  const v=await page.locator('.city-canvas').evaluate(el=>JSON.parse((el as HTMLElement).dataset.camera!));

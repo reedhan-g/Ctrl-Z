@@ -11,7 +11,9 @@ npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:5173/Ctrl-Z/. The server binds to localhost. The /Ctrl-Z/ base path preserves the creator's GitHub Pages setup.
+Open http://127.0.0.1:5173/Ctrl-Z/ for the project homepage, then choose Enter Simulation to play below the landing content. The game loads on demand in an isolated same-origin frame. Open full-screen also leads directly to http://127.0.0.1:5173/Ctrl-Z/simulation.html. Both static entries are built by Vite under the existing /Ctrl-Z/ Pages base, with no routing service or deployment change. The server binds to localhost.
+
+The homepage has its own styles and entry module, actual desktop/mobile game captures and a self-hosted OFL-licensed Manrope font. It does not load the simulation, city renderer or game styles until play is requested. Browser gameplay specifications target simulation.html; landing.spec.ts covers the homepage, embedded entry and preserved local saves. See docs/landing-page/PLAN.md for scope and asset provenance alongside src/assets/previews and src/assets/fonts.
 
 ```sh
 npm test

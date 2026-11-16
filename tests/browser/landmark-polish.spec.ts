@@ -13,7 +13,7 @@ async function pointAt(page:Page,id:string){
 }
 
 test('all six golden landmarks retain readable full names, selection, outage and mobile focus',async({page},info)=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  const panel=page.getByRole('region',{name:'Building inspection'}),host=page.locator('.city-canvas');
  for(const b of buildings){
   await page.locator('.building-list').getByRole('button',{name:new RegExp(b.name)}).click();
@@ -52,7 +52,7 @@ test('hover transitions settle without idle draws and touch never creates phanto
  await page.addInitScript(()=>{const state=window as typeof window&{goldDraws:number};state.goldDraws=0;
   for(const type of [WebGLRenderingContext,WebGL2RenderingContext]){const draw=type.prototype.drawElements;type.prototype.drawElements=function(...args:Parameters<typeof draw>){state.goldDraws++;return draw.apply(this,args);};}
  });
- await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();await page.getByRole('button',{name:'Pause simulation'}).click();
  await page.locator('.building-list').getByRole('button',{name:/Waterworks/}).click();await page.getByRole('button',{name:'Close inspection'}).click();
  const point=await pointAt(page,'water');await page.mouse.move(point.x,point.y);

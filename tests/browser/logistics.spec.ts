@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 test('telecom recovery restores dispatch capacity and undo restores the failure',async({page})=>{
- await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();
  await page.getByRole('button',{name:'Pause simulation'}).click();
  const slider=page.getByRole('slider',{name:'Simulation timeline'});

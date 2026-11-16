@@ -1,7 +1,7 @@
 import {test,expect} from '@playwright/test';
 test('low power rendering preserves the selected response and frames inspection',async({page},testInfo)=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();
  await page.getByRole('button',{name:'Pause simulation'}).click();
  await page.getByRole('slider',{name:'Simulation timeline'}).press('Home');

@@ -6,7 +6,7 @@ const viewOf=async(page:import('@playwright/test').Page)=>page.locator('.city-ca
 
 test('culled services keep outage, replay, report and saved response state',async({page},info)=>{
  await page.emulateMedia({reducedMotion:'reduce'});
- await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  await page.getByRole('button',{name:'Remove electricity',exact:true}).click();await page.getByRole('button',{name:'Pause simulation'}).click();
  await page.getByRole('slider',{name:'Simulation timeline'}).press('End');
  await page.locator('.building-list').getByRole('button',{name:/St. Mira Hospital/}).click();
@@ -38,7 +38,7 @@ test('culled services keep outage, replay, report and saved response state',asyn
 });
 
 test('native pinch and subsequent transformed picking preserve selection accuracy',async({page})=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');await expect(page.locator('canvas')).toBeVisible();
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./simulation.html');await expect(page.locator('canvas')).toBeVisible();
  const host=page.locator('.city-canvas');await host.scrollIntoViewIfNeeded();const box=(await host.boundingBox())!;
  const cdp=await page.context().newCDPSession(page),x=box.x+box.width*.5,y=box.y+box.height*.5;
  const before=await viewOf(page);

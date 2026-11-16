@@ -33,6 +33,6 @@ Current game captures in docs/ui-overhaul/deployed and docs/ui-overhaul/final do
 - Support keyboard, desktop and mobile web use.
 - Keep the homepage lightweight and clearly distinguish previews from live play.
 
-## Open Decisions
+## Game Presentation
 
-The creator permits either an inline game or a clear CTA. A dedicated full-screen simulation entry is the implementation assumption while the optional placement question remains unanswered. No standing mockup/code workflow preference has been confirmed or stored.
+The creator chose to embed the game below the landing page. Load it on demand in an isolated same-origin frame, with a full-screen option. No other audience or commercial claims have been supplied.
