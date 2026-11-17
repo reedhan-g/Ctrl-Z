@@ -2,6 +2,8 @@
 
 ## Current continuation — 17 November 2026
 
+Milestone D is implemented and visually reviewed across the requested width/landscape matrix. Nine responsive/reveal checks pass plus production build; one deliberate duplicate skip. See docs/landing-page/redesign/responsive. All landing targets now meet 44px minimums, microinteractions respect reduced motion, and slow-image/resize/zoom/tab-return cases pass. E remains: full regression, fresh Impeccable finish review, update actual design tokens and final Pages verification. No further game/UI redesign is authorized.
+
 Milestone C now implements and tests the signature local scroll blackout reveal, with manual priority, re-entry, reduced motion and initial/repeated preview anchors. Thirteen reveal/landing/browser cases pass with one deliberate duplicate skip; default production build passes. Ten actual state captures were reviewed in docs/landing-page/redesign/reveal. Only landing components/styles changed; game bundles retain their hashes. Next: milestone D touch/microinteraction and width matrix, then E full regression, fresh design review and deployed Pages verification. Preserve the paused deployment operation.
 
 Preservation checkpoint 9ecd6ce and audit/capture checkpoint 84ec59c are pushed and verified. Milestone B composition is implemented with reviewed 390/1440 screenshots in docs/landing-page/redesign/editorial; see DEVELOPMENT_STATUS.md for actual checks and cold-render follow-ups. New aligned captures and camera receipts are committed. The signature scroll-driven preview is next; no game code/art has changed.
