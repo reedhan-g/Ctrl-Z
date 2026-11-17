@@ -112,6 +112,8 @@ components:
 
 **Creative North Star: "Minimal editorial"**
 
+**Direction — Editorial, with consequence (UI_REDESIGN.md).** Retain the asymmetric editorial composition, geometric Manrope and cool graphite/cyan palette. Keep motion restrained: one natural-scroll powered/blackout comparison carries the signature, with instant manual endpoints for reduced motion. Reject a full-screen cinematic hero and pinned scroll spacer. A shallow authentic city glimpse supports the wordmark; the existing playable game remains isolated and protected.
+
 Strong typography and clean hierarchy introduce the playable city through a dark reading surface, generous spacing and restrained neon accents. Open text blocks and actual game previews carry the presentation. The mood is calm, direct and precise; the controls feel clear and restrained.
 
 This system applies only to the homepage implemented in `src/Landing.tsx` and `src/landing.css`, loaded by `src/landing-main.tsx` through `index.html`. The embedded and full-screen game at `simulation.html` is a separate, approved system. Its `src/console.css` and `src/style.css`, HUD, controls, service identities, city artwork, renderer, camera, simulation and saves remain protected. These landing tokens must not replace incumbent game tokens. The city retains the Antahonist Neon City direction, secondary `design/pixel-city-reference-2.png` inspiration and commit-27 lineage; rejected commit-28/29 designs remain excluded.

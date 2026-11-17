@@ -1,0 +1,33 @@
+import {test,expect} from '@playwright/test';
+import {writeFile} from 'node:fs/promises';
+
+test('records landing baseline and aligned real city states',async({page},info)=>{
+ const phone=info.project.name==='mobile';
+ await page.setViewportSize(phone?{width:390,height:844}:{width:1440,height:900});
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await page.goto('./');
+ await page.getByRole('heading',{name:'Inside Meridian'}).scrollIntoViewIfNeeded();
+ await expect.poll(()=>page.locator('.preview-active img').evaluate(image=>(image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+ await page.evaluate(()=>document.fonts.ready);
+ await page.evaluate(()=>scrollTo(0,0));
+ await page.screenshot({path:info.outputPath('baseline.png'),fullPage:true});
+ await page.goto('./simulation.html');
+ await expect(page.locator('canvas')).toBeVisible();
+ const world=page.locator('.world');
+ const camera=()=>page.locator('.city-canvas').evaluate(element=>JSON.parse((element as HTMLElement).dataset.camera!));
+ const beforeCamera=await camera(),beforeBounds=await world.boundingBox();
+ await world.screenshot({path:info.outputPath('scene-powered.png')});
+ await page.getByRole('button',{name:'Remove electricity',exact:true}).click();
+ await page.getByRole('button',{name:'Pause simulation'}).click();
+ await page.getByRole('slider',{name:'Simulation timeline'}).press('Home');
+ await page.keyboard.press('Tab');
+ await expect(page.getByText('GRID OFFLINE',{exact:true})).toBeVisible();
+ const afterCamera=await camera(),afterBounds=await world.boundingBox();
+ expect(afterCamera.pan).toEqual(beforeCamera.pan);
+ expect(afterCamera.zoom).toBe(beforeCamera.zoom);
+ expect(afterCamera.origin).toEqual(beforeCamera.origin);
+ expect(afterBounds!.width).toBe(beforeBounds!.width);
+ expect(afterBounds!.height).toBe(beforeBounds!.height);
+ await world.screenshot({path:info.outputPath('scene-blackout.png')});
+ await writeFile(info.outputPath('capture.json'),JSON.stringify({viewport:page.viewportSize(),dpr:await page.evaluate(()=>devicePixelRatio),beforeCamera,afterCamera,beforeBounds,afterBounds,time:await page.getByRole('slider',{name:'Simulation timeline'}).inputValue()},null,2));
+});

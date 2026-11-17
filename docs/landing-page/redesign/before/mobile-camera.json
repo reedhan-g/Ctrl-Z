@@ -1,0 +1,60 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "dpr": 3,
+  "beforeCamera": {
+    "width": 390,
+    "height": 400,
+    "scale": 0.6,
+    "origin": {
+      "x": 195,
+      "y": 76
+    },
+    "pan": {
+      "x": 0,
+      "y": 52
+    },
+    "zoom": 1,
+    "footprint": {
+      "x": -325,
+      "y": -213.33333333333334,
+      "width": 650,
+      "height": 666.6666666666667
+    }
+  },
+  "afterCamera": {
+    "width": 390,
+    "height": 400,
+    "scale": 0.6,
+    "origin": {
+      "x": 195,
+      "y": 76
+    },
+    "pan": {
+      "x": 0,
+      "y": 52
+    },
+    "zoom": 1,
+    "footprint": {
+      "x": -325,
+      "y": -213.33333333333334,
+      "width": 650,
+      "height": 666.6666666666667
+    }
+  },
+  "beforeBounds": {
+    "x": 0,
+    "y": 250.1875,
+    "width": 390,
+    "height": 590
+  },
+  "afterBounds": {
+    "x": 0,
+    "y": 250.1875,
+    "width": 390,
+    "height": 590
+  },
+  "time": "0"
+}

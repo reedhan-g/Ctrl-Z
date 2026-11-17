@@ -2,6 +2,8 @@
 
 ## UI_REDESIGN.md started — 17 November 2026
 
+Milestone A complete: prior compatibility work pushed/verified as 9ecd6ce. Two capture cases pass; actual 1440/390 baseline views and four unedited city-region PNGs were opened. Both pairs have identical pan/zoom/origin/bounds at zero elapsed time. The capture fixture now moves focus with Tab, avoiding the game's deliberately non-interactive heading. Baselines/receipts are in docs/landing-page/redesign/before, provenance alongside assets, and the pinned design/interaction plan is docs/landing-page/REDESIGN.md. 100 unit checks and default production build pass. Next: milestone B composition, then the signature reveal.
+
 Read the entire new brief and inspected main/origin/main at e60ae32. The workspace is not clean: preserved prior Embarko compatibility changes and user-installed skills, plus the creator's UI_REDESIGN.md. No reset/discard. The prior CSP startup fix is independently revalidated (100 unit tests; two production desktop/mobile CSP cases), and will be preserved in a separate checkpoint before landing changes. The stopped authenticated deployment has no local completion receipt; permanence is unconfirmed and no authentication/deployment action is resumed for this UI task.
 
 Active scope: editorial first viewport, aligned authentic preview recapture, natural-scroll blackout reveal with manual priority/reduced-motion alternative, mobile finish, full regression and Pages verification. Keep all game/UI/art/render/domain files unchanged. Installed Frontend Design and Impeccable apply; UI Skills CLI is absent, so no registry scripts/packages are installed. Next: baseline captures and alignment verification, then the specified tested milestones on main.

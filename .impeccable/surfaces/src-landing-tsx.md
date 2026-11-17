@@ -5,71 +5,50 @@ primary_target: "src/Landing.tsx"
 related_targets: ["src/landing.css","index.html"]
 ---
 
-# Landing-page audit and implementation plan
+# Editorial, with consequence — 17 November 2026
 
-## Scope and audit
+UI_REDESIGN.md was read completely. This is a refinement of the existing homepage, with zero game-code/art changes. Main and origin/main began at e60ae32; paused Embarko compatibility work was preserved and tested independently rather than discarded. User skill installations remain unrelated. Frontend Design and Impeccable guide the work; the UI Skills CLI is not locally installed, so no package or registry script is installed.
 
-Requested 2026-11-16: a minimal editorial homepage, not an in-game redesign. Inspected React entry, App, global game styles, Vite/Pages base, Playwright navigation and current deployed captures before editing. Main and origin/main start at 0ac6f5a; origin/UI_FIX points to that same commit. No branch merge is needed. User-added skill/config directories are unrelated and must remain intact.
+## Audit and direction
 
-The root currently boots the entire control room, including game styles and Pixi. There is no separate project introduction, preview sequence or final entry CTA. The existing interface is functional and approved; its global header/main/section rules make mounting promotional content in the same document needlessly fragile. Existing tests assume root is the game, so only their navigation destination must change when root becomes the homepage.
+Keep Manrope, graphite #111418, raised graphite #191e23, off-white #eef0eb, cool grey #abb5b9, cyan #8bd9d2 and the open split composition. Add warm amber only for blackout state. Preserve the six-section story and on-demand iframe/full-screen entry. The current phone screenshot is too tall, and the original powered/blackout HUD captures have different heights/overlays. Fresh real world-region captures must have identical camera pan/zoom/origin and bounds before compositing.
 
-Use a second static HTML entry, simulation.html, on the same origin and base path. Keep src/main.tsx and every game component unchanged. Root imports only the landing-page module/styles. The creator answered: embed the game below the landing page, and build directly in code. Entry CTAs reveal an on-demand same-origin iframe below the editorial content; direct #simulation links also start it. Open full-screen retains direct access without a SPA rewrite or deployment-workflow change. The wrapper forwards only the embedded game's unmodified home-link click to the outer homepage, avoiding a nested homepage. Saved experiments remain on the same origin under the same key. Code-first is recorded in .impeccable/config.json.
-
-## Design plan
-
-The use scene is a visitor examining a night-city simulation on a laptop or phone; a dark reading surface keeps real city captures visually continuous without simulated HUD chrome.
-
-- Graphite #111418: page ground.
-- Raised graphite #191e23: preview controls and final invitation.
-- Off-white #eef0eb: primary type.
-- Cool grey #abb5b9: secondary copy.
-- Window cyan #8bd9d2: entry action and focus.
-- Quiet edge #343c43: separators where content changes.
-
-Manrope is the self-hosted display/body family. Its open forms and compact weight progression give the short Ctrl Z name presence without borrowing the game's HUD typography. Use 96px maximum display, 36–48px section titles and 16–20px body, with modest negative tracking and readable measures. Typography and layout stay in landing-only CSS.
-
-Chosen composition (left aligned):
+The page introduces a systems-thinking game to a first-time visitor/judge: understand a power cut's consequences, then play. Macrostructure stays asymmetric editorial; type stays geometric Manrope; palette stays cool graphite/cyan with consequential amber; motion is restrained and local to the comparison. The memorable element is an aligned powered-to-blackout reveal over a short natural-scroll window. Reject a full-screen cinematic hero or sticky scrollytelling spacer. No new motion dependency.
 
 ```text
-Ctrl Z                           About / Preview / Enter
-
-Ctrl Z                 Undo the World.
-                       Infrastructure simulation + clear premise
-                       [Enter Simulation]
-
-One switch.            Short concept explanation
-A city of consequences.
-
-Inside Meridian        Actual game preview + readable caption
-                       [Quiet evening | Power removed]
-
-                       Connected services / Limited responses / Rewind
-
-What would you          [Enter Simulation]
-keep running?
-
-Play Ctrl Z             [Open full-screen]
-                        On-demand, isolated playable game
+Ctrl Z + compact city glimpse | Undo the World / action-led premise / Enter
+One switch                   | concise cause / consequence / intervention / replay
+Inside Meridian              | Quiet evening / Power removed
+aligned city scene           | natural local wipe + meaningful power state
+Follow the connections       | three short real capabilities
+What would you keep running? | final invitation
+Play Ctrl Z                  | unchanged, on-demand game / full-screen link
 ```
 
-Compared a centered headline over a full-bleed city hero; rejected it because it makes the image the opening and repeats the cinematic game-site pattern the creator explicitly ruled out. The chosen asymmetric text composition spends its emphasis on the name and premise; screenshots appear as inspectable supporting evidence. No icon cards, fake metrics, glow, decorative grid, clipped geometry, tracked eyebrows or section numbers. Motion is limited to a short user-triggered preview dissolve, with an immediate reduced-motion alternative.
+## Interaction contract
+
+Only preview presentation changes. Normal scrolling maps the image's passage through the viewport to a clipped blackout layer; no pinning, snapping, scroll interception or spacer. Manual endpoints override scroll until the complete preview leaves view, then scrolling resumes on re-entry. Direct #preview entry starts connected and progresses with the next natural scroll. Reduced motion keeps a stable connected capture and immediate manual switching. Only discrete state changes update caption/pressed state; animation-frame batching writes a CSS custom property without rendering React per pixel. Resize, visual-viewport zoom and tab-return remeasure.
+
+Desktop uses a wide scene; phones use a controlled-height crop from an actual mobile capture. Both layers share dimensions and object position. One accessible image describes the comparison; its duplicate layer is decorative. Lazy images reserve layout space. Scrolling must not load Pixi, mount the iframe, alter storage or advance any game state.
+
+## Tested milestones
+
+A. Capture 390/1440 baseline and paired city states, verify camera/bounds equality and provenance. Record this plan.
+B. Strengthen wordmark and CTA, compress phone whitespace, add a restrained authentic city glimpse, refine copy. Review 390/1440 screenshots and commit.
+C. Add the local blackout reveal, manual priority/re-entry, reduced motion, state captions and tests. Review powered/half/blackout/manual/reduced screenshots on both devices and commit.
+D. Finish touch targets, phone crop and microinteractions; verify 320/360/390/430/768/1280/1440 and landscape, zoom, slow images and keyboard. Commit independently.
+E. Run unit/build and complete existing browser regression, verify published Pages, get the fresh finish review, update actual DESIGN/REVIEW receipts and push evidence. Physical phones/Safari remain unverified unless actually tested.
 
 ## Direction contract
 
-THESIS: Present the consequences of one electricity decision through editorial text and real game evidence. The city remains the main product.
+THESIS: Let one real interruption explain the connected city before play.
 
-OWN-WORLD: Graphite, off-white, muted cool grey and restrained window cyan; Manrope; open text blocks, a documentary image figure and clear entry links. No card grid or ornamental cyberpunk chrome.
+OWN-WORLD: Existing Manrope and graphite/cyan editorial system, with amber reserved for the power-cut state. Open sections and truthful city imagery.
 
-STORY: Understand the premise, examine Meridian before/after a power cut, learn about dependencies, supplies and rewind, then play the unchanged game below the landing content.
+STORY: Remove electricity, see consequences, choose help, rewind; enter the unchanged game below.
 
-FIRST VIEWPORT: Small brand/navigation above a left-aligned 96px Ctrl Z title, offset premise and entry action; the concept begins below generous whitespace. Mobile stacks title, premise and CTA without hiding content.
+FIRST VIEWPORT: Left-aligned bold Ctrl Z with a shallow real city glimpse, offset premise and primary CTA. On phones, title and CTA precede the glimpse within a compact opening.
 
-FORM: seed: none (pinned). Creator's words: "Minimal editorial style", "Strong typography and clean hierarchy", "Dark overall theme with restrained neon accents", "A strong text-led opening section with the title 'Ctrl Z'", and the explicit concept, preview, features and final-CTA sequence. Build from actual captures under the confirmed code-first preference; no invented visual reference.
+FORM: seed: none (pinned). UI_REDESIGN.md names “Editorial, with consequence”, the retained split composition and the “scroll-driven blackout reveal” as the signature interaction. This extends the approved world, without a replacement identity exercise.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
-
-## Checkpoints and validation
-
-1. Audit and documentation: preserve context, record scope/plan. Baseline 100 unit checks and production build pass.
-2. Working homepage: two static entries, actual previews, accessible interactions and responsive layout; update game-test destinations only. Verify desktop/mobile entry, navigation, assets, no Pixi on homepage, game actions, minimap, save/resume and production build. Review real captures and independent design findings before commit.
-3. Final evidence/documentation: record actual tests, screenshots, reviewer verdict and deployed result. Push every tested checkpoint to origin/main and verify remote SHA. Preserve both workflows and all protected game files.
