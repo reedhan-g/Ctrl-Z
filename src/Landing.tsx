@@ -3,6 +3,8 @@ const powered = new URL('./assets/previews/meridian-powered.png', import.meta.ur
 const blackout = new URL('./assets/previews/meridian-blackout.png', import.meta.url).href;
 const poweredMobile = new URL('./assets/previews/meridian-powered-mobile.png', import.meta.url).href;
 const blackoutMobile = new URL('./assets/previews/meridian-blackout-mobile.png', import.meta.url).href;
+const cityGlimpse = new URL('./assets/previews/scene-powered.png', import.meta.url).href;
+const cityGlimpseMobile = new URL('./assets/previews/scene-powered-mobile.png', import.meta.url).href;
 
 const previews = [
   {
@@ -45,10 +47,16 @@ export default function Landing() {
 
       <main id="content" tabIndex={-1}>
         <section className="opening page-width" aria-labelledby="site-title">
-          <h1 id="site-title">Ctrl Z</h1>
+          <div className="opening-title">
+            <h1 id="site-title">Ctrl Z</h1>
+            <figure className="city-glimpse">
+              <picture><source media="(max-width: 600px)" srcSet={cityGlimpseMobile}/><img src={cityGlimpse} width="1205" height="792" alt="A lit intersection in Meridian, before the power cut." loading="lazy" decoding="async"/></picture>
+              <figcaption>Meridian, before the interruption.</figcaption>
+            </figure>
+          </div>
           <div className="opening-copy">
             <p className="tagline">Undo the World.</p>
-            <p className="intro">An infrastructure simulation about the things that keep a city alive. Remove one. See what follows.</p>
+            <p className="intro">Remove electricity. Watch connected services react. Intervene, then rewind.</p>
             <a className="enter-button" href="#simulation" onClick={enterSimulation}>Enter Simulation</a>
             <p className="entry-note">Play in your browser. No download needed.</p>
           </div>
@@ -57,8 +65,8 @@ export default function Landing() {
         <section id="about" className="concept page-width editorial-split" aria-labelledby="concept-title">
           <h2 id="concept-title">One switch.<br/>A city of consequences.</h2>
           <div className="concept-copy">
-            <p>A power cut is only the beginning. Hospitals switch to backup. Water keeps flowing, until reserves run out. Every service depends on something else.</p>
-            <p>Ctrl Z makes those connections playable. Explore Meridian, follow a failure as it spreads, and decide where to intervene. Then rewind and try another response.</p>
+            <p>Hospitals need water as well as power. Communications shape dispatch. Every reserve buys time for the next service.</p>
+            <p>Explore Meridian, follow a failure through its connections and decide where limited help goes. Rewind to compare another response.</p>
           </div>
         </section>
 

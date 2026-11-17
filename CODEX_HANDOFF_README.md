@@ -2,6 +2,8 @@
 
 ## Current continuation — 17 November 2026
 
+Preservation checkpoint 9ecd6ce and audit/capture checkpoint 84ec59c are pushed and verified. Milestone B composition is implemented with reviewed 390/1440 screenshots in docs/landing-page/redesign/editorial; see DEVELOPMENT_STATUS.md for actual checks and cold-render follow-ups. New aligned captures and camera receipts are committed. The signature scroll-driven preview is next; no game code/art has changed.
+
 UI_REDESIGN.md is the new task and was read completely. Preserve the existing editorial world and game; make a local natural-scroll powered/blackout reveal the signature interaction. Main/origin/main began at e60ae32 with uncommitted Embarko compatibility work and unrelated user skills. That prior fix is preserved separately after fresh 100-unit/two production-CSP browser validation. The earlier claim operation was stopped; no local success receipt confirms permanence. Do not publish credentials or resume authentication as part of the landing redesign. Read DEVELOPMENT_STATUS.md and the new landing redesign plan/evidence as milestones progress; continue tested verified pushes to main without resetting or discarding work.
 
 ## Embarko continuation checkpoint - 2026-11-16
