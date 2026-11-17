@@ -1,26 +1,9 @@
 import {useState, type SyntheticEvent} from 'react';
-const powered = new URL('./assets/previews/meridian-powered.png', import.meta.url).href;
-const blackout = new URL('./assets/previews/meridian-blackout.png', import.meta.url).href;
-const poweredMobile = new URL('./assets/previews/meridian-powered-mobile.png', import.meta.url).href;
-const blackoutMobile = new URL('./assets/previews/meridian-blackout-mobile.png', import.meta.url).href;
+import BlackoutPreview from './BlackoutPreview';
 const cityGlimpse = new URL('./assets/previews/scene-powered.png', import.meta.url).href;
 const cityGlimpseMobile = new URL('./assets/previews/scene-powered-mobile.png', import.meta.url).href;
 
-const previews = [
-  {
-    label: 'Quiet evening', desktop: powered, mobile: poweredMobile,
-    alt: 'Meridian with illuminated isometric buildings, all six services operational and the simulation timeline at zero.',
-    caption: 'The city before the power cut. All six services are operational.',
-  },
-  {
-    label: 'Power removed', desktop: blackout, mobile: blackoutMobile,
-    alt: 'The same playable Meridian after electricity is removed: windows darken and the hospital and other services switch to backup.',
-    caption: 'Electricity is offline. Other services draw on their remaining reserves.',
-  },
-];
-
 export default function Landing() {
-  const [preview, setPreview] = useState(0);
   const [playing, setPlaying] = useState(() => window.location.hash === '#simulation');
   const [gameReady, setGameReady] = useState(false);
   const enterSimulation = () => setPlaying(true);
@@ -70,35 +53,7 @@ export default function Landing() {
           </div>
         </section>
 
-        <section id="preview" className="preview-section page-width" aria-labelledby="preview-title">
-          <div className="preview-heading">
-            <div>
-              <h2 id="preview-title">Inside Meridian</h2>
-              <p>A quiet city. A single disruption. Your next decision.</p>
-            </div>
-            <div className="preview-switch" role="group" aria-label="Gameplay preview state">
-              {previews.map((item, index) => (
-                <button key={item.label} type="button" aria-pressed={preview === index}
-                  aria-controls="game-preview" onClick={() => setPreview(index)}>{item.label}</button>
-              ))}
-            </div>
-          </div>
-          <figure id="game-preview">
-            <div className="preview-images">
-              {previews.map((item, index) => (
-                <picture key={item.label} className={preview === index ? 'preview-active' : 'preview-inactive'} aria-hidden={preview !== index}>
-                  <source media="(max-width: 600px)" srcSet={item.mobile} width="1170" height="2637"/>
-                  <img src={item.desktop} alt={preview === index ? item.alt : ''} width="1280" height="768" loading="lazy" decoding="async"/>
-                </picture>
-              ))}
-            </div>
-            <figcaption>
-              <span aria-live="polite">{previews[preview].caption}</span>
-              <span>Actual gameplay capture</span>
-            </figcaption>
-          </figure>
-          <p className="preview-note">These are previews of the playable simulation. <a href="#simulation" onClick={enterSimulation}>Explore the city yourself</a>.</p>
-        </section>
+        <BlackoutPreview onEnter={enterSimulation}/>
 
         <section className="possibilities page-width editorial-split" aria-labelledby="possibilities-title">
           <h2 id="possibilities-title">Follow the connections.<br/>Change the outcome.</h2>

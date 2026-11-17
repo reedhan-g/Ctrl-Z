@@ -1,0 +1,79 @@
+import {useEffect,useRef,useState} from 'react';
+
+type Phase='powered'|'transition'|'blackout';
+export function useBlackoutReveal(){
+ const sectionRef=useRef<HTMLElement>(null),imageRef=useRef<HTMLDivElement>(null);
+ const manual=useRef<number|null>(null),scheduleRef=useRef(()=>{});
+ const [nearby,setNearby]=useState(false);
+ const [view,setView]=useState({phase:'powered' as Phase,manual:false,reduced:false});
+ useEffect(()=>{
+  const media=matchMedia('(prefers-reduced-motion: reduce)'),viewport=window.visualViewport;
+  let frame=0,disposed=false,lastProgress=-1,lastView='',anchorOffset=location.hash==='#preview'?NaN:0;
+  const update=()=>{
+   frame=0;
+   if(disposed||document.hidden||!sectionRef.current||!imageRef.current)return;
+   const section=sectionRef.current.getBoundingClientRect(),image=imageRef.current.getBoundingClientRect();
+   const height=viewport?.height??innerHeight,offset=viewport?.offsetTop??0;
+   const outside=section.bottom<=offset||section.top>=offset+height;
+   let progress:number;
+   if(outside){
+    manual.current=null;anchorOffset=0;
+    progress=media.matches?0:(section.bottom<=offset?1:0);
+   }else{
+    const distance=height*.82-(image.top-offset);
+    if(Number.isNaN(anchorOffset))anchorOffset=Math.max(0,distance);
+    const automatic=Math.max(0,Math.min(1,(distance-anchorOffset)/Math.min(420,height*.60)));
+    // Native scroll positions round to CSS pixels. Keep the two endpoints stable.
+    progress=manual.current??(media.matches?0:automatic<.003?0:automatic>.997?1:automatic);
+   }
+   if(progress!==lastProgress){
+    imageRef.current.style.setProperty('--blackout-reveal',`${progress*100}%`);
+    imageRef.current.dataset.progress=progress.toFixed(4);
+    lastProgress=progress;
+   }
+   const phase:Phase=progress<.001?'powered':progress>.999?'blackout':'transition';
+   const key=`${phase}:${manual.current!==null}:${media.matches}`;
+   if(key!==lastView){lastView=key;setView({phase,manual:manual.current!==null,reduced:media.matches});}
+  };
+  const schedule=()=>{if(!disposed&&!frame)frame=requestAnimationFrame(update);};
+  const anchor=()=>{if(location.hash==='#preview'){anchorOffset=NaN;manual.current=null;}schedule();};
+  const previewLink=(event:MouseEvent)=>{
+   if(event.target instanceof Element&&event.target.closest('a[href="#preview"]')){
+    anchorOffset=NaN;manual.current=null;schedule();
+   }
+  };
+  scheduleRef.current=schedule;
+  addEventListener('scroll',schedule,{passive:true});
+  addEventListener('resize',schedule,{passive:true});
+  addEventListener('hashchange',anchor);
+  document.addEventListener('click',previewLink);
+  viewport?.addEventListener('resize',schedule,{passive:true});
+  viewport?.addEventListener('scroll',schedule,{passive:true});
+  document.addEventListener('visibilitychange',schedule);
+  media.addEventListener('change',schedule);
+  const observer=typeof ResizeObserver==='undefined'?null:new ResizeObserver(schedule);
+  // A fully clipped lazy image may never load in Chromium. Prepare both captures
+  // shortly before arrival, while keeping them deferred on the opening screen.
+  const images=typeof IntersectionObserver==='undefined'?null:new IntersectionObserver(entries=>{
+   if(entries.some(entry=>entry.isIntersecting)){setNearby(true);images?.disconnect();}
+  },{rootMargin:'400px'});
+  if(imageRef.current)images?.observe(imageRef.current);
+  if(!images)setNearby(true);
+  if(sectionRef.current)observer?.observe(sectionRef.current);
+  observer?.observe(document.documentElement);
+  document.fonts.ready.then(schedule);
+  // The hash target is mounted by React after the browser's initial anchor pass.
+  // Complete only this explicit navigation; ordinary scrolling stays native.
+  if(location.hash==='#preview')sectionRef.current?.scrollIntoView({block:'start',behavior:'instant'});
+  schedule();
+  return()=>{
+   disposed=true;cancelAnimationFrame(frame);observer?.disconnect();images?.disconnect();scheduleRef.current=()=>{};
+   removeEventListener('scroll',schedule);removeEventListener('resize',schedule);removeEventListener('hashchange',anchor);
+   document.removeEventListener('click',previewLink);
+   viewport?.removeEventListener('resize',schedule);viewport?.removeEventListener('scroll',schedule);
+   document.removeEventListener('visibilitychange',schedule);media.removeEventListener('change',schedule);
+  };
+ },[]);
+ const choose=(value:0|1)=>{manual.current=value;scheduleRef.current();};
+ return {sectionRef,imageRef,view,choose,nearby};
+}
