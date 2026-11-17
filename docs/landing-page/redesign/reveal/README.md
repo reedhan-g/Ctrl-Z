@@ -12,4 +12,6 @@
 
 All ten images were opened. Geometry remains aligned; original game light changes provide the effect. The powered arrival capture shows only the top of the scene because the transition begins as it enters view. Status is outside the screenshot as accessible live text; the duplicate capture is decorative. No sticky stage, scroll interception, runtime dependency or game mutation.
 
+The phone captures were refreshed after milestone D's caption/summary spacing finish. Both source image pairs and camera receipts remain unchanged.
+
 Validation: 13 passing reveal and existing landing cases, one deliberate duplicate mobile matrix skip (1.4m), plus production build. Covers forward/reverse scroll, manual persistence/re-entry, keyboard/touch, reduced motion, repeated/direct anchors, no eager game load/storage change, embedded minimap/inspection/save/home/full-screen flow, direct #simulation and start control. Phone/Safari hardware remains untested. Full regression and complete width matrix follow in D/E.
