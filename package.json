@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "test": "node --test tests/*.test.mjs",
     "preview": "vite preview --host 127.0.0.1",
-    "test:browser": "playwright test"
+    "test:browser": "playwright test",
+    "test:embarko": "npm run build -- --mode embarko && playwright test --config playwright.embarko.config.ts"
   },
   "dependencies": {
     "react": "^19.0.0",

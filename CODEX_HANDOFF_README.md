@@ -1,5 +1,15 @@
 # Ctrl Z — complete Codex account handoff
 
+## Current continuation — 17 November 2026
+
+UI_REDESIGN.md is the new task and was read completely. Preserve the existing editorial world and game; make a local natural-scroll powered/blackout reveal the signature interaction. Main/origin/main began at e60ae32 with uncommitted Embarko compatibility work and unrelated user skills. That prior fix is preserved separately after fresh 100-unit/two production-CSP browser validation. The earlier claim operation was stopped; no local success receipt confirms permanence. Do not publish credentials or resume authentication as part of the landing redesign. Read DEVELOPMENT_STATUS.md and the new landing redesign plan/evidence as milestones progress; continue tested verified pushes to main without resetting or discarding work.
+
+## Embarko continuation checkpoint - 2026-11-16
+
+New task: deploy anonymously to Embarko (no token/account), verify the playable game, then ask for email. Quickstart was read fully. Anonymous app ctrl-z is at https://ctrl-z.embarko.app, ID cmwj82l6f01t37w6h5hox7m5n; expiry 2026-11-17T12:10:59.894Z (17 November, 5:40 PM IST). Initial host CSP startup failure is fixed by an Embarko-only profile; actual hosted desktop gameplay is verified. URL/expiry were given and the email question has now been asked. No answer/token/claim yet; never assume permanence. Public appId is in embarko.json; no credentials were read or used.
+
+The compatibility checkpoint adds an Embarko-only Vite profile, official no-eval Pixi bootstrap, HTML-image decoding and production-policy browser test. Default Pages path/workflows and every existing game/UI/render/domain source file remain unchanged. 100 unit checks, both builds and local desktop/mobile CSP cases pass. Corrected anonymous redeploy returned live/claimed false/same ID and no warnings. Hosted desktop's three cases pass; mobile homepage passes, gameplay checks remain running. See docs/EMBARKO_DEPLOYMENT.md for build/archive/API recovery details. Temp archive/replies/claim links/config are ignored under .impeccable/review; never commit them or credentials. Next finish mobile checks/evidence, push tested checkpoints to main, and handle the email/token flow only after the creator replies.
+
 ## Editorial homepage complete and deployed - 2026-11-16
 
 The latest landing-only request is complete. Audit 247c51e and runtime 5dd71931ec762cbf6e941071bf8adf9209791a49 are pushed/verified on origin/main. Runtime CI 43813326844 and Pages 43813326830 succeeded. Root now has the text-led Ctrl Z opening, concept, real desktop/mobile powered/blackout previews, capabilities and final CTA. The creator chose embedded play below the landing page and code-first. CTAs load the untouched simulation at #simulation in an isolated same-origin frame; simulation.html remains the full-screen entry. Existing game source/styles, city artwork/rendering, controls, simulation, minimap and saves are protected and unchanged.

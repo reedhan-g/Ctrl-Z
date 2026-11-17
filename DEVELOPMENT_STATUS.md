@@ -1,5 +1,17 @@
 # Ctrl Z - Development Status
 
+## UI_REDESIGN.md started — 17 November 2026
+
+Read the entire new brief and inspected main/origin/main at e60ae32. The workspace is not clean: preserved prior Embarko compatibility changes and user-installed skills, plus the creator's UI_REDESIGN.md. No reset/discard. The prior CSP startup fix is independently revalidated (100 unit tests; two production desktop/mobile CSP cases), and will be preserved in a separate checkpoint before landing changes. The stopped authenticated deployment has no local completion receipt; permanence is unconfirmed and no authentication/deployment action is resumed for this UI task.
+
+Active scope: editorial first viewport, aligned authentic preview recapture, natural-scroll blackout reveal with manual priority/reduced-motion alternative, mobile finish, full regression and Pages verification. Keep all game/UI/art/render/domain files unchanged. Installed Frontend Design and Impeccable apply; UI Skills CLI is absent, so no registry scripts/packages are installed. Next: baseline captures and alignment verification, then the specified tested milestones on main.
+
+## Anonymous Embarko compatibility checkpoint - 2026-11-16
+
+Creator explicitly requests anonymous deployment first, then an email question only after the live game's main feature works. No account/token/credential was used. Static upload created app ctrl-z, public ID cmwj82l6f01t37w6h5hox7m5n, URL https://ctrl-z.embarko.app, expires 2026-11-17T12:10:59.894Z (17 November, 5:40 PM IST). Initial browser checks caught host CSP blocking Pixi startup; the corrected anonymous redeploy now passes actual desktop gameplay. The creator has been given the URL/expiry and asked for email; no answer/token or claim yet.
+
+The Embarko-only build profile/entry uses Pixi's shipped CSP-compatible synchronizers and ordinary image decoding. Existing main entry, city/game modules and default /Ctrl-Z/ Pages deployment remain untouched. 100 unit tests, Embarko and default builds, and both local production CSP cases pass. Hosted desktop homepage, embedded save/minimap/inspection/navigation and full gameplay/replay pass; mobile homepage passes, with mobile gameplay still running. Temporary archives/replies/tests are ignored under .impeccable/review; public appId is in embarko.json. See docs/EMBARKO_DEPLOYMENT.md. Next: finish mobile verification/evidence, preserve the tested compatibility checkpoint on origin/main, then continue the email-token flow only from the creator's reply.
+
 ## Editorial landing page complete and deployed - 2026-11-16
 
 Runtime milestone 5dd71931ec762cbf6e941071bf8adf9209791a49 is pushed/remote-verified, with successful CI 43813326844 and Pages deployment 43813326830. The published https://reedhan-g.github.io/Ctrl-Z/ now presents the requested editorial homepage and on-demand embedded simulation, plus full-screen access. All existing game UI/HUD, map/art, domain/clock/replay/persistence, controls, minimap and both workflows remain unchanged. The earlier audit checkpoint is 247c51e; PR #1 remains incorporated at 0334947.
