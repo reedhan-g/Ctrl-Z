@@ -7,7 +7,8 @@ import type { ReplayBranch } from './replay';
 
 export default function ScenarioPanel({onCompare}:{onCompare?:()=>void}){
  const s=useGame(),[hypothesis,setHypothesis]=useState<BuildingId>('grid');
- const [previewRun,setPreviewRun]=useState<ReplayBranch|null>(null);
+ const [previewRun,setPreviewRun]=useState<ReplayBranch|null>(()=>
+  new URLSearchParams(window.location.search).get('mode')==='crisis'?s.branches[0]:null);
  const crisis=s.crisis||previewRun===s.branches[0];
  const progress=s.caseStudy,definition=progress?cases[progress.id]:null;
  return <div className="scenario-panel" id="scenario">

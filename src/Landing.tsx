@@ -45,7 +45,10 @@ export default function Landing() {
             <div className="opening-copy">
               <p className="intro">A city runs on invisible connections. Break one, and watch the consequences spread.</p>
             </div>
-            <a className="enter-button" href="#preview">Witness the blackout <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 16 16 4M4 4h12v12"/></svg></a>
+            <div className="opening-actions">
+              <a className="enter-button" href="#preview">Witness the blackout <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 16 16 4M4 4h12v12"/></svg></a>
+              <a className="crisis-entry" href="./simulation.html?mode=crisis">Play Crisis Mode <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 16 16 4M4 4h12v12"/></svg></a>
+            </div>
           </div>
           <div className="opening-utilities">
             <a className="scroll-hint" href="#about">Scroll to discover <svg className="hint-arrow loop" aria-hidden="true" viewBox="0 0 20 20"><path d="M10 3v14m-5-5 5 5 5-5"/></svg></a>

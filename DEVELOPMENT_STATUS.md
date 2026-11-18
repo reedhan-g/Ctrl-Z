@@ -1,5 +1,9 @@
 # Ctrl Z - Development Status
 
+## Crisis entry from the landing page
+
+Play Crisis Mode opens `./simulation.html?mode=crisis` and selects the existing briefing. Start crisis remains explicit, regular Play opens Sandbox, and entry leaves the save slot intact. Six focused desktop/mobile browser checks passed, along with the Pages build, Embarko build, and root-path browser checks on desktop and at 390px. The public Embarko app responds and currently serves an older build.
+
 ## Gameplay upgrade
 
 **A · Emergency Crisis Mode.** The explicit Crisis entry starts a paused 12-hour blackout with two supply teams. The deadline caps play and seeking, protects the outage from grid restoration, and scores the real journal against 36/60 service-hours and three active services. The baseline yields 28.2 service-hours and one active service. Water plus a late telecom delivery at 04:15 wins. Water plus logistics can hold three services active but falls below the service-hour target. Version 2 saves retain the existing slot and read v1 saves with Crisis off. Focused domain checks (14), the build, and desktop/mobile playthroughs passed. A label-fit correction was verified at 320px, 390px and 1440px. Next: reactive incident cards and comparison.
