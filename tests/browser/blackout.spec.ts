@@ -9,7 +9,8 @@ async function position(page:Page,value:number){
   const top=pinned?section.getBoundingClientRect().top+scrollY-16+(section.getBoundingClientRect().height-stage.getBoundingClientRect().height)*value:image.getBoundingClientRect().top+scrollY-height*.82+span*value;
   scrollTo({top,behavior:'instant'});
  },value);
- await expect.poll(()=>progress(page)).toBeCloseTo(value,1);
+ const t=Math.max(0,Math.min(1,(value-.1)/.8));
+ await expect.poll(()=>progress(page)).toBeCloseTo(t*t*(3-2*t),1);
 }
 async function imagesReady(page:Page){
  for(const image of await page.locator('.preview-images img').all())await expect.poll(()=>image.evaluate(element=>(element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
@@ -42,6 +43,13 @@ test('natural blackout reveal reverses and gives manual choices priority',async(
  await expect(page.getByRole('button',{name:'Power on'})).toHaveAttribute('aria-pressed','false');
  await expect(page.getByRole('button',{name:'Power off'})).toHaveAttribute('aria-pressed','false');
  await capture('halfway');expect(await progress(page)).toBeCloseTo(.5,1);
+ if(info.project.name==='desktop'){
+  await expect(page.locator('.preview-scan')).toHaveCSS('animation-play-state','running');
+  await position(page,.46);
+  await position(page,.54);
+  await expect.poll(()=>page.locator('.preview-flash').evaluate(element=>element.getAnimations().length)).toBe(1);
+  await expect(page.locator('.preview-flash')).toHaveCSS('opacity','0');
+ }
  await position(page,1);await expect(page.getByRole('status')).toHaveText('Grid disconnected');await capture('blackout');expect(await progress(page)).toBe(1);
  await position(page,.25);await position(page,0);
  await page.getByRole('button',{name:'Power off'}).focus();await page.keyboard.press('Space');
@@ -68,6 +76,8 @@ test('reduced motion and direct preview navigation remain stable',async({page},i
  await expect(page.getByRole('heading',{name:'Watch the city go dark.'})).toBeInViewport();await imagesReady(page);
  await expect(page.getByRole('button',{name:'Power on'})).toHaveAttribute('aria-pressed','true');
  await expect(page.locator('.blackout-preview')).toHaveAttribute('data-pinned','false');
+ await expect(page.locator('.preview-scan')).toHaveCSS('animation-name','none');
+ await expect(page.locator('.preview-flash')).toBeHidden();
  await page.locator('.preview-images').scrollIntoViewIfNeeded();await expect.poll(()=>progress(page)).toBe(0);
  await page.screenshot({path:info.outputPath('reduced-motion.png'),animations:'disabled'});
  const off=page.getByRole('button',{name:'Power off'});

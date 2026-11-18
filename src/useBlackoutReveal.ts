@@ -9,6 +9,8 @@ export function useBlackoutReveal(){
  useEffect(()=>{
   const media=matchMedia('(prefers-reduced-motion: reduce)'),viewport=window.visualViewport;
   let frame=0,disposed=false,lastProgress=-1,lastView='',anchorOffset=location.hash==='#preview'?NaN:0;
+  const flash=imageRef.current?.querySelector('.preview-flash');
+  let flashAnimation:Animation|undefined,previousAutomatic:number|undefined,flashArmed=true;
   const update=()=>{
    frame=0;
    if(disposed||document.hidden||!sectionRef.current||!stageRef.current||!imageRef.current)return;
@@ -19,7 +21,7 @@ export function useBlackoutReveal(){
    sectionRef.current.dataset.pinned=String(pinned);
    const section=sectionRef.current.getBoundingClientRect(),image=imageRef.current.getBoundingClientRect();
    const outside=section.bottom<=offset||section.top>=offset+height;
-   let progress:number;
+   let progress:number,automatic:number|undefined;
    if(outside){
     manual.current=null;anchorOffset=0;
     progress=media.matches?0:(section.bottom<=offset?1:0);
@@ -27,12 +29,30 @@ export function useBlackoutReveal(){
     const distance=pinned?16-(section.top-offset):height*.82-(image.top-offset);
     const span=pinned?section.height-stageRef.current.getBoundingClientRect().height:Math.min(420,height*.60);
     if(Number.isNaN(anchorOffset))anchorOffset=Math.max(0,distance);
-    const automatic=Math.max(0,Math.min(1,(distance-anchorOffset)/Math.max(1,span)));
-    // Native scroll positions round to CSS pixels. Keep the two endpoints stable.
-    progress=manual.current??(media.matches?0:automatic<.003?0:automatic>.997?1:automatic);
+    const fraction=(distance-anchorOffset)/Math.max(1,span);
+    // Ease into and out of the cut, with stable holds at both endpoints.
+    const eased=Math.max(0,Math.min(1,(fraction-.1)/.8));
+    automatic=eased*eased*(3-2*eased);
+    progress=manual.current??(media.matches?0:automatic);
+   }
+   const canFlash=automatic!==undefined&&!media.matches&&manual.current===null&&
+    sectionRef.current.closest<HTMLElement>('.landing')?.dataset.motion==='running';
+   if(!canFlash){
+    flashAnimation?.cancel();
+    flashArmed=true;
+    previousAutomatic=undefined;
+   }else if(automatic!==undefined){
+    if(automatic<.32||automatic>.68)flashArmed=true;
+    else if(flashArmed&&previousAutomatic!==undefined&&Math.abs(previousAutomatic-automatic)<.24&&
+      (previousAutomatic<.5)!==(automatic<.5)){
+     flashArmed=false;
+     flashAnimation?.cancel();
+     flashAnimation=flash?.animate([{opacity:0},{opacity:.045,offset:.2},{opacity:0}],{duration:280,easing:'ease-out'});
+    }
+    previousAutomatic=automatic;
    }
    if(progress!==lastProgress){
-    imageRef.current.style.setProperty('--blackout-progress',String(progress));
+    sectionRef.current.style.setProperty('--blackout-progress',String(progress));
     imageRef.current.dataset.progress=progress.toFixed(4);
     lastProgress=progress;
    }
@@ -73,7 +93,7 @@ export function useBlackoutReveal(){
   if(location.hash==='#preview')sectionRef.current?.scrollIntoView({block:'start',behavior:'instant'});
   schedule();
   return()=>{
-   disposed=true;cancelAnimationFrame(frame);observer?.disconnect();images?.disconnect();scheduleRef.current=()=>{};
+   disposed=true;cancelAnimationFrame(frame);flashAnimation?.cancel();observer?.disconnect();images?.disconnect();scheduleRef.current=()=>{};
    removeEventListener('scroll',schedule);removeEventListener('resize',schedule);removeEventListener('hashchange',anchor);
    document.removeEventListener('click',previewLink);
    viewport?.removeEventListener('resize',schedule);viewport?.removeEventListener('scroll',schedule);

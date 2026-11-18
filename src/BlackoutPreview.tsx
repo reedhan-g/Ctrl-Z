@@ -13,8 +13,8 @@ export default function BlackoutPreview({onEnter}:{onEnter:()=>void}){
   transition:'Two real captures. One electricity decision.',
   blackout:'Grid disconnected / Backup systems active.',
  }[view.phase];
- return <section id="preview" ref={sectionRef} className="preview-section page-width blackout-preview" data-state={view.phase} aria-labelledby="preview-title">
-  <div className="preview-stage" ref={stageRef}>
+ return <><section id="preview" ref={sectionRef} className="preview-section blackout-preview" data-state={view.phase} data-motion-scope aria-labelledby="preview-title">
+  <div className="preview-stage page-width" ref={stageRef}>
   <div className="preview-heading">
    <div><p className="preview-index">02 / The interruption</p><h2 id="preview-title">Watch the<br/>city go dark.</h2></div>
    <p className="preview-state" role="status">{status}</p>
@@ -26,7 +26,8 @@ export default function BlackoutPreview({onEnter}:{onEnter:()=>void}){
      <img src={capture.desktop} alt={index===0?'Meridian before and after a power cut, shown as an aligned comparison of actual gameplay captures.':''} width="1685" height="692" loading={nearby?'eager':'lazy'} decoding="async"/>
     </picture>)}
     <span className="visual-feed" aria-hidden="true">Meridian / Visual feed 001</span>
-    <div className="blackout-rail" aria-hidden="true"><span/></div>
+    <span className="preview-scan loop" aria-hidden="true"/>
+    <span className="preview-flash" aria-hidden="true"/>
    </div>
    <div className="scene-tools">
     <p id="preview-instruction">{view.manual?'Your choice stays until you leave this preview.':view.reduced?'Choose a capture to compare the power cut.':'Scroll through the city to compare the power cut.'}</p>
@@ -34,9 +35,11 @@ export default function BlackoutPreview({onEnter}:{onEnter:()=>void}){
     {captures.map((capture,index)=><button key={capture.label} type="button" aria-pressed={view.phase===(index===0?'powered':'blackout')} aria-controls="game-preview" aria-describedby="preview-instruction" onClick={()=>choose(index as 0|1)}>{capture.label}</button>)}
    </div>
    </div>
+   <div className="blackout-rail" aria-hidden="true"><span/></div>
    <figcaption><span>{caption}</span><span>Meridian / Actual game capture</span></figcaption>
   </figure>
-  <p className="preview-note">The experiment is yours to change. <a href="#simulation" onClick={onEnter}>Explore the city yourself</a>.</p>
   </div>
- </section>;
+ </section>
+ <p className="preview-note page-width">The experiment is yours to change. <a href="#simulation" onClick={onEnter}>Explore the city yourself</a>.</p>
+ </>;
 }

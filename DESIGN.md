@@ -17,42 +17,42 @@ colors:
   game-loading-ground: "#10171d"
 typography:
   display:
-    fontFamily: "Manrope, sans-serif"
-    fontSize: "clamp(6.5rem, min(19vw, 28svh), 270px)"
-    fontWeight: 800
-    lineHeight: 0.82
-    letterSpacing: "-0.04em"
+    fontFamily: "Arial, Helvetica, sans-serif"
+    fontSize: "clamp(105px, 19vw, 270px)"
+    fontWeight: 900
+    lineHeight: 0.78
+    letterSpacing: "-.088em"
   tagline:
-    fontFamily: "Manrope, sans-serif"
-    fontSize: "clamp(2.7rem, min(6.9vw, 9.5svh), 105px)"
+    fontFamily: "Arial, Helvetica, sans-serif"
+    fontSize: "clamp(43px, 6.9vw, 105px)"
     fontWeight: 600
-    lineHeight: 0.98
-    letterSpacing: "-0.04em"
+    lineHeight: 0.93
+    letterSpacing: "-.075em"
   headline:
-    fontFamily: "Manrope, sans-serif"
+    fontFamily: "Arial, Helvetica, sans-serif"
     fontSize: "clamp(2rem, 4vw, 4rem)"
     fontWeight: 500
     lineHeight: 1.08
     letterSpacing: "-0.04em"
   story:
-    fontFamily: "Manrope, sans-serif"
-    fontSize: "clamp(2rem, 4.5vw, 4.5rem)"
+    fontFamily: "Arial, Helvetica, sans-serif"
+    fontSize: "clamp(30px, 4.5vw, 64px)"
     fontWeight: 500
-    lineHeight: 1.04
-    letterSpacing: "-0.04em"
+    lineHeight: 1.06
+    letterSpacing: "-.065em"
   closing:
-    fontFamily: "Manrope, sans-serif"
-    fontSize: "clamp(3rem, 9.5vw, 9.5rem)"
+    fontFamily: "Arial, Helvetica, sans-serif"
+    fontSize: "clamp(55px, 10.5vw, 145px)"
     fontWeight: 600
-    lineHeight: 0.98
-    letterSpacing: "-0.04em"
+    lineHeight: 1.02
+    letterSpacing: "-.07em"
   body:
-    fontFamily: "Manrope, sans-serif"
+    fontFamily: "Arial, Helvetica, sans-serif"
     fontSize: "16px"
     fontWeight: 400
     lineHeight: 1.65
   editorial:
-    fontFamily: "Manrope, sans-serif"
+    fontFamily: "Arial, Helvetica, sans-serif"
     fontSize: "19px"
     fontWeight: 400
     lineHeight: 1.65
@@ -63,7 +63,7 @@ typography:
     lineHeight: 1.6
     letterSpacing: "0.06em"
   action:
-    fontFamily: "Manrope, sans-serif"
+    fontFamily: "Arial, Helvetica, sans-serif"
     fontSize: "13px"
     fontWeight: 700
     lineHeight: 1.65
@@ -89,9 +89,9 @@ components:
     textColor: "{colors.page-ground}"
     typography: "{typography.action}"
     rounded: "{rounded.action}"
-    padding: "15px 28px"
+    padding: "18px 23px"
   button-primary-hover:
-    backgroundColor: "#d8d7d4"
+    backgroundColor: "#bce6df"
     textColor: "{colors.page-ground}"
   ticker:
     backgroundColor: "#111313"
@@ -110,13 +110,13 @@ components:
     backgroundColor: "transparent"
     textColor: "{colors.page-muted}"
     rounded: "{rounded.precise}"
-    padding: "10px 14px"
+    padding: "10px 18px"
   preview-option-selected:
     backgroundColor: "{colors.page-ink}"
     textColor: "{colors.page-ground}"
   documentary-preview:
     backgroundColor: "{colors.page-raised}"
-    height: "clamp(280px, 51svh, 560px)"
+    height: "clamp(280px, min(62svh, calc(100svh - 380px)), 610px)"
   game-frame:
     backgroundColor: "{colors.game-loading-ground}"
     height: "max(760px, 100svh)"
@@ -129,13 +129,13 @@ components:
 
 **Creative North Star: "Meridian / the invisible network"**
 
-The landing page makes infrastructure legible before it makes failure visible. Near-black editorial space, monumental Manrope, precise circuit/orbit geometry and restrained mint signals establish a living system; a real HUD-free city capture then becomes the dominant, reversible blackout event. Motion is native, bounded and optional, with content complete before enhancement.
+The landing page makes infrastructure legible before it makes failure visible. Near-black editorial space, monumental Arial, precise circuit/orbit geometry and restrained mint signals establish a living system; a real HUD-free city capture then becomes the dominant, reversible blackout event. Motion is native, bounded and optional, with content complete before enhancement.
 
 This system applies only to the landing presentation: `src/Landing.tsx`, `src/landing.css` and its focused landing components and hooks. The isolated simulation at `simulation.html` remains a protected visual and functional system. Its game UI/HUD, city art, renderer, camera, services, simulation, controls and saves do not inherit these landing tokens.
 
 **Key Characteristics:**
 - Near-black and off-white editorial ground with mint reserved for signals and keyboard focus.
-- Oversized and outline Manrope display paired with compact mono system labels.
+- Oversized and outline Arial display paired with compact mono system labels.
 - Precise vector infrastructure geometry and a truthful six-node, eight-edge dependency schematic.
 - Slow ticker, bounded pointer/scroll depth and once-only kinetic rows with static and reduced-motion paths.
 - One dominant reversible blackout using aligned, capture-only, HUD-free actual-game imagery.
@@ -167,18 +167,18 @@ The frame is nearly monochrome; cool infrastructure tones explain connectivity, 
 
 ## Typography
 
-**Display Font:** Manrope, with sans-serif fallback.
+**Display Font:** Arial, with sans-serif fallback.
 
-**Body Font:** Manrope, with sans-serif fallback.
+**Body Font:** Arial, with sans-serif fallback.
 
 **Label/Mono Font:** ui-monospace, Consolas, monospace.
 
-Self-hosted Manrope supplies the giant engineering-editorial voice. The hero combines a heavy solid title with an outlined word; section statements stay confident and compact. Mono labels identify real structure, sequence and state without pretending to be live telemetry.
+The reference’s Arial / Helvetica stack supplies the landing’s display and body type. The hero combines a heavy solid title with an outlined word; section statements stay confident and compact. Mono labels identify real structure, sequence and state without pretending to be live telemetry.
 
 ### Hierarchy
 - **Display:** monumental uppercase hero identity using the normative display token; mobile resolves to `clamp(70px, 18.5vw, 110px)`.
 - **Tagline:** uppercase follow-through using the normative tagline token, with “the” rendered as a one-pixel outline.
-- **Headline:** section headings using the headline token; the concept statement rises to `clamp(2.7rem, 6.5vw, 5.875rem)`.
+- **Headline:** section headings using the headline token; the concept statement rises to `clamp(43px, 6.9vw, 94px)`.
 - **Story:** kinetic consequence rows using the story token, with concise sentence-length explanations beside them.
 - **Closing:** the final question uses the closing token and intentional line breaks as the page climax.
 - **Body / Editorial:** default reading at 16px and concept copy at 19px; keep prose compact and measures narrow.
@@ -186,7 +186,7 @@ Self-hosted Manrope supplies the giant engineering-editorial voice. The hero com
 
 **The Scale Before Ornament Rule.** Create hierarchy through size, outline, weight and whitespace; never manufacture badges, metrics or decorative eyebrows.
 
-**The Context Below Intro Rule.** The hero has no eyebrow above the title. Meridian/context text belongs below the introductory sentence, where it supports rather than competes with the identity.
+**Hero Context.** The Meridian identifier sits above the wordmark at a readable 11px.
 
 ## Layout
 
@@ -194,7 +194,7 @@ The durable content width is 1160px with 45px desktop side clearance. At 900px i
 
 The story progresses in five clear beats: infrastructure hero and ticker, premise plus dependency schematic, panoramic blackout, three consequence rows, and one final play invitation. The dependency schematic uses an accurate six-node/eight-edge model: electricity feeds all five other services, water feeds residences and hospital, and telecom feeds logistics. Desktop routes are asymmetric; the mobile layout repositions nodes and paths without changing connectivity.
 
-The blackout frame is `clamp(280px, 51svh, 560px)` on desktop and uses dedicated mobile sources at 600px and below. Its sticky enhancement is bounded and conditional; short or zoomed viewports keep natural flow. The closing occupies roughly a viewport, while the optional embedded game remains a compact disclosure below the primary full-screen action. Evidence covers 320, 360, 390, 430, 768, 1280 and 1440 CSS-pixel widths plus 844×390 landscape.
+The blackout frame is `clamp(280px, min(62svh, calc(100svh - 380px)), 610px)` on desktop and uses dedicated mobile sources at 600px and below. Its sticky enhancement is bounded and conditional; short or zoomed viewports keep natural flow. The closing occupies roughly a viewport, while the optional embedded game remains a compact disclosure below the primary full-screen action. Evidence covers 320, 360, 390, 430, 768, 1280 and 1440 CSS-pixel widths plus 844×390 landscape.
 
 ## Elevation & Depth
 
@@ -209,10 +209,10 @@ The form language is rectilinear and technical: thin hairline rules, square imag
 ## Components
 
 ### Entry Actions
-White entry controls use near-square 2px corners, `15px 28px` padding and a 54px minimum height. Hover softens the fill; focus uses a 2px mint outline with 6px offset; active moves 1px. Reduced motion removes transition and translation. The hero action jumps to the blackout; the closing action goes directly to `./simulation.html`.
+White entry controls use square corners, `18px 23px` padding and a 54px minimum height. Hover softens the fill; focus uses a 2px mint outline with 6px offset; active moves 1px. Reduced motion removes transition and translation. The hero action jumps to the blackout; the closing action goes directly to `./simulation.html`.
 
 ### Infrastructure Hero
-Original SVG circuitry, junctions and counter-rotating rings sit behind/right of the hero type. Dotted mint signals and three breathing nodes are low-frequency loops. Fine-pointer devices receive at most 14px horizontal and 10px vertical response; scroll drift is bounded. Loops pause offscreen, when hidden, when the visitor pauses motion, under reduced motion and for save-data/static paths.
+Original SVG circuitry, junctions and counter-rotating rings sit behind/right of the hero type. Dotted mint signals and three breathing nodes are low-frequency loops. A fine pointer moves the faint background light while native scrolling shifts the circuit field and title. Loops pause offscreen, when hidden, when the visitor pauses motion, under reduced motion and for save-data/static paths.
 
 ### Kinetic Ticker
 A thin ruled strip repeats “Everything is connected · One failure. Many consequences. · Rewind the world” over 42 seconds. Duplicate text is decorative and hidden from assistive technology; a complete static sentence remains available to screen readers.
@@ -221,7 +221,7 @@ A thin ruled strip repeats “Everything is connected · One failure. Many conse
 The bordered grid surface contains six labeled nodes and eight directed edges derived from the game dependency source. Water edges use mint, telecom edges are dashed, and faint mint signals travel along the same paths. A caption states that the diagram is simplified context, not live status, and records the hospital’s 12-hour water buffer.
 
 ### Documentary Blackout
-The base and blackout layers are aligned actual-game captures with identical camera, bounds, time-zero setup and dimensions. They are captured from the unchanged canvas with HUD hidden only through screenshot-time styles; provenance and receipts live under `src/assets/previews/PROVENANCE.md` and `docs/landing-page/animated/capture/`. Desktop assets are 1685×692; mobile assets are 1290×1467. The blackout layer crossfades by opacity, a two-pixel rail mirrors progress, and Power on/off controls provide direct keyboard and touch access. Reduced motion disables automatic progression but keeps instant manual comparison.
+The base and blackout layers are aligned actual-game captures with identical camera, bounds, time-zero setup and dimensions. They are captured from the unchanged canvas with HUD hidden only through screenshot-time styles; provenance and receipts live under `src/assets/previews/PROVENANCE.md` and `docs/landing-page/animated/capture/`. Desktop assets are 1685×692; mobile assets are 1290×1467. The eased crossfade holds both endpoints. A two-pixel rail mirrors progress below the Power on/off controls. A vignette and inset border frame the city, with a faint animated scan and a brief pulse on midpoint crossings in active-motion mode. Reduced motion disables automatic progression but keeps instant manual comparison.
 
 ### Consequence Rows
 Three open, ruled rows pair mono sequence numbers with large headings and one compact sentence: failure, decision and rewind. They arrive once with a 22px rise and partial-opacity start over 560ms; static/reduced paths show them immediately. Do not turn them into cards.
@@ -232,7 +232,7 @@ The closing question, faint orbital outline and one white “Enter Meridian” a
 ## Do's and Don'ts
 
 ### Do:
-- **Do** preserve the near-black/off-white frame, mint signal role, oversized/outline Manrope and meaningful mono labels.
+- **Do** preserve the near-black/off-white frame, mint signal role, oversized/outline Arial and meaningful mono labels.
 - **Do** keep hero geometry original, precise and secondary to the title and first-view action.
 - **Do** keep the six nodes and eight dependency edges faithful to the source model.
 - **Do** keep ticker, pointer depth, arrivals and sticky behavior bounded, pauseable and fully legible when static.
@@ -242,7 +242,7 @@ The closing question, faint orbital outline and one white “Enter Meridian” a
 - **Do** keep landing presentation isolated from the protected game system and save state.
 
 ### Don't:
-- **Don't** restore a hero eyebrow; context belongs below the introduction.
+- **Don't** add labels beside the existing Meridian identifier.
 - **Don't** invent telemetry, metrics, services, testimonials, awards or dependency relationships.
 - **Don't** add cards, glass, glow, particles, 3D libraries, scrolling interception or loader theatrics.
 - **Don't** use mint as a large surface fill or let supporting animation compete with the blackout.

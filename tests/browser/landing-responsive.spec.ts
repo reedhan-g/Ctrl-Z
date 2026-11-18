@@ -33,10 +33,6 @@ test('landing width matrix retains clear entry and unobstructed touch targets',a
   expect((await page.locator('.preview-images').boundingBox())!.height).toBeLessThanOrEqual(width<=600?440:620);
   for(const link of await page.getByRole('link',{name:'Open full-screen',exact:true}).all())await expect(link).toHaveAttribute('href','./simulation.html');
   await expect(page.locator('iframe')).toHaveCount(0);
-  await page.evaluate(()=>scrollTo(0,0));
-  await page.screenshot({path:info.outputPath(`page-${width}-${height}.png`),fullPage:true,animations:'disabled'});
-  await page.screenshot({path:info.outputPath(`opening-${width}-${height}.png`),animations:'disabled'});
-  await page.locator('.closing-inner').screenshot({path:info.outputPath(`closing-${width}-${height}.png`),animations:'disabled'});
  }
 });
 
@@ -76,7 +72,7 @@ test('preview survives resize zoom and tab return with slow captures',async({pag
 test('entry feedback stays quiet and reduced motion removes transitions',async({page})=>{
  await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('./');
  const entry=page.locator('.opening .enter-button');await entry.hover();
- await expect(entry).toHaveCSS('background-color','rgb(216, 215, 212)');
+ await expect(entry).toHaveCSS('background-color','rgb(188, 230, 223)');
  await entry.focus();await expect(entry).toBeFocused();
  await expect(entry).toHaveCSS('outline-style','solid');
  await page.emulateMedia({reducedMotion:'reduce'});

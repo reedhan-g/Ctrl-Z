@@ -14,7 +14,7 @@ test('infrastructure hero keeps a clear discovery action and static mobile alter
  if(!phone){
   await expect(page.locator('.orbit').first()).toHaveCSS('animation-play-state','running');
   await page.mouse.move(1000,300);
-  await expect.poll(()=>root.evaluate(element=>element.style.getPropertyValue('--network-x'))).not.toBe('0px');
+  await expect.poll(()=>page.locator('.opening').evaluate(element=>element.style.getPropertyValue('--light-x'))).not.toBe('75%');
   await page.getByRole('button',{name:'Pause motion',exact:true}).click();
   await expect(root).toHaveAttribute('data-motion','static');
   await expect(page.locator('.orbit').first()).toHaveCSS('animation-play-state','paused');

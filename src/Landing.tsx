@@ -24,34 +24,33 @@ export default function Landing() {
   return (
     <div className="landing" ref={rootRef} data-motion-paused={motionPaused}>
       <a className="skip-link" href="#content">Skip to content</a>
-      <header className="site-header page-width">
+      <header className="site-header">
         <a className="site-brand" href="./" aria-label="Ctrl Z home">Ctrl Z.</a>
         <nav aria-label="Main navigation">
           <a href="#about">The system</a>
           <a href="#preview">The city</a>
-          <a className="entry-link" href="./simulation.html">Play</a>
+          <a className="entry-link" href="./simulation.html">Play <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 16 16 4M4 4h12v12"/></svg></a>
         </nav>
       </header>
 
       <main id="content" tabIndex={-1}>
-        <section className="opening page-width" aria-labelledby="site-title" data-motion-scope>
+        <section className="opening" aria-labelledby="site-title" data-motion-scope>
           <InfrastructureGraphic/>
           <div className="opening-title">
+            <p className="opening-context">Meridian / An interactive infrastructure experiment</p>
             <h1 id="site-title">Ctrl Z</h1>
             <p className="tagline">Undo <span className="outline-word">the</span><br/>World.</p>
           </div>
           <div className="opening-bottom">
             <div className="opening-copy">
               <p className="intro">A city runs on invisible connections. Break one, and watch the consequences spread.</p>
-              <p className="opening-context">Meridian / An interactive infrastructure experiment</p>
             </div>
-            <div className="opening-actions">
-              <a className="enter-button" href="#preview">Witness the blackout <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 16 16 4M4 4h12v12"/></svg></a>
-
-            </div>
+            <a className="enter-button" href="#preview">Witness the blackout <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 16 16 4M4 4h12v12"/></svg></a>
           </div>
-              <div className="opening-utilities"><a className="scroll-hint" href="#about">Scroll to discover <svg className="hint-arrow loop" aria-hidden="true" viewBox="0 0 20 20"><path d="M10 3v14m-5-5 5 5 5-5"/></svg></a>
-              <button className="motion-toggle" type="button" disabled={!motionAvailable} aria-pressed={motionPaused} onClick={()=>setMotionPaused(value=>!value)}>{!motionAvailable?'Motion static':motionPaused?'Resume motion':'Pause motion'}</button></div>
+          <div className="opening-utilities">
+            <a className="scroll-hint" href="#about">Scroll to discover <svg className="hint-arrow loop" aria-hidden="true" viewBox="0 0 20 20"><path d="M10 3v14m-5-5 5 5 5-5"/></svg></a>
+            <button className="motion-toggle" type="button" disabled={!motionAvailable} aria-pressed={motionPaused} onClick={()=>setMotionPaused(value=>!value)}>{!motionAvailable?'Motion static':motionPaused?'Resume motion':'Pause motion'}</button>
+          </div>
         </section>
         <KineticTicker/>
 

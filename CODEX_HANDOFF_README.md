@@ -1,5 +1,9 @@
 # Ctrl Z — complete Codex account handoff
 
+## Exact reference pass
+
+The existing landing was refined against `CTRL_Z_ANIMATED_PREVIEW.html` from baseline `f793f37`. The hero typography and identifier now follow the reference. The six-service graph, HUD-free city, direct game entry and lazy embed carry forward. See `DEVELOPMENT_STATUS.md` for measured differences, validation and external device coverage, and `docs/landing-page/animated/replica` for the updated comparison frames.
+
 ## Motion-rich landing task — 18 November 2026
 
 Workflow update: future work uses focused milestones, targeted implementation checks and one appropriate build/regression gate at each major milestone end. Do not repeat successful checks without relevant changes, duplicate captures or reread files unnecessarily; diagnose failures before rerunning. Mandatory checks, build failures and core-game regressions still take priority. This policy is now in `AGENTS.md`.

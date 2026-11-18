@@ -12,14 +12,13 @@ test('editorial opening leads with the game and a reachable play action',async({
  const context=page.getByText('Meridian / An interactive infrastructure experiment',{exact:true});
  await expect(context).toBeVisible();
  await expect(context).toHaveClass(/opening-context/);
+ expect((await context.boundingBox())!.y).toBeLessThan((await page.locator('.opening h1').boundingBox())!.y);
  expect((await page.locator('.opening').boundingBox())!.height).toBeGreaterThanOrEqual((phone?844:900)*.8);
  expect((await page.locator('.preview-images').boundingBox())!.y).toBeGreaterThan(phone?844:900);
  await expect(page.locator('iframe')).toHaveCount(0);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.locator('.preview-section').scrollIntoViewIfNeeded();
  await expect.poll(()=>page.locator('.preview-active img').evaluate(image=>(image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
- await page.evaluate(()=>scrollTo(0,0));
- await page.screenshot({path:info.outputPath('editorial.png'),fullPage:true,animations:'disabled'});
 });
 
 test('native scroll gives the headline a bounded drift and introductions remain accessible',async({page},info)=>{

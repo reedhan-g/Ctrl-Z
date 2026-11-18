@@ -31,7 +31,7 @@ export default function DependencyNetwork(){
     })}</g>
     <g className="network-signals loop">{dependencies.map(edge=><path key={`${edge.source}:${edge.target}`} d={routes[`${edge.source}:${edge.target}`][mobile?1:0]}/>)}</g>
    </svg>)}
-   {nodes.map(node=><div className="network-node" data-node={node.id} key={node.id} style={{'--node-x':`${node.x/10}%`,'--node-y':`${node.y/5.6}%`,'--mobile-x':`${node.mx/10}%`,'--mobile-y':`${node.my/5.6}%`} as CSSProperties}><span className="network-dot"/><strong>{node.name}</strong><span>{node.detail}</span></div>)}
+   {nodes.map(node=><div className="network-node" data-node={node.id} key={node.id} style={{'--node-x':`${node.x/10}%`,'--node-y':`${node.y/5.6}%`,'--mobile-x':`${node.mx/10}%`,'--mobile-y':`${node.my/5.6}%`} as CSSProperties}><span className="network-dot loop"/><strong>{node.name}</strong><span>{node.detail}</span></div>)}
   </div>
   <figcaption id="network-description">Electricity powers all five services. Water supplies homes and the hospital; telecom supports logistics. The hospital has a 12-hour water buffer. Lines show dependencies, not live status.</figcaption>
  </figure>;
