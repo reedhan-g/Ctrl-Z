@@ -38,11 +38,14 @@ test('homepage explains the game without loading the simulation',async({page},in
 });
 
 test('embedded entry home and full-screen retain saves and existing gameplay',async({page},info)=>{
+ // This scenario cold-starts Pixi three times. Budget shader compilation and
+ // repeated navigation on software GPUs separately from gameplay assertions.
+ test.setTimeout(120000);
  await page.goto('./');
  await page.locator('.opening').getByRole('link',{name:'Enter Simulation',exact:true}).click();
  await expect(page).toHaveURL(/#simulation$/);
  const game=page.frameLocator('iframe[title="Ctrl Z playable simulation"]');
- await expect(game.locator('canvas')).toBeVisible();
+ await expect(game.locator('canvas')).toBeVisible({timeout:15000});
  await expect(game.getByRole('button',{name:'How to play'})).toBeVisible();
  await game.getByRole('button',{name:'Remove electricity',exact:true}).click();
  await game.getByRole('button',{name:'Pause simulation'}).click();
@@ -64,7 +67,7 @@ test('embedded entry home and full-screen retain saves and existing gameplay',as
  await page.locator('#simulation').screenshot({path:info.outputPath('embedded-game.png')});
  await page.getByRole('link',{name:'Open full-screen',exact:true}).click();
  await expect(page).toHaveURL(/\/simulation\.html$/);
- await expect(page.locator('canvas')).toBeVisible();
+ await expect(page.locator('canvas')).toBeVisible({timeout:15000});
  await page.getByRole('button',{name:'Resume saved',exact:true}).click();
  await expect(page.getByText('Saved experiment resumed, paused.')).toBeVisible();
  await page.getByRole('link',{name:'Ctrl Z home',exact:true}).click();
@@ -72,7 +75,7 @@ test('embedded entry home and full-screen retain saves and existing gameplay',as
  await expect(page.locator('canvas')).toHaveCount(0);
  expect(await page.evaluate(()=>localStorage.getItem('ctrl-z:experiment:v1'))).toBe(saved);
  await page.locator('.closing').getByRole('link',{name:'Enter Simulation',exact:true}).click();
- await expect(game.locator('canvas')).toBeVisible();
+ await expect(game.locator('canvas')).toBeVisible({timeout:15000});
  await game.getByRole('button',{name:'Resume saved',exact:true}).click();
  await expect(game.getByText('Saved experiment resumed, paused.')).toBeVisible();
  await expect(game.getByRole('button',{name:'Play simulation'})).toBeVisible();
