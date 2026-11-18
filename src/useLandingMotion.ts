@@ -12,7 +12,7 @@ export function useLandingMotion(){
   const connection=(navigator as Navigator & {connection?:{saveData?:boolean}}).connection;
   const title=root.querySelector<HTMLElement>('.opening-title');
   const copy=root.querySelector<HTMLElement>('.opening-copy');
-  const introductions=[...root.querySelectorAll<HTMLElement>('.concept .editorial-split, .closing h2')];
+  const introductions=[...root.querySelectorAll<HTMLElement>('.concept .editorial-split, .possibilities > h2, .feature-list > li, .closing h2')];
   let frame=0,observer:IntersectionObserver|null=null,point={x:0,y:0};
   const available=()=>!media.matches&&pointer.matches&&!connection?.saveData;
   const visibility=()=>{root.dataset.motion=available()&&!motionPaused&&!document.hidden?'running':'static';schedule();};
@@ -42,7 +42,7 @@ export function useLandingMotion(){
   const configure=()=>{
    observer?.disconnect();
    setMotionAvailable(available());visibility();
-   if(!media.matches&&typeof IntersectionObserver!=='undefined'){
+   if(!media.matches&&!motionPaused&&typeof IntersectionObserver!=='undefined'){
     observer=new IntersectionObserver(entries=>{
      for(const entry of entries)if(entry.isIntersecting){
       (entry.target as HTMLElement).dataset.arrived='true';observer?.unobserve(entry.target);

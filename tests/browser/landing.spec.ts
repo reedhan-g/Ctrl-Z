@@ -9,7 +9,7 @@ test('homepage explains the game without loading the simulation',async({page},in
  await page.goto('./');
  await expect(page).toHaveTitle('Ctrl Z — Undo the World');
  await expect(page.getByRole('heading',{name:'Ctrl Z',exact:true})).toBeVisible();
- await expect(page.getByRole('heading',{name:'One switch. A city of consequences.'})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'One switch. Everything changes.'})).toBeVisible();
  await expect(page.locator('canvas')).toHaveCount(0);
  await expect(page.getByRole('button',{name:'Remove electricity',exact:true})).toHaveCount(0);
  expect(requests.filter(url=>/\/src\/(City|game|App|style|console)[./]/.test(url))).toEqual([]);

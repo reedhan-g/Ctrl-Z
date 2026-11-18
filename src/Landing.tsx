@@ -3,6 +3,8 @@ import BlackoutPreview from './BlackoutPreview';
 import {useLandingMotion} from './useLandingMotion';
 import InfrastructureGraphic from './InfrastructureGraphic';
 import KineticTicker from './KineticTicker';
+import DependencyNetwork from './DependencyNetwork';
+import Consequences from './Consequences';
 
 export default function Landing() {
   const {rootRef,motionPaused,setMotionPaused,motionAvailable} = useLandingMotion();
@@ -19,7 +21,7 @@ export default function Landing() {
     });
   };
   return (
-    <div className="landing" ref={rootRef}>
+    <div className="landing" ref={rootRef} data-motion-paused={motionPaused}>
       <a className="skip-link" href="#content">Skip to content</a>
       <header className="site-header page-width">
         <a className="site-brand" href="./" aria-label="Ctrl Z home">Ctrl Z.</a>
@@ -54,24 +56,17 @@ export default function Landing() {
         <section id="about" className="concept page-width" aria-labelledby="concept-title">
           <p className="section-marker"><span>01 / The premise</span><span>Meridian</span></p>
           <div className="editorial-split">
-            <h2 id="concept-title">One switch.<br/>A city of consequences.</h2>
+            <h2 id="concept-title">One switch.<br/>Everything changes.</h2>
             <div className="concept-copy">
-              <p>Hospitals need water as well as power. Communications shape dispatch. Every reserve buys time for the next service.</p>
-              <p>Explore Meridian, follow a failure through its connections and decide where limited help goes. Rewind to compare another response.</p>
+              <p>Power keeps the pumps running. Water reaches homes and hospitals. Communications keep dispatch connected. Every reserve buys time for the next service.</p>
             </div>
           </div>
+          <DependencyNetwork/>
         </section>
 
         <BlackoutPreview onEnter={enterSimulation}/>
 
-        <section className="possibilities page-width editorial-split" aria-labelledby="possibilities-title">
-          <h2 id="possibilities-title">The consequences.</h2>
-          <ol className="feature-list">
-            <li><span className="story-index" aria-hidden="true">01 /</span><h3>What fails</h3><p>Electricity, healthcare, water, homes, communications and logistics. Follow the dependencies to see how one failure reaches beyond its source.</p></li>
-            <li><span className="story-index" aria-hidden="true">02 /</span><h3>What you can save</h3><p>Two supply interventions. Six essential services. Inspect buildings and send limited support where it can buy time.</p></li>
-            <li><span className="story-index" aria-hidden="true">03 /</span><h3>What you can undo</h3><p>Pause, rewind and branch your response. Compare the consequences, restore power and save an experiment to return to later.</p></li>
-          </ol>
-        </section>
+        <Consequences/>
 
         <section className="closing" aria-labelledby="closing-title">
           <div className="page-width closing-inner">
