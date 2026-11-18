@@ -2,7 +2,7 @@ import {useEffect,useRef,useState} from 'react';
 
 type Phase='powered'|'transition'|'blackout';
 export function useBlackoutReveal(){
- const sectionRef=useRef<HTMLElement>(null),imageRef=useRef<HTMLDivElement>(null);
+ const sectionRef=useRef<HTMLElement>(null),stageRef=useRef<HTMLDivElement>(null),imageRef=useRef<HTMLDivElement>(null);
  const manual=useRef<number|null>(null),scheduleRef=useRef(()=>{});
  const [nearby,setNearby]=useState(false);
  const [view,setView]=useState({phase:'powered' as Phase,manual:false,reduced:false});
@@ -11,23 +11,28 @@ export function useBlackoutReveal(){
   let frame=0,disposed=false,lastProgress=-1,lastView='',anchorOffset=location.hash==='#preview'?NaN:0;
   const update=()=>{
    frame=0;
-   if(disposed||document.hidden||!sectionRef.current||!imageRef.current)return;
-   const section=sectionRef.current.getBoundingClientRect(),image=imageRef.current.getBoundingClientRect();
+   if(disposed||document.hidden||!sectionRef.current||!stageRef.current||!imageRef.current)return;
    const height=viewport?.height??innerHeight,offset=viewport?.offsetTop??0;
+   // Pin only when the entire scene, including its direct controls, fits.
+   // Short screens and zoomed viewports retain ordinary document scrolling.
+   const pinned=!media.matches&&stageRef.current.getBoundingClientRect().height+32<=height;
+   sectionRef.current.dataset.pinned=String(pinned);
+   const section=sectionRef.current.getBoundingClientRect(),image=imageRef.current.getBoundingClientRect();
    const outside=section.bottom<=offset||section.top>=offset+height;
    let progress:number;
    if(outside){
     manual.current=null;anchorOffset=0;
     progress=media.matches?0:(section.bottom<=offset?1:0);
    }else{
-    const distance=height*.82-(image.top-offset);
+    const distance=pinned?16-(section.top-offset):height*.82-(image.top-offset);
+    const span=pinned?section.height-stageRef.current.getBoundingClientRect().height:Math.min(420,height*.60);
     if(Number.isNaN(anchorOffset))anchorOffset=Math.max(0,distance);
-    const automatic=Math.max(0,Math.min(1,(distance-anchorOffset)/Math.min(420,height*.60)));
+    const automatic=Math.max(0,Math.min(1,(distance-anchorOffset)/Math.max(1,span)));
     // Native scroll positions round to CSS pixels. Keep the two endpoints stable.
     progress=manual.current??(media.matches?0:automatic<.003?0:automatic>.997?1:automatic);
    }
    if(progress!==lastProgress){
-    imageRef.current.style.setProperty('--blackout-reveal',`${progress*100}%`);
+    imageRef.current.style.setProperty('--blackout-progress',String(progress));
     imageRef.current.dataset.progress=progress.toFixed(4);
     lastProgress=progress;
    }
@@ -60,6 +65,7 @@ export function useBlackoutReveal(){
   if(imageRef.current)images?.observe(imageRef.current);
   if(!images)setNearby(true);
   if(sectionRef.current)observer?.observe(sectionRef.current);
+  if(stageRef.current)observer?.observe(stageRef.current);
   observer?.observe(document.documentElement);
   document.fonts.ready.then(schedule);
   // The hash target is mounted by React after the browser's initial anchor pass.
@@ -75,5 +81,5 @@ export function useBlackoutReveal(){
   };
  },[]);
  const choose=(value:0|1)=>{manual.current=value;scheduleRef.current();};
- return {sectionRef,imageRef,view,choose,nearby};
+ return {sectionRef,stageRef,imageRef,view,choose,nearby};
 }

@@ -1,7 +1,9 @@
 import {useState, type SyntheticEvent} from 'react';
 import BlackoutPreview from './BlackoutPreview';
+import {useLandingMotion} from './useLandingMotion';
 
 export default function Landing() {
+  const rootRef = useLandingMotion();
   const [playing, setPlaying] = useState(() => window.location.hash === '#simulation');
   const [gameReady, setGameReady] = useState(false);
   const enterSimulation = () => setPlaying(true);
@@ -15,7 +17,7 @@ export default function Landing() {
     });
   };
   return (
-    <div className="landing">
+    <div className="landing" ref={rootRef}>
       <a className="skip-link" href="#content">Skip to content</a>
       <header className="site-header page-width">
         <a className="site-brand" href="./" aria-label="Ctrl Z home">Ctrl Z</a>
