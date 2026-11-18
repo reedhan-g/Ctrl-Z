@@ -6,7 +6,7 @@ import { formatTime } from './time';
 import { gameDeadline } from './gameState';
 import {useEffect,useRef,useState} from 'react';
 
-export default function Timeline() {
+export default function Timeline({incidentCount=0}:{incidentCount?:number}) {
  const s=useGame(),[expanded,setExpanded]=useState(false);
  const element=useRef<HTMLDivElement>(null);
  useEffect(()=>{
@@ -20,7 +20,10 @@ export default function Timeline() {
  const baseline=replayAt(s.branches[0],s.time);
  const online=(snapshot: typeof baseline)=>buildings.filter(b=>status(b.id,snapshot).tone!=='bad').length;
  return <div className="timeline" ref={element} aria-label="Simulation controls" data-expanded={expanded}>
-  <button className="timeline-disclosure" aria-expanded={expanded} onClick={()=>setExpanded(!expanded)}>{expanded?'Less timeline detail':'Timeline details'}</button>
+  <div className="timeline-mobile-bar">
+   {incidentCount>0&&<a href="#city-emergencies">Incidents · {incidentCount}</a>}
+   <button className="timeline-disclosure" aria-expanded={expanded} onClick={()=>setExpanded(!expanded)}>{expanded?'Less timeline detail':'Timeline details'}</button>
+  </div>
   {s.history.length>0&&<div className="branch-controls">
    <label>Timeline <select aria-label="Replay branch" value={s.activeBranch} onChange={e=>s.branch(Number(e.target.value))}>
     {s.branches.map(b=><option value={b.id} key={b.id}>{b.name}</option>)}

@@ -42,6 +42,27 @@ button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px soli
  .app>header{padding:0 14px;height:56px}.sidebar{display:flex;flex-direction:column;padding:16px}.sidebar h1{font-size:26px;margin:8px 0}.premise{margin-bottom:14px}.sidebar .building-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.sidebar .buildings-heading{margin:16px 0 8px}.secondary-tools{margin-top:12px}.building-row{justify-content:flex-start;padding:10px}.building-row>span{flex:1}.mode-hint{font-size:13px}
 }
 .timeline-disclosure{display:none}
+.timeline-mobile-bar { display: none; }
+.emergency-panel { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--ui-border); }
+.emergency-panel h2, .emergency-card h3 { margin: 0 0 6px; font-size: 15px; line-height: 1.3; }
+.emergency-card {
+  padding: 10px; background: var(--ui-surface);
+  border: 1px solid var(--ui-border); border-radius: var(--ui-radius);
+}
+.emergency-card p, .emergency-panel details p { margin: 4px 0 8px; font-size: 12px; line-height: 1.5; color: var(--ui-muted); }
+.emergency-card .emergency-time { color: var(--ui-warning); font-variant-numeric: tabular-nums; }
+.emergency-card[data-kind=recovery] .emergency-time { color: var(--ui-success); }
+.emergency-actions { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px; }
+.emergency-actions button, .emergency-panel summary { min-height: 44px; padding: 4px 6px; color: var(--ui-cyan); font-size: 12px; cursor: pointer; }
+.emergency-panel summary { align-content: center; }
+.emergency-panel ol { margin: 0 0 8px; padding: 0; list-style: none; }
+.emergency-panel li { display: flex; gap: 8px; padding: 5px 0; font-size: 12px; }
+.emergency-panel time { color: var(--ui-muted); font-variant-numeric: tabular-nums; }
+@media (max-width:760px) {
+  .timeline-mobile-bar { display: flex; align-items: center; gap: 8px; }
+  .timeline-mobile-bar a { display: flex; align-items: center; min-height: 44px; font-size: 12px; color: var(--ui-cyan); }
+  .emergency-panel { order: 4; margin: 0; padding: 12px 14px 0; }
+}
 .mode-tabs button { flex: 1 1 auto; min-width: 44px; padding-inline: 4px; white-space: nowrap; }
 .crisis-panel { margin-top: 8px; color: var(--ui-muted); font-size: 13px; line-height: 1.5; }
 .crisis-panel h2 { margin: 8px 0; color: var(--ui-text); font-size: 17px; line-height: 1.25; }

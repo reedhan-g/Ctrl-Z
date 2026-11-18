@@ -1,4 +1,4 @@
-import {useEffect,useState,lazy,Suspense} from 'react';
+import {useEffect,useMemo,useState,lazy,Suspense} from 'react';
 import {Map as MapIcon,ArrowUpRight,ArrowRight,Plus,Minus,Maximize,Network,X,Undo2,Box,Info} from 'lucide-react';
 import {SimulationClock} from './clock';
 const City=lazy(()=>import('./City'));
@@ -16,8 +16,16 @@ import ReportPanel from './ReportPanel';
 import SaveControls from './SaveControls';
 import Minimap from './Minimap';
 import {shortcutFor} from './keyboard';
+import EmergencyPanel from './EmergencyPanel';
+import { emergencyEvents } from './emergencies';
+import { gameDeadline } from './gameState';
 export default function App(){const s=useGame();const [help,setHelp]=useState(false);const [guide,setGuide]=useState(false);const [lowPower,setLowPower]=useState(false);
  const sceneryId=useNavigation(n=>n.sceneryId),scenery=findScenery(sceneryId);
+ const branch=s.branches.find(entry=>entry.id===s.activeBranch)!;
+ const deadline=gameDeadline(s);
+ const scheduledEmergencies=useMemo(()=>emergencyEvents(branch,deadline),[branch,deadline]);
+ const emergencies=s.history.length&&(!s.caseStudy||s.caseStudy.diagnosis==='correct')
+  ?scheduledEmergencies.filter(event=>event.time<=s.time):[];
  useEffect(()=>{
   const clock=new SimulationClock();let previous=performance.now();
   const visibility=()=>{previous=performance.now();clock.advance(0,1,false);};
@@ -56,13 +64,13 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
  const selected=buildings.find(b=>b.id===s.selected);
  const cameraAction=(detail:string)=>document.querySelector('.city-canvas')?.dispatchEvent(new CustomEvent('camera',{detail}));
  return <div className="app"><header><a className="brand" href="./" aria-label="Ctrl Z home"><span className="brand-icon"><Undo2 size={24}/></span>Ctrl Z<span className="edition">UNDO THE WORLD</span></a><div className="header-right"><span className="prototype">{s.caseStudy?'CASE IN PROGRESS':s.outage?'GRID DISCONNECTED':s.restoredAt!==null?'POWER RESTORED':'SIMULATION READY'} <i/></span><button className="icon" aria-label="How to play" onClick={()=>setHelp(true)}><Info size={18}/></button><a className="chapter" href="#scenario">01 <span>/ ELECTRICITY</span><ArrowUpRight size={15}/></a></div></header>
- <main><aside className="sidebar"><div className="eyebrow">EXPERIMENT 001</div><h1>Undo the World<span className="title-dot">.</span></h1><p className="premise">Remove electricity. Watch a city unravel. Change the outcome.</p><ScenarioPanel/>{guide&&<ExperimentGuide onClose={()=>{setGuide(false);document.querySelector<HTMLButtonElement>('[aria-label="How to play"]')?.focus({preventScroll:true});}}/>}<CitySystems/><div className="secondary-tools"><SceneryBrowser/><ReportPanel/><SaveControls/></div><div className="sidebar-foot"><Box size={17}/><p>Nothing exists in isolation.<br/><span>Not even a light switch.</span></p></div></aside>
+ <main><aside className="sidebar"><div className="eyebrow">EXPERIMENT 001</div><h1>Undo the World<span className="title-dot">.</span></h1><p className="premise">Remove electricity. Watch a city unravel. Change the outcome.</p><ScenarioPanel/>{guide&&<ExperimentGuide onClose={()=>{setGuide(false);document.querySelector<HTMLButtonElement>('[aria-label="How to play"]')?.focus({preventScroll:true});}}/>}<EmergencyPanel events={emergencies} run={s.branches[0]}/><CitySystems/><div className="secondary-tools"><SceneryBrowser/><ReportPanel/><SaveControls/></div><div className="sidebar-foot"><Box size={17}/><p>Nothing exists in isolation.<br/><span>Not even a light switch.</span></p></div></aside>
  <section className="world" aria-label="City simulation"><div className="world-top"><div><div className="eyebrow">MERIDIAN <span> / LIVE SIMULATION</span></div><h2>Meridian / Control room</h2></div><span className={`state-pill ${s.outage?'outage':''}`}><i/>{s.caseStudy?'CASE IN PROGRESS':s.outage?'GRID OFFLINE':'SYSTEMS NOMINAL'}</span></div><div className="map-grid"/><div className="city-startup" role="status"><strong>CTRL Z / MERIDIAN</strong><span>Preparing the city and its systems...</span></div><Suspense fallback={<p className="city-loading" role="status">Loading Meridian...</p>}><City lowPower={lowPower}/></Suspense><div className="map-caption"><span className="north-arrow">&#8593;</span><span>MERIDIAN<br/><small>28.75 N / 77.12 E</small></span></div>
  <div className="map-controls"><button className="trace" aria-label="Low power mode" aria-pressed={lowPower} onClick={()=>setLowPower(!lowPower)}>Low power</button><button aria-label="Dependencies" aria-pressed={s.trace} className={`trace ${s.trace?'on':''}`} onClick={s.toggleTrace}><Network size={16}/><span>Dependencies</span></button><div><button aria-label="Zoom in" onClick={()=>cameraAction('in')}><Plus size={18}/></button><button aria-label="Zoom out" onClick={()=>cameraAction('out')}><Minus size={18}/></button><button aria-label="City overview" onClick={()=>cameraAction('overview')}><MapIcon size={17}/></button><button aria-label="Reset camera" onClick={()=>cameraAction('reset')}><Maximize size={17}/></button></div></div>
  {!selected&&!scenery&&<div className="map-hint"><span className="hint-dot"/>{s.outage?'Watch the cascade. Tap a building to intervene.':'Tap a building to discover its connections.'}</div>}
  {selected&&<BuildingInspector key={`${selected.id}:${s.selectedVehicle??''}`} building={selected.id}/>}
  {scenery&&!selected&&<SceneryInspector key={scenery.id} building={scenery}/>}
- <Minimap/><Timeline/>
+ <Minimap/><Timeline incidentCount={emergencies.length}/>
  </section></main><footer><span>CTRL Z <span className="muted">— UNDO THE WORLD.</span></span><span>Drag to pan <b>·</b> Scroll / pinch to zoom <b>·</b> Tap to inspect</span><span className="footer-end">EVERYTHING IS CONNECTED <Network size={13}/></span></footer>
  {help&&<div className="modal-backdrop" onClick={()=>setHelp(false)}><section className="help" role="dialog" aria-modal="true" aria-label="How to play" onClick={e=>e.stopPropagation()}><button className="icon close-help" aria-label="Close help" onClick={()=>setHelp(false)}><X/></button><div className="eyebrow">WELCOME TO CTRL Z</div><h2>Pull a thread.<br/>Follow the consequences.</h2><p>Remove electricity to start the experiment. Each second advances 10 simulated minutes at 1× speed.</p><ol><li>Inspect any building to see its dependencies.</li><li>Scenario reserves: homes 2h, telecom 4h, waterworks 6h, delivery hub 8h and hospital fuel 18h.</li><li>Send two available supply teams to extend any two reserves by 8h.</li><li>Use Undo (Ctrl/Command Z) to reverse an intervention. Scrub time to replay recorded decisions. Change an earlier response to create a branch; choose Original outage to compare without interventions.</li></ol><p>Drag to pan. Scroll or pinch to zoom. Space pauses time when the map is focused; focused buttons keep their normal Space action. Restore electricity whenever you want to end the outage.</p><button className="supply" onClick={()=>{setHelp(false);setGuide(true);}}>Start guided experiment</button><button className="primary" onClick={()=>setHelp(false)}>Explore the district<ArrowRight size={17}/></button></section></div>}
  </div>;
