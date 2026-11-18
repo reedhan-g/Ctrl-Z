@@ -6,7 +6,7 @@ import { formatTime } from './time';
 
 const goal = `Target ${crisisTarget.serviceHours}/${crisisMaximum} service-hours and ${crisisTarget.activeServices} active at deadline`;
 
-export default function CrisisPanel() {
+export default function CrisisPanel({ onCompare }: { onCompare?: () => void }) {
   const game = useGame();
   if (!game.crisis) return <section className="crisis-panel" aria-labelledby="crisis-title">
     <h2 id="crisis-title">Crisis 001 · Meridian Blackout</h2>
@@ -47,6 +47,7 @@ export default function CrisisPanel() {
         <div><dt>Vs. no intervention</dt><dd>{result.advantage > 0 ? '+' : ''}{result.advantage.toFixed(1)} service-hours</dd></div>
       </dl>
       <div className="crisis-actions">
+        {onCompare && <button className="supply" onClick={onCompare}>View comparison</button>}
         <button className="supply" onClick={() => game.seek(0)}>Replay response</button>
         <button className="supply" onClick={() => { game.branch(0); game.seek(0); }}>Try a different response</button>
       </div>

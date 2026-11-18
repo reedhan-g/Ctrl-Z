@@ -5,8 +5,10 @@ import {fleet} from './traffic';
 import {logisticsOutcome} from './logistics';
 import Investigation from './InvestigationPanel';
 import InspectionShell from './InspectionShell';
+import type { FutureFacility } from './futures';
+import { formatTime } from './time';
 
-export default function BuildingInspector({building:id}:{building:BuildingId}){
+export default function BuildingInspector({building:id,future,futureTime}:{building:BuildingId;future?:FutureFacility;futureTime?:number}){
  const s=useGame(),info=inspectService(id,s),b=info.building,st=info.state;
  const supplyReason=supplyRequirement(id,s),gridReason=gridRequirement(s),outcome=id==='logistics'?logisticsOutcome(s):null;
  const recorded=!!s.caseStudy&&s.caseStudy.diagnosis==='correct'&&s.caseStudy.evidence.some(e=>e.building===id&&e.time===s.time);
@@ -14,6 +16,14 @@ export default function BuildingInspector({building:id}:{building:BuildingId}){
   <p className="inspection-purpose">{info.purpose}</p>
 
   <p className={`inspection-condition ${st.tone}`} role="status">{info.problem}</p>
+  {future&&futureTime!==undefined&&<section className="inspection-futures" aria-label="Facility comparison">
+   <h4>Compared at {formatTime(futureTime)}</h4>
+   <dl>
+    <div><dt>Original</dt><dd>{future.originalStatus} · {Math.round(future.before*100)}%</dd></div>
+    <div><dt>Revised</dt><dd>{future.revisedStatus} · {Math.round(future.after*100)}%</dd></div>
+   </dl>
+   <a href="#compare-futures">Back to comparison</a>
+  </section>}
   {b.reserve>0&&<>
    <div className="reserve"><span>{id==='hospital'?'GENERATOR FUEL':id==='telecom'?'BATTERY RESERVE':'BACKUP RESERVE'}</span><strong>{st.remaining.toFixed(1)} <small>hours</small></strong></div>
    <div className="meter"><div style={{width:`${Math.min(100,st.remaining/(b.reserve+8)*100)}%`}}/></div>

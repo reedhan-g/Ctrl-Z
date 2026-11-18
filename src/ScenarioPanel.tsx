@@ -3,18 +3,19 @@ import {Zap,ArrowRight} from 'lucide-react';
 import {useGame,buildings,type BuildingId} from './game';
 import {cases,caseRecovered,evidenceText} from './cases';
 import CrisisPanel from './CrisisPanel';
+import type { ReplayBranch } from './replay';
 
-export default function ScenarioPanel(){
+export default function ScenarioPanel({onCompare}:{onCompare?:()=>void}){
  const s=useGame(),[hypothesis,setHypothesis]=useState<BuildingId>('grid');
- const [previewCrisis,setPreviewCrisis]=useState(false);
- const crisis=s.crisis||previewCrisis;
+ const [previewRun,setPreviewRun]=useState<ReplayBranch|null>(null);
+ const crisis=s.crisis||previewRun===s.branches[0];
  const progress=s.caseStudy,definition=progress?cases[progress.id]:null;
  return <div className="scenario-panel" id="scenario">
-  <nav className="mode-tabs" aria-label="Game mode"><button aria-pressed={!progress&&!crisis} onClick={()=>{setPreviewCrisis(false);s.reset();}}>Sandbox</button>
-   <button aria-pressed={!!progress&&!crisis} onClick={()=>{setPreviewCrisis(false);s.startCase('dispatch');}}>Investigation</button>
-   <button aria-pressed={crisis} onClick={()=>setPreviewCrisis(true)}>Crisis</button></nav>
+  <nav className="mode-tabs" aria-label="Game mode"><button aria-pressed={!progress&&!crisis} onClick={()=>{setPreviewRun(null);s.reset();}}>Sandbox</button>
+   <button aria-pressed={!!progress&&!crisis} onClick={()=>{setPreviewRun(null);s.startCase('dispatch');}}>Investigation</button>
+   <button aria-pressed={crisis} onClick={()=>setPreviewRun(s.branches[0])}>Crisis</button></nav>
   {!crisis&&<p className="mode-hint">{progress?'Gather evidence. Diagnose a hidden failure.':'Sandbox: test your response.'}</p>}
-  {crisis?<CrisisPanel/>:!progress?<>
+  {crisis?<CrisisPanel onCompare={onCompare}/>:!progress?<>
    <button className={`primary ${s.outage?'restore':''}`} onClick={s.outage?s.restore:s.fail}><Zap size={16}/>{s.outage?'Restore electricity':'Remove electricity'}<ArrowRight size={17}/></button>
   </>:<div className="case-brief">
    <label>Case <select aria-label="Investigation case" value={progress.id} onChange={e=>s.startCase(e.target.value as keyof typeof cases)}>{Object.entries(cases).map(([id,c])=><option key={id} value={id}>{c.name}</option>)}</select></label>

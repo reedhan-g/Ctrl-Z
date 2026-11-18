@@ -6,7 +6,7 @@ import { formatTime } from './time';
 import { gameDeadline } from './gameState';
 import {useEffect,useRef,useState} from 'react';
 
-export default function Timeline({incidentCount=0}:{incidentCount?:number}) {
+export default function Timeline({incidentCount=0,onCompare}:{incidentCount?:number;onCompare?:()=>void}) {
  const s=useGame(),[expanded,setExpanded]=useState(false);
  const element=useRef<HTMLDivElement>(null);
  useEffect(()=>{
@@ -22,6 +22,7 @@ export default function Timeline({incidentCount=0}:{incidentCount?:number}) {
  return <div className="timeline" ref={element} aria-label="Simulation controls" data-expanded={expanded}>
   <div className="timeline-mobile-bar">
    {incidentCount>0&&<a href="#city-emergencies">Incidents · {incidentCount}</a>}
+   {onCompare&&<button className="future-trigger" onClick={onCompare}>Compare Futures</button>}
    <button className="timeline-disclosure" aria-expanded={expanded} onClick={()=>setExpanded(!expanded)}>{expanded?'Less timeline detail':'Timeline details'}</button>
   </div>
   {s.history.length>0&&<div className="branch-controls">
@@ -29,6 +30,7 @@ export default function Timeline({incidentCount=0}:{incidentCount?:number}) {
     {s.branches.map(b=><option value={b.id} key={b.id}>{b.name}</option>)}
    </select></label>
    <span aria-label="Outcome comparison">{online(s)}/{buildings.length} online <span className="muted">vs original {online(baseline)}/{buildings.length} at {clock}</span></span>
+   {onCompare&&<button className="future-trigger future-trigger-desktop" onClick={onCompare}>Compare Futures</button>}
   </div>}
   <div className="timeline-heading"><div><span className="eyebrow">ELAPSED TIME</span><strong>{clock}<small> HRS</small></strong></div>
    <div className="playback">

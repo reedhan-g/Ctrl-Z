@@ -6,6 +6,10 @@
 
 **B · Reactive City Emergencies.** Capacity changes come from replay boundaries, including delayed failures and recovery. The latest change is prominent, a short history stays chronological, and dismissals survive revisiting the same event within the run. The mobile timeline links to the notice below the map, and Inspect uses the existing building focus. Undiagnosed investigations retain their hidden causes. Five focused domain checks, the build, and two desktop/mobile flows passed. Next: shared-time comparison of distinct branches.
 
+**C · Rewind & Compare Futures.** Timelines with distinct decisions expose Compare Futures. The comparison evaluates both responses at one independent hour and shows service-hours, team use, dispatch backlog, and decisions through that hour. The validated winning response preserves 43.3 service-hours versus 28.2 at 12:00. The City Systems comparison list marks changed capacity and opens the existing inspector with both readings. Map outlines are deferred to keep the renderer and selection layers intact.
+
+**Release checks.** All 108 unit tests and the production build passed. The six new desktop/mobile browser flows and 18 existing gameplay regressions passed. Compared the six mission, incident and futures captures in `docs/gameplay/verification`. Comparison controls fit at 320px, 430px and in 844×390 landscape with one map canvas and no horizontal overflow. The landing bundles match the approved build. Safari and physical-device review remain external.
+
 ## Mobile landing polish
 
 Touch portrait layouts now use a shorter hero, wider actions, a denser six-node diagram and a larger city crop. At 390×844 the hero shrank from 781px to 663px and the city frame grew from 358×397 to 374×439. Short touch viewports use natural scrolling. Touch enables the lightweight motion loops with offscreen, Pause Motion, reduced-motion and Save-Data gating. Pointer tracking stays fine-pointer only, and touch gets the eased blackout without its midpoint flash.

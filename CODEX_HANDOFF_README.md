@@ -2,7 +2,7 @@
 
 ## Gameplay upgrade
 
-The gameplay specification lives at `docs/gameplay/CTRL_Z_GAMEPLAY_README.md`. The Crisis checkpoint implements the 12-hour objective, real results, replay and v1-compatible save loading. `DEVELOPMENT_STATUS.md` tracks the subsequent incident and comparison checkpoints.
+The gameplay upgrade is implemented in three checkpoints. Crisis adds a real 12-hour objective with v1-compatible save loading. City Emergencies derives notifications from recorded changes. Compare Futures previews two distinct branches without advancing live playback. See `DEVELOPMENT_STATUS.md` for validation and scope, and `docs/gameplay/verification` for desktop and phone captures. The supplied local brief is `docs/gameplay/CTRL_Z_GAMEPLAY_README.md`.
 
 ## Mobile landing polish
 
