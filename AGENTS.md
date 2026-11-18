@@ -1,11 +1,11 @@
 
 # Ctrl Z — Development Instructions
 
-## Current landing-page task — 2026-11-16
+## Current landing-page task — 2026-11-18
 
 CTRL_Z_JAKE_SCROLL_YOUNG_MINDS_REDESIGN.md (18 November) is the current redesign brief, superseding conflicting earlier homepage styling. Use Young Minds' near-black monochrome visual direction and Jake Roberts-inspired native scroll pacing, with the existing blackout reveal adapted to a bounded sticky scene. Preserve all actual game UI/code/artwork and on-demand embedded/full-screen entry. See docs/landing-page/CINEMATIC_PLAN.md. Continue small tested commits and verified pushes to main; the stopped Embarko claim remains outside scope.
 
-UI_REDESIGN.md (17 November) is the active refinement brief: follow its A–E tested milestones, make an aligned real-capture scroll-driven blackout reveal the signature, preserve the editorial identity and all game code/art/functionality. Preserve the separately checkpointed Embarko compatibility work. See docs/landing-page/REDESIGN.md; do not resume the stopped deployment/claim workflow as a side effect.
+UI_REDESIGN.md (17 November) is the completed prior refinement brief. Its working aligned captures, manual/reduced-motion alternatives and protected game boundary carry forward; its compact cyan styling and non-sticky wipe are superseded by the 18 November cinematic brief. Preserve the separately checkpointed Embarko compatibility work. See docs/landing-page/REDESIGN.md for history; do not resume the stopped deployment/claim workflow as a side effect.
 
 The creator's latest scope supersedes earlier UI/city redesign briefs: create a minimal editorial homepage that introduces the existing game, embedded below the landing content. The creator confirmed code-first development with Frontend Design and Impeccable. Preserve the complete in-game UI/HUD, controls, city rendering/artwork, simulation and saves. Use actual game previews, test desktop/mobile entry and keep the existing Pages workflow. Continue tested checkpoints and verified pushes to origin/main. See docs/landing-page/PLAN.md for the audit and current plan.
 

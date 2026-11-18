@@ -2,10 +2,12 @@
 version: 1
 slug: "src-landing-tsx"
 primary_target: "src/Landing.tsx"
-related_targets: ["src/landing.css","src/BlackoutPreview.tsx","src/useBlackoutReveal.ts","index.html"]
+related_targets: ["src/landing.css","src/BlackoutPreview.tsx","src/useBlackoutReveal.ts","src/useLandingMotion.ts","index.html"]
 ---
 
 # Meridian, interrupted — 18 November 2026
+
+Completion: all five brief milestones are implemented. Runtime is pushed at f873746, actual design-system documentation at 4e0f5e4; reviewed local/published evidence and exact test results/limits are in [REVIEW.md](REVIEW.md). The fresh reviewer matched the visual contract and scored its sole documentation correction resolved/ship at fix-list scope. All protected game sources/art/workflows remain unchanged. No new implementation remains; physical-device/Safari verification and the local-only camera test timing remain recorded follow-ups.
 
 The creator explicitly requests CTRL_Z_JAKE_SCROLL_YOUNG_MINDS_REDESIGN.md, which was read completely. It replaces the previous homepage style, retaining product truth and the game. Main/origin/main both start at 429c1a2; unrelated untracked skills are preserved. The stopped Embarko claim is outside scope.
 
