@@ -13,11 +13,11 @@ test('homepage explains the game without loading the simulation',async({page},in
  await expect(page.locator('canvas')).toHaveCount(0);
  await expect(page.getByRole('button',{name:'Remove electricity',exact:true})).toHaveCount(0);
  expect(requests.filter(url=>/\/src\/(City|game|App|style|console)[./]/.test(url))).toEqual([]);
- const links=page.getByRole('link',{name:'Enter Simulation',exact:true});
- await expect(links).toHaveCount(3);
+ const links=page.locator('a[href="#simulation"]');
+ await expect(links).toHaveCount(4);
  for(const link of await links.all())await expect(link).toHaveAttribute('href','#simulation');
  await expect(page.locator('iframe')).toHaveCount(0);
- await page.getByRole('link',{name:'Preview',exact:true}).click();
+ await page.getByRole('link',{name:'The city',exact:true}).click();
  await expect(page).toHaveURL(/#preview$/);
  await expect(page.getByRole('heading',{name:'Inside Meridian'})).toBeInViewport();
  await expect(page.locator('.preview-active img')).toBeVisible();
@@ -42,7 +42,7 @@ test('embedded entry home and full-screen retain saves and existing gameplay',as
  // repeated navigation on software GPUs separately from gameplay assertions.
  test.setTimeout(120000);
  await page.goto('./');
- await page.locator('.opening').getByRole('link',{name:'Enter Simulation',exact:true}).click();
+ await page.locator('.opening').getByRole('link',{name:'Enter simulation',exact:true}).click();
  await expect(page).toHaveURL(/#simulation$/);
  const game=page.frameLocator('iframe[title="Ctrl Z playable simulation"]');
  await expect(game.locator('canvas')).toBeVisible({timeout:15000});
@@ -61,11 +61,11 @@ test('embedded entry home and full-screen retain saves and existing gameplay',as
  await expect(game.getByText('Experiment saved on this browser.')).toBeVisible();
  const saved=await page.evaluate(()=>localStorage.getItem('ctrl-z:experiment:v1'));
  expect(saved).toBeTruthy();
- await page.locator('.closing').getByRole('link',{name:'Enter Simulation',exact:true}).click();
+ await page.locator('.closing').getByRole('link',{name:'Enter Meridian',exact:true}).click();
  await expect(page.locator('iframe')).toHaveCount(1);
  await expect(game.getByRole('button',{name:'Restore electricity',exact:true})).toBeVisible();
  await page.locator('#simulation').screenshot({path:info.outputPath('embedded-game.png')});
- await page.getByRole('link',{name:'Open full-screen',exact:true}).click();
+ await page.locator('.play-heading').getByRole('link',{name:'Open full-screen',exact:true}).click();
  await expect(page).toHaveURL(/\/simulation\.html$/);
  await expect(page.locator('canvas')).toBeVisible({timeout:15000});
  await page.getByRole('button',{name:'Resume saved',exact:true}).click();
@@ -74,7 +74,7 @@ test('embedded entry home and full-screen retain saves and existing gameplay',as
  await expect(page.getByRole('heading',{name:'Ctrl Z',exact:true})).toBeVisible();
  await expect(page.locator('canvas')).toHaveCount(0);
  expect(await page.evaluate(()=>localStorage.getItem('ctrl-z:experiment:v1'))).toBe(saved);
- await page.locator('.closing').getByRole('link',{name:'Enter Simulation',exact:true}).click();
+ await page.locator('.closing').getByRole('link',{name:'Enter Meridian',exact:true}).click();
  await expect(game.locator('canvas')).toBeVisible({timeout:15000});
  await game.getByRole('button',{name:'Resume saved',exact:true}).click();
  await expect(game.getByText('Saved experiment resumed, paused.')).toBeVisible();

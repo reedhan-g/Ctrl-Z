@@ -1,7 +1,5 @@
 import {useState, type SyntheticEvent} from 'react';
 import BlackoutPreview from './BlackoutPreview';
-const cityGlimpse = new URL('./assets/previews/scene-powered.png', import.meta.url).href;
-const cityGlimpseMobile = new URL('./assets/previews/scene-powered-mobile.png', import.meta.url).href;
 
 export default function Landing() {
   const [playing, setPlaying] = useState(() => window.location.hash === '#simulation');
@@ -22,9 +20,9 @@ export default function Landing() {
       <header className="site-header page-width">
         <a className="site-brand" href="./" aria-label="Ctrl Z home">Ctrl Z</a>
         <nav aria-label="Main navigation">
-          <a href="#about">The idea</a>
-          <a href="#preview">Preview</a>
-          <a className="entry-link" href="#simulation" onClick={enterSimulation}>Enter Simulation</a>
+          <a href="#about">About</a>
+          <a href="#preview">The city</a>
+          <a className="entry-link" href="#simulation" onClick={enterSimulation}>Play</a>
         </nav>
       </header>
 
@@ -32,53 +30,48 @@ export default function Landing() {
         <section className="opening page-width" aria-labelledby="site-title">
           <div className="opening-title">
             <h1 id="site-title">Ctrl Z</h1>
-            <figure className="city-glimpse">
-              <picture><source media="(max-width: 600px)" srcSet={cityGlimpseMobile}/><img src={cityGlimpse} width="1205" height="792" alt="A lit intersection in Meridian, before the power cut." loading="lazy" decoding="async"/></picture>
-              <figcaption>Meridian, before the interruption.</figcaption>
-            </figure>
-          </div>
-          <div className="opening-copy">
             <p className="tagline">Undo the World.</p>
-            <p className="intro">Remove electricity. Watch connected services react. Intervene, then rewind.</p>
-            <a className="enter-button" href="#simulation" onClick={enterSimulation}>Enter Simulation</a>
-            <p className="entry-note">Play in your browser. No download needed.</p>
+          </div>
+          <div className="opening-bottom">
+            <div className="opening-copy">
+              <p className="opening-label">An interactive infrastructure simulation</p>
+              <p className="intro">Remove electricity. Watch a city unravel. Rewind the consequences.</p>
+            </div>
+            <div className="opening-actions">
+              <a className="enter-button" href="#simulation" onClick={enterSimulation}>Enter simulation</a>
+              <a className="scroll-hint" href="#about">Scroll to discover</a>
+            </div>
           </div>
         </section>
 
-        <section id="about" className="concept page-width editorial-split" aria-labelledby="concept-title">
-          <h2 id="concept-title">One switch.<br/>A city of consequences.</h2>
-          <div className="concept-copy">
-            <p>Hospitals need water as well as power. Communications shape dispatch. Every reserve buys time for the next service.</p>
-            <p>Explore Meridian, follow a failure through its connections and decide where limited help goes. Rewind to compare another response.</p>
+        <section id="about" className="concept page-width" aria-labelledby="concept-title">
+          <p className="section-marker"><span>01 / The premise</span><span>Meridian</span></p>
+          <div className="editorial-split">
+            <h2 id="concept-title">One switch.<br/>A city of consequences.</h2>
+            <div className="concept-copy">
+              <p>Hospitals need water as well as power. Communications shape dispatch. Every reserve buys time for the next service.</p>
+              <p>Explore Meridian, follow a failure through its connections and decide where limited help goes. Rewind to compare another response.</p>
+            </div>
           </div>
         </section>
 
         <BlackoutPreview onEnter={enterSimulation}/>
 
         <section className="possibilities page-width editorial-split" aria-labelledby="possibilities-title">
-          <h2 id="possibilities-title">Follow the connections.<br/>Change the outcome.</h2>
-          <dl className="feature-list">
-            <div>
-              <dt>See the whole system</dt>
-              <dd>Electricity, healthcare, water, homes, communications and logistics. Inspect buildings to discover how a failure reaches beyond its source.</dd>
-            </div>
-            <div>
-              <dt>Choose what to protect</dt>
-              <dd>Time and backup supplies are limited. Send support where it matters, or investigate a failure to understand what went wrong.</dd>
-            </div>
-            <div>
-              <dt>Make a different decision</dt>
-              <dd>Pause, rewind and branch your response. Compare the consequences, restore power and save an experiment to return to later.</dd>
-            </div>
-          </dl>
+          <h2 id="possibilities-title">The consequences.</h2>
+          <ol className="feature-list">
+            <li><span className="story-index" aria-hidden="true">01 /</span><h3>What fails</h3><p>Electricity, healthcare, water, homes, communications and logistics. Follow the dependencies to see how one failure reaches beyond its source.</p></li>
+            <li><span className="story-index" aria-hidden="true">02 /</span><h3>What you can save</h3><p>Two supply interventions. Six essential services. Inspect buildings and send limited support where it can buy time.</p></li>
+            <li><span className="story-index" aria-hidden="true">03 /</span><h3>What you can undo</h3><p>Pause, rewind and branch your response. Compare the consequences, restore power and save an experiment to return to later.</p></li>
+          </ol>
         </section>
 
         <section className="closing" aria-labelledby="closing-title">
           <div className="page-width closing-inner">
-            <h2 id="closing-title">What would you<br/>keep running?</h2>
-            <div>
-              <p>The city is connected.<br/>The next decision is yours.</p>
-              <a className="enter-button" href="#simulation" onClick={enterSimulation}>Enter Simulation</a>
+            <h2 id="closing-title">What would you keep running?</h2>
+            <div className="closing-actions">
+              <a className="enter-button" href="#simulation" onClick={enterSimulation}>Enter Meridian</a>
+              <a className="fullscreen-link" href="./simulation.html">Open full-screen</a>
             </div>
           </div>
         </section>

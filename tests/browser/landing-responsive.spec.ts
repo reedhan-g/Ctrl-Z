@@ -26,7 +26,7 @@ test('landing width matrix retains clear entry and unobstructed touch targets',a
   await page.locator('.preview-images').scrollIntoViewIfNeeded();
   for(const image of await page.locator('.preview-images img').all())await expect.poll(()=>image.evaluate(node=>(node as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   expect((await page.locator('.preview-images').boundingBox())!.height).toBeLessThanOrEqual(width<=600?440:620);
-  await expect(page.getByRole('link',{name:'Open full-screen'})).toHaveAttribute('href','./simulation.html');
+  for(const link of await page.getByRole('link',{name:'Open full-screen',exact:true}).all())await expect(link).toHaveAttribute('href','./simulation.html');
   await expect(page.locator('iframe')).toHaveCount(0);
   await page.evaluate(()=>scrollTo(0,0));
   await page.screenshot({path:info.outputPath(`page-${width}-${height}.png`),fullPage:true,animations:'disabled'});
@@ -74,5 +74,5 @@ test('entry feedback stays quiet and reduced motion removes transitions',async({
  await expect(entry).toHaveCSS('outline-style','solid');
  await page.emulateMedia({reducedMotion:'reduce'});
  await expect(entry).toHaveCSS('transition-duration','0s');
- await expect(page.getByRole('link',{name:'Preview',exact:true})).toHaveCSS('transition-duration','0s');
+ await expect(page.getByRole('link',{name:'The city',exact:true})).toHaveCSS('transition-duration','0s');
 });

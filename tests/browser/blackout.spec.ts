@@ -61,7 +61,7 @@ test('reduced motion and direct preview navigation remain stable',async({page},i
  await page.getByRole('button',{name:'Quiet evening'}).click();await expect.poll(()=>progress(page)).toBe(0);
  await page.emulateMedia({reducedMotion:'no-preference'});
  await page.locator('.site-footer').scrollIntoViewIfNeeded();
- await page.getByRole('link',{name:'Preview',exact:true}).click();
+ await page.getByRole('link',{name:'The city',exact:true}).click();
  await expect(page.getByRole('heading',{name:'Inside Meridian'})).toBeInViewport();
  await expect.poll(()=>progress(page)).toBe(0);
  await page.mouse.wheel(0,100);await expect.poll(()=>progress(page)).toBeGreaterThan(0);

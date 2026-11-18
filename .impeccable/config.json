@@ -1,3 +1,15 @@
 {
-  "buildPath": "code"
+  "buildPath": "code",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "consolas",
+        "createdAt": "2026-11-18T04:06:29.938Z",
+        "reason": "Implementation choice permitted by the creator's cinematic brief: mono-style support labels use the existing local Consolas fallback under ui-monospace, with no font download."
+      }
+    ]
+  }
 }
