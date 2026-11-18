@@ -41,10 +41,10 @@ test('landing width matrix retains clear entry and unobstructed touch targets',a
 test('preview survives resize zoom and tab return with slow captures',async({page,context},info)=>{
  let release!:()=>void;
  const images=new Promise<void>(resolve=>{release=resolve;});
- await page.route('**/scene-*.png',async route=>{await images;await route.continue();});
+ await page.route('**/city-*.png',async route=>{await images;await route.continue();});
  await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('./#preview',{waitUntil:'domcontentloaded'});
  await page.evaluate(()=>document.fonts.ready);
- await expect(page.getByRole('heading',{name:'Inside Meridian'})).toBeInViewport();
+ await expect(page.getByRole('heading',{name:'Watch the city go dark.'})).toBeInViewport();
  const bounds=await page.locator('.preview-images').boundingBox();
  expect(bounds!.height).toBeGreaterThanOrEqual(280);
  const before=await page.locator('.possibilities').evaluate(element=>element.getBoundingClientRect().top+scrollY);
@@ -52,7 +52,7 @@ test('preview survives resize zoom and tab return with slow captures',async({pag
  for(const image of await page.locator('.preview-images img').all())await expect.poll(()=>image.evaluate(node=>(node as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
  const after=await page.locator('.possibilities').evaluate(element=>element.getBoundingClientRect().top+scrollY);
  expect(after).toBeCloseTo(before,0);
- const blackout=page.getByRole('button',{name:'Power removed'});
+ const blackout=page.getByRole('button',{name:'Power off'});
  if(info.project.name==='mobile')await blackout.tap();else await blackout.click();
  await expect.poll(()=>readProgress(page)).toBe(1);
  await page.setViewportSize(info.project.name==='mobile'?{width:430,height:932}:{width:1280,height:800});
@@ -65,7 +65,7 @@ test('preview survives resize zoom and tab return with slow captures',async({pag
  const other=await context.newPage();await other.goto('about:blank');await other.bringToFront();
  await page.bringToFront();await other.close();
  await expect.poll(()=>readProgress(page)).toBe(1);
- await page.getByRole('button',{name:'Quiet evening'}).focus();await page.keyboard.press('Enter');
+ await page.getByRole('button',{name:'Power on'}).focus();await page.keyboard.press('Enter');
  await expect.poll(()=>readProgress(page)).toBe(0);
  await expect(page.locator('iframe')).toHaveCount(0);
  await page.screenshot({path:info.outputPath('resized-preview.png'),animations:'disabled'});

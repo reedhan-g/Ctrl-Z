@@ -6,7 +6,7 @@ test('records landing baseline and aligned real city states',async({page},info)=
  await page.setViewportSize(phone?{width:390,height:844}:{width:1440,height:900});
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('./');
- await page.getByRole('heading',{name:'Inside Meridian'}).scrollIntoViewIfNeeded();
+ await page.getByRole('heading',{name:'Watch the city go dark.'}).scrollIntoViewIfNeeded();
  await expect.poll(()=>page.locator('.preview-active img').evaluate(image=>(image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
  await page.evaluate(()=>document.fonts.ready);
  await page.evaluate(()=>scrollTo(0,0));

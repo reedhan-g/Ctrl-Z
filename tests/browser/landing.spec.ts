@@ -19,17 +19,17 @@ test('homepage explains the game without loading the simulation',async({page},in
  await expect(page.locator('iframe')).toHaveCount(0);
  await page.getByRole('link',{name:'The city',exact:true}).click();
  await expect(page).toHaveURL(/#preview$/);
- await expect(page.getByRole('heading',{name:'Inside Meridian'})).toBeInViewport();
+ await expect(page.getByRole('heading',{name:'Watch the city go dark.'})).toBeInViewport();
  await expect(page.locator('.preview-active img')).toBeVisible();
  await expect.poll(()=>page.locator('.preview-active img').evaluate(image=>(image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
- await page.getByRole('button',{name:'Power removed',exact:true}).focus();
+ await page.getByRole('button',{name:'Power off',exact:true}).focus();
  await page.keyboard.press('Space');
- await expect(page.getByRole('button',{name:'Power removed',exact:true})).toHaveAttribute('aria-pressed','true');
- await expect(page.getByText('Electricity is offline. Other services draw on their remaining reserves.',{exact:true})).toBeVisible();
+ await expect(page.getByRole('button',{name:'Power off',exact:true})).toHaveAttribute('aria-pressed','true');
+ await expect(page.getByText('Grid disconnected / Backup systems active.',{exact:true})).toBeVisible();
  await expect.poll(()=>page.locator('.preview-active img').evaluate(image=>(image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
  await page.screenshot({path:info.outputPath('landing-blackout.png'),fullPage:true,animations:'disabled'});
- await page.getByRole('button',{name:'Quiet evening',exact:true}).click();
- await expect(page.getByRole('button',{name:'Quiet evening',exact:true})).toHaveAttribute('aria-pressed','true');
+ await page.getByRole('button',{name:'Power on',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Power on',exact:true})).toHaveAttribute('aria-pressed','true');
  await page.evaluate(()=>document.fonts.ready);
  await page.evaluate(()=>window.scrollTo(0,0));
  await page.screenshot({path:info.outputPath('landing.png'),fullPage:true,animations:'disabled'});
@@ -101,7 +101,7 @@ test('keyboard skip link and previews work without motion',async({page})=>{
  await expect(page.getByRole('link',{name:'Skip to content'})).toBeFocused();
  await page.keyboard.press('Enter');
  await expect(page.locator('main')).toBeFocused();
- const preview=page.getByRole('button',{name:'Power removed',exact:true});
+ const preview=page.getByRole('button',{name:'Power off',exact:true});
  await preview.focus();await preview.press('Enter');
  await expect(preview).toHaveAttribute('aria-pressed','true');
  expect(await page.locator('.preview-active').evaluate(element=>getComputedStyle(element).transitionDuration)).toBe('0s');
@@ -112,7 +112,7 @@ test('editorial layout fits narrow tablet and wide screens',async({page},info)=>
  for(const width of [320,768,1440]){
   await page.setViewportSize({width,height:900});
   await page.goto('./');
-  await page.getByRole('heading',{name:'Inside Meridian'}).scrollIntoViewIfNeeded();
+  await page.getByRole('heading',{name:'Watch the city go dark.'}).scrollIntoViewIfNeeded();
   await expect.poll(()=>page.locator('.preview-active img').evaluate(image=>(image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   await page.evaluate(()=>document.fonts.ready);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

@@ -1,0 +1,66 @@
+{
+  "baseline": "fada846",
+  "viewport": {
+    "width": 430,
+    "height": 932
+  },
+  "dpr": 3,
+  "image": {
+    "width": 1290,
+    "height": 1467
+  },
+  "beforeCamera": {
+    "width": 430,
+    "height": 488,
+    "scale": 0.6615384615384615,
+    "origin": {
+      "x": 215,
+      "y": 92.72
+    },
+    "pan": {
+      "x": 0,
+      "y": 76.12307692307688
+    },
+    "zoom": 1,
+    "footprint": {
+      "x": -325,
+      "y": -255.2279069767441,
+      "width": 650,
+      "height": 737.6744186046512
+    }
+  },
+  "afterCamera": {
+    "width": 430,
+    "height": 488,
+    "scale": 0.6615384615384615,
+    "origin": {
+      "x": 215,
+      "y": 92.72
+    },
+    "pan": {
+      "x": 0,
+      "y": 76.12307692307688
+    },
+    "zoom": 1,
+    "footprint": {
+      "x": -325,
+      "y": -255.2279069767441,
+      "width": 650,
+      "height": 737.6744186046512
+    }
+  },
+  "beforeBounds": {
+    "x": 0,
+    "y": 280.59375,
+    "width": 430,
+    "height": 488
+  },
+  "afterBounds": {
+    "x": 0,
+    "y": 280.59375,
+    "width": 430,
+    "height": 488
+  },
+  "time": 0,
+  "screenshotStyle": ".world > :not(.city-canvas), .landmark-label-layer, .city-canvas > :not(canvas) { visibility: hidden !important; }"
+}
