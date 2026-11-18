@@ -3,6 +3,8 @@
 
 ## Current landing-page task — 2026-11-18
 
+CTRL_Z_ANIMATED_LANDING_PAGE.md is the latest active brief, superseding conflicting prior landing styling/layout. Implement its tested 0–5 checkpoints: original infrastructure hero/ticker, accurate dependency schematic, kinetic rows, clean capture-only HUD-free actual-city blackout and one direct full-screen final CTA with a small optional lazy embed. Preserve all game code/art/UI and existing workflows. See docs/landing-page/ANIMATED_PLAN.md. Do not resume the stopped Embarko claim.
+
 CTRL_Z_JAKE_SCROLL_YOUNG_MINDS_REDESIGN.md (18 November) is the current redesign brief, superseding conflicting earlier homepage styling. Use Young Minds' near-black monochrome visual direction and Jake Roberts-inspired native scroll pacing, with the existing blackout reveal adapted to a bounded sticky scene. Preserve all actual game UI/code/artwork and on-demand embedded/full-screen entry. See docs/landing-page/CINEMATIC_PLAN.md. Continue small tested commits and verified pushes to main; the stopped Embarko claim remains outside scope.
 
 UI_REDESIGN.md (17 November) is the completed prior refinement brief. Its working aligned captures, manual/reduced-motion alternatives and protected game boundary carry forward; its compact cyan styling and non-sticky wipe are superseded by the 18 November cinematic brief. Preserve the separately checkpointed Embarko compatibility work. See docs/landing-page/REDESIGN.md for history; do not resume the stopped deployment/claim workflow as a side effect.
