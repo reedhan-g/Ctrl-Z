@@ -11,6 +11,12 @@
         "value": "consolas",
         "createdAt": "2026-11-18T04:06:29.938Z",
         "reason": "Implementation choice permitted by the creator's cinematic brief: mono-style support labels use the existing local Consolas fallback under ui-monospace, with no font download."
+      },
+      {
+        "rule": "overused-font",
+        "value": "arial",
+        "createdAt": "2026-11-18T11:14:36.747Z",
+        "reason": "Creator supplied CTRL_Z_ANIMATED_PREVIEW.html as the exact visual reference. Arial reproduces its measured wordmark width on desktop and mobile."
       }
     ]
   }
