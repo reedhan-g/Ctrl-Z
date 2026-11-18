@@ -43,12 +43,16 @@ test('natural blackout reveal reverses and gives manual choices priority',async(
  await expect(page.getByRole('button',{name:'Power on'})).toHaveAttribute('aria-pressed','false');
  await expect(page.getByRole('button',{name:'Power off'})).toHaveAttribute('aria-pressed','false');
  await capture('halfway');expect(await progress(page)).toBeCloseTo(.5,1);
+ await expect(page.locator('.preview-scan')).toHaveCSS('animation-play-state','running');
  if(info.project.name==='desktop'){
-  await expect(page.locator('.preview-scan')).toHaveCSS('animation-play-state','running');
   await position(page,.46);
   await position(page,.54);
   await expect.poll(()=>page.locator('.preview-flash').evaluate(element=>element.getAnimations().length)).toBe(1);
   await expect(page.locator('.preview-flash')).toHaveCSS('opacity','0');
+ }else{
+  await position(page,.46);
+  await position(page,.54);
+  expect(await page.locator('.preview-flash').evaluate(element=>element.getAnimations().length)).toBe(0);
  }
  await position(page,1);await expect(page.getByRole('status')).toHaveText('Grid disconnected');await capture('blackout');expect(await progress(page)).toBe(1);
  await position(page,.25);await position(page,0);
@@ -107,6 +111,16 @@ test('short screens keep the preview in natural flow and touch scrolling stays n
   await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
  }else await page.mouse.wheel(0,200);
  await expect.poll(()=>page.evaluate(()=>scrollY)).toBeGreaterThan(before);
+ if(info.project.name==='mobile'){
+  await page.setViewportSize({width:320,height:700});
+  await page.goto('./');
+  await expect(page.locator('.blackout-preview')).toHaveAttribute('data-pinned','false');
+  await position(page,0);
+  await position(page,.5);
+  await position(page,1);
+  await position(page,.5);
+  await position(page,0);
+ }
  await page.locator('.closing-inner .enter-button').scrollIntoViewIfNeeded();
  await expect(page.locator('.closing-inner .enter-button')).toBeInViewport();
  await expect(page.locator('iframe')).toHaveCount(0);

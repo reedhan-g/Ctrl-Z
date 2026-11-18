@@ -1,5 +1,11 @@
 # Ctrl Z - Development Status
 
+## Mobile landing polish
+
+Touch portrait layouts now use a shorter hero, wider actions, a denser six-node diagram and a larger city crop. At 390×844 the hero shrank from 781px to 663px and the city frame grew from 358×397 to 374×439. Short touch viewports use natural scrolling. Touch enables the lightweight motion loops with offscreen, Pause Motion, reduced-motion and Save-Data gating. Pointer tracking stays fine-pointer only, and touch gets the eased blackout without its midpoint flash.
+
+The 1440×900 desktop full-page comparison had zero changed pixels. Captured all five requested mobile baselines and reviewed the 320px, 390px and 844×390 results. Opening and city-compare captures are in `docs/landing-page/animated/mobile`. The build, 100 unit tests and 32 distinct landing browser cases passed across the focused and regression runs, with two deliberate duplicate skips. The old mobile hero-height assertion was replaced by first-screen ticker visibility and passed in a focused rerun. Game navigation and save continuity passed on both browser profiles. Physical devices and Safari remain unverified.
+
 ## Exact reference pass
 
 Refined the existing landing against `CTRL_Z_ANIMATED_PREVIEW.html`. Arial/Helvetica and the restored Meridian identifier match its hierarchy. At 1440×900, the wordmark measures 938px wide (reference 938px, previous 796px) and starts 2px above the reference. At 390×844 it measures 251px wide (reference 251px) and starts 8px above it. The pass also aligns pointer light, circuit and ticker timing, and closing scale, and compacts the six-service schematic while retaining its eight edges.

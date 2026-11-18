@@ -271,6 +271,51 @@ body { margin: 0; }
   .tagline { font-size: clamp(1.5rem, 3.5vw, 2.5rem); line-height: .98; margin-top: 0 !important; }
   .intro { font-size: 16px; }
 }
+@media (pointer: coarse) {
+  .hero-graphic .node-breathe { filter: none; }
+}
+@media (max-width: 600px) and (pointer: coarse) {
+  .opening {
+    min-height: min(700px, calc(86svh - 63px));
+    padding-block: clamp(36px, 7svh, 64px) 28px;
+  }
+  .landing .opening h1 {
+    margin-block: clamp(26px, 4.2svh, 38px) 18px;
+    font-size: clamp(70px, 22vw, 120px);
+  }
+  .tagline { font-size: clamp(37px, 10.8vw, 64px); }
+  .hero-graphic { width: 140%; height: 76%; top: 7%; right: -58%; opacity: .68; }
+  .opening-bottom { margin-top: clamp(30px, 5svh, 44px); gap: 18px; }
+  .opening-utilities { margin-top: 16px; }
+  .hint-arrow { margin-inline-start: 0; }
+  .landing :is(.opening-bottom, .closing-actions) > .enter-button { width: 100%; justify-content: space-between; }
+  .concept { padding-block: 62px 68px; }
+  .editorial-split { gap: 24px; }
+  .landing .section-marker { font-size: 11px; }
+  .dependency-network { margin-top: 32px !important; }
+  /* The 58px nodes preserve the arrow endpoints of the 560-unit portrait SVG. */
+  .network-plot { height: 448px; margin-block: 12px 16px; }
+  .network-node { height: 58px; padding: 8px; }
+  .landing .dependency-network figcaption { padding-top: 14px; }
+  .preview-heading { gap: 12px; }
+  .preview-images {
+    height: clamp(300px, min(52svh, 116vw), 440px);
+    margin-inline: -8px;
+  }
+  .preview-images img { object-position: 62% 48%; }
+  .scene-tools { align-items: stretch; gap: 8px; margin-top: 12px; }
+  .preview-switch { width: 100%; }
+  #preview-instruction { max-width: none; font-size: 12px; }
+  .blackout-preview figcaption { min-height: 62px; }
+  .possibilities { padding-block: 64px 76px; }
+  .landing .possibilities > h2 { margin-bottom: 32px; }
+  .feature-list > li { padding-block: 22px; }
+  .closing-inner { min-height: 0; padding-block: 76px 64px; }
+  .landing .closing-inner h2 { margin-block: 32px 30px; }
+  .final-graphic { top: 4%; right: -350px; width: 550px; height: 550px; }
+  .landing [data-arrived] { transition-duration: 440ms; }
+  .landing [data-arrived='false'] { opacity: .84; transform: translateY(14px); }
+}
 @media (prefers-reduced-motion: reduce) {
   .landing .loop { animation: none; }
   .hero-graphic { transform: none; }

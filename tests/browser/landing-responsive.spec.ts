@@ -3,9 +3,10 @@ import {test,expect} from '@playwright/test';
 const readProgress=(page:import('@playwright/test').Page)=>page.locator('.preview-images').getAttribute('data-progress').then(Number);
 
 test('landing width matrix retains clear entry and unobstructed touch targets',async({page},info)=>{
- test.skip(info.project.name!=='desktop','One explicit viewport matrix; touch uses the mobile project below.');
  await page.emulateMedia({reducedMotion:'reduce'});
- const matrix=[[320,800],[360,800],[390,844],[430,932],[768,1024],[1280,800],[1440,900],[844,390]];
+ const matrix=info.project.name==='mobile'
+  ?[[320,700],[360,800],[390,844],[430,932],[844,390]]
+  :[[320,800],[360,800],[390,844],[430,932],[768,1024],[1280,800],[1440,900],[844,390]];
  for(const [width,height] of matrix){
   await page.setViewportSize({width,height});await page.goto('./');await page.evaluate(()=>document.fonts.ready);
   await expect(page.locator('.opening .enter-button')).toBeInViewport();

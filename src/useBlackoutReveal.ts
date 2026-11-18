@@ -8,6 +8,7 @@ export function useBlackoutReveal(){
  const [view,setView]=useState({phase:'powered' as Phase,manual:false,reduced:false});
  useEffect(()=>{
   const media=matchMedia('(prefers-reduced-motion: reduce)'),viewport=window.visualViewport;
+  const touch=matchMedia('(pointer: coarse)');
   let frame=0,disposed=false,lastProgress=-1,lastView='',anchorOffset=location.hash==='#preview'?NaN:0;
   const flash=imageRef.current?.querySelector('.preview-flash');
   let flashAnimation:Animation|undefined,previousAutomatic:number|undefined,flashArmed=true;
@@ -17,8 +18,9 @@ export function useBlackoutReveal(){
    const height=viewport?.height??innerHeight,offset=viewport?.offsetTop??0;
    // Pin only when the entire scene, including its direct controls, fits.
    // Short screens and zoomed viewports retain ordinary document scrolling.
-   const pinned=!media.matches&&stageRef.current.getBoundingClientRect().height+32<=height;
-   sectionRef.current.dataset.pinned=String(pinned);
+   const stageHeight=stageRef.current.getBoundingClientRect().height;
+   const pinned=!media.matches&&(!touch.matches||height>=720)&&stageHeight+32<=height;
+   if(sectionRef.current.dataset.pinned!==String(pinned))sectionRef.current.dataset.pinned=String(pinned);
    const section=sectionRef.current.getBoundingClientRect(),image=imageRef.current.getBoundingClientRect();
    const outside=section.bottom<=offset||section.top>=offset+height;
    let progress:number,automatic:number|undefined;
@@ -27,7 +29,7 @@ export function useBlackoutReveal(){
     progress=media.matches?0:(section.bottom<=offset?1:0);
    }else{
     const distance=pinned?16-(section.top-offset):height*.82-(image.top-offset);
-    const span=pinned?section.height-stageRef.current.getBoundingClientRect().height:Math.min(420,height*.60);
+    const span=pinned?section.height-stageHeight:Math.min(420,height*.60);
     if(Number.isNaN(anchorOffset))anchorOffset=Math.max(0,distance);
     const fraction=(distance-anchorOffset)/Math.max(1,span);
     // Ease into and out of the cut, with stable holds at both endpoints.
@@ -35,7 +37,7 @@ export function useBlackoutReveal(){
     automatic=eased*eased*(3-2*eased);
     progress=manual.current??(media.matches?0:automatic);
    }
-   const canFlash=automatic!==undefined&&!media.matches&&manual.current===null&&
+   const canFlash=automatic!==undefined&&!touch.matches&&!media.matches&&manual.current===null&&
     sectionRef.current.closest<HTMLElement>('.landing')?.dataset.motion==='running';
    if(!canFlash){
     flashAnimation?.cancel();
@@ -76,6 +78,7 @@ export function useBlackoutReveal(){
   viewport?.addEventListener('scroll',schedule,{passive:true});
   document.addEventListener('visibilitychange',schedule);
   media.addEventListener('change',schedule);
+  touch.addEventListener('change',schedule);
   const observer=typeof ResizeObserver==='undefined'?null:new ResizeObserver(schedule);
   // A fully clipped lazy image may never load in Chromium. Prepare both captures
   // shortly before arrival, while keeping them deferred on the opening screen.
@@ -98,6 +101,7 @@ export function useBlackoutReveal(){
    document.removeEventListener('click',previewLink);
    viewport?.removeEventListener('resize',schedule);viewport?.removeEventListener('scroll',schedule);
    document.removeEventListener('visibilitychange',schedule);media.removeEventListener('change',schedule);
+   touch.removeEventListener('change',schedule);
   };
  },[]);
  const choose=(value:0|1)=>{manual.current=value;scheduleRef.current();};

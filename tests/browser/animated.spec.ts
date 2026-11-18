@@ -1,7 +1,7 @@
 import {test,expect} from '@playwright/test';
 import {dependencies} from '../../src/dependencies';
 
-test('infrastructure hero keeps a clear discovery action and static mobile alternative',async({page},info)=>{
+test('infrastructure hero keeps a clear discovery action and respects motion preferences',async({page},info)=>{
  const phone=info.project.name==='mobile';await page.setViewportSize(phone?{width:390,height:844}:{width:1440,height:900});
  await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('./');await page.evaluate(()=>document.fonts.ready);
  const root=page.locator('.landing'),hero=page.locator('.hero-graphic');
@@ -9,16 +9,41 @@ test('infrastructure hero keeps a clear discovery action and static mobile alter
  const action=(await page.locator('.opening .enter-button').boundingBox())!;
  expect(action.y+action.height).toBeLessThanOrEqual(phone?844:900);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(phone?390:1440);
- await expect(root).toHaveAttribute('data-motion',phone?'static':'running');
- await page.screenshot({path:info.outputPath('hero.png'),animations:'disabled'});
- if(!phone){
-  await expect(page.locator('.orbit').first()).toHaveCSS('animation-play-state','running');
+ const orbit=page.locator('.orbit').first();
+ await expect(root).toHaveAttribute('data-motion','running');
+ await expect(orbit).toHaveCSS('animation-play-state','running');
+ if(phone){
+  const opening=page.locator('.opening');
+  await opening.dispatchEvent('pointermove',{pointerType:'touch',clientX:20,clientY:200});
+  await expect(opening).toHaveCSS('--light-x','75%');
+ }else{
   await page.mouse.move(1000,300);
   await expect.poll(()=>page.locator('.opening').evaluate(element=>element.style.getPropertyValue('--light-x'))).not.toBe('75%');
-  await page.getByRole('button',{name:'Pause motion',exact:true}).click();
+ }
+ await page.getByRole('button',{name:'Pause motion',exact:true}).click();
+ await expect(root).toHaveAttribute('data-motion','static');
+ await expect(orbit).toHaveCSS('animation-play-state','paused');
+ await page.getByRole('button',{name:'Resume motion',exact:true}).click();
+ await expect(root).toHaveAttribute('data-motion','running');
+ if(phone){
+  const ticker=page.locator('.ticker-track');
+  await page.locator('.ticker').scrollIntoViewIfNeeded();
+  await expect(ticker).toHaveCSS('animation-play-state','running');
+  const start=await ticker.evaluate(e=>getComputedStyle(e).transform);
+  await expect.poll(()=>ticker.evaluate(e=>getComputedStyle(e).transform)).not.toBe(start);
+  await page.locator('.dependency-network').scrollIntoViewIfNeeded();
+  await expect(orbit).toHaveCSS('animation-play-state','paused');
+  await expect(ticker).toHaveCSS('animation-play-state','paused');
+  await expect(page.locator('.network-mobile .network-signals')).toHaveCSS('animation-play-state','running');
+  const saveData=(value:boolean)=>page.evaluate(value=>{
+   const connection=(navigator as Navigator & {connection:EventTarget}).connection;
+   Object.defineProperty(connection,'saveData',{value,configurable:true});
+   connection.dispatchEvent(new Event('change'));
+  },value);
+  await saveData(true);
   await expect(root).toHaveAttribute('data-motion','static');
-  await expect(page.locator('.orbit').first()).toHaveCSS('animation-play-state','paused');
-  await page.getByRole('button',{name:'Resume motion',exact:true}).click();
+  await expect(page.locator('.network-mobile .network-signals')).toHaveCSS('animation-play-state','paused');
+  await saveData(false);
   await expect(root).toHaveAttribute('data-motion','running');
  }
  await page.emulateMedia({reducedMotion:'reduce'});
@@ -30,7 +55,7 @@ test('infrastructure hero keeps a clear discovery action and static mobile alter
 
 test('schematic shows true directed dependencies and kinetic decisions at readable sizes',async({page},info)=>{
  await page.emulateMedia({reducedMotion:'reduce'});
- const widths=info.project.name==='mobile'?[390]:[1440,768,320];
+ const widths=info.project.name==='mobile'?[320,390]:[1440,768,320];
  for(const width of widths){
   await page.setViewportSize({width,height:900});await page.goto('./');await page.evaluate(()=>document.fonts.ready);
   const figure=page.locator('.dependency-network');await figure.scrollIntoViewIfNeeded();

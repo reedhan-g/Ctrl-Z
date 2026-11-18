@@ -13,7 +13,8 @@ test('editorial opening leads with the game and a reachable play action',async({
  await expect(context).toBeVisible();
  await expect(context).toHaveClass(/opening-context/);
  expect((await context.boundingBox())!.y).toBeLessThan((await page.locator('.opening h1').boundingBox())!.y);
- expect((await page.locator('.opening').boundingBox())!.height).toBeGreaterThanOrEqual((phone?844:900)*.8);
+ if(phone)await expect(page.locator('.ticker')).toBeInViewport({ratio:.95});
+ else expect((await page.locator('.opening').boundingBox())!.height).toBeGreaterThanOrEqual(900*.8);
  expect((await page.locator('.preview-images').boundingBox())!.y).toBeGreaterThan(phone?844:900);
  await expect(page.locator('iframe')).toHaveCount(0);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

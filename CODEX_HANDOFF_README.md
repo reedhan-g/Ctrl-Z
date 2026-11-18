@@ -1,5 +1,9 @@
 # Ctrl Z — complete Codex account handoff
 
+## Mobile landing polish
+
+The touch landing has fuller-width actions, a larger city frame, tighter sections, and lightweight loops that respect Pause Motion, reduced motion and Save-Data. The desktop image comparison was pixel-identical. See `DEVELOPMENT_STATUS.md` for verification and `docs/landing-page/animated/mobile` for captures.
+
 ## Exact reference pass
 
 The existing landing was refined against `CTRL_Z_ANIMATED_PREVIEW.html` from baseline `f793f37`. The hero typography and identifier now follow the reference. The six-service graph, HUD-free city, direct game entry and lazy embed carry forward. See `DEVELOPMENT_STATUS.md` for measured differences, validation and external device coverage, and `docs/landing-page/animated/replica` for the updated comparison frames.
