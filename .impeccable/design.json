@@ -1,391 +1,68 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-18T04:47:46.601482+00:00",
-  "title": "Design System: Ctrl Z — Cinematic Homepage",
+  "generatedAt": "2026-11-18T12:00:00+05:30",
+  "title": "Design System: Ctrl Z — Animated Meridian Landing",
   "extensions": {
     "colorMeta": {
-      "page-ground": {
-        "role": "neutral",
-        "displayName": "Cinema black",
-        "tonalRamp": [
-          "oklch(15% 0 0)",
-          "oklch(26% 0 0)",
-          "oklch(37% 0 0)",
-          "oklch(49% 0 0)",
-          "oklch(60% 0 0)",
-          "oklch(72% 0 0)",
-          "oklch(84% 0 0)",
-          "oklch(95% 0 0)"
-        ]
-      },
-      "page-raised": {
-        "role": "neutral",
-        "displayName": "Frame black",
-        "tonalRamp": [
-          "oklch(15% 0 0)",
-          "oklch(26% 0 0)",
-          "oklch(37% 0 0)",
-          "oklch(49% 0 0)",
-          "oklch(60% 0 0)",
-          "oklch(72% 0 0)",
-          "oklch(84% 0 0)",
-          "oklch(95% 0 0)"
-        ]
-      },
-      "page-ink": {
-        "role": "neutral",
-        "displayName": "Signal white",
-        "tonalRamp": [
-          "oklch(15% 0 0)",
-          "oklch(26% 0 0)",
-          "oklch(37% 0 0)",
-          "oklch(49% 0 0)",
-          "oklch(60% 0 0)",
-          "oklch(72% 0 0)",
-          "oklch(84% 0 0)",
-          "oklch(95% 0 0)"
-        ]
-      },
-      "page-muted": {
-        "role": "neutral",
-        "displayName": "Silver copy",
-        "tonalRamp": [
-          "oklch(15% 0 0)",
-          "oklch(26% 0 0)",
-          "oklch(37% 0 0)",
-          "oklch(49% 0 0)",
-          "oklch(60% 0 0)",
-          "oklch(72% 0 0)",
-          "oklch(84% 0 0)",
-          "oklch(95% 0 0)"
-        ]
-      },
-      "page-index": {
-        "role": "neutral",
-        "displayName": "Reserved index grey (unassigned)",
-        "tonalRamp": [
-          "oklch(15% 0 0)",
-          "oklch(26% 0 0)",
-          "oklch(37% 0 0)",
-          "oklch(49% 0 0)",
-          "oklch(60% 0 0)",
-          "oklch(72% 0 0)",
-          "oklch(84% 0 0)",
-          "oklch(95% 0 0)"
-        ]
-      },
-      "page-accent": {
-        "role": "primary",
-        "displayName": "Signal white alias",
-        "tonalRamp": [
-          "oklch(15% 0 0)",
-          "oklch(26% 0 0)",
-          "oklch(37% 0 0)",
-          "oklch(49% 0 0)",
-          "oklch(60% 0 0)",
-          "oklch(72% 0 0)",
-          "oklch(84% 0 0)",
-          "oklch(95% 0 0)"
-        ]
-      },
-      "page-edge": {
-        "role": "neutral",
-        "displayName": "Quiet charcoal",
-        "tonalRamp": [
-          "oklch(15% 0 0)",
-          "oklch(26% 0 0)",
-          "oklch(37% 0 0)",
-          "oklch(49% 0 0)",
-          "oklch(60% 0 0)",
-          "oklch(72% 0 0)",
-          "oklch(84% 0 0)",
-          "oklch(95% 0 0)"
-        ]
-      },
-      "page-warning": {
-        "role": "neutral",
-        "displayName": "Interruption white (unassigned)",
-        "tonalRamp": [
-          "oklch(15% 0 0)",
-          "oklch(26% 0 0)",
-          "oklch(37% 0 0)",
-          "oklch(49% 0 0)",
-          "oklch(60% 0 0)",
-          "oklch(72% 0 0)",
-          "oklch(84% 0 0)",
-          "oklch(95% 0 0)"
-        ]
-      },
-      "page-focus": {
-        "role": "primary",
-        "displayName": "Keyboard focus cyan",
-        "tonalRamp": [
-          "oklch(15% 0.018 187)",
-          "oklch(26% 0.035 187)",
-          "oklch(37% 0.05 187)",
-          "oklch(49% 0.065 187)",
-          "oklch(60% 0.075 187)",
-          "oklch(72% 0.07 187)",
-          "oklch(84% 0.05 187)",
-          "oklch(95% 0.015 187)"
-        ]
-      },
-      "action-hover": {
-        "role": "neutral",
-        "displayName": "Softer action white",
-        "tonalRamp": [
-          "oklch(15% 0 0)",
-          "oklch(26% 0 0)",
-          "oklch(37% 0 0)",
-          "oklch(49% 0 0)",
-          "oklch(60% 0 0)",
-          "oklch(72% 0 0)",
-          "oklch(84% 0 0)",
-          "oklch(95% 0 0)"
-        ]
-      },
-      "game-loading-ground": {
-        "role": "neutral",
-        "displayName": "Protected game loading ground",
-        "tonalRamp": [
-          "oklch(15% 0.008 255)",
-          "oklch(26% 0.012 255)",
-          "oklch(37% 0.016 255)",
-          "oklch(49% 0.02 255)",
-          "oklch(60% 0.02 255)",
-          "oklch(72% 0.016 255)",
-          "oklch(84% 0.01 255)",
-          "oklch(95% 0.004 255)"
-        ]
-      }
+      "page-ground": {"role":"neutral","displayName":"Meridian black","tonalRamp":["oklch(15% 0.005 210)","oklch(26% 0.005 210)","oklch(37% 0.004 210)","oklch(49% 0.004 210)","oklch(60% 0.003 210)","oklch(72% 0.003 210)","oklch(84% 0.002 210)","oklch(95% 0.001 210)"]},
+      "page-raised": {"role":"neutral","displayName":"Raised black","tonalRamp":["oklch(15% 0.007 205)","oklch(26% 0.007 205)","oklch(37% 0.006 205)","oklch(49% 0.005 205)","oklch(60% 0.004 205)","oklch(72% 0.003 205)","oklch(84% 0.002 205)","oklch(95% 0.001 205)"]},
+      "page-ink": {"role":"primary","displayName":"Signal white","tonalRamp":["oklch(15% 0.004 100)","oklch(26% 0.004 100)","oklch(37% 0.004 100)","oklch(49% 0.003 100)","oklch(60% 0.003 100)","oklch(72% 0.003 100)","oklch(84% 0.002 100)","oklch(95% 0.008 100)"]},
+      "page-muted": {"role":"neutral","displayName":"Silver copy","tonalRamp":["oklch(15% 0.005 175)","oklch(26% 0.005 175)","oklch(37% 0.004 175)","oklch(49% 0.004 175)","oklch(60% 0.004 175)","oklch(72% 0.004 175)","oklch(84% 0.003 175)","oklch(95% 0.002 175)"]},
+      "page-index": {"role":"neutral","displayName":"Index grey","tonalRamp":["oklch(15% 0.003 200)","oklch(26% 0.003 200)","oklch(37% 0.003 200)","oklch(49% 0.003 200)","oklch(60% 0.002 200)","oklch(72% 0.002 200)","oklch(84% 0.001 200)","oklch(95% 0.001 200)"]},
+      "page-accent": {"role":"primary","displayName":"Signal white alias","tonalRamp":["oklch(15% 0.004 100)","oklch(26% 0.004 100)","oklch(37% 0.004 100)","oklch(49% 0.003 100)","oklch(60% 0.003 100)","oklch(72% 0.003 100)","oklch(84% 0.002 100)","oklch(95% 0.008 100)"]},
+      "page-edge": {"role":"neutral","displayName":"Quiet charcoal","tonalRamp":["oklch(15% 0.005 210)","oklch(26% 0.005 210)","oklch(37% 0.005 210)","oklch(49% 0.004 210)","oklch(60% 0.003 210)","oklch(72% 0.003 210)","oklch(84% 0.002 210)","oklch(95% 0.001 210)"]},
+      "page-focus": {"role":"primary","displayName":"Signal mint","tonalRamp":["oklch(15% 0.035 180)","oklch(26% 0.065 180)","oklch(37% 0.09 180)","oklch(49% 0.11 180)","oklch(60% 0.12 180)","oklch(72% 0.11 180)","oklch(84% 0.075 180)","oklch(95% 0.025 180)"]},
+      "signal-line": {"role":"secondary","displayName":"Infrastructure line","tonalRamp":["oklch(15% 0.018 185)","oklch(26% 0.03 185)","oklch(37% 0.04 185)","oklch(49% 0.05 185)","oklch(60% 0.045 185)","oklch(72% 0.035 185)","oklch(84% 0.02 185)","oklch(95% 0.008 185)"]},
+      "signal-structure": {"role":"secondary","displayName":"Schematic structure","tonalRamp":["oklch(15% 0.012 180)","oklch(26% 0.02 180)","oklch(37% 0.027 180)","oklch(49% 0.032 180)","oklch(60% 0.03 180)","oklch(72% 0.024 180)","oklch(84% 0.015 180)","oklch(95% 0.005 180)"]},
+      "signal-surface": {"role":"secondary","displayName":"Node surface","tonalRamp":["oklch(15% 0.013 200)","oklch(26% 0.022 200)","oklch(37% 0.028 200)","oklch(49% 0.03 200)","oklch(60% 0.027 200)","oklch(72% 0.02 200)","oklch(84% 0.012 200)","oklch(95% 0.004 200)"]},
+      "blackout-warm": {"role":"secondary","displayName":"Blackout warmth","tonalRamp":["oklch(15% 0.035 55)","oklch(26% 0.06 55)","oklch(37% 0.08 55)","oklch(49% 0.095 55)","oklch(60% 0.1 55)","oklch(72% 0.09 55)","oklch(84% 0.06 55)","oklch(95% 0.02 55)"]},
+      "game-loading-ground": {"role":"neutral","displayName":"Protected game ground","tonalRamp":["oklch(15% 0.015 235)","oklch(26% 0.024 235)","oklch(37% 0.03 235)","oklch(49% 0.03 235)","oklch(60% 0.025 235)","oklch(72% 0.018 235)","oklch(84% 0.01 235)","oklch(95% 0.003 235)"]}
     },
     "typographyMeta": {
-      "display": {
-        "displayName": "Display",
-        "purpose": "Opening title. Mobile clamp(4rem, 24vw, 9rem); short desktop clamp(4rem, 12vw, 9rem)."
-      },
-      "tagline": {
-        "displayName": "Tagline",
-        "purpose": "Opening supporting line. Mobile clamp(1.65rem, 6.3vw, 2.75rem); short desktop clamp(1.5rem, 3.5vw, 2.5rem)."
-      },
-      "headline": {
-        "displayName": "Headline",
-        "purpose": "Default section headings, including play."
-      },
-      "premise": {
-        "displayName": "Premise",
-        "purpose": "Uppercase editorial statement; mobile clamp(2rem, 8.5vw, 3rem)."
-      },
-      "story": {
-        "displayName": "Story",
-        "purpose": "Three consequence headings; mobile clamp(2.2rem, 8.4vw, 3rem), max width 14ch."
-      },
-      "closing": {
-        "displayName": "Closing",
-        "purpose": "Final question; mobile clamp(2.5rem, 12vw, 4.5rem), max width 13ch."
-      },
-      "body": {
-        "displayName": "Body",
-        "purpose": "Default reading text."
-      },
-      "editorial": {
-        "displayName": "Editorial",
-        "purpose": "Premise and consequence prose; premise becomes 17px at 900px and both become 16px on mobile."
-      },
-      "intro": {
-        "displayName": "Intro",
-        "purpose": "Opening premise, max width 39ch; mobile and short desktop 16px."
-      },
-      "label": {
-        "displayName": "Label",
-        "purpose": "Uppercase archival support role; mobile opening and premise markers 10px. Existing local mono fallback exception only."
-      },
-      "navigation": {
-        "displayName": "Navigation",
-        "purpose": "Header links; mobile 12px."
-      },
-      "action": {
-        "displayName": "Action",
-        "purpose": "White entry controls; minimum height 54px."
-      },
-      "caption": {
-        "displayName": "Caption",
-        "purpose": "Image captions, instructions and small notes."
-      },
-      "brand": {
-        "displayName": "Brand",
-        "purpose": "Header wordmark; mobile 20px."
-      },
-      "preview-title": {
-        "displayName": "Preview Title",
-        "purpose": "Uppercase comparison heading."
-      },
-      "preview-option": {
-        "displayName": "Preview Option",
-        "purpose": "Sentence-case endpoint choices, minimum height 44px."
-      },
-      "preview-state": {
-        "displayName": "Preview State",
-        "purpose": "Uppercase connected/interruption/disconnected status."
-      }
+      "display":{"displayName":"Monumental identity","purpose":"Solid uppercase CTRL Z hero only."},
+      "tagline":{"displayName":"Outlined declaration","purpose":"Hero tagline with one outlined word."},
+      "headline":{"displayName":"Editorial headline","purpose":"Section-level infrastructure statements."},
+      "story":{"displayName":"Kinetic story","purpose":"Three consequence-row headings."},
+      "closing":{"displayName":"Climactic question","purpose":"Single final direct-play invitation."},
+      "body":{"displayName":"Body","purpose":"Compact explanatory copy."},
+      "editorial":{"displayName":"Editorial copy","purpose":"Premise statement and system explanation."},
+      "label":{"displayName":"System label","purpose":"Indices, states, diagrams and captions; never fake telemetry."},
+      "action":{"displayName":"Entry action","purpose":"Primary navigation and explicit embed start."}
     },
     "shadows": [],
     "motion": [
-      {
-        "name": "action-background",
-        "value": "160ms ease-out",
-        "purpose": "Entry fill and navigation underline/color state changes."
-      },
-      {
-        "name": "action-press",
-        "value": "120ms ease-out; translateY(1px)",
-        "purpose": "Entry action press response; removed for reduced motion."
-      },
-      {
-        "name": "headline-drift",
-        "value": "min(600px, max(0px, scrollY)) * 0.08; max 48px",
-        "purpose": "Opening title only; passive rAF native-scroll enhancement."
-      },
-      {
-        "name": "copy-drift",
-        "value": "min(600px, max(0px, scrollY)) * 0.025; max 15px",
-        "purpose": "Opening support copy only."
-      },
-      {
-        "name": "arrival",
-        "value": "560ms cubic-bezier(.16, 1, .3, 1); opacity .72 -> 1; translateY(14px) -> none",
-        "purpose": "Premise editorial split and closing h2 only; already-visible start, observer threshold .12, one completion."
-      },
-      {
-        "name": "blackout-crossfade",
-        "value": "opacity: var(--blackout-progress, 0)",
-        "purpose": "Scroll-measured, reversible real-capture crossfade; no time-driven tween or wipe."
-      },
-      {
-        "name": "bounded-sticky",
-        "value": "top:16px; stage height + 32px <= visualViewport height",
-        "purpose": "Only when complete controls/media/caption fit; after-block min(60svh,600px), mobile min(40svh,360px). Short/zoomed viewports use natural flow."
-      },
-      {
-        "name": "reduced-motion",
-        "value": "transform:none; opacity:1; transition:none",
-        "purpose": "Page motion stops; comparison unpins, stays connected automatically and switches instantly with native buttons."
-      }
+      {"name":"state-quick","value":"160ms ease-out","purpose":"Hover and navigation state changes."},
+      {"name":"arrival","value":"560ms cubic-bezier(.16, 1, .3, 1)","purpose":"Once-only 22px section and consequence-row arrival."},
+      {"name":"ticker","value":"42s linear infinite","purpose":"Slow decorative ticker; duplicate text is hidden from assistive technology."},
+      {"name":"orbit-slow","value":"70s linear infinite","purpose":"Primary hero orbit; pauses when motion is static."},
+      {"name":"orbit-reverse","value":"45s linear infinite reverse","purpose":"Counter-rotating secondary hero orbit."},
+      {"name":"signal-travel","value":"14s linear infinite","purpose":"Dotted routes in hero and dependency schematic."},
+      {"name":"node-breathe","value":"6s ease-in-out infinite","purpose":"Low-frequency infrastructure-node pulse."},
+      {"name":"final-breathe","value":"10s ease-in-out infinite","purpose":"Faint closing orbit; static under reduced motion."}
     ],
-    "breakpoints": [
-      {
-        "name": "tablet",
-        "value": "max-width: 900px"
-      },
-      {
-        "name": "mobile",
-        "value": "max-width: 600px"
-      },
-      {
-        "name": "short-desktop",
-        "value": "(max-height: 600px) and (min-width: 601px)"
-      }
-    ]
+    "breakpoints": [{"name":"compact","value":"900px"},{"name":"mobile","value":"600px"}]
   },
   "components": [
-    {
-      "name": "Entry Action",
-      "kind": "button",
-      "refersTo": "button-primary",
-      "description": "White simulation entry anchor. The application supplies on-demand iframe state; this static specimen preserves its source hash target.",
-      "html": "<a class=\"ds-enter\" href=\"#simulation\">Enter simulation</a>",
-      "css": ".ds-enter{font-family:Manrope,sans-serif;line-height:1.65;display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:15px 28px;border:0;border-radius:2px;font-size:13px;font-weight:700;background:var(--page-ink,#f2f1ee);color:var(--page-ground,#090909);text-decoration:none;cursor:pointer;transition:background-color 160ms ease-out,transform 120ms ease-out}.ds-enter:hover{background:#d8d7d4}.ds-enter:focus-visible{outline:2px solid var(--page-focus,#8bd9d2);outline-offset:6px;}.ds-enter:active{transform:translateY(1px)}@media(prefers-reduced-motion:reduce){.ds-enter{transition:none}.ds-enter:active{transform:none}}"
-    },
-    {
-      "name": "Header Navigation",
-      "kind": "nav",
-      "refersTo": "navigation",
-      "description": "Sparse three-link navigation; Play remains underlined and all links remain present on mobile.",
-      "html": "<nav class=\"ds-nav\" aria-label=\"Main navigation\"><a href=\"#about\">About</a><a href=\"#preview\">The city</a><a class=\"ds-entry-link\" href=\"#simulation\">Play</a></nav>",
-      "css": ".ds-nav{font-family:Manrope,sans-serif;line-height:1.65;display:flex;gap:40px;align-items:center;font-size:13px;color:var(--page-ink,#f2f1ee)}.ds-nav a{display:inline-flex;min-width:44px;min-height:44px;align-items:center;justify-content:center;color:inherit;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:5px;text-decoration-thickness:1px;transition:color 160ms ease-out,text-decoration-color 160ms ease-out}.ds-nav a:hover,.ds-nav .ds-entry-link{text-decoration-color:currentColor}.ds-nav a:focus-visible{outline:2px solid var(--page-focus,#8bd9d2);outline-offset:6px;}@media(max-width:600px){.ds-nav{gap:12px;font-size:12px}}@media(prefers-reduced-motion:reduce){.ds-nav a{transition:none}}"
-    },
-    {
-      "name": "Archival Support Label",
-      "kind": "custom",
-      "refersTo": "support-label",
-      "description": "Meaningful premise marker and location; local mono stack, not a downloadable display font.",
-      "html": "<p class=\"ds-marker\"><span>01 / The premise</span><span>Meridian</span></p>",
-      "css": ".ds-marker{display:flex;justify-content:space-between;gap:24px;margin:0 0 64px;color:var(--page-muted,#a5a5a3);font-family:ui-monospace,Consolas,monospace;font-size:11px;line-height:1.6;letter-spacing:.06em;text-transform:uppercase}@media(max-width:600px){.ds-marker{margin-bottom:36px;font-size:10px}}"
-    },
-    {
-      "name": "Preview Switch",
-      "kind": "button",
-      "refersTo": "preview-option",
-      "description": "Native endpoint buttons; semantic state is supplied by the app. Partial crossfade presses neither button.",
-      "html": "<div class=\"ds-switch\" role=\"group\" aria-label=\"Gameplay preview state\"><button type=\"button\" aria-pressed=\"true\">Quiet evening</button><button type=\"button\" aria-pressed=\"false\">Power removed</button></div>",
-      "css": ".ds-switch{display:flex;gap:4px;padding:4px;background:var(--page-raised,#101112);border-radius:2px;width:max-content}.ds-switch button{font-family:Manrope,sans-serif;line-height:1.65;font-size:13px;font-weight:600;color:var(--page-muted,#a5a5a3);border:0;background:transparent;border-radius:1px;padding:10px 14px;min-height:44px;cursor:pointer}.ds-switch button[aria-pressed=true]{color:var(--page-ground,#090909);background:var(--page-ink,#f2f1ee)}.ds-switch button:hover{color:var(--page-ink,#f2f1ee)}.ds-switch button[aria-pressed=true]:hover{color:var(--page-ground,#090909)}.ds-switch button:focus-visible{outline:2px solid var(--page-focus,#8bd9d2);outline-offset:6px;}@media(max-width:600px){.ds-switch{width:100%}.ds-switch button{flex:1}}"
-    },
-    {
-      "name": "Documentary Preview Status",
-      "kind": "custom",
-      "refersTo": "documentary-preview",
-      "description": "Three-phase status and instruction above the actual image frame; no synthetic image substitutes in this specimen.",
-      "html": "<div class=\"ds-summary\"><p class=\"ds-state\" role=\"status\">Power connected</p><p class=\"ds-instruction\">Scroll through the city to compare the power cut.</p></div>",
-      "css": ".ds-summary{font-family:Manrope,sans-serif;line-height:1.65;display:flex;justify-content:space-between;align-items:baseline;gap:24px;margin-bottom:8px;min-height:36px;color:var(--page-ink,#f2f1ee)}.ds-summary p{margin:0}.ds-state{font-size:14px;font-weight:600;text-transform:uppercase}.ds-instruction{color:var(--page-muted,#a5a5a3);font-size:12px;max-width:34ch}@media(max-width:600px){.ds-summary{align-items:start;justify-content:flex-start;flex-direction:column;gap:6px;min-height:68px}}"
-    },
-    {
-      "name": "Consequence Beat",
-      "kind": "custom",
-      "refersTo": "consequence-beat",
-      "description": "Open story row; the source ordered list supplies three real-mechanics beats.",
-      "html": "<section class=\"ds-beat\"><span class=\"ds-index\" aria-hidden=\"true\">02 /</span><h3>What you can save</h3><p>Two supply interventions. Six essential services. Inspect buildings and send limited support where it can buy time.</p></section>",
-      "css": ".ds-beat{font-family:Manrope,sans-serif;line-height:1.65;min-height:52svh;padding:48px 0 64px;border-top:1px solid var(--page-edge,#303133);color:var(--page-ink,#f2f1ee)}.ds-index{display:block;margin-bottom:28px;color:var(--page-muted,#a5a5a3);font-family:ui-monospace,Consolas,monospace;font-size:11px;line-height:1.6;letter-spacing:.06em;text-transform:uppercase}.ds-beat h3{margin:0;max-width:14ch;font-size:clamp(2.4rem,5.6vw,5.5rem);line-height:1.04;font-weight:500;letter-spacing:-.04em;text-transform:uppercase;text-wrap:balance}.ds-beat p{margin:28px 0 0;color:var(--page-muted,#a5a5a3);max-width:44ch;font-size:19px;text-wrap:pretty}@media(max-width:600px){.ds-beat{min-height:0;padding:40px 0 48px}.ds-index{margin-bottom:20px}.ds-beat h3{font-size:clamp(2.2rem,8.4vw,3rem)}.ds-beat p{font-size:16px;margin-top:20px}}"
-    },
-    {
-      "name": "Closing Invitation",
-      "kind": "custom",
-      "refersTo": "closing-invitation",
-      "description": "Same black ground, giant concluding question and quieter full-screen action. Full-screen link uses the existing route.",
-      "html": "<section class=\"ds-closing\"><h2>What would you keep running?</h2><div class=\"ds-closing-actions\"><a class=\"ds-closing-enter\" href=\"#simulation\">Enter Meridian</a><a href=\"./simulation.html\">Open full-screen</a></div></section>",
-      "css": ".ds-closing{font-family:Manrope,sans-serif;line-height:1.65;display:flex;flex-direction:column;justify-content:space-between;gap:64px;min-height:78svh;padding:112px 0 80px;border-top:1px solid var(--page-edge,#303133);background:var(--page-ground,#090909);color:var(--page-ink,#f2f1ee)}.ds-closing h2{margin:0;max-width:13ch;font-size:clamp(3rem,8.5vw,8rem);line-height:1;font-weight:500;letter-spacing:-.04em;text-transform:uppercase;text-wrap:balance}.ds-closing a{display:inline-flex;align-items:center;min-height:44px;color:inherit;font-size:13px;text-underline-offset:5px;text-decoration-thickness:1px}.ds-closing a:hover{text-decoration-color:var(--page-muted,#a5a5a3)}.ds-closing a:focus-visible{outline:2px solid var(--page-focus,#8bd9d2);outline-offset:6px;}@media(max-width:600px){.ds-closing{min-height:0;padding:72px 0 64px;gap:48px}.ds-closing h2{font-size:clamp(2.5rem,12vw,4.5rem)}} .ds-closing-actions{display:flex;align-items:center;gap:32px}.ds-closing .ds-closing-enter{justify-content:center;min-height:54px;padding:15px 28px;border:0;border-radius:2px;font-size:13px;font-weight:700;background:var(--page-ink,#f2f1ee);color:var(--page-ground,#090909);text-decoration:none;transition:background-color 160ms ease-out,transform 120ms ease-out}.ds-closing .ds-closing-enter:hover{background:#d8d7d4}.ds-closing .ds-closing-enter:active{transform:translateY(1px)}@media(max-width:600px){.ds-closing-actions{align-items:start;flex-direction:column;gap:16px}}@media(prefers-reduced-motion:reduce){.ds-closing .ds-closing-enter{transition:none}.ds-closing .ds-closing-enter:active{transform:none}}"
-    }
+    {"name":"Primary Entry Action","kind":"button","refersTo":"button-primary","description":"Direct high-contrast entry with visible focus.","html":"<a class=\"ds-entry\" href=\"./simulation.html\">ENTER MERIDIAN ↗</a>","css":".ds-entry{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:15px 28px;border:0;border-radius:2px;background:#f3f3ef;color:#08090a;font:700 13px/1.65 Manrope,sans-serif;text-transform:uppercase;text-decoration:none;transition:background-color 160ms ease-out,transform 120ms ease-out}.ds-entry:hover{background:#d8d7d4}.ds-entry:focus-visible{outline:2px solid #8ce7d9;outline-offset:6px}.ds-entry:active{transform:translateY(1px)}"},
+    {"name":"Kinetic Ticker","kind":"custom","refersTo":"ticker","description":"Slow ruled system message with a static accessible equivalent.","html":"<div class=\"ds-ticker\">EVERYTHING IS CONNECTED · ONE FAILURE. MANY CONSEQUENCES. · REWIND THE WORLD ·</div>","css":".ds-ticker{overflow:hidden;padding:20px 0;border-block:1px solid #303335;background:#111313;color:#a9acaa;font:400 12px/1.6 ui-monospace,Consolas,monospace;letter-spacing:.08em;white-space:nowrap}.ds-ticker:focus-visible{outline:2px solid #8ce7d9;outline-offset:6px}"},
+    {"name":"Dependency Node","kind":"card","refersTo":"network-node","description":"Rectilinear node for one real service dependency.","html":"<div class=\"ds-node\"><i></i><strong>Electricity</strong><small>North substation</small></div>","css":".ds-node{position:relative;width:176px;padding:12px 16px;border:1px solid #4b5753;background:#182123;color:#f3f3ef;font-family:Manrope,sans-serif}.ds-node strong{display:block;font-size:16px;font-weight:500}.ds-node small{display:block;color:#a9acaa;font-size:11px}.ds-node i{position:absolute;right:12px;top:16px;width:4px;height:4px;border-radius:50%;background:#8ce7d9}.ds-node:focus-visible{outline:2px solid #8ce7d9;outline-offset:6px}"},
+    {"name":"Preview Switch","kind":"button","refersTo":"preview-switch","description":"Manual powered/blackout comparison control.","html":"<div class=\"ds-switch\" role=\"group\"><button aria-pressed=\"true\">Power on</button><button aria-pressed=\"false\">Power off</button></div>","css":".ds-switch{display:inline-flex;gap:4px;padding:4px;border-radius:2px;background:#101112}.ds-switch button{min-height:44px;padding:10px 14px;border:0;border-radius:1px;background:transparent;color:#a9acaa;font:600 13px/1.65 Manrope,sans-serif}.ds-switch button[aria-pressed=true]{background:#f3f3ef;color:#08090a}.ds-switch button:hover{color:#f3f3ef}.ds-switch button[aria-pressed=true]:hover{color:#08090a}.ds-switch button:focus-visible{outline:2px solid #8ce7d9;outline-offset:6px}"},
+    {"name":"Blackout Status","kind":"custom","refersTo":"documentary-preview","description":"Semantic state paired with the aligned city capture.","html":"<p class=\"ds-status\"><i></i>POWER CONNECTED</p>","css":".ds-status{display:flex;align-items:center;color:#f3f3ef;font:400 11px/1.6 ui-monospace,Consolas,monospace;letter-spacing:.06em}.ds-status i{width:6px;height:6px;margin-right:8px;border-radius:50%;background:#8ce7d9}.ds-status[data-state=blackout] i{background:#e7b491}.ds-status:focus-visible{outline:2px solid #8ce7d9;outline-offset:6px}"},
+    {"name":"Consequence Beat","kind":"custom","description":"Open ruled editorial row for failure, decision or rewind.","html":"<article class=\"ds-beat\"><span>01 /</span><h3>THE FAILURE.</h3><p>The grid goes dark. Backup reserves buy time.</p></article>","css":".ds-beat{display:grid;grid-template-columns:64px 1.2fr 1fr;align-items:center;gap:40px;padding:36px 0;border-top:1px solid #303335;color:#f3f3ef}.ds-beat span{color:#a9acaa;font:400 11px/1.6 ui-monospace,Consolas,monospace}.ds-beat h3{margin:0;font:500 clamp(2rem,4.5vw,4.5rem)/1.04 Manrope,sans-serif;letter-spacing:-.04em}.ds-beat p{margin:0;color:#a9acaa;font:400 17px/1.65 Manrope,sans-serif}.ds-beat:focus-visible{outline:2px solid #8ce7d9;outline-offset:6px}"},
+    {"name":"Optional Embed Disclosure","kind":"custom","description":"Small explicit secondary entry preserving lazy iframe loading.","html":"<details class=\"ds-embed\"><summary>Play embedded on this page</summary><p>The game loads when you choose to play.</p></details>","css":".ds-embed{padding:24px 0;border-top:1px solid #303335;color:#a9acaa;font:400 13px/1.65 Manrope,sans-serif}.ds-embed summary{min-height:44px;padding:10px 0;cursor:pointer;text-decoration:underline;text-underline-offset:5px}.ds-embed summary:hover{color:#f3f3ef}.ds-embed summary:focus-visible{outline:2px solid #8ce7d9;outline-offset:6px}"}
   ],
   "narrative": {
-    "northStar": "Meridian, interrupted",
-    "overview": "Near-black space, oversized Manrope and restrained archival support text give the homepage a deliberate cinematic pace. Young Minds supplies the creator-pinned monochrome direction; Jake Roberts supplies the native-scroll rhythm. Actual city captures carry the color and the central interruption, while white actions make entry clear. The implementation uses local assets and browser primitives rather than template code or an animation library.\n\nThis system covers `src/Landing.tsx`, `src/landing.css`, `src/BlackoutPreview.tsx`, `src/useBlackoutReveal.ts` and `src/useLandingMotion.ts`, mounted through `src/landing-main.tsx` and `index.html`. The isolated game at `simulation.html` remains a separate approved system: `src/console.css`, `src/style.css`, all game UI/HUD, controls, service identities, city artwork, renderer, camera, simulation and saves are protected. Landing tokens never replace game tokens. Retain the game's Antahonist Neon City reference, secondary `design/pixel-city-reference-2.png` inspiration and commit-27 lineage; rejected commit-28/29 designs remain excluded.",
-    "keyCharacteristics": [
-      "Near-black monochrome with white entry controls and silver supporting text.",
-      "Oversized uppercase Manrope with a local mono support role.",
-      "Native scrolling, generous space and open editorial structure.",
-      "One dominant, reversible crossfade between aligned real game captures.",
-      "Bounded sticky enhancement with natural-flow and reduced-motion fallbacks.",
-      "An isolated simulation loaded only when a visitor chooses to play."
-    ],
+    "northStar": "Meridian / the invisible network",
+    "overview": "The landing page makes infrastructure legible before it makes failure visible. Near-black editorial space, monumental Manrope, precise circuit/orbit geometry and restrained mint signals establish a living system; a real HUD-free city capture then becomes the dominant, reversible blackout event. Motion is native, bounded and optional, with content complete before enhancement.\n\nThis system applies only to the landing presentation: `src/Landing.tsx`, `src/landing.css` and its focused landing components and hooks. The isolated simulation at `simulation.html` remains a protected visual and functional system. Its game UI/HUD, city art, renderer, camera, services, simulation, controls and saves do not inherit these landing tokens.",
+    "keyCharacteristics": ["Near-black and off-white editorial ground with mint reserved for signals and keyboard focus.","Oversized and outline Manrope display paired with compact mono system labels.","Precise vector infrastructure geometry and a truthful six-node, eight-edge dependency schematic.","Slow ticker, bounded pointer/scroll depth and once-only kinetic rows with static and reduced-motion paths.","One dominant reversible blackout using aligned, capture-only, HUD-free actual-game imagery.","One direct full-screen play action, followed only by a small explicit lazy same-page embed."],
     "rules": [
-      {
-        "name": "The Monochrome Frame Rule",
-        "body": "Keep entry and selection white; reserve cyan (`page-focus`) for the visible keyboard-focus outline and let real captures carry the city palette.",
-        "section": "colors"
-      },
-      {
-        "name": "The Scale Before Ornament Rule",
-        "body": "Use size, weight and space for hierarchy; archival labels support meaningful content rather than inventing metrics or decorative information.",
-        "section": "typography"
-      },
-      {
-        "name": "The Documentary Depth Rule",
-        "body": "Let the real city supply visual depth; keep surrounding editorial chrome flat.",
-        "section": "elevation"
-      }
+      {"name":"The Mint Signal Rule","body":"Mint communicates flow, progress or keyboard focus; it does not become a decorative wash or general brand background.","section":"colors"},
+      {"name":"The City Carries Color Rule","body":"Keep the editorial frame restrained so actual Ctrl Z captures remain the richest color event.","section":"colors"},
+      {"name":"The Scale Before Ornament Rule","body":"Create hierarchy through size, outline, weight and whitespace; never manufacture badges, metrics or decorative eyebrows.","section":"typography"},
+      {"name":"The Context Below Intro Rule","body":"The hero has no eyebrow above the title. Meridian/context text belongs below the introductory sentence, where it supports rather than competes with the identity.","section":"typography"},
+      {"name":"The Flat Engineering Rule","body":"Lines and measured layering establish structure; decorative elevation does not.","section":"elevation"}
     ],
-    "dos": [
-      "**Do** preserve the monochrome frame, oversized Manrope and meaningful mono support text.",
-      "**Do** use white entry and selection controls with visible cyan keyboard focus.",
-      "**Do** use real, aligned game captures with readable captions and accurate alternative text.",
-      "**Do** keep native scroll, bounded sticky enhancement and manual preview choice available together.",
-      "**Do** preserve natural-flow, reduced-motion, touch and keyboard alternatives.",
-      "**Do** keep landing presentation isolated from the approved game and its saves."
-    ],
-    "donts": [
-      "**Don't** introduce teal panels, generic service cards, glass, decorative glow or fake film/loading effects.",
-      "**Don't** invent metrics, testimonials, awards or unimplemented gameplay scenarios.",
-      "**Don't** replace the protected game UI, city artwork, renderer or tokens with this landing system.",
-      "**Don't** intercept scrolling, hide essential content behind motion or extend the held scene beyond its bounded runway."
-    ]
+    "dos": ["Do preserve the near-black/off-white frame, mint signal role, oversized/outline Manrope and meaningful mono labels.","Do keep hero geometry original, precise and secondary to the title and first-view action.","Do keep the six nodes and eight dependency edges faithful to the source model.","Do keep ticker, pointer depth, arrivals and sticky behavior bounded, pauseable and fully legible when static.","Do use aligned HUD-free actual-game captures with dimensions, receipts and provenance intact.","Do make the blackout the dominant motion and provide manual, keyboard, touch and reduced-motion alternatives.","Do route the single primary final CTA directly to `./simulation.html`; keep any embed explicit, secondary and lazy.","Do keep landing presentation isolated from the protected game system and save state."],
+    "donts": ["Don't restore a hero eyebrow; context belongs below the introduction.","Don't invent telemetry, metrics, services, testimonials, awards or dependency relationships.","Don't add cards, glass, glow, particles, 3D libraries, scrolling interception or loader theatrics.","Don't use mint as a large surface fill or let supporting animation compete with the blackout.","Don't use HUD-bearing, misaligned, edited, generated or externally sourced city imagery.","Don't append a second large play pitch after the closing question.","Don't change the game UI, city artwork, renderer, camera, controls, simulation, workflows or saves to match the landing page."]
   }
 }

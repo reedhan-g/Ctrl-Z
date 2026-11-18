@@ -35,4 +35,4 @@ Current game captures in docs/ui-overhaul/deployed and docs/ui-overhaul/final do
 
 ## Game Presentation
 
-The creator chose to embed the game below the landing page. Load it on demand in an isolated same-origin frame, with a full-screen option. No other audience or commercial claims have been supplied.
+The 18 November motion-rich brief makes the primary final CTA and header Play launch the existing full-screen simulation at ./simulation.html. Preserve the earlier embedded-game choice as a small secondary expandable area below the final invitation, with explicit on-demand loading in a same-origin frame. No other audience or commercial claims have been supplied.

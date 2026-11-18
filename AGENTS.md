@@ -33,6 +33,15 @@ You are developing Ctrl Z, a browser-based isometric city simulation game.
 - Preserve existing functionality and unrelated changes. Finish an in-progress operation safely before applying new workflow instructions; never restart, reset or discard progress to adopt them.
 - Update DEVELOPMENT_STATUS.md regularly with progress, decisions, unfinished tasks and the next milestone. Keep CODEX_HANDOFF_README.md current so another session/account can resume from the actual branch and tested state.
 
+### Efficient validation and tool use
+
+- Work in focused milestones; do not combine unrelated large features or refactors.
+- For minor visual changes, avoid full suites, repeated builds and repeated browser captures unless the changed surface requires them.
+- During functional implementation, run only the relevant targeted checks. Run the production build and appropriate regression gate once at the end of a major milestone.
+- Do not repeat a successful check when no relevant code, test or configuration has changed. If a check fails, diagnose its actual cause before rerunning it.
+- Avoid unnecessary file rereads, duplicate screenshots, excessive planning and unrelated cleanup. These efficiency preferences never permit ignoring a build failure, critical bug, broken core mechanic or mandatory project check.
+- Record what was actually validated, what was intentionally deferred and the next required check in `DEVELOPMENT_STATUS.md`.
+
 ### Current UI overhaul - supersedes historical city redesign scope
 
 CODEX_CTRL_Z_UI_OVERHAUL.md is the active task. The creator approves the current map and artwork. Redesign only the surrounding UI/UX in its specified tested milestones; preserve city assets, renderer, camera math, service labels/gold, routes, simulation and saves. Continue verified pushes to origin/main and the existing Pages workflow. Historical city-redesign priorities below do not authorize changing the approved environment during this task.
