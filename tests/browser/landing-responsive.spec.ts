@@ -9,6 +9,11 @@ test('landing width matrix retains clear entry and unobstructed touch targets',a
  for(const [width,height] of matrix){
   await page.setViewportSize({width,height});await page.goto('./');await page.evaluate(()=>document.fonts.ready);
   await expect(page.locator('.opening .enter-button')).toBeInViewport();
+  const entry=(await page.locator('.opening .enter-button').boundingBox())!;
+  expect(entry.y,`${width}px complete opening action top`).toBeGreaterThanOrEqual(0);
+  expect(entry.y+entry.height,`${width}px complete opening action bottom`).toBeLessThanOrEqual(height);
+  const title=await page.locator('.opening h1').evaluate(element=>({height:element.getBoundingClientRect().height,lineHeight:parseFloat(getComputedStyle(element).lineHeight)}));
+  expect(title.height,`${width}px unbroken title`).toBeLessThanOrEqual(title.lineHeight+1);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(width);
   const targets=await page.locator('.landing :is(a,button):visible:not(.skip-link)').evaluateAll(elements=>elements.map(element=>{
    const r=element.getBoundingClientRect();return {name:element.textContent,x:r.x,y:r.y,width:r.width,height:r.height};

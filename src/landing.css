@@ -171,7 +171,7 @@ body { margin: 0; }
   .site-header { min-height: 64px; }
   .opening { min-height: calc(100svh - 64px); padding-block: 24px; gap: 24px; }
   .opening-title { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: end; padding-top: 0; }
-  .opening h1 { font-size: clamp(5rem, 17vw, 12rem); }
+  .opening h1 { font-size: clamp(4rem, 12vw, 9rem); white-space: nowrap; }
   .tagline { font-size: clamp(1.5rem, 3.5vw, 2.5rem); margin-top: 0 !important; }
   .intro { font-size: 16px; margin-top: 8px !important; }
   .opening-actions { gap: 4px; }

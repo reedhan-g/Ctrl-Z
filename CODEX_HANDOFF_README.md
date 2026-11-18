@@ -2,6 +2,8 @@
 
 ## Cinematic homepage task — 18 November 2026
 
+Milestone 4 responsive finish is complete: 15 cases pass/one duplicate skip plus production build; the entire opening CTA and unbroken title are verified even at 844×390. Actual eight-width evidence is cinematic/responsive. Motion is pushed at ef09cd4. Consolidated detector has no primary findings, 24 advisory documentation additions; do not rerun it. Next: fresh finish review, refresh DESIGN/sidecar from real code, unit/game preservation gate and actual Pages checks. Physical Safari/devices remain unverified.
+
 Milestone 3 sticky/crossfade/native-motion checkpoint is complete: 25 browser passes/three deliberate duplicate skips and production build, with unchanged game hashes. The reveal retains accessible/manual/re-entry/reduced-motion behavior and falls back to natural flow whenever the full stage cannot fit. Reveal evidence is cinematic/reveal. Opening/story is pushed at 2d5fffc. Next: refine the short-landscape title wrapping/first-screen action found in actual matrix screenshots, then fresh finish review, actual design documentation and published verification. No game source, image assets or deployment configuration changed.
 
 Milestone 2 opening/story is implemented and reviewed at 1440/390, with 16 browser passes/two deliberate skips and production build. The city is below the fold, navigation is About/The city/Play, final entry is Enter Meridian plus full-screen, and the three consequence beats describe actual rules. All existing game assertions remain, and no game source/art changed. Palette is pushed at 1343d39. Next: bounded sticky blackout crossfade and subtle native page motion, then final responsive/entry/review gates.
