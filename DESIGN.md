@@ -2,13 +2,14 @@
 name: "Ctrl Z — Editorial Homepage"
 description: "Minimal editorial presentation for the existing Ctrl Z simulation."
 colors:
-  page-ground: "#111418"
-  page-raised: "#191e23"
-  page-ink: "#eef0eb"
-  page-muted: "#abb5b9"
-  page-accent: "#8bd9d2"
-  page-edge: "#343c43"
-  page-warning: "#e7b56e"
+  page-ground: "#090909"
+  page-raised: "#101112"
+  page-ink: "#f2f1ee"
+  page-muted: "#a5a5a3"
+  page-accent: "#f2f1ee"
+  page-edge: "#303133"
+  page-warning: "#f2f1ee"
+  page-focus: "#8bd9d2"
 typography:
   display:
     fontFamily: "Manrope, sans-serif"
@@ -135,9 +136,9 @@ components:
 
 ## Overview
 
-**Creative North Star: "Editorial, with consequence"**
+**Creative North Star: "Meridian, interrupted"**
 
-**Direction — Editorial, with consequence (UI_REDESIGN.md).** Retain the asymmetric editorial composition, geometric Manrope and cool graphite/cyan palette. Keep motion restrained: one natural-scroll powered/blackout comparison carries the signature, with instant manual endpoints for reduced motion. Reject a full-screen cinematic hero and pinned scroll spacer. A shallow authentic city glimpse supports the wordmark; the existing playable game remains isolated and protected.
+**Direction — Meridian, interrupted (CTRL_Z_JAKE_SCROLL_YOUNG_MINDS_REDESIGN.md).** The creator replaces the prior compact homepage with a near-black monochrome cinematic sequence. Macrostructure: oversized typographic opening, editorial premise, bounded sticky real-city blackout scene, three vertical consequence beats, final invitation. Type: self-hosted Manrope, large uppercase display and restrained archival support text. Palette: near-black, off-white and silver, with cyan reserved for focus. Motion: native scroll, subtle headline drift, one dominant reversible blackout. Reject cyan panels, generic cards, fake loaders and decorative film effects. Preserve the complete game and actual captures. The implementation proceeds in tested checkpoints; normative tokens and component documentation will be refreshed from the final built page.
 
 Strong typography and clean hierarchy introduce the playable city through a dark reading surface, generous spacing and restrained neon accents. Open text blocks and actual game previews carry the presentation. The mood is calm, direct and precise; the controls feel clear and restrained.
 

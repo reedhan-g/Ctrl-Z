@@ -1,5 +1,11 @@
 # Ctrl Z - Development Status
 
+## Cinematic homepage started — 18 November 2026
+
+Milestone 1 complete: near-black/off-white/silver tokens, white controls and cyan-only keyboard focus are implemented; browser theme color matches. Real 1440/390 palette views were opened in cinematic/palette, with three baseline widths preserved. Production build passes with identical game hashes. Fifteen distinct audit/responsive/landing cases are validated across the initial 13 passes and two passing focused game-entry checks; three duplicate matrix cases skip. The repeated cold game/navigation scenario required a targeted 120s scenario /15s first-canvas budget, retaining all gameplay/save assertions; its two cases pass (1.7m) and the test-only correction is pushed/verified at 76b61be. Young Minds' public preview remained on a loading indicator, so its fully specified visual language in the creator's brief governs; no source/assets were imported. Next: full typographic opening and vertical story structure, then bounded sticky reveal/motion.
+
+Read CTRL_Z_JAKE_SCROLL_YOUNG_MINDS_REDESIGN.md completely and audited current source/references. Fetched origin; main and origin/main both 429c1a2. Unrelated installed skills remain untracked/preserved. Fresh 1440/768/390 baseline capture case passes (11.6s) and all three views were opened. The new plan/contract is docs/landing-page/CINEMATIC_PLAN.md. Preserve the proven reveal/manual/reduced-motion/iframe/save behavior and all game sources; replace only landing visual identity and scroll staging. First checkpoint is monochrome tokens, followed by opening/story, sticky reveal/motion and responsive/entry validation.
+
 ## UI_REDESIGN.md complete — 17 November 2026
 
 A–E complete. Editorial composition, aligned natural-scroll blackout reveal, manual/reduced-motion controls and responsive finish are pushed at 330d4e5, aba609a and fcc1844; actual design documentation is refreshed at 5f9fd61. The final evidence checkpoint records reviewed published desktop/mobile homepage, halfway, blackout and embedded inspection captures in docs/landing-page/redesign/deployed; current phone reveal captures are also refreshed. No protected game code, artwork, simulation, saves, minimap, vehicles or workflow changed.

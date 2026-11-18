@@ -10,15 +10,16 @@
   font-family: 'Manrope', sans-serif;
   font-synthesis: none;
   color-scheme: dark;
-  color: #eef0eb;
-  background: #111418;
-  --page-ground: #111418;
-  --page-raised: #191e23;
-  --page-ink: #eef0eb;
-  --page-muted: #abb5b9;
-  --page-accent: #8bd9d2;
-  --page-edge: #343c43;
-  --page-warning: #e7b56e;
+  color: #f2f1ee;
+  background: #090909;
+  --page-ground: #090909;
+  --page-raised: #101112;
+  --page-ink: #f2f1ee;
+  --page-muted: #a5a5a3;
+  --page-accent: #f2f1ee;
+  --page-edge: #303133;
+  --page-warning: #f2f1ee;
+  --page-focus: #8bd9d2;
   scrollbar-color: var(--page-edge) var(--page-ground);
 }
 
@@ -28,7 +29,7 @@ body { margin: 0; }
 .landing ::selection { color: var(--page-ground); background: var(--page-accent); }
 .landing a { color: inherit; text-underline-offset: 5px; text-decoration-thickness: 1px; }
 .landing a:hover { text-decoration-color: var(--page-accent); }
-.landing :is(a, button):focus-visible { outline: 2px solid var(--page-accent); outline-offset: 6px; }
+.landing :is(a, button):focus-visible { outline: 2px solid var(--page-focus); outline-offset: 6px; }
 .landing :is(h1, h2, p, figure, dl, dd) { margin: 0; }
 .landing h1, .landing h2 { text-wrap: balance; letter-spacing: -.035em; }
 .landing h2 { font-size: clamp(1.85rem, 3.3vw, 2.75rem); line-height: 1.2; font-weight: 500; }
@@ -53,7 +54,7 @@ body { margin: 0; }
 .tagline { font-size: clamp(1.6rem, 2.4vw, 2rem); line-height: 1.25; font-weight: 500; letter-spacing: -.025em; }
 .intro { margin-block: 24px 28px !important; font-size: 18px; color: var(--page-muted); line-height: 1.7; max-width: 39ch; }
 .landing .enter-button { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 13px 24px; border: 0; border-radius: 4px; font: inherit; font-size: 14px; font-weight: 800; background: var(--page-accent); color: var(--page-ground); text-decoration: none; cursor: pointer; transition: background-color 160ms ease-out, transform 120ms ease-out; }
-.landing .enter-button:hover { background: var(--page-ink); }
+.landing .enter-button:hover { background: #d8d7d4; }
 .landing .enter-button:active { transform: translateY(1px); }
 .entry-note { margin-top: 14px !important; font-size: 12px; color: var(--page-muted); }
 .editorial-split { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }

@@ -2,53 +2,51 @@
 version: 1
 slug: "src-landing-tsx"
 primary_target: "src/Landing.tsx"
-related_targets: ["src/landing.css","index.html"]
+related_targets: ["src/landing.css","src/BlackoutPreview.tsx","src/useBlackoutReveal.ts","index.html"]
 ---
 
-# Editorial, with consequence — 17 November 2026
+# Meridian, interrupted — 18 November 2026
 
-UI_REDESIGN.md was read completely. This is a refinement of the existing homepage, with zero game-code/art changes. Main and origin/main began at e60ae32; paused Embarko compatibility work was preserved and tested independently rather than discarded. User skill installations remain unrelated. Frontend Design and Impeccable guide the work; the UI Skills CLI is not locally installed, so no package or registry script is installed.
+The creator explicitly requests CTRL_Z_JAKE_SCROLL_YOUNG_MINDS_REDESIGN.md, which was read completely. It replaces the previous homepage style, retaining product truth and the game. Main/origin/main both start at 429c1a2; unrelated untracked skills are preserved. The stopped Embarko claim is outside scope.
 
-## Audit and direction
+## Audit and commitment
 
-Keep Manrope, graphite #111418, raised graphite #191e23, off-white #eef0eb, cool grey #abb5b9, cyan #8bd9d2 and the open split composition. Add warm amber only for blackout state. Preserve the six-section story and on-demand iframe/full-screen entry. The current phone screenshot is too tall, and the original powered/blackout HUD captures have different heights/overlays. Fresh real world-region captures must have identical camera pan/zoom/origin and bounds before compositing.
+The current homepage is compact, cyan-led and split across equal columns. Its authentic paired captures, local reveal, manual priority, reduced motion, lazy iframe, home bridge, full-screen route and saves work. Preserve these. Replace the palette, first-screen composition, section pacing and feature presentation. Existing camera-aligned PNGs/provenance remain unchanged. Fresh 1440/768/390 baselines are in cinematic/before; the capture check passes.
 
-The page introduces a systems-thinking game to a first-time visitor/judge: understand a power cut's consequences, then play. Macrostructure stays asymmetric editorial; type stays geometric Manrope; palette stays cool graphite/cyan with consequential amber; motion is restrained and local to the comparison. The memorable element is an aligned powered-to-blackout reveal over a short natural-scroll window. Reject a full-screen cinematic hero or sticky scrollytelling spacer. No new motion dependency.
+Design read: a new visitor should understand an infrastructure interruption and choose to enter the existing game. Direction: **Meridian, interrupted**. Macrostructure: typographic opening, editorial premise, one held city scene, three consequence beats, final play invitation. Type: self-hosted geometric Manrope, large uppercase display, small archival support text. Palette: #090909 / #101112, #F2F1EE, #A5A5A3, #666769 for nonessential large index marks, charcoal rules; cyan only for keyboard focus. Motion: native scroll, restrained headline drift and subtle arrivals, one dominant reversible blackout moment. Reject cyan panels, service cards, loader theatrics and decorative film effects.
+
+References: [Jake Roberts](https://www.framer.com/marketplace/templates/jake-roberts/) for scale, grid and scroll rhythm; [Young Minds](https://www.aura.build/templates/cinematic-portfolio-80) for the creator-pinned monochrome palette and cinematic spacing. Reference only: no template code, imagery or fonts are imported. Keep code-first development, as previously confirmed. The explicit uppercase/subtitle/sequence treatments in this new brief override generic skill defaults.
 
 ```text
-Ctrl Z + compact city glimpse | Undo the World / action-led premise / Enter
-One switch                   | concise cause / consequence / intervention / replay
-Inside Meridian              | Quiet evening / Power removed
-aligned city scene           | natural local wipe + meaningful power state
-Follow the connections       | three short real capabilities
-What would you keep running? | final invitation
-Play Ctrl Z                  | unchanged, on-demand game / full-screen link
+Ctrl Z                                  About / The city / Play
+CTRL Z                                  near-total black opening
+UNDO THE WORLD.                         premise / Enter simulation
+One switch. / A city of consequences.    two-column editorial statement
+Inside Meridian                         held real before/after scene
+Consequences                            01 What fails
+                                        02 What you can save
+                                        03 What you can undo
+What would you keep running?             Enter Meridian / full-screen
+Play Ctrl Z                             existing on-demand embed
 ```
 
-## Interaction contract
+## Checkpoints
 
-Only preview presentation changes. Normal scrolling maps the image's passage through the viewport to a clipped blackout layer; no pinning, snapping, scroll interception or spacer. Manual endpoints override scroll until the complete preview leaves view, then scrolling resumes on re-entry. Direct #preview entry starts connected and progresses with the next natural scroll. Reduced motion keeps a stable connected capture and immediate manual switching. Only discrete state changes update caption/pressed state; animation-frame batching writes a CSS custom property without rendering React per pixel. Resize, visual-viewport zoom and tab-return remeasure.
-
-Desktop uses a wide scene; phones use a controlled-height crop from an actual mobile capture. Both layers share dimensions and object position. One accessible image describes the comparison; its duplicate layer is decorative. Lazy images reserve layout space. Scrolling must not load Pixi, mount the iframe, alter storage or advance any game state.
-
-## Tested milestones
-
-A. Capture 390/1440 baseline and paired city states, verify camera/bounds equality and provenance. Record this plan.
-B. Strengthen wordmark and CTA, compress phone whitespace, add a restrained authentic city glimpse, refine copy. Review 390/1440 screenshots and commit.
-C. Add the local blackout reveal, manual priority/re-entry, reduced motion, state captions and tests. Review powered/half/blackout/manual/reduced screenshots on both devices and commit.
-D. Finish touch targets, phone crop and microinteractions; verify 320/360/390/430/768/1280/1440 and landscape, zoom, slow images and keyboard. Commit independently.
-E. Run unit/build and complete existing browser regression, verify published Pages, get the fresh finish review, update actual DESIGN/REVIEW receipts and push evidence. Physical phones/Safari remain unverified unless actually tested.
+1. Audit/baselines and monochrome tokens, preserving every interaction; test and push.
+2. Typographic opening, native anchors, sequential story and final invitation; verify phone/keyboard/entry and push.
+3. Extend the existing reveal hook with bounded sticky progress/crossfade and subtle page motion. Retain manual priority, re-entry, reverse scroll and instant reduced motion; test/capture and push.
+4. Full responsive/short-height/slow-image/zoom/touch finish, then relevant unit, browser and production gates. Review 320/390/768/1280/1440, a fresh finish reviewer, actual design documentation and published verification. Physical devices/Safari remain unverified.
 
 ## Direction contract
 
-THESIS: Let one real interruption explain the connected city before play.
+THESIS: Hold one authentic interruption long enough to understand it, then invite a decision. Refuse the promotional card grid.
 
-OWN-WORLD: Existing Manrope and graphite/cyan editorial system, with amber reserved for the power-cut state. Open sections and truthful city imagery.
+OWN-WORLD: Near-black monochrome, giant Manrope, thin charcoal rules, white entry controls, restrained archival support text. Actual city imagery carries the color.
 
-STORY: Remove electricity, see consequences, choose help, rewind; enter the unchanged game below.
+STORY: Enter in darkness; understand the dependencies; witness power disappear; learn what can be saved and rewound; play.
 
-FIRST VIEWPORT: Left-aligned bold Ctrl Z with a shallow real city glimpse, offset premise and primary CTA. On phones, title and CTA precede the glimpse within a compact opening.
+FIRST VIEWPORT: Sparse header, oversized left-aligned CTRL Z and UNDO THE WORLD, compact premise/action below, almost entirely black ground. City imagery begins below the opening.
 
-FORM: seed: none (pinned). UI_REDESIGN.md names “Editorial, with consequence”, the retained split composition and the “scroll-driven blackout reveal” as the signature interaction. This extends the approved world, without a replacement identity exercise.
+FORM: seed: none (pinned). The creator explicitly says “Use Jake Roberts as the scrolling and interaction reference, and Young Minds as the visual and color reference”; the brief specifies the near-black typographic opening, pinned city comparison and five-part scroll story. This is the confirmed code-first route, with no new identity-choice round.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

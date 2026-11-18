@@ -1,5 +1,11 @@
 # Ctrl Z — complete Codex account handoff
 
+## Cinematic homepage task — 18 November 2026
+
+Milestone 1 palette/audit is complete and tested; the production game bundle hashes remain unchanged. Fifteen distinct browser cases are validated (13 initial plus two focused cold-game/navigation checks), three duplicate skips. The independently passing startup-budget test correction is pushed at 76b61be. Baselines and palette evidence are docs/landing-page/cinematic/{before,palette}; the new creator brief is included in this checkpoint. Next implement the cinematic opening/story, then refine the existing reveal with bounded sticky progress and page motion. The Young Minds live template stalled at its loader; use the creator's explicit palette/type/composition specification, without importing template content.
+
+The latest task is CTRL_Z_JAKE_SCROLL_YOUNG_MINDS_REDESIGN.md, read completely. It supersedes the earlier compact homepage style: Young Minds monochrome/cinematic visuals, Jake Roberts native scroll pacing, preserve/refine the working blackout reveal in a bounded sticky scene. Main/origin/main start at 429c1a2. All game UI/code/art/render/saves and existing Pages workflow remain protected; do not resume the stopped Embarko claim. Fresh desktop/tablet/phone baselines are captured and reviewed. Follow docs/landing-page/CINEMATIC_PLAN.md and small tested pushes to origin/main. Next: monochrome token checkpoint, then opening/story, sticky reveal/motion, responsive and published verification. Preserve unrelated user skills/config.
+
 ## Current continuation — 17 November 2026
 
 Pushed/verified checkpoints: 9ecd6ce preserves the prior Embarko CSP work; 84ec59c captures aligned real scenes/baselines; 330d4e5 refines first-viewport composition; aba609a implements the signature reveal; fcc1844 finishes responsive targets/microinteractions. A–D are complete. Actual evidence is docs/landing-page/redesign/{before,editorial,reveal,responsive}. Game code/art/workflows remain unchanged, with identical game bundle hashes.

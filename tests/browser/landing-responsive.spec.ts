@@ -69,7 +69,7 @@ test('preview survives resize zoom and tab return with slow captures',async({pag
 test('entry feedback stays quiet and reduced motion removes transitions',async({page})=>{
  await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('./');
  const entry=page.locator('.opening .enter-button');await entry.hover();
- await expect(entry).toHaveCSS('background-color','rgb(238, 240, 235)');
+ await expect(entry).toHaveCSS('background-color','rgb(216, 215, 212)');
  await entry.focus();await expect(entry).toBeFocused();
  await expect(entry).toHaveCSS('outline-style','solid');
  await page.emulateMedia({reducedMotion:'reduce'});
