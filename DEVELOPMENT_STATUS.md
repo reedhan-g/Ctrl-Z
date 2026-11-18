@@ -2,6 +2,8 @@
 
 ## Motion-rich landing started — 18 November 2026
 
+Milestone 1 complete: original SVG orbits/circuit signals/nodes, bounded pointer/scroll depth and restrained ticker are implemented. Motion pauses offscreen/hidden and from an explicit control; touch, reduced-motion and save-data use static graphics. Real 1440/390/844×390 captures are reviewed in animated/hero. Production build and 16 browser cases pass (55.4s), two deliberate duplicate skips, including existing embedded/save/full-screen flows. Game bundle hashes remain identical. Baseline/brief checkpoint 6c18eef is pushed/verified. Next: accurate dependency schematic and compact kinetic consequence rows.
+
 CTRL_Z_ANIMATED_LANDING_PAGE.md is read completely. Local/remote main are fada846 with no tracked unfinished work; unrelated skills/config remain untracked. Baseline actual Pages desktop/phone opening, blackout and final invitation pass two capture cases (12.4s) and are reviewed in animated/before. ANIMATED_PLAN.md records the small 0–5 checkpoints, exact eight dependency edges and screenshot-only HUD-hiding strategy. Existing hooks/entry/save/game mechanisms are preserved. No separate animated prototype file/URL was found; optional reference-location question is pending and the complete written brief governs meanwhile. Next: implement visible SVG hero/ticker and pauseable low-cost motion, then the truthful schematic and actual city-first captures.
 
 ## Cinematic homepage complete — 18 November 2026

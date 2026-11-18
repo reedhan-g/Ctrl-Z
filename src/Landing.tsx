@@ -1,9 +1,11 @@
 import {useState, type SyntheticEvent} from 'react';
 import BlackoutPreview from './BlackoutPreview';
 import {useLandingMotion} from './useLandingMotion';
+import InfrastructureGraphic from './InfrastructureGraphic';
+import KineticTicker from './KineticTicker';
 
 export default function Landing() {
-  const rootRef = useLandingMotion();
+  const {rootRef,motionPaused,setMotionPaused,motionAvailable} = useLandingMotion();
   const [playing, setPlaying] = useState(() => window.location.hash === '#simulation');
   const [gameReady, setGameReady] = useState(false);
   const enterSimulation = () => setPlaying(true);
@@ -20,7 +22,7 @@ export default function Landing() {
     <div className="landing" ref={rootRef}>
       <a className="skip-link" href="#content">Skip to content</a>
       <header className="site-header page-width">
-        <a className="site-brand" href="./" aria-label="Ctrl Z home">Ctrl Z</a>
+        <a className="site-brand" href="./" aria-label="Ctrl Z home">Ctrl Z.</a>
         <nav aria-label="Main navigation">
           <a href="#about">About</a>
           <a href="#preview">The city</a>
@@ -29,22 +31,25 @@ export default function Landing() {
       </header>
 
       <main id="content" tabIndex={-1}>
-        <section className="opening page-width" aria-labelledby="site-title">
+        <section className="opening page-width" aria-labelledby="site-title" data-motion-scope>
+          <InfrastructureGraphic/>
           <div className="opening-title">
+            <p className="opening-label">Meridian / An interactive infrastructure experiment</p>
             <h1 id="site-title">Ctrl Z</h1>
             <p className="tagline">Undo the World.</p>
           </div>
           <div className="opening-bottom">
             <div className="opening-copy">
-              <p className="opening-label">An interactive infrastructure simulation</p>
-              <p className="intro">Remove electricity. Watch a city unravel. Rewind the consequences.</p>
+              <p className="intro">A city runs on invisible connections. Break one, and watch the consequences spread.</p>
             </div>
             <div className="opening-actions">
-              <a className="enter-button" href="#simulation" onClick={enterSimulation}>Enter simulation</a>
-              <a className="scroll-hint" href="#about">Scroll to discover</a>
+              <a className="enter-button" href="#preview">Witness the blackout <svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 16 16 4M4 4h12v12"/></svg></a>
+              <div className="opening-utilities"><a className="scroll-hint" href="#about">Scroll to discover <span className="hint-arrow loop" aria-hidden="true">↓</span></a>
+              <button className="motion-toggle" type="button" disabled={!motionAvailable} aria-pressed={motionPaused} onClick={()=>setMotionPaused(value=>!value)}>{!motionAvailable?'Motion static':motionPaused?'Resume motion':'Pause motion'}</button></div>
             </div>
           </div>
         </section>
+        <KineticTicker/>
 
         <section id="about" className="concept page-width" aria-labelledby="concept-title">
           <p className="section-marker"><span>01 / The premise</span><span>Meridian</span></p>

@@ -2,6 +2,8 @@
 
 ## Motion-rich landing task — 18 November 2026
 
+Milestone 1 hero/ticker is implemented and reviewed on desktop/phone/short landscape; build and 16 browser cases pass/two duplicate skips. It adds original SVG geometry, native pointer/scroll depth, offscreen/hidden pause, manual pause and static touch/reduced-motion alternatives. Existing game-entry/save assertions still pass; game bundles unchanged. Evidence: animated/hero. Baseline is pushed at 6c18eef. Next: source-accurate schematic and kinetic decision rows, then clean city capture and streamlined final entry.
+
 Active brief CTRL_Z_ANIMATED_LANDING_PAGE.md is read completely and supersedes previous landing styling/layout, never protected game behavior. Start main/origin fada846; two actual published desktop/phone baseline capture cases pass and six views are reviewed in docs/landing-page/animated/before. Plan: ANIMATED_PLAN.md, tested checkpoints 0–5. Next: original SVG hero/ticker, truthful six-node/eight-edge schematic and kinetic rows, clean deterministic HUD-free game captures, final direct-play CTA with optional lazy embed, final review/tests/design docs. No game or workflow edit; stopped Embarko claim stays stopped. Preserve unrelated untracked skills/config. Optional prototype-location question is pending; no matching local prototype was found.
 
 ## Cinematic homepage task — 18 November 2026

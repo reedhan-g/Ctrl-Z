@@ -9,7 +9,7 @@ test('editorial opening leads with the game and a reachable play action',async({
  await expect(page.getByRole('heading',{name:'Ctrl Z',exact:true})).toBeInViewport();
  await expect(page.locator('.opening .enter-button')).toBeInViewport();
  await expect(page.locator('.opening img')).toHaveCount(0);
- await expect(page.getByText('An interactive infrastructure simulation',{exact:true})).toBeVisible();
+ await expect(page.getByText('Meridian / An interactive infrastructure experiment',{exact:true})).toBeVisible();
  expect((await page.locator('.opening').boundingBox())!.height).toBeGreaterThanOrEqual((phone?844:900)*.8);
  expect((await page.locator('.preview-images').boundingBox())!.y).toBeGreaterThan(phone?844:900);
  await expect(page.locator('iframe')).toHaveCount(0);

@@ -14,7 +14,7 @@ test('homepage explains the game without loading the simulation',async({page},in
  await expect(page.getByRole('button',{name:'Remove electricity',exact:true})).toHaveCount(0);
  expect(requests.filter(url=>/\/src\/(City|game|App|style|console)[./]/.test(url))).toEqual([]);
  const links=page.locator('a[href="#simulation"]');
- await expect(links).toHaveCount(4);
+ await expect(links).toHaveCount(3);
  for(const link of await links.all())await expect(link).toHaveAttribute('href','#simulation');
  await expect(page.locator('iframe')).toHaveCount(0);
  await page.getByRole('link',{name:'The city',exact:true}).click();
@@ -42,7 +42,7 @@ test('embedded entry home and full-screen retain saves and existing gameplay',as
  // repeated navigation on software GPUs separately from gameplay assertions.
  test.setTimeout(120000);
  await page.goto('./');
- await page.locator('.opening').getByRole('link',{name:'Enter simulation',exact:true}).click();
+ await page.locator('.site-header').getByRole('link',{name:'Play',exact:true}).click();
  await expect(page).toHaveURL(/#simulation$/);
  const game=page.frameLocator('iframe[title="Ctrl Z playable simulation"]');
  await expect(game.locator('canvas')).toBeVisible({timeout:15000});
