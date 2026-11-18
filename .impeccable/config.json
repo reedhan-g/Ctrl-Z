@@ -2,7 +2,9 @@
   "buildPath": "code",
   "detector": {
     "ignoreRules": [],
-    "ignoreFiles": [],
+    "ignoreFiles": [
+      "CTRL_Z_ANIMATED_PREVIEW.html"
+    ],
     "ignoreValues": [
       {
         "rule": "design-system-font",
