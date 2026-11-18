@@ -14,7 +14,7 @@ test('homepage explains the game without loading the simulation',async({page},in
  await expect(page.getByRole('button',{name:'Remove electricity',exact:true})).toHaveCount(0);
  expect(requests.filter(url=>/\/src\/(City|game|App|style|console)[./]/.test(url))).toEqual([]);
  const links=page.locator('a[href="#simulation"]');
- await expect(links).toHaveCount(3);
+ await expect(links).toHaveCount(1);
  for(const link of await links.all())await expect(link).toHaveAttribute('href','#simulation');
  await expect(page.locator('iframe')).toHaveCount(0);
  await page.getByRole('link',{name:'The city',exact:true}).click();
@@ -40,10 +40,11 @@ test('homepage explains the game without loading the simulation',async({page},in
 test('embedded entry home and full-screen retain saves and existing gameplay',async({page},info)=>{
  // This scenario cold-starts Pixi three times. Budget shader compilation and
  // repeated navigation on software GPUs separately from gameplay assertions.
- test.setTimeout(120000);
+ test.setTimeout(180000);
  await page.goto('./');
- await page.locator('.site-header').getByRole('link',{name:'Play',exact:true}).click();
- await expect(page).toHaveURL(/#simulation$/);
+ await page.locator('.embedded-option summary').click();
+ await expect(page.locator('iframe')).toHaveCount(0);
+ await page.getByRole('button',{name:'Start simulation',exact:true}).click();
  const game=page.frameLocator('iframe[title="Ctrl Z playable simulation"]');
  await expect(game.locator('canvas')).toBeVisible({timeout:15000});
  await expect(game.getByRole('button',{name:'How to play'})).toBeVisible();
@@ -61,7 +62,7 @@ test('embedded entry home and full-screen retain saves and existing gameplay',as
  await expect(game.getByText('Experiment saved on this browser.')).toBeVisible();
  const saved=await page.evaluate(()=>localStorage.getItem('ctrl-z:experiment:v1'));
  expect(saved).toBeTruthy();
- await page.locator('.closing').getByRole('link',{name:'Enter Meridian',exact:true}).click();
+ await page.getByRole('link',{name:'Explore the city yourself',exact:true}).click();
  await expect(page.locator('iframe')).toHaveCount(1);
  await expect(game.getByRole('button',{name:'Restore electricity',exact:true})).toBeVisible();
  await page.locator('#simulation').screenshot({path:info.outputPath('embedded-game.png')});
@@ -74,7 +75,7 @@ test('embedded entry home and full-screen retain saves and existing gameplay',as
  await expect(page.getByRole('heading',{name:'Ctrl Z',exact:true})).toBeVisible();
  await expect(page.locator('canvas')).toHaveCount(0);
  expect(await page.evaluate(()=>localStorage.getItem('ctrl-z:experiment:v1'))).toBe(saved);
- await page.locator('.closing').getByRole('link',{name:'Enter Meridian',exact:true}).click();
+ await page.getByRole('link',{name:'Explore the city yourself',exact:true}).click();
  await expect(game.locator('canvas')).toBeVisible({timeout:15000});
  await game.getByRole('button',{name:'Resume saved',exact:true}).click();
  await expect(game.getByText('Saved experiment resumed, paused.')).toBeVisible();
@@ -86,12 +87,14 @@ test('embedded entry home and full-screen retain saves and existing gameplay',as
 });
 
 test('embedded game has a direct anchor and an explicit start control',async({page})=>{
+ test.setTimeout(90000);
  await page.goto('./#simulation');
- await expect(page.frameLocator('iframe').locator('canvas')).toBeVisible();
+ await expect(page.frameLocator('iframe').locator('canvas')).toBeVisible({timeout:20000});
  await page.goto('./');
  await expect(page.locator('iframe')).toHaveCount(0);
+ await page.locator('.embedded-option summary').click();
  await page.getByRole('button',{name:'Start simulation',exact:true}).click();
- await expect(page.frameLocator('iframe').locator('canvas')).toBeVisible();
+ await expect(page.frameLocator('iframe').locator('canvas')).toBeVisible({timeout:20000});
 });
 
 test('keyboard skip link and previews work without motion',async({page})=>{

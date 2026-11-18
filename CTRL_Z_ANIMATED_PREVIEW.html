@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="dark" />
+<title>Ctrl Z — Animated Landing Page Concept</title>
+<meta name="description" content="Interactive motion-rich landing concept for Ctrl Z. A design reference, not a production implementation." />
+<style>
+:root{--bg:#08090a;--ink:#f3f3ef;--muted:#a9acaa;--line:#303335;--mint:#8ce7d9;--edge:#45585a;scroll-behavior:smooth;color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;margin:0;overflow-x:hidden}
+button,a{font:inherit}
+a{color:inherit}
+button{cursor:pointer}
+a:focus-visible,button:focus-visible{outline:2px solid var(--mint);outline-offset:5px}
+.wrap{width:min(1160px,calc(100% - 90px));margin:0 auto}
+.mono{font:11px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.11em;text-transform:uppercase;color:#a0a6a3}
+header{height:78px;position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(24px,5vw,70px);border-bottom:1px solid #292d2e;background:#090a0b}
+header .brand{font-size:23px;font-weight:800;letter-spacing:-.055em;text-decoration:none}
+header nav{display:flex;gap:32px;align-items:center}
+header nav a{font-size:13px;color:#d7dad6;text-decoration:none}
+header nav a:hover{text-decoration:underline;text-underline-offset:6px}
+header nav a:last-child{color:white;text-decoration:underline;text-underline-offset:6px}
+.hero{min-height:calc(100svh - 78px);min-height:max(650px,calc(100svh - 78px));position:relative;overflow:hidden;display:flex;align-items:center;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.32;background:radial-gradient(circle at var(--mx,75%) var(--my,38%),#4d7a78 0%,#152222 17%,transparent 43%);z-index:0}
+.herograph{position:absolute;right:-5%;top:1%;width:min(74%,900px);height:97%;opacity:.83;z-index:0;pointer-events:none;transform:translateY(var(--graphic-shift,0px));will-change:transform}
+.herograph svg{height:100%;width:100%;overflow:visible}
+.circuit{fill:none;stroke:#5a807f;stroke-width:1.1;stroke-opacity:.6;stroke-dasharray:5 12;animation:dash 14s linear infinite}
+.ring{fill:none;stroke:#4d5f60;stroke-width:.7;stroke-opacity:.65;transform-origin:center;animation:spin 70s linear infinite}
+.ring.rev{animation-direction:reverse;animation-duration:45s;stroke-opacity:.35}
+.orbdot{fill:#abf1e6;filter:drop-shadow(0 0 5px #9cefe6);animation:pulse 3s ease-in-out infinite}
+.hero .wrap{position:relative;z-index:2;padding:65px 0 60px}
+.hero-content{transform:translateY(var(--hero-drift,0px));opacity:var(--hero-opacity,1);will-change:transform,opacity}
+h1{font-size:clamp(105px,19vw,270px);line-height:.78;letter-spacing:-.088em;font-weight:900;margin:55px 0 30px;white-space:nowrap}
+.hero-title2{font-size:clamp(43px,6.9vw,105px);letter-spacing:-.075em;line-height:.93;font-weight:600}
+.hero-title2 .outline{color:transparent;-webkit-text-stroke:1px #e5e5e1}
+.hero-bottom{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-top:80px}
+.hero-bottom p{max-width:370px;color:#b7beba;font-size:17px;line-height:1.8;margin:0}
+.cta{display:inline-flex;align-items:center;justify-content:center;background:#eeede9;border:1px solid #eee;color:#090909;text-decoration:none;font-size:13px;font-weight:700;padding:19px 23px;white-space:nowrap;min-height:54px}
+.cta:hover{background:#bce6df}
+.hero-foot{margin-top:68px;display:flex;justify-content:space-between;align-items:center}
+.hero-foot .arrow{color:#dfdfdc;font-size:26px;animation:bounce 2.5s ease-in-out infinite}
+.ticker{border-top:1px solid #343a3a;border-bottom:1px solid #343a3a;overflow:hidden;padding:20px 0;white-space:nowrap;background:#111313;user-select:none}
+.ticker .track{display:flex;width:max-content;animation:ticker 42s linear infinite;will-change:transform}
+.ticker .segment{font-size:13px;letter-spacing:.17em;font-weight:700;flex-shrink:0}
+.ticker i{font-style:normal;color:#6a9b94;margin:0 36px}
+.idea{padding:130px 0 150px}
+.idea-grid{display:grid;grid-template-columns:1fr 1fr;gap:75px;align-items:start;margin-top:28px}
+h2{font-size:clamp(43px,6.9vw,94px);font-weight:550;letter-spacing:-.07em;line-height:1.02;margin:0}
+.idea-copy{color:#b0b4b1;font-size:19px;line-height:1.85;max-width:440px;padding-top:8px}
+.flow-diagram{position:relative;border:1px solid #343c3c;background:#101415;margin-top:95px;padding:30px;overflow:hidden}
+.flow-diagram::before{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff06 1px,transparent 1px),linear-gradient(90deg,#ffffff06 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+.flow-header{position:relative;display:flex;justify-content:space-between;gap:12px;margin-bottom:25px;align-items:center}
+.flow-header strong{font-size:13px}
+.flow-svg{display:block;width:100%;height:auto;position:relative}
+.flow-wire{fill:none;stroke:#b8d2cf;stroke-width:1.6;stroke-dasharray:7 8;animation:dash 9s linear infinite}
+.flow-wire.w2{animation-direction:reverse;stroke:#8b999a}
+.node rect{fill:#182123;stroke:#5b7572;stroke-width:1.3}
+.node text{fill:#e4ece8;font:11px ui-monospace,Consolas,monospace}
+.node circle{fill:#adede0;animation:pulse 2s ease-in-out infinite}
+.node.n2 circle{animation-delay:.45s}.node.n3 circle{animation-delay:.9s}
+.flow-footer{position:relative;display:flex;justify-content:space-between;gap:10px;color:#8fa6a3;font:11px ui-monospace,Consolas,monospace;margin-top:18px}
+.city-scene{min-height:1550px;position:relative;background:#0c0e0f;border-top:1px solid #323737}
+.sticky{position:sticky;top:0;padding:36px 0 30px}
+.city-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:20px 0 24px}
+.city-head h2{font-size:clamp(45px,6.3vw,92px)}
+.city-head .status{font:12px ui-monospace,Consolas,monospace;letter-spacing:.07em;white-space:nowrap}
+.status i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#acefe0;margin-right:8px;box-shadow:0 0 12px #adefe0}
+.city-visual{position:relative;height:min(610px,62vh);background:#19272a;overflow:hidden;isolation:isolate}
+.city-visual img{position:absolute;display:block;left:-8%;top:-16%;width:116%;height:auto;max-width:none;image-rendering:pixelated}
+.city-visual img.off{opacity:0}
+.city-visual .scan{position:absolute;inset:-50% 0;pointer-events:none;background:linear-gradient(transparent 46%,#c0fff811 50%,transparent 54%);animation:scan 7s linear infinite;z-index:2}
+.city-visual .flash{position:absolute;inset:0;pointer-events:none;background:#f3f0dd;opacity:0;z-index:3}
+.city-visual .vignette{position:absolute;inset:0;z-index:2;box-shadow:inset 0 0 75px #070c11a8;pointer-events:none}
+.city-meta{position:absolute;left:20px;top:20px;background:#080b0de6;color:#edf2ef;padding:12px 15px;font:11px ui-monospace,Consolas,monospace;letter-spacing:.1em;z-index:4}
+.city-alert{position:absolute;left:20px;bottom:20px;background:#0b1013ed;border-left:2px solid #f3d7ae;color:#f7ecde;padding:14px 17px;font:12px ui-monospace,Consolas,monospace;letter-spacing:.05em;opacity:0;transform:translateY(6px);z-index:4}
+.frame-corners{position:absolute;inset:13px;z-index:4;border:1px solid #ffffff27;pointer-events:none}
+.scene-tools{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:22px}
+.state-switch{display:flex;gap:4px;background:#1b1d1e;padding:3px}
+.state-switch button{background:none;color:#a8ada9;border:0;font-size:12px;padding:11px 18px;min-height:44px}
+.state-switch button.active{background:#f0f0eb;color:#0a0a0a}
+.scrub{height:2px;background:#394344;margin-top:20px}
+.scrubfill{height:100%;background:#e9f3eb;width:0%}
+.scene-note{display:flex;justify-content:space-between;gap:10px;margin-top:16px;font-size:12px;color:#939e9a}
+.story{padding:150px 0 175px}
+.story-title{margin:28px 0 94px}
+.storyline{border-top:1px solid #3a3e3e;padding:36px 0;display:grid;grid-template-columns:65px 1fr .85fr;gap:30px;align-items:start}
+.storyline:last-child{border-bottom:1px solid #3a3e3e}
+.storyline h3{font-size:clamp(30px,4.5vw,64px);font-weight:500;letter-spacing:-.065em;line-height:1.06;margin:0}
+.storyline p{color:#a9afab;font-size:16px;line-height:1.8;margin:0}
+.arrive{opacity:.53;transform:translateY(28px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.arrive.show{opacity:1;transform:translateY(0)}
+.end{min-height:85vh;padding:140px 0 110px;border-top:1px solid #313535;position:relative;overflow:hidden;display:flex;align-items:center}
+.end .orb{position:absolute;right:-130px;top:15%;width:520px;height:520px;border:1px solid #525b59;border-radius:50%;opacity:.5;box-shadow:0 0 0 50px #becfcb09,0 0 0 110px #becfcb07;animation:breathe 5s ease-in-out infinite;pointer-events:none}
+.end .wrap{position:relative;z-index:1}
+.end h2{font-size:clamp(67px,10.5vw,145px);margin:45px 0 55px;max-width:1000px}
+.end-bottom{display:flex;justify-content:space-between;align-items:end;gap:22px}
+.end-bottom p{color:#aaaca8;line-height:1.8;font-size:16px;margin:0}
+.play-link{display:inline-flex;background:#f0f0eb;color:#0b0b0b;text-decoration:none;padding:19px 24px;font-size:13px;font-weight:700;white-space:nowrap;min-height:54px;align-items:center}
+.play-link:hover{background:#b9e2d8}
+footer{display:flex;justify-content:space-between;gap:16px;padding:30px 0;border-top:1px solid #323637;color:#858d8a;font:11px ui-monospace,Consolas,monospace}
+@keyframes dash{to{stroke-dashoffset:-230}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{opacity:.3}}
+@keyframes breathe{50%{transform:scale(1.08);opacity:.24}}
+@keyframes bounce{50%{transform:translateY(7px)}}
+@keyframes scan{to{transform:translateY(45%)}}
+@keyframes ticker{to{transform:translateX(-50%)}}
+@media(max-width:800px){
+ .wrap{width:calc(100% - 42px)}
+ .hero{min-height:690px}
+ h1{font-size:clamp(95px,19vw,155px)}
+ .herograph{width:96%;right:-29%;opacity:.6}
+ .hero-bottom{margin-top:65px}
+ .idea{padding:100px 0}
+ .idea-grid{gap:35px}
+ .flow-diagram{margin-top:55px}
+ .city-visual{height:min(490px,55vh)}
+ .city-scene{min-height:1270px}
+ .city-head h2{font-size:clamp(40px,7vw,65px)}
+ .story{padding:110px 0 125px}
+ .end{min-height:650px}
+}
+@media(max-width:600px){
+ header{height:63px;padding:0 16px}
+ header .brand{font-size:19px}
+ header nav{gap:16px}
+ header nav a{font-size:12px}
+ .wrap{width:calc(100% - 32px)}
+ .mono{font-size:10px}
+ .hero{min-height:650px;min-height:max(640px,calc(100svh - 63px))}
+ .hero .wrap{padding:45px 0}
+ .herograph{width:145%;right:-77%;top:9%;height:74%;opacity:.55}
+ h1{font-size:clamp(70px,18.5vw,110px);margin:65px 0 24px}
+ .hero-title2{font-size:clamp(37px,9vw,58px)}
+ .hero-bottom{flex-direction:column;align-items:start;gap:22px;margin-top:75px}
+ .hero-bottom p{font-size:15px}
+ .hero-foot{margin-top:55px}
+ .ticker{padding:15px 0}
+ .ticker .segment{font-size:10px}
+ .idea{padding:85px 0}
+ .idea-grid{grid-template-columns:1fr;gap:18px}
+ h2{font-size:clamp(40px,10vw,62px)}
+ .idea-copy{font-size:15px}
+ .flow-diagram{padding:13px;margin-top:40px}
+ .flow-header{align-items:start;flex-direction:column}
+ .flow-footer{font-size:9px;flex-direction:column}
+ .city-scene{min-height:1040px}
+ .sticky{top:8px;padding:12px 0}
+ .city-head{display:block;margin:13px 0 16px}
+ .city-head h2{font-size:clamp(38px,9.5vw,59px)}
+ .city-head .status{margin-top:15px;display:block;font-size:10px}
+ .city-visual{height:min(410px,47vh)}
+ .city-visual img{height:175%;width:auto;left:50%;top:-23%;transform:translateX(-60%)}
+ .city-meta{font-size:8px;padding:8px 10px;left:12px;top:12px}
+ .city-alert{font-size:9px;padding:8px 10px;left:12px;bottom:12px}
+ .scene-tools{align-items:start;flex-direction:column}
+ .scene-note{font-size:9px}
+ .story{padding:85px 0 105px}
+ .story-title{margin-bottom:55px}
+ .storyline{grid-template-columns:43px 1fr;gap:10px;padding:26px 0}
+ .storyline p{grid-column:2;font-size:14px}
+ .end{min-height:620px;padding:100px 0 75px}
+ .end .orb{right:-300px;width:450px;height:450px}
+ .end h2{font-size:clamp(52px,11.8vw,77px)}
+ .end-bottom{flex-direction:column;align-items:start}
+ footer{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .circuit,.ring,.orbdot,.hero-foot .arrow,.ticker .track,.flow-wire,.node circle,.city-visual .scan,.end .orb{animation:none!important}
+ .arrive{opacity:1;transform:none;transition:none}
+ .hero-content,.herograph{will-change:auto}
+}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="#top">CTRL Z.</a>
+  <nav aria-label="Main navigation">
+    <a href="#network">THE SYSTEM</a>
+    <a href="#city">THE CITY</a>
+    <a href="#final">PLAY ↗</a>
+  </nav>
+</header>
+<main id="top">
+<section class="hero" aria-labelledby="site-title">
+  <div class="herograph" aria-hidden="true">
+    <svg viewBox="0 0 500 500">
+      <circle class="ring" cx="250" cy="250" r="186"/>
+      <circle class="ring rev" cx="250" cy="250" r="130" stroke-dasharray="10 16"/>
+      <circle cx="250" cy="250" r="65" fill="none" stroke="#3b6864" stroke-width="1"/>
+      <path class="circuit" d="M35 260 L115 260 L170 205 L270 205 L345 135 L495 135 M-20 355 L120 355 L180 295 L345 295 L440 390 L540 390 M85 30 L85 120 L195 230 L265 230 L355 320 L490 320 M320 -20 L320 85 L250 155 L250 245 L175 320"/>
+      <path d="M250 90 V410 M90 250 H410" stroke="#2a393a" stroke-width=".7" stroke-dasharray="3 10"/>
+      <circle class="orbdot" cx="345" cy="135" r="4"/>
+      <circle class="orbdot" cx="175" cy="320" r="4"/>
+      <circle class="orbdot" cx="440" cy="390" r="3"/>
+      <circle cx="250" cy="250" r="9" fill="#0b1515" stroke="#9dbbb8"/>
+      <circle cx="250" cy="250" r="3" fill="#e5f2ec"/>
+      <text x="375" y="170" fill="#a2bcb9" font-size="9" font-family="monospace">MERIDIAN / NODE 01</text>
+      <text x="45" y="418" fill="#6f8583" font-size="9" font-family="monospace">SYSTEM INTERDEPENDENCY</text>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="hero-content">
+      <span class="mono">MERIDIAN / AN INTERACTIVE INFRASTRUCTURE EXPERIMENT</span>
+      <h1 id="site-title">CTRL Z</h1>
+      <div class="hero-title2">UNDO <span class="outline">THE</span><br>WORLD.</div>
+      <div class="hero-bottom">
+        <p>A city runs on invisible connections. Break one, and watch the consequences spread.</p>
+        <a class="cta" href="#city">WITNESS THE BLACKOUT ↗</a>
+      </div>
+      <div class="hero-foot"><span class="mono">SCROLL TO DISCOVER</span><span class="arrow" aria-hidden="true">↓</span></div>
+    </div>
+  </div>
+</section>
+<div class="ticker" aria-hidden="true"><div class="track">
+  <span class="segment">EVERYTHING IS CONNECTED <i>✳</i> ONE FAILURE. MANY CONSEQUENCES. <i>✳</i> REWIND THE WORLD <i>✳</i>&nbsp;</span>
+  <span class="segment">EVERYTHING IS CONNECTED <i>✳</i> ONE FAILURE. MANY CONSEQUENCES. <i>✳</i> REWIND THE WORLD <i>✳</i>&nbsp;</span>
+</div></div>
+<section class="idea" id="network" aria-labelledby="system-title">
+  <div class="wrap">
+    <span class="mono">01 / THE SYSTEM</span>
+    <div class="idea-grid arrive">
+      <h2 id="system-title">ONE SWITCH.<br>EVERYTHING<br>CHANGES.</h2>
+      <p class="idea-copy">Electricity powers more than lights. It keeps hospitals, water, communications and deliveries running.<br><br>When one dependency disappears, failures spread across the city.</p>
+    </div>
+    <div class="flow-diagram arrive">
+      <div class="flow-header"><strong>MERIDIAN / DEPENDENCY NETWORK</strong><span class="mono">LIVE CONNECTIONS</span></div>
+      <svg class="flow-svg" viewBox="0 0 700 205" role="img" aria-label="Illustrative network showing electricity linked to waterworks, telecom and the hospital, and communications to logistics">
+        <path class="flow-wire" d="M170 100 H262 V45 H315 M262 100 H315 M262 100 V158 H315 M478 100 H558"/>
+        <path class="flow-wire w2" d="M480 45 H530 V100 H558 M480 158 H530 V100"/>
+        <g class="node"><rect x="20" y="68" width="150" height="65" rx="3"/><circle cx="44" cy="87" r="4"/><text x="35" y="113">ELECTRICITY</text></g>
+        <g class="node n2"><rect x="315" y="16" width="165" height="53" rx="3"/><circle cx="339" cy="35" r="4"/><text x="336" y="55">WATERWORKS</text></g>
+        <g class="node n2"><rect x="315" y="78" width="165" height="53" rx="3"/><circle cx="339" cy="96" r="4"/><text x="336" y="116">TELECOM</text></g>
+        <g class="node n3"><rect x="315" y="142" width="165" height="53" rx="3"/><circle cx="339" cy="160" r="4"/><text x="336" y="180">HOSPITAL</text></g>
+        <g class="node n3"><rect x="558" y="78" width="140" height="53" rx="3"/><circle cx="581" cy="97" r="4"/><text x="577" y="117">LOGISTICS</text></g>
+      </svg>
+      <div class="flow-footer"><span>ONE SOURCE → MULTIPLE DEPENDENCIES</span><span>ILLUSTRATIVE GRAPHIC</span></div>
+    </div>
+  </div>
+</section>
+<section class="city-scene" id="city" aria-labelledby="city-title">
+  <div class="sticky">
+    <div class="wrap">
+      <span class="mono">02 / THE INTERRUPTION</span>
+      <div class="city-head">
+        <h2 id="city-title">WATCH THE<br>CITY GO DARK.</h2>
+        <span class="status" aria-live="polite"><i></i><span>POWER CONNECTED</span></span>
+      </div>
+      <div class="city-visual">
+        <!-- If this HTML is placed in the Ctrl Z repository root, the images load locally.
+             If shared elsewhere, the error handlers below fall back to GitHub. -->
+        <img id="powered" src="src/assets/previews/scene-powered.png" data-fallback="https://raw.githubusercontent.com/reedhan-g/Ctrl-Z/main/src/assets/previews/scene-powered.png" alt="Powered Ctrl Z city, a real screenshot from the existing game" />
+        <img id="blackout" class="off" src="src/assets/previews/scene-blackout.png" data-fallback="https://raw.githubusercontent.com/reedhan-g/Ctrl-Z/main/src/assets/previews/scene-blackout.png" alt="" />
+        <div class="vignette"></div><div class="scan"></div><div class="flash"></div><div class="frame-corners"></div>
+        <span class="city-meta">MERIDIAN / VISUAL FEED 001</span>
+        <span class="city-alert">GRID DISCONNECTED / BACKUP SYSTEMS ACTIVE</span>
+      </div>
+      <div class="scene-tools"><span class="mono">SCROLL DOWN TO CUT THE POWER ↓</span>
+        <div class="state-switch" role="group" aria-label="Change preview power state">
+          <button class="active" type="button" data-power="0" aria-pressed="true">POWER ON</button>
+          <button type="button" data-power="1" aria-pressed="false">POWER OFF</button>
+        </div>
+      </div>
+      <div class="scrub" aria-hidden="true"><div class="scrubfill"></div></div>
+      <div class="scene-note"><span class="scene-caption">BEFORE THE INTERRUPTION</span><span>SCROLL BACK TO REVERSE ↶</span></div>
+    </div>
+  </div>
+</section>
+<section class="story" aria-labelledby="story-title">
+  <div class="wrap">
+    <span class="mono">03 / THE CONSEQUENCES</span>
+    <div class="story-title arrive"><h2 id="story-title">ONE CITY.<br>A CHAIN REACTION.</h2></div>
+    <div class="storyline arrive"><span class="mono">01</span><h3>THE FAILURE.</h3><p>The grid goes dark. Critical infrastructure switches to reserves, but those reserves won't last forever.</p></div>
+    <div class="storyline arrive"><span class="mono">02</span><h3>THE DECISION.</h3><p>You have two emergency supply interventions. Choosing where to use them changes the outcome.</p></div>
+    <div class="storyline arrive"><span class="mono">03</span><h3>THE REWIND.</h3><p>Reverse time, change your decisions, and discover what else might have been possible.</p></div>
+  </div>
+</section>
+<section class="end" id="final" aria-labelledby="final-title">
+  <div class="orb" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="mono">04 / YOUR MOVE</span>
+    <h2 id="final-title">WHAT WOULD<br>YOU KEEP<br>RUNNING?</h2>
+    <div class="end-bottom"><p>The city is connected.<br>The next decision is yours.</p>
+      <a class="play-link" href="simulation.html">ENTER MERIDIAN ↗</a>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="wrap"><span>CTRL Z / UNDO THE WORLD</span><span>INTERACTIVE DESIGN CONCEPT · NOT DEPLOYED</span></footer>
+<script>
+(function(){
+'use strict';
+// Keep this as a standalone reference file. Do not treat this script as production React code.
+const qs=(sel)=>document.querySelector(sel), qsa=(sel)=>Array.from(document.querySelectorAll(sel));
+const scene=qs('.city-scene'), off=qs('#blackout'),bar=qs('.scrubfill'), flash=qs('.flash'), alertEl=qs('.city-alert');
+const status=qs('.status span'),dot=qs('.status i'),caption=qs('.scene-caption'), title=qs('.hero-content'),graphic=qs('.herograph');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)'), clamp=n=>Math.max(0,Math.min(1,n));
+let manual=null,raf=0;
+function update(){
+  const bounds=scene.getBoundingClientRect(),height=innerHeight;
+  let progress=clamp((-bounds.top)/Math.max(1,scene.offsetHeight-height));
+  if(reduced.matches)progress=0;
+  if(manual!==null)progress=manual;
+  const p=clamp((progress-.10)/.82),smooth=p*p*(3-2*p);
+  off.style.opacity=String(smooth);
+  bar.style.width=(smooth*100)+'%';
+  const burst=Math.max(0,1-Math.abs(smooth-.48)*13);
+  flash.style.opacity=String(reduced.matches?0:burst*.14);
+  alertEl.style.opacity=String(clamp((smooth-.45)*2));
+  alertEl.style.transform='translateY('+(6*(1-smooth))+'px)';
+  const down=smooth>.54;
+  status.textContent=down?'GRID DISCONNECTED':'POWER CONNECTED';
+  caption.textContent=down?'AFTER THE INTERRUPTION':'BEFORE THE INTERRUPTION';
+  dot.style.background=down?'#e7b491':'#adefe0';
+  dot.style.boxShadow=down?'0 0 12px #e7b491':'0 0 12px #adefe0';
+  qsa('[data-power]').forEach(b=>{const active=Number(b.dataset.power)===(down?1:0);b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
+  if(!reduced.matches){
+    title.style.setProperty('--hero-drift',Math.min(50,scrollY*.07)+'px');
+    title.style.setProperty('--hero-opacity',String(Math.max(.35,1-scrollY/680)));
+    graphic.style.setProperty('--graphic-shift',(-Math.min(70,scrollY*.11))+'px');
+  }else{
+    title.style.setProperty('--hero-drift','0px');title.style.setProperty('--hero-opacity','1');graphic.style.setProperty('--graphic-shift','0px');
+  }
+  if(bounds.top>height || bounds.bottom<0)manual=null;
+}
+function schedule(){if(!raf)raf=requestAnimationFrame(()=>{raf=0;update()})}
+addEventListener('scroll',schedule,{passive:true});addEventListener('resize',schedule,{passive:true});
+qsa('[data-power]').forEach(b=>b.addEventListener('click',()=>{manual=Number(b.dataset.power);update()}));
+qs('.hero').addEventListener('pointermove',e=>{
+  if(e.pointerType==='touch')return;
+  const box=e.currentTarget.getBoundingClientRect();
+  document.documentElement.style.setProperty('--mx',(((e.clientX-box.left)/box.width)*100)+'%');
+  document.documentElement.style.setProperty('--my',(((e.clientY-box.top)/box.height)*100)+'%');
+});
+const observer=('IntersectionObserver'in window)?new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');observer.unobserve(e.target)}}),{threshold:.12}):null;
+qsa('.arrive').forEach(e=>{if(observer)observer.observe(e);else e.classList.add('show')});
+reduced.addEventListener('change',schedule);
+// Offline preview uses existing local PNGs; a copy outside the repo may fall back to remote URLs.
+qsa('img[data-fallback]').forEach(img=>img.addEventListener('error',function(){if(this.dataset.fallback){const remote=this.dataset.fallback;delete this.dataset.fallback;this.src=remote}}));
+update();
+})();
+</script>
+</body>
+</html>

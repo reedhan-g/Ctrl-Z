@@ -16,14 +16,8 @@ export default function BlackoutPreview({onEnter}:{onEnter:()=>void}){
  return <section id="preview" ref={sectionRef} className="preview-section page-width blackout-preview" data-state={view.phase} aria-labelledby="preview-title">
   <div className="preview-stage" ref={stageRef}>
   <div className="preview-heading">
-   <div><p className="preview-index">02 / The interruption</p><h2 id="preview-title">Watch the city go dark.</h2></div>
-   <div className="preview-switch" role="group" aria-label="Gameplay preview state">
-    {captures.map((capture,index)=><button key={capture.label} type="button" aria-pressed={view.phase===(index===0?'powered':'blackout')} aria-controls="game-preview" aria-describedby="preview-instruction" onClick={()=>choose(index as 0|1)}>{capture.label}</button>)}
-   </div>
-  </div>
-  <div className="preview-summary">
+   <div><p className="preview-index">02 / The interruption</p><h2 id="preview-title">Watch the<br/>city go dark.</h2></div>
    <p className="preview-state" role="status">{status}</p>
-   <p id="preview-instruction">{view.manual?'Your choice stays until you leave this preview.':view.reduced?'Choose a capture to compare the power cut.':'Scroll through the city to compare the power cut.'}</p>
   </div>
   <figure id="game-preview">
    <div className="preview-images" ref={imageRef} data-progress="0">
@@ -31,7 +25,14 @@ export default function BlackoutPreview({onEnter}:{onEnter:()=>void}){
      <source media="(max-width: 600px)" srcSet={capture.mobile} width="1290" height="1467"/>
      <img src={capture.desktop} alt={index===0?'Meridian before and after a power cut, shown as an aligned comparison of actual gameplay captures.':''} width="1685" height="692" loading={nearby?'eager':'lazy'} decoding="async"/>
     </picture>)}
+    <span className="visual-feed" aria-hidden="true">Meridian / Visual feed 001</span>
     <div className="blackout-rail" aria-hidden="true"><span/></div>
+   </div>
+   <div className="scene-tools">
+    <p id="preview-instruction">{view.manual?'Your choice stays until you leave this preview.':view.reduced?'Choose a capture to compare the power cut.':'Scroll through the city to compare the power cut.'}</p>
+   <div className="preview-switch" role="group" aria-label="Gameplay preview state">
+    {captures.map((capture,index)=><button key={capture.label} type="button" aria-pressed={view.phase===(index===0?'powered':'blackout')} aria-controls="game-preview" aria-describedby="preview-instruction" onClick={()=>choose(index as 0|1)}>{capture.label}</button>)}
+   </div>
    </div>
    <figcaption><span>{caption}</span><span>Meridian / Actual game capture</span></figcaption>
   </figure>

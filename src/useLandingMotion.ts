@@ -12,17 +12,18 @@ export function useLandingMotion(){
   const connection=(navigator as Navigator & {connection?:{saveData?:boolean}}).connection;
   const title=root.querySelector<HTMLElement>('.opening-title');
   const copy=root.querySelector<HTMLElement>('.opening-copy');
-  const introductions=[...root.querySelectorAll<HTMLElement>('.concept .editorial-split, .possibilities > h2, .feature-list > li, .closing h2')];
+  const introductions=[...root.querySelectorAll<HTMLElement>('.concept .editorial-split, .possibilities > h2, .feature-list > li, #closing-title')];
   let frame=0,observer:IntersectionObserver|null=null,point={x:0,y:0};
   const available=()=>!media.matches&&pointer.matches&&!connection?.saveData;
   const visibility=()=>{root.dataset.motion=available()&&!motionPaused&&!document.hidden?'running':'static';schedule();};
   const update=()=>{
    frame=0;
    if(document.hidden)return;
-   const distance=media.matches||motionPaused?0:Math.max(0,Math.min(600,scrollY));
+   const distance=!available()||motionPaused?0:Math.max(0,Math.min(600,scrollY));
    title?.style.setProperty('--headline-drift',`${distance*.08}px`);
+   title?.style.setProperty('--headline-opacity',String(Math.max(.35,1-distance/680)));
    copy?.style.setProperty('--copy-drift',`${distance*.025}px`);
-   root.style.setProperty('--network-drift',`${distance*.035}px`);
+   root.style.setProperty('--network-drift',`${-distance*.11}px`);
    root.style.setProperty('--network-x',`${available()&&!motionPaused?point.x:0}px`);
    root.style.setProperty('--network-y',`${available()&&!motionPaused?point.y:0}px`);
   };

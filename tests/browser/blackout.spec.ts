@@ -97,8 +97,8 @@ test('short screens keep the preview in natural flow and touch scrolling stays n
   await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
  }else await page.mouse.wheel(0,200);
  await expect.poll(()=>page.evaluate(()=>scrollY)).toBeGreaterThan(before);
- await page.locator('.closing .enter-button').scrollIntoViewIfNeeded();
- await expect(page.locator('.closing .enter-button')).toBeInViewport();
+ await page.locator('.closing-inner .enter-button').scrollIntoViewIfNeeded();
+ await expect(page.locator('.closing-inner .enter-button')).toBeInViewport();
  await expect(page.locator('iframe')).toHaveCount(0);
  await page.screenshot({path:info.outputPath('short-landscape.png'),animations:'disabled'});
 });

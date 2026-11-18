@@ -66,3 +66,32 @@ test('short landscape opening retains complete title and discovery control',asyn
  expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(844);
  await page.screenshot({path:info.outputPath('landscape.png'),animations:'disabled'});
 });
+
+
+test('the final question leads directly to the unchanged game and embed stays secondary',async({page},info)=>{
+ await page.setViewportSize(info.project.name==='mobile'?{width:390,height:844}:{width:1440,height:900});
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('./');
+ await page.evaluate(()=>document.fonts.ready);
+ const closing=page.locator('.closing');
+ await closing.locator('h2').first().scrollIntoViewIfNeeded();
+ await expect(closing.getByRole('heading',{name:'What would you keep running?'})).toBeVisible();
+ await expect(closing.locator('.final-graphic')).toBeVisible();
+ await expect(closing.getByRole('link',{name:'Enter Meridian',exact:true})).toHaveAttribute('href','./simulation.html');
+ await expect(page.locator('.site-header').getByRole('link',{name:'Play',exact:true})).toHaveAttribute('href','./simulation.html');
+ await expect(page.locator('.embedded-option')).not.toHaveAttribute('open');
+ await expect(page.locator('iframe')).toHaveCount(0);
+ await closing.locator('.closing-inner').screenshot({path:info.outputPath('closing.png'),animations:'disabled'});
+ await page.locator('.embedded-option summary').focus();await page.keyboard.press('Enter');
+ await expect(page.getByRole('button',{name:'Start simulation'})).toBeVisible();
+ await expect(page.locator('iframe')).toHaveCount(0);
+ await page.keyboard.press('Enter');
+ await expect(page.locator('.embedded-option')).not.toHaveAttribute('open');
+ await closing.getByRole('link',{name:'Enter Meridian',exact:true}).click();
+ await expect(page).toHaveURL(/\/simulation\.html$/);
+ await expect(page.locator('canvas')).toBeVisible({timeout:20000});
+ await expect(page.getByRole('button',{name:'Remove electricity',exact:true})).toBeVisible();
+ await page.screenshot({path:info.outputPath('direct-game.png')});
+ await page.getByRole('link',{name:'Ctrl Z home',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'Ctrl Z',exact:true})).toBeVisible();
+ await expect(page.locator('iframe')).toHaveCount(0);
+});

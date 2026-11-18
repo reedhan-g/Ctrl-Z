@@ -15,7 +15,7 @@ test('landing width matrix retains clear entry and unobstructed touch targets',a
   const title=await page.locator('.opening h1').evaluate(element=>({height:element.getBoundingClientRect().height,lineHeight:parseFloat(getComputedStyle(element).lineHeight)}));
   expect(title.height,`${width}px unbroken title`).toBeLessThanOrEqual(title.lineHeight+1);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(width);
-  const targets=await page.locator('.landing :is(a,button):visible:not(.skip-link)').evaluateAll(elements=>elements.map(element=>{
+  const targets=await page.locator('.landing :is(a,button,summary):visible:not(.skip-link)').evaluateAll(elements=>elements.map(element=>{
    const r=element.getBoundingClientRect();return {name:element.textContent,x:r.x,y:r.y,width:r.width,height:r.height};
   }));
   for(const target of targets){
@@ -35,6 +35,8 @@ test('landing width matrix retains clear entry and unobstructed touch targets',a
   await expect(page.locator('iframe')).toHaveCount(0);
   await page.evaluate(()=>scrollTo(0,0));
   await page.screenshot({path:info.outputPath(`page-${width}-${height}.png`),fullPage:true,animations:'disabled'});
+  await page.screenshot({path:info.outputPath(`opening-${width}-${height}.png`),animations:'disabled'});
+  await page.locator('.closing-inner').screenshot({path:info.outputPath(`closing-${width}-${height}.png`),animations:'disabled'});
  }
 });
 
