@@ -11,6 +11,7 @@ interface Actions {
   select: (id: BuildingId | null) => void;
   selectVehicle: (id: VehicleId) => void;
   startCase: (id: CaseId) => void;
+  startCrisis: () => void;
   evidence: (id: BuildingId) => void;
   diagnose: (id: BuildingId) => void;
   fail: () => void;
@@ -28,7 +29,7 @@ interface Actions {
 
 export const useGame = create<GameData & Actions>((set) => {
   const dispatch = (action: Action) => {
-    if(['select','selectVehicle','startCase','reset'].includes(action.type)&&useNavigation.getState().sceneryId)useNavigation.setState({sceneryId:null});
+    if(['select','selectVehicle','startCase','startCrisis','reset'].includes(action.type)&&useNavigation.getState().sceneryId)useNavigation.setState({sceneryId:null});
     set(state => reduceGame(state, action));
     if(action.type==='select'||action.type==='selectVehicle')useNavigation.setState(s=>({inspectionRequest:s.inspectionRequest+1}));
   };
@@ -37,6 +38,7 @@ export const useGame = create<GameData & Actions>((set) => {
     select: id => dispatch({ type: 'select', id }),
     selectVehicle: id => dispatch({ type: 'selectVehicle', id }),
     startCase: id => dispatch({type:'startCase',id}),
+    startCrisis: () => dispatch({type:'startCrisis'}),
     evidence: id => dispatch({type:'evidence',id}),
     diagnose: id => dispatch({type:'diagnose',id}),
     fail: () => dispatch({ type: 'fail' }),

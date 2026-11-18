@@ -1,0 +1,40 @@
+import { test, expect } from '@playwright/test';
+
+test('crisis starts explicitly, wins with supply tradeoffs and resumes with its own deadline', async ({ page }, info) => {
+  await page.setViewportSize(info.project.name === 'mobile' ? { width: 390, height: 844 } : { width: 1440, height: 900 });
+  await page.goto('./simulation.html');
+  await expect(page.locator('canvas')).toBeVisible({ timeout: 20000 });
+  const slider = page.getByRole('slider', { name: 'Simulation timeline' });
+  await expect(slider).toHaveAttribute('max', '24');
+  await page.getByRole('button', { name: 'Crisis', exact: true }).click();
+  await expect(slider).toBeDisabled();
+  await page.getByRole('button', { name: 'Start crisis' }).click();
+  await expect(slider).toHaveAttribute('max', '12');
+  await expect(page.getByText('12:00 left')).toBeVisible();
+  await expect(page.getByText('2/2 teams')).toBeVisible();
+  await page.screenshot({ path: info.outputPath('crisis-start.png'), scale: 'css' });
+
+  const systems = page.getByRole('region', { name: 'City systems' });
+  const inspector = page.getByRole('region', { name: 'Building inspection' });
+  await systems.getByRole('button', { name: /North substation/ }).click();
+  await expect(inspector.getByRole('button', { name: 'Reconnect the district' })).toBeDisabled();
+  await expect(inspector.getByText('Regional power is unavailable during the 12-hour mission.')).toBeVisible();
+  await systems.getByRole('button', { name: /Waterworks/ }).click();
+  await inspector.getByRole('button', { name: 'Send backup supplies' }).click();
+  await slider.fill('4.25');
+  await systems.getByRole('button', { name: /Meridian telecom/ }).click();
+  await inspector.getByRole('button', { name: 'Send backup supplies' }).click();
+  await expect(page.getByText('0/2 teams')).toBeVisible();
+  await slider.press('End');
+  await expect(page.getByText('City stabilized', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Play simulation' })).toBeDisabled();
+  await page.getByRole('button', { name: 'Save experiment', exact: true }).click();
+  await expect(page.getByText('Experiment saved on this browser.')).toBeVisible();
+  await page.reload();
+  await page.getByRole('button', { name: 'Resume saved', exact: true }).click();
+  await expect(page.getByText('City stabilized', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Try a different response' }).click();
+  await expect(page.getByText('2/2 teams')).toBeVisible();
+  await slider.press('End');
+  await expect(page.getByText('Crisis unresolved', { exact: true })).toBeVisible();
+});

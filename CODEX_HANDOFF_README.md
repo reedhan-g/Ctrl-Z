@@ -1,5 +1,9 @@
 # Ctrl Z — complete Codex account handoff
 
+## Gameplay upgrade
+
+The gameplay specification lives at `docs/gameplay/CTRL_Z_GAMEPLAY_README.md`. The Crisis checkpoint implements the 12-hour objective, real results, replay and v1-compatible save loading. `DEVELOPMENT_STATUS.md` tracks the subsequent incident and comparison checkpoints.
+
 ## Mobile landing polish
 
 The touch landing has fuller-width actions, a larger city frame, tighter sections, and lightweight loops that respect Pause Motion, reduced motion and Save-Data. The desktop image comparison was pixel-identical. See `DEVELOPMENT_STATUS.md` for verification and `docs/landing-page/animated/mobile` for captures.

@@ -2,6 +2,7 @@ import { buildings, type Snapshot } from './simulation.ts';
 import { replayAt } from './replay.ts';
 import { cases, supportsDiagnosis } from './cases.ts';
 import type { GameData } from './gameState.ts';
+import { crisisDeadline } from './crisis.ts';
 
 export const saveKey='ctrl-z:experiment:v1';
 const object=(v:any)=>v!==null&&typeof v==='object'&&!Array.isArray(v);
@@ -55,7 +56,7 @@ function validCase(c:any):boolean {
 }
 
 export function encodeExperiment(state:GameData):string {
- const serialized=JSON.stringify({version:1,state:{...state,playing:false,selected:null,selectedVehicle:null}});
+ const serialized=JSON.stringify({version:2,state:{...state,playing:false,selected:null,selectedVehicle:null}});
  if(!decodeExperiment(serialized))throw new Error('This experiment is too large or inconsistent to save.');
  return serialized;
 }
@@ -63,10 +64,15 @@ export function decodeExperiment(text:string):GameData|null {
  try {
   if(text.length>2_000_000)return null;
   const data=JSON.parse(text),s=data?.state;
-  if(data?.version!==1||!consistent(s)||!Array.isArray(s.history)||s.history.length>128||!s.history.every(consistent)
+  if(![1,2].includes(data?.version)||!consistent(s)||!Array.isArray(s.history)||s.history.length>128||!s.history.every(consistent)
    ||![1,4,12].includes(s.speed)||typeof s.trace!=='boolean'||!validCase(s.caseStudy))return null;
+  if(data.version===2&&typeof s.crisis!=='boolean')return null;
+  const crisis=data.version===2&&s.crisis;
+  if(crisis&&(!s.outage||s.caseStudy||!s.history.length||[s,...s.history].some(entry=>
+   entry.time>crisisDeadline||entry.restoredAt!==null||entry.branches.some((branch:{events:{kind:string;time:number}[]})=>
+    branch.events.some(event=>event.kind!=='delivery'||event.time>=crisisDeadline)))))return null;
   const state:Snapshot={time:s.time,outage:s.outage,boosted:s.boosted,supplyAt:s.supplyAt,restoredAt:s.restoredAt};
   return {...state,branches:s.branches,activeBranch:s.activeBranch,nextBranchId:s.nextBranchId,history:s.history,
-    caseStudy:s.caseStudy,speed:s.speed,trace:s.trace,playing:false,selected:null,selectedVehicle:null};
+    caseStudy:s.caseStudy,crisis,speed:s.speed,trace:s.trace,playing:false,selected:null,selectedVehicle:null};
  } catch {return null;}
 }

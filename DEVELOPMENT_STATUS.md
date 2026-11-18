@@ -1,5 +1,9 @@
 # Ctrl Z - Development Status
 
+## Gameplay upgrade
+
+**A · Emergency Crisis Mode.** The explicit Crisis entry starts a paused 12-hour blackout with two supply teams. The deadline caps play and seeking, protects the outage from grid restoration, and scores the real journal against 36/60 service-hours and three active services. The baseline yields 28.2 service-hours and one active service. Water plus a late telecom delivery at 04:15 wins. Water plus logistics can hold three services active but falls below the service-hour target. Version 2 saves retain the existing slot and read v1 saves with Crisis off. Focused domain checks (14), the build, and desktop/mobile playthroughs passed. A label-fit correction was verified at 320px, 390px and 1440px. Next: reactive incident cards and comparison.
+
 ## Mobile landing polish
 
 Touch portrait layouts now use a shorter hero, wider actions, a denser six-node diagram and a larger city crop. At 390×844 the hero shrank from 781px to 663px and the city frame grew from 358×397 to 374×439. Short touch viewports use natural scrolling. Touch enables the lightweight motion loops with offscreen, Pause Motion, reduced-motion and Save-Data gating. Pointer tracking stays fine-pointer only, and touch gets the eased blackout without its midpoint flash.

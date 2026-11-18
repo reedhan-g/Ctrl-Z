@@ -2,6 +2,7 @@ import {buildings,status,serviceCapacity,reserveDeadline,type BuildingId,type Sn
 import {dependencies} from './dependencies.ts';
 import {investigate} from './investigation.ts';
 import type {GameData} from './gameState.ts';
+import {crisisDeadline} from './crisis.ts';
 
 export function inspectService(id:BuildingId,s:Snapshot){
  const building=buildings.find(b=>b.id===id)!,state=status(id,s),links=investigate(id,s);
@@ -24,9 +25,11 @@ export function inspectService(id:BuildingId,s:Snapshot){
 export function supplyRequirement(id:BuildingId,s:GameData):string|null{
  if(id==='grid')return 'The substation uses grid reconnection rather than a supply delivery.';
  if(!s.outage)return 'Disconnect electricity before assigning backup supplies.';
+ if(s.crisis&&s.time>=crisisDeadline)return 'The crisis deadline has passed. Rewind to assign supplies.';
  if(s.caseStudy&&s.caseStudy.diagnosis!=='correct')return 'Confirm the case diagnosis before sending supplies.';
  if(s.boosted.includes(id))return 'This facility has already received its supply delivery.';
  if(s.boosted.length>=2)return 'Both delivery teams are assigned. Undo a delivery to free a team.';
  return null;
 }
-export const gridRequirement=(s:GameData)=>s.caseStudy&&s.caseStudy.diagnosis!=='correct'?'Confirm the case diagnosis before reconnecting the grid.':null;
+export const gridRequirement=(s:GameData)=>s.crisis?'Regional power is unavailable during the 12-hour mission.':
+ s.caseStudy&&s.caseStudy.diagnosis!=='correct'?'Confirm the case diagnosis before reconnecting the grid.':null;

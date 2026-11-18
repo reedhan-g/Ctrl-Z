@@ -42,6 +42,41 @@ button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px soli
  .app>header{padding:0 14px;height:56px}.sidebar{display:flex;flex-direction:column;padding:16px}.sidebar h1{font-size:26px;margin:8px 0}.premise{margin-bottom:14px}.sidebar .building-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.sidebar .buildings-heading{margin:16px 0 8px}.secondary-tools{margin-top:12px}.building-row{justify-content:flex-start;padding:10px}.building-row>span{flex:1}.mode-hint{font-size:13px}
 }
 .timeline-disclosure{display:none}
+.mode-tabs button { flex: 1 1 auto; min-width: 44px; padding-inline: 4px; white-space: nowrap; }
+.crisis-panel { margin-top: 8px; color: var(--ui-muted); font-size: 13px; line-height: 1.5; }
+.crisis-panel h2 { margin: 8px 0; color: var(--ui-text); font-size: 17px; line-height: 1.25; }
+.crisis-panel p { margin: 6px 0 9px; }
+.crisis-details { border-block: 1px solid var(--ui-border); }
+.crisis-details summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 4px;
+  min-height: 44px; padding: 6px 2px; cursor: pointer; color: var(--ui-text);
+  font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.crisis-details summary::-webkit-details-marker { display: none; }
+.crisis-details summary::after { content: '+'; color: var(--ui-cyan); }
+.crisis-details[open] summary::after { content: '−'; }
+.crisis-details strong { color: var(--ui-cyan); }
+.crisis-services { list-style: none; margin: 0 0 8px; padding: 0; }
+.crisis-services li, .crisis-result dl > div { display: flex; justify-content: space-between; gap: 8px; padding: 5px 0; }
+.crisis-services li > :last-child, .crisis-result dd { text-align: end; }
+.crisis-panel progress { display: block; width: 100%; height: 4px; margin-top: 7px; accent-color: var(--ui-cyan); }
+.crisis-panel .crisis-goal { font-size: 12px; color: var(--ui-muted); }
+.crisis-result { margin-top: 12px; }
+.crisis-result h2.good { color: var(--ui-success); }
+.crisis-result h2.warn { color: var(--ui-warning); }
+.crisis-result dl { margin: 4px 0 8px; }
+.crisis-result dd { margin: 0; color: var(--ui-text); font-variant-numeric: tabular-nums; }
+.crisis-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.crisis-actions .supply { flex: 1 0 108px; width: auto; min-height: 44px; margin: 0; font-size: 12px; }
+@media (max-width:760px) {
+  .scenario-panel:has(.crisis-panel) { display: block; }
+  .scenario-panel:has(> .mode-tabs) > .primary { width: 40%; }
+  .scenario-panel .crisis-panel .primary { width: 100%; }
+}
+@media (max-width:359px) {
+  .scenario-panel:has(> .primary) { display: grid; }
+  .scenario-panel:has(> .mode-tabs) > .primary { width: 100%; }
+}
 .experiment-guide{margin:12px 0;padding:12px;border:1px solid #7f785b;border-left:3px solid var(--ui-gold);background:var(--ui-surface);border-radius:var(--ui-radius)}.experiment-guide>div{display:flex;justify-content:space-between;align-items:center;gap:8px}.experiment-guide>div>span{font:11px monospace;color:var(--ui-gold)}.experiment-guide button{min-height:44px;padding:4px 8px;font-size:13px;color:var(--ui-cyan)}.experiment-guide h3{font:500 18px/1.2 'Space Grotesk',sans-serif;margin:6px 0;color:var(--ui-text)}.experiment-guide p{font-size:13px;line-height:1.5;color:var(--ui-muted);margin:8px 0}.experiment-guide h3:focus{outline:none}
 @media(min-width:761px){main{min-height:660px;height:calc(100dvh - 108px)}}
 /* Phone composition uses the same city canvas and measured overlay bridge. */
