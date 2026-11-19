@@ -125,6 +125,11 @@ button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px soli
   .emergency-panel { order: 4; margin: 0; padding: 12px 14px 0; }
 }
 .mode-tabs button { flex: 1 1 auto; min-width: 44px; padding-inline: 4px; white-space: nowrap; }
+.guide-launch { min-height: 44px; padding: 4px 8px; color: var(--ui-cyan); font-size: 13px; text-align: start; }
+.experiment-guide .guide-progress { margin-top: 0; color: var(--ui-gold); font-size: 12px; }
+.experiment-guide .guide-actions { flex-wrap: wrap; justify-content: flex-start; gap: 4px 8px; }
+.experiment-guide .guide-next { border: 1px solid var(--ui-border); border-radius: var(--ui-radius); color: var(--ui-text); }
+.experiment-guide .guide-result { color: var(--ui-success); }
 .crisis-panel { margin-top: 8px; color: var(--ui-muted); font-size: 13px; line-height: 1.5; }
 .crisis-panel h2 { margin: 8px 0; color: var(--ui-text); font-size: 17px; line-height: 1.25; }
 .crisis-panel p { margin: 6px 0 9px; }
@@ -154,12 +159,14 @@ button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px soli
   .scenario-panel:has(.crisis-panel) { display: block; }
   .scenario-panel:has(> .mode-tabs) > .primary { width: 40%; }
   .scenario-panel .crisis-panel .primary { width: 100%; }
+  .scenario-panel { flex-wrap: wrap; }
+  .scenario-panel .guide-launch { flex-basis: 100%; grid-column: 1 / -1; }
 }
 @media (max-width:359px) {
   .scenario-panel:has(> .primary) { display: grid; }
   .scenario-panel:has(> .mode-tabs) > .primary { width: 100%; }
 }
-.experiment-guide{margin:12px 0;padding:12px;border:1px solid #7f785b;border-left:3px solid var(--ui-gold);background:var(--ui-surface);border-radius:var(--ui-radius)}.experiment-guide>div{display:flex;justify-content:space-between;align-items:center;gap:8px}.experiment-guide>div>span{font:11px monospace;color:var(--ui-gold)}.experiment-guide button{min-height:44px;padding:4px 8px;font-size:13px;color:var(--ui-cyan)}.experiment-guide h3{font:500 18px/1.2 'Space Grotesk',sans-serif;margin:6px 0;color:var(--ui-text)}.experiment-guide p{font-size:13px;line-height:1.5;color:var(--ui-muted);margin:8px 0}.experiment-guide h3:focus{outline:none}
+.experiment-guide{margin:12px 0;padding:12px;border:1px solid #7f785b;background:var(--ui-surface);border-radius:var(--ui-radius)}.experiment-guide>div{display:flex;justify-content:space-between;align-items:center;gap:8px}.experiment-guide>div>span{font:11px monospace;color:var(--ui-gold)}.experiment-guide button{min-height:44px;padding:4px 8px;font-size:13px;color:var(--ui-cyan)}.experiment-guide h3{font:500 18px/1.2 'Space Grotesk',sans-serif;margin:6px 0;color:var(--ui-text)}.experiment-guide p{font-size:13px;line-height:1.5;color:var(--ui-muted);margin:8px 0}.experiment-guide h3:focus{outline:none}
 @media(min-width:761px){main{min-height:660px;height:calc(100dvh - 108px)}}
 /* Phone composition uses the same city canvas and measured overlay bridge. */
 @media(max-width:760px){

@@ -31,6 +31,7 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
   new URLSearchParams(window.location.search).get('mode')==='crisis'?s.branches[0]:null);
  const mode:GameMode=s.crisis||crisisPreview===s.branches[0]?'crisis':s.caseStudy?'investigation':'sandbox';
  const selectMode=(next:GameMode)=>{
+  setGuide(false);
   setCrisisPreview(next==='crisis'?s.branches[0]:null);
   if(next==='sandbox')s.reset();
   if(next==='investigation')s.startCase('dispatch');
@@ -48,12 +49,26 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
  const comparisonTime=requested?.time??null;
  const comparison=useMemo(()=>original&&revised&&comparisonTime!==null?compareFutures(original,revised,comparisonTime):null,[original,revised,comparisonTime]);
 
- const openComparison=canCompare?()=>{
+ const showComparison=(selection:FutureSelection)=>{
   comparisonLauncher.current=document.activeElement instanceof HTMLElement?document.activeElement:null;
-  const response=responses.find(entry=>entry.id===s.activeBranch&&entry!==responses[0])??responses[1];
-  setFuture({run:s.branches[0],selection:{originalId:responses[0].id,revisedId:response.id,time:s.time}});
+  setFuture({run:s.branches[0],selection});
   requestAnimationFrame(()=>document.getElementById('futures-heading')?.focus());
+ };
+ const openComparison=canCompare?()=>{
+  const response=responses.find(entry=>entry.id===s.activeBranch&&entry!==responses[0])??responses[1];
+  showComparison({originalId:responses[0].id,revisedId:response.id,time:s.time});
  }:undefined;
+ const startGuidedRun=()=>{
+  setCrisisPreview(null);
+  setFuture(null);
+  s.reset();
+  s.fail();
+  s.seek(0);
+ };
+ const closeGuide=()=>{
+  setGuide(false);
+  requestAnimationFrame(()=>document.getElementById('guide-launcher')?.focus({preventScroll:true}));
+ };
  const closeComparison=()=>{
   setFuture(null);
   requestAnimationFrame(()=>comparisonLauncher.current?.focus());
@@ -106,7 +121,7 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
  const selected=buildings.find(b=>b.id===s.selected);
  const cameraAction=(detail:string)=>document.querySelector('.city-canvas')?.dispatchEvent(new CustomEvent('camera',{detail}));
  return <div className="app"><header><a className="brand" href="./" aria-label="Ctrl Z home"><span className="brand-icon"><Undo2 size={24}/></span>Ctrl Z<span className="edition">UNDO THE WORLD</span></a><div className="header-right"><span className="prototype">{s.caseStudy?'CASE IN PROGRESS':s.outage?'GRID DISCONNECTED':s.restoredAt!==null?'POWER RESTORED':'SIMULATION READY'} <i/></span><button className="icon" aria-label="How to play" onClick={()=>setHelp(true)}><Info size={18}/></button><a className="chapter" href="#scenario">01 <span>/ ELECTRICITY</span><ArrowUpRight size={15}/></a></div></header>
- <main><aside className="sidebar"><div className="eyebrow">EXPERIMENT 001</div><h1>Undo the World<span className="title-dot">.</span></h1><p className="premise">Remove electricity. Watch a city unravel. Change the outcome.</p><ScenarioPanel mode={mode} onSelectMode={selectMode} onCompare={openComparison}/>{guide&&<ExperimentGuide onClose={()=>{setGuide(false);document.querySelector<HTMLButtonElement>('[aria-label="How to play"]')?.focus({preventScroll:true});}}/>}<EmergencyPanel events={emergencies} run={s.branches[0]}/><CitySystems/><div className="secondary-tools"><SceneryBrowser/><ReportPanel/><SaveControls/></div><div className="sidebar-foot"><Box size={17}/><p>Nothing exists in isolation.<br/><span>Not even a light switch.</span></p></div></aside>
+ <main><aside className="sidebar"><div className="eyebrow">EXPERIMENT 001</div><h1>Undo the World<span className="title-dot">.</span></h1><p className="premise">Remove electricity. Watch a city unravel. Change the outcome.</p><ScenarioPanel mode={mode} onSelectMode={selectMode} onCompare={openComparison} guideOpen={guide} onGuide={()=>guide?closeGuide():setGuide(true)}/>{guide&&<ExperimentGuide onStart={startGuidedRun} onCompare={showComparison} onClose={closeGuide}/>}<EmergencyPanel events={emergencies} run={s.branches[0]}/><CitySystems/><div className="secondary-tools"><SceneryBrowser/><ReportPanel/><SaveControls/></div><div className="sidebar-foot"><Box size={17}/><p>Nothing exists in isolation.<br/><span>Not even a light switch.</span></p></div></aside>
  <section className="world" aria-label="City simulation"><div className="world-top"><div><div className="eyebrow">MERIDIAN <span> / LIVE SIMULATION</span></div><h2>Meridian / Control room</h2></div><span className={`state-pill ${s.outage?'outage':''}`}><i/>{s.caseStudy?'CASE IN PROGRESS':s.outage?'GRID OFFLINE':'SYSTEMS NOMINAL'}</span></div><div className="map-grid"/><div className="city-startup" role="status"><strong>CTRL Z / MERIDIAN</strong><span>Preparing the city and its systems...</span></div><Suspense fallback={<p className="city-loading" role="status">Loading Meridian...</p>}><City lowPower={lowPower}/></Suspense><div className="map-caption"><span className="north-arrow">&#8593;</span><span>MERIDIAN<br/><small>28.75 N / 77.12 E</small></span></div>
  <div className="map-controls"><button className="trace" aria-label="Low power mode" aria-pressed={lowPower} onClick={()=>setLowPower(!lowPower)}>Low power</button><button aria-label="Dependencies" aria-pressed={s.trace} className={`trace ${s.trace?'on':''}`} onClick={s.toggleTrace}><Network size={16}/><span>Dependencies</span></button><div><button aria-label="Zoom in" onClick={()=>cameraAction('in')}><Plus size={18}/></button><button aria-label="Zoom out" onClick={()=>cameraAction('out')}><Minus size={18}/></button><button aria-label="City overview" onClick={()=>cameraAction('overview')}><MapIcon size={17}/></button><button aria-label="Reset camera" onClick={()=>cameraAction('reset')}><Maximize size={17}/></button></div></div>
  {!selected&&!scenery&&<div className="map-hint"><span className="hint-dot"/>{s.outage?'Watch the cascade. Tap a building to intervene.':'Tap a building to discover its connections.'}</div>}

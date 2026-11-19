@@ -3,7 +3,8 @@
 ## Embarko release fixes
 
 - Help follows the selected mode in the briefing and active run. The shared controls remain available in every mode. Type-checking and four desktop/mobile Help and Crisis-entry checks passed.
-- Compare Futures now shows facility reserve at delivery, facility service-hours and citywide service-hours separately. At 24:00 the 12:00 hospital delivery adds 8 hours of reserve and 0 service-hours because water runs out at 18:00. The explanation opens Waterworks, and scrubbing hides future evidence. Nine focused domain tests and four browser checks passed. Next is the guided experiment.
+- Compare Futures now shows facility reserve at delivery, facility service-hours and citywide service-hours separately. At 24:00 the 12:00 hospital delivery adds 8 hours of reserve and 0 service-hours because water runs out at 18:00. The explanation opens Waterworks, and scrubbing hides future evidence. Nine focused domain tests and four browser checks passed.
+- Guided experiment is visible by the mode controls and uses the real Sandbox actions. Waterworks is offline at 07:00, the original is observed at 12:00, and supplying at 05:00 adds 6.0 city service-hours by 12:00. Skip and canceled restart preserve the run. A confirmed new run preserves the save and can resume it. Type-checking and four guide/Help browser checks passed. Next is panel layout and phone verification.
 
 ## Tool configuration layout
 

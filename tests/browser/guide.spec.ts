@@ -1,19 +1,57 @@
-import {test,expect} from '@playwright/test';
-test('optional guide follows real actions and replay never resets an experiment',async({page},info)=>{
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto(process.env.CTRL_Z_REVIEW_URL||'./simulation.html');await expect(page.locator('canvas')).toBeVisible();
- const guide=page.getByRole('region',{name:'Guided experiment'});await expect(guide).not.toBeVisible();
- await page.getByRole('button',{name:'How to play',exact:true}).click();await page.getByRole('button',{name:'Start guided experiment'}).click();
- await expect(guide.getByRole('heading',{name:'This is Meridian.'})).toBeVisible();await guide.getByRole('button',{name:'Next',exact:true}).click();
- await expect(guide.getByRole('heading',{name:'Remove electricity.',exact:true})).toBeVisible();
- await page.waitForTimeout(200);await expect(page.getByRole('button',{name:'Remove electricity',exact:true})).toBeVisible();
- await page.getByRole('button',{name:'Remove electricity',exact:true}).click();await page.getByRole('button',{name:'Pause simulation'}).click();
- await expect(guide.getByRole('heading',{name:'Follow the cascade.'})).toBeVisible();
- await page.locator('[data-system=hospital]').click();await expect(guide.getByRole('heading',{name:'Change the outcome.'})).toBeVisible();
- await page.getByRole('region',{name:'Building inspection'}).getByRole('button',{name:/Send backup supplies/}).click();
- await expect(guide.getByRole('heading',{name:'Explore freely.'})).toBeVisible();await guide.scrollIntoViewIfNeeded();await page.screenshot({path:info.outputPath('guide-complete.png'),fullPage:true});
- await guide.getByRole('button',{name:'Finish guide'}).click();
- const time=await page.getByRole('slider').inputValue();
- await page.getByRole('button',{name:'How to play',exact:true}).click();await page.getByRole('button',{name:'Start guided experiment'}).click();
- await expect(page.getByRole('slider')).toHaveValue(time);await guide.getByRole('button',{name:'Skip guide'}).click();await expect(guide).not.toBeVisible();
- await page.reload();await expect(guide).not.toBeVisible();
+import { expect, test } from '@playwright/test';
+
+test('the visible optional guide compares a real Sandbox intervention and preserves the save', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('./simulation.html');
+  await expect(page.locator('canvas')).toBeVisible({ timeout: 20000 });
+
+  const launcher = page.getByRole('button', { name: 'Guided experiment', exact: true });
+  const guide = page.getByRole('region', { name: 'Guided experiment' });
+  const timeline = page.getByRole('slider', { name: 'Simulation timeline' });
+  const inspector = page.getByRole('region', { name: 'Building inspection' });
+  await expect(launcher).toBeVisible();
+  await expect(guide).toHaveCount(0);
+  await launcher.click();
+  await guide.getByRole('button', { name: 'Start Sandbox outage' }).click();
+  await expect(timeline).toHaveValue('0');
+
+  await guide.getByRole('button', { name: 'Inspect Waterworks at 07:00' }).click();
+  await expect(timeline).toHaveValue('7');
+  await expect(inspector.getByRole('heading', { name: 'Waterworks' })).toBeVisible();
+  await expect(guide.getByText(/offline North substation/)).toBeVisible();
+  await guide.getByRole('button', { name: 'Observe original at 12:00' }).click();
+  await expect(timeline).toHaveValue('12');
+  await guide.getByRole('button', { name: 'Rewind to 05:00' }).click();
+  await expect(timeline).toHaveValue('5');
+  await guide.getByRole('button', { name: 'Send supplies to Waterworks' }).click();
+  await expect(inspector.getByRole('button', { name: 'Supplies delivered' })).toBeDisabled();
+  await guide.getByRole('button', { name: 'Compare at 12:00' }).click();
+
+  const comparison = page.getByRole('region', { name: 'Compare Futures' });
+  await expect(comparison.getByRole('slider', { name: 'Comparison time' })).toHaveValue('12');
+  await expect(comparison.getByText(/Citywide: \+6\.0 service-hours/)).toBeVisible();
+  await expect(guide.getByText(/preserved 6\.0 more city service-hours/)).toBeVisible();
+  await expect(timeline).toHaveValue('5');
+  await comparison.getByRole('button', { name: 'Close comparison' }).click();
+
+  await page.getByRole('button', { name: 'Save experiment' }).click();
+  const saved = await page.evaluate(() => localStorage.getItem('ctrl-z:experiment:v1'));
+  expect(saved).toBeTruthy();
+  await guide.getByRole('button', { name: 'Restart guide' }).click();
+  await expect(guide.getByText(/Starting replaces the current run/)).toBeVisible();
+  await expect(timeline).toHaveValue('5');
+  await guide.getByRole('button', { name: 'Cancel restart' }).click();
+  await guide.getByRole('button', { name: 'Finish guide' }).click();
+
+  await launcher.click();
+  await expect(guide.getByText(/new outage replaces the current run/)).toBeVisible();
+  await guide.getByRole('button', { name: 'Skip guide' }).click();
+  await expect(timeline).toHaveValue('5');
+  await launcher.click();
+  await guide.getByRole('button', { name: 'Start new Sandbox outage' }).click();
+  await expect(timeline).toHaveValue('0');
+  expect(await page.evaluate(() => localStorage.getItem('ctrl-z:experiment:v1'))).toBe(saved);
+
+  await page.getByRole('button', { name: 'Resume saved' }).click();
+  await expect(timeline).toHaveValue('5');
 });

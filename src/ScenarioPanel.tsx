@@ -6,7 +6,9 @@ import CrisisPanel from './CrisisPanel';
 
 export type GameMode = 'sandbox'|'investigation'|'crisis';
 
-export default function ScenarioPanel({mode,onSelectMode,onCompare}:{mode:GameMode;onSelectMode:(mode:GameMode)=>void;onCompare?:()=>void}){
+export default function ScenarioPanel({mode,onSelectMode,onCompare,guideOpen,onGuide}:{
+ mode:GameMode;onSelectMode:(mode:GameMode)=>void;onCompare?:()=>void;guideOpen:boolean;onGuide:()=>void;
+}){
  const s=useGame(),[hypothesis,setHypothesis]=useState<BuildingId>('grid');
  const crisis=mode==='crisis';
  const progress=s.caseStudy,definition=progress?cases[progress.id]:null;
@@ -28,5 +30,7 @@ export default function ScenarioPanel({mode,onSelectMode,onCompare}:{mode:GameMo
    {caseRecovered(progress,s)&&<p className="case-success" role="status">Recovery verified in the simulation. Rewind to compare another strategy.</p>}
    {progress.diagnosis==='correct'&&s.outage&&<button className="supply" onClick={s.restore}>Restore district power</button>}
   </div>}
+  <button type="button" id="guide-launcher" className="guide-launch" aria-expanded={guideOpen}
+   aria-controls={guideOpen?'guided-experiment':undefined} onClick={onGuide}>Guided experiment</button>
  </div>;
 }
