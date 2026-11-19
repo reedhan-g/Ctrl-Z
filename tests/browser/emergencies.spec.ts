@@ -33,5 +33,6 @@ test('city emergencies follow the viewed timeline, dismiss once and inspect expl
   await expect(panel.getByText('Meridian telecom recovered', { exact: true })).toBeVisible();
   await expect(panel.getByText('East delivery hub improved', { exact: true }).last()).toBeVisible();
   await page.getByRole('button', { name: 'Investigation', exact: true }).click();
+  await page.getByRole('dialog', { name: 'Switch to Investigation?' }).getByRole('button', { name: 'Start new experiment' }).click();
   await expect(panel).toHaveCount(0);
 });

@@ -21,6 +21,11 @@
 .world-top h2{font-size:20px;letter-spacing:-.3px}.world-top .eyebrow{font-size:10px}.state-pill{font-size:10px;border-radius:4px}
 .help{box-shadow:var(--ui-shadow)}.help p,.help li{font-size:14px}.help .primary{font-size:14px;min-height:44px}
 .help{max-height:calc(100dvh - 32px);overflow-y:auto;overscroll-behavior:contain}.help .close-help{position:sticky;top:0;float:right;z-index:1;background:var(--ui-surface);min-width:44px;min-height:44px}
+.mode-confirm { width: min(440px, calc(100% - 32px)); color: var(--ui-text); }
+.mode-confirm::backdrop { background: #061018cc; }
+.mode-confirm h2 { margin-top: 0; }
+.mode-confirm-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.mode-confirm-actions :is(.supply,.primary) { width: auto; margin: 0; min-height: 44px; font-size: 13px; }
 button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--ui-cyan);outline-offset:3px}
 .system-location{display:none}.building-row strong{font-size:13px;font-weight:500}.building-row small.good{color:var(--ui-success)}.building-row small.warn{color:var(--ui-warning)}.building-row small.bad{color:var(--ui-danger)}
 .building-row[data-tone=bad]{border-left:2px solid var(--ui-danger)}.building-row[data-tone=warn]{border-left:2px solid var(--ui-warning)}

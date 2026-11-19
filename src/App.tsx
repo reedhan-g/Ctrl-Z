@@ -13,6 +13,7 @@ import CitySystems from './CitySystems';
 import ExperimentGuide from './ExperimentGuide';
 import ScenarioPanel,{type GameMode} from './ScenarioPanel';
 import GameHelp from './GameHelp';
+import ModeChangeDialog from './ModeChangeDialog';
 import ReportPanel from './ReportPanel';
 import SaveControls from './SaveControls';
 import Minimap from './Minimap';
@@ -30,11 +31,18 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
  const [crisisPreview,setCrisisPreview]=useState<ReplayBranch|null>(()=>
   new URLSearchParams(window.location.search).get('mode')==='crisis'?s.branches[0]:null);
  const mode:GameMode=s.crisis||crisisPreview===s.branches[0]?'crisis':s.caseStudy?'investigation':'sandbox';
- const selectMode=(next:GameMode)=>{
+ const [pendingMode,setPendingMode]=useState<GameMode|null>(null);
+ const startMode=(next:GameMode)=>{
   setGuide(false);
-  setCrisisPreview(next==='crisis'?s.branches[0]:null);
-  if(next==='sandbox')s.reset();
+  setFuture(null);
   if(next==='investigation')s.startCase('dispatch');
+  else s.reset();
+  setCrisisPreview(next==='crisis'?useGame.getState().branches[0]:null);
+ };
+ const selectMode=(next:GameMode)=>{
+  if(next===mode)return;
+  if(s.history.length||s.caseStudy||s.crisis)setPendingMode(next);
+  else startMode(next);
  };
  const branch=s.branches.find(entry=>entry.id===s.activeBranch)!;
  const deadline=gameDeadline(s);
@@ -89,6 +97,7 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
   requestAnimationFrame(()=>document.querySelector('.timeline input')?.scrollIntoView({block:'nearest'}));
  };
  useEffect(()=>{
+  if(pendingMode)return;
   const clock=new SimulationClock();let previous=performance.now();
   const visibility=()=>{previous=performance.now();clock.advance(0,1,false);};
   const id=setInterval(()=>{const now=performance.now(),s=useGame.getState();
@@ -97,10 +106,11 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
   },100);
   document.addEventListener('visibilitychange',visibility);
   return()=>{clearInterval(id);document.removeEventListener('visibilitychange',visibility);};
- },[]);
+ },[pendingMode]);
 
  useEffect(()=>{
   const key=(e:KeyboardEvent)=>{
+   if(pendingMode)return;
    const target=e.target instanceof Element?e.target:null;
    const editing=!!target?.closest('textarea,select,input:not([type="range"]),[contenteditable="true"]');
    const nativeSpace=!!target?.closest('button,input,select,textarea,a[href],[role="button"]');
@@ -117,7 +127,7 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
    else if(!help&&action==='toggle'){e.preventDefault();useGame.getState().toggle();}
   };
   window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);
- },[help,comparing,guide]);
+ },[help,comparing,guide,pendingMode]);
  useEffect(()=>{
   if(!help)return;
   const previous=document.activeElement as HTMLElement|null;
@@ -149,5 +159,7 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
  </main>
  <footer><span>CTRL Z <span className="muted">— UNDO THE WORLD.</span></span><span>Drag to pan <b>·</b> Scroll / pinch to zoom <b>·</b> Tap to inspect</span><span className="footer-end">EVERYTHING IS CONNECTED <Network size={13}/></span></footer>
  {help&&<GameHelp mode={mode} onClose={()=>setHelp(false)} onGuide={()=>{setHelp(false);setGuide(true);}}/>}
+ {pendingMode&&<ModeChangeDialog mode={pendingMode} onCancel={()=>setPendingMode(null)}
+  onStart={()=>{startMode(pendingMode);setPendingMode(null);}}/>}
  </div>;
 }

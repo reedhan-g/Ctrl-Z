@@ -23,6 +23,7 @@ test('Help follows the selected mode before and after a Crisis starts', async ({
   await closeHelp.click();
 
   await modes.getByRole('button', { name: 'Sandbox' }).click();
+  await page.getByRole('dialog', { name: 'Switch to Sandbox?' }).getByRole('button', { name: 'Start new experiment' }).click();
   await openHelp.click();
   await expect(help.getByRole('heading', { name: 'Sandbox help' })).toBeVisible();
   await expect(help.getByText(/Use Restore electricity to manually reconnect/)).toBeVisible();

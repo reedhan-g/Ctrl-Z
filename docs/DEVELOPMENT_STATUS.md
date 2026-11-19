@@ -1,5 +1,9 @@
 # Ctrl Z - Development Status
 
+## Embarko submission fixes
+
+- Reproduced the active-mode reset on the hosted revision at 07:00 in Sandbox and Investigation. Active-mode clicks now preserve the current run. A modal confirms replacement of a started run and leaves the local save slot intact. Confirming Crisis opens the briefing. The dedicated Reset action still works. Type-checking and six desktop/mobile mode switch, Help and incident checks passed.
+
 ## Embarko release fixes
 
 - Help follows the selected mode in the briefing and active run. The shared controls remain available in every mode. Type-checking and four desktop/mobile Help and Crisis-entry checks passed.
