@@ -8,7 +8,7 @@ The creator stopped the deployment session and subsequently requested docs/hando
 
 - URL returned by Embarko: https://ctrl-z.embarko.app
 - App name: ctrl-z
-- Public app ID: cmwj82l6f01t37w6h5hox7m5n (also in embarko.json).
+- Public app ID: cmwj82l6f01t37w6h5hox7m5n (also in config/embarko/embarko.json).
 - Anonymous expiry: 2026-11-17T12:10:59.894Z, or 17 November 2026 at 5:40 PM IST.
 - No account, deployment token or existing credentials were used. The email question was presented only after real hosted desktop gameplay worked. Claiming remains pending the creator's email/token.
 
@@ -24,9 +24,9 @@ The dedicated regression command is `npm run test:embarko -- --workers=1`. It bu
 
 ## Packaging and anonymous redeploy
 
-Follow https://embarko.ai/docs/quickstart.md and https://embarko.ai/docs/static-sites. The uploaded artifact is a prepared static website: index.html, simulation.html, assets and license files at archive root. Include embarko.json for future identity tracking. Do not upload source-control data, credentials, .env, skill directories or node_modules. Never commit the archive or raw API replies.
+Follow https://embarko.ai/docs/quickstart.md and https://embarko.ai/docs/static-sites. The uploaded artifact is a prepared static website: index.html, simulation.html, assets and license files at archive root. The optional identity manifest is stored at config/embarko/embarko.json; the archive expects it at its root as embarko.json. Do not upload source-control data, credentials, .env, skill directories or node_modules. Never commit the archive or raw API replies.
 
-Build the Embarko profile, copy embarko.json into its ignored dist output, and archive the contents of dist as .tar.gz. Upload multipart source to https://ship.embarko.ai/apps with X-App-Name: ctrl-z and X-Agent-Name: Codex. Anonymous calls have no Authorization header. Use the same name for corrections; use the public appId for future authenticated redeploys as the API documents. Read the actual response's status, links, warnings and expiry. An HTTP 200 alone is insufficient: open the app and test gameplay.
+Build the Embarko profile, copy config/embarko/embarko.json into its ignored dist output as embarko.json, and archive the contents of dist as .tar.gz. Upload multipart source to https://ship.embarko.ai/apps with X-App-Name: ctrl-z and X-Agent-Name: Codex. Anonymous calls have no Authorization header. Use the same name for corrections; use the public appId for future authenticated redeploys as the API documents. Read the actual response's status, links, warnings and expiry. An HTTP 200 alone is insufficient: open the app and test gameplay.
 
 The corrected archive is retained locally at .impeccable/review/deploy/ctrl-z-embarko-csp.tar.gz (SHA256 A89D5544D371F1C27B3E6E48BA66F30B3AA5F460D877887889D530A1B26967C1). The server returned success, live, claimed false, the same app ID/URL/expiry, and no warnings. Raw replies/claim links remain ignored and must not be published.
 

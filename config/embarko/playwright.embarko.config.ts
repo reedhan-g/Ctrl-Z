@@ -1,10 +1,12 @@
 import {defineConfig,devices} from '@playwright/test';
+import {fileURLToPath} from 'node:url';
 
 export default defineConfig({
-  testDir: './tests/deployment',
+  testDir: '../../tests/deployment',
   timeout: 60000,
   use: {baseURL: 'http://127.0.0.1:4174/',trace: 'retain-on-failure'},
   webServer: {
+    cwd: fileURLToPath(new URL('../../', import.meta.url)),
     command: 'npm run preview -- --mode embarko --port 4174 --strictPort',
     url: 'http://127.0.0.1:4174/',
     reuseExistingServer: !process.env.CI,

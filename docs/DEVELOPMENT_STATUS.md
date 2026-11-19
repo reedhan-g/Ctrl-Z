@@ -1,5 +1,9 @@
 # Ctrl Z - Development Status
 
+## Embarko configuration layout
+
+Embarko's manifest and browser test config now live in `config/embarko/`. The Embarko build and both desktop/mobile CSP tests passed via `npm run test:embarko -- --workers=1`. The test opens the current embedded-play controls before verifying save, resume and restoration. When packaging an Embarko deploy with an identity manifest, copy it to the archive root as `embarko.json`.
+
 ## Documentation layout
 
 The public README stays at the root. [AGENTS.md](../AGENTS.md) indexes the current gameplay, landing and city-art guidance. The [handoff](handoff/CODEX_HANDOFF_README.md) keeps the continuation notes and links to superseded briefs. Screenshot collections and runtime paths stayed in place. This milestone uses relative-link and Git diff checks. Build and gameplay suites are deferred because the change is documentation only.
@@ -88,7 +92,7 @@ Active scope: editorial first viewport, aligned authentic preview recapture, nat
 
 Creator explicitly requests anonymous deployment first, then an email question only after the live game's main feature works. No account/token/credential was used. Static upload created app ctrl-z, public ID cmwj82l6f01t37w6h5hox7m5n, URL https://ctrl-z.embarko.app, expires 2026-11-17T12:10:59.894Z (17 November, 5:40 PM IST). Initial browser checks caught host CSP blocking Pixi startup; the corrected anonymous redeploy now passes actual desktop gameplay. The creator has been given the URL/expiry and asked for email; no answer/token or claim yet.
 
-The Embarko-only build profile/entry uses Pixi's shipped CSP-compatible synchronizers and ordinary image decoding. Existing main entry, city/game modules and default /Ctrl-Z/ Pages deployment remain untouched. 100 unit tests, Embarko and default builds, and both local production CSP cases pass. Hosted desktop homepage, embedded save/minimap/inspection/navigation and full gameplay/replay pass; mobile homepage passes, with mobile gameplay still running. Temporary archives/replies/tests are ignored under .impeccable/review; public appId is in embarko.json. See docs/EMBARKO_DEPLOYMENT.md. Next: finish mobile verification/evidence, preserve the tested compatibility checkpoint on origin/main, then continue the email-token flow only from the creator's reply.
+The Embarko-only build profile/entry uses Pixi's shipped CSP-compatible synchronizers and ordinary image decoding. Existing main entry, city/game modules and default /Ctrl-Z/ Pages deployment remain untouched. 100 unit tests, Embarko and default builds, and both local production CSP cases pass. Hosted desktop homepage, embedded save/minimap/inspection/navigation and full gameplay/replay pass; mobile homepage passes, with mobile gameplay still running. Temporary archives/replies/tests are ignored under .impeccable/review; public appId is in config/embarko/embarko.json. See docs/EMBARKO_DEPLOYMENT.md. Next: finish mobile verification/evidence, preserve the tested compatibility checkpoint on origin/main, then continue the email-token flow only from the creator's reply.
 
 ## Editorial landing page complete and deployed - 2026-11-16
 

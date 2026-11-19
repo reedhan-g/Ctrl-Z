@@ -15,7 +15,8 @@ test('production game plays inside the homepage under Embarko CSP',async({page})
  await page.goto('./');
  await expect(page.getByRole('heading',{name:'Ctrl Z',exact:true})).toBeVisible();
  await expect(page.locator('iframe')).toHaveCount(0);
- await page.locator('.opening').getByRole('link',{name:'Enter Simulation',exact:true}).click();
+ await page.getByText('Play embedded on this page',{exact:true}).click();
+ await page.getByRole('button',{name:'Start simulation',exact:true}).click();
  const game=page.frameLocator('iframe');
  await expect(game.locator('canvas')).toBeVisible();
  await game.getByRole('button',{name:'Remove electricity',exact:true}).click();
