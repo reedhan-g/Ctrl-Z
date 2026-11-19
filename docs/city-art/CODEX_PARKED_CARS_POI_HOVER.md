@@ -9,7 +9,7 @@
 
 Treat this as a **targeted polish pass**, not another full city redesign. Preserve the existing Antahonist Neon City–inspired pixel-art direction, the large scrollable world, minimap, building inspection, and all working simulation systems.
 
-Read `AGENTS.md`, `DEVELOPMENT_STATUS.md`, and the relevant rendering and gameplay files before editing. Check the current working branch and uncommitted work first. Keep existing improvements intact.
+Read `AGENTS.md`, `docs/DEVELOPMENT_STATUS.md`, and the relevant rendering and gameplay files before editing. Check the current working branch and uncommitted work first. Keep existing improvements intact.
 
 ## 1. Park stationary cars realistically
 
@@ -112,6 +112,6 @@ Before considering the task complete:
   - `fix: park decorative cars in valid curbside spaces`
   - `style: add golden landmark hover and readable labels`
 - Push each tested milestone and verify the remote commit and CI status.
-- Update `DEVELOPMENT_STATUS.md` and `CODEX_HANDOFF_README.md` with what was actually implemented, screenshots, validation and remaining limitations.
+- Update `docs/DEVELOPMENT_STATUS.md` and `docs/handoff/CODEX_HANDOFF_README.md` with what was actually implemented, screenshots, validation and remaining limitations.
 
 **Success means a player sees realistic curbside-parked cars instead of cars abandoned in driving lanes, and can immediately spot and identify any important facility through a polished golden hover effect and readable label.**

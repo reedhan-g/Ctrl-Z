@@ -15,7 +15,7 @@ This brief supersedes earlier landing-only stylistic guidance where conflicting.
 
 ## Review before changes
 
-1. Read `AGENTS.md`, `PROJECT_BRIEF.md`, `PROJECT_VISION.md`, `DESIGN.md`, `docs/landing-page/REVIEW.md` and current source.
+1. Read `AGENTS.md`, `docs/PROJECT_BRIEF.md`, `docs/PROJECT_VISION.md`, `DESIGN.md`, `docs/landing-page/REVIEW.md` and current source.
 2. Inspect `src/Landing.tsx`, `src/landing.css`, `src/BlackoutPreview.tsx` and associated preview styles/assets. The site already has a working scroll-driven blackout reveal; **refine it, do not blindly rebuild it**.
 3. Review the latest homepage screenshot at desktop, tablet and phone widths. Create a brief plan identifying what is preserved versus replaced.
 4. Use installed design skills where applicable, but treat this brief as the final authority when generic guidance conflicts with the two selected references.
@@ -119,4 +119,4 @@ Keep prior website routes and links working. Do not add new gameplay mechanics, 
 
 ## Copy-paste Codex instruction
 
-Read `CTRL_Z_JAKE_SCROLL_YOUNG_MINDS_REDESIGN.md` fully and follow it. Review the current homepage and the already-implemented scroll-driven blackout reveal before editing. Make the landing page adopt **Young Minds' near-black monochrome cinematic aesthetic** with **Jake Roberts-inspired smooth scroll storytelling and subtle reveals**, preserving the existing game and its artwork. Use the installed frontend-design, motion and UI-audit skills only when useful. Implement incrementally, visually inspect desktop/mobile screenshots, run regression tests, and commit tested milestones. Do not redesign the gameplay interface.
+Read `docs/handoff/archive/CTRL_Z_JAKE_SCROLL_YOUNG_MINDS_REDESIGN.md` fully and follow it. Review the current homepage and the already-implemented scroll-driven blackout reveal before editing. Make the landing page adopt **Young Minds' near-black monochrome cinematic aesthetic** with **Jake Roberts-inspired smooth scroll storytelling and subtle reveals**, preserving the existing game and its artwork. Use the installed frontend-design, motion and UI-audit skills only when useful. Implement incrementally, visually inspect desktop/mobile screenshots, run regression tests, and commit tested milestones. Do not redesign the gameplay interface.

@@ -2,7 +2,7 @@
 
 **The next priority is a substantial, visible redesign of the actual city—not more planning documents or isolated experiments.**
 
-First, update `AGENTS.md`, `CODEX_HANDOFF_README.md`, and the relevant development instructions to reflect that `main` is now the authorized development branch. Safely synchronize with `origin/main`, preserving any uncommitted work. All subsequent tested milestones should be committed and pushed directly to `main`.
+First, update `AGENTS.md`, `docs/handoff/CODEX_HANDOFF_README.md`, and the relevant development instructions to reflect that `main` is now the authorized development branch. Safely synchronize with `origin/main`, preserving any uncommitted work. All subsequent tested milestones should be committed and pushed directly to `main`.
 
 **Visual requirements:**
 

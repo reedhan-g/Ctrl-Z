@@ -1,6 +1,6 @@
 # Ctrl Z — UI/UX Overhaul Brief for the Embarko Student Challenge
 
-> **Instructions to Codex:** Read this entire document, `AGENTS.md`, `PROJECT_BRIEF.md`, `PROJECT_VISION.md`, `ARCHITECTURE.md`, and `DEVELOPMENT_STATUS.md` before changing code. Treat this file as the active task specification for the **website UI/UX only**. The creator has approved the **current city map and its art**. Do not redesign it. Implement the work in small, tested milestones and push completed milestones to `origin/main` as already authorized by the project's current instructions.
+> **Instructions to Codex:** Read this entire document, `AGENTS.md`, `docs/PROJECT_BRIEF.md`, `docs/PROJECT_VISION.md`, `docs/ARCHITECTURE.md`, and `docs/DEVELOPMENT_STATUS.md` before changing code. Treat this file as the active task specification for the **website UI/UX only**. The creator has approved the **current city map and its art**. Do not redesign it. Implement the work in small, tested milestones and push completed milestones to `origin/main` as already authorized by the project's current instructions.
 
 ## 0. Objective and competition context
 
@@ -315,7 +315,7 @@ Use meaningful, independently testable commits. Adjust sequencing for technical 
 - Run all regression/performance/accessibility gates and record before/after captures.
 - Suggested commit: `feat: add optional interactive first-experiment guide`.
 
-You may further subdivide or reorder commits if needed. **Only commit tested, coherent milestones** and push to `origin/main` as previously authorized, verifying the remote SHA each time. Never force-push. Update `DEVELOPMENT_STATUS.md` with tangible changes and honest remaining limitations. If interrupted, leave an actionable status note, preserving all unfinished local changes.
+You may further subdivide or reorder commits if needed. **Only commit tested, coherent milestones** and push to `origin/main` as previously authorized, verifying the remote SHA each time. Never force-push. Update `docs/DEVELOPMENT_STATUS.md` with tangible changes and honest remaining limitations. If interrupted, leave an actionable status note, preserving all unfinished local changes.
 
 ## 14. Required test coverage and acceptance criteria
 

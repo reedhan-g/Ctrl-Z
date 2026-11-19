@@ -5,9 +5,9 @@ I have explicitly authorized automatic Git commits and pushes to the existing Gi
 First:
 1. Inspect git status, git diff, the latest commits and all project documentation.
 2. Confirm the correct design-image paths, including design/ctrl-z-city-reference.png and the newer pixel-art reference if available.
-3. Update AGENTS.md and PROJECT_BRIEF.md to consistently authorize automatic tested commits and pushes. Do not change repository visibility or deploy the game publicly.
-4. Preserve and commit PROJECT_VISION.md and the correct reference assets, provided they contain no secrets or unauthorized material.
-5. Synchronize DEVELOPMENT_STATUS.md and fix outdated or contradictory documentation.
+3. Update AGENTS.md and docs/PROJECT_BRIEF.md to consistently authorize automatic tested commits and pushes. Do not change repository visibility or deploy the game publicly.
+4. Preserve and commit docs/PROJECT_VISION.md and the correct reference assets, provided they contain no secrets or unauthorized material.
+5. Synchronize docs/DEVELOPMENT_STATUS.md and fix outdated or contradictory documentation.
 6. Make a descriptive documentation commit and push it to origin/main after validation.
 
 Next:

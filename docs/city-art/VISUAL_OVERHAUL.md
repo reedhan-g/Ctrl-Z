@@ -1,6 +1,6 @@
 # City visual overhaul — 2026-11-14
 
-CODEX_CITY_VISUAL_OVERHAUL.md supersedes maximizing scenery count. All three references were opened: pixel-city-reference-2.png is authoritative, neon-city-secondary-reference.jpg supports street composition, ctrl-z-city-reference.png is tertiary world guidance.
+docs/handoff/archive/CODEX_CITY_VISUAL_OVERHAUL.md supersedes maximizing scenery count. All three references were opened: pixel-city-reference-2.png is authoritative, neon-city-secondary-reference.jpg supports street composition, ctrl-z-city-reference.png is tertiary world guidance.
 
 ## Audit
 

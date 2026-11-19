@@ -7,11 +7,11 @@
 Before changing code, read and follow the relevant existing files:
 
 - `AGENTS.md` — workflow, Git and safety requirements.
-- `PROJECT_VISION.md` — authoritative product vision and approved visual style.
-- `PROJECT_BRIEF.md` — product scope and priorities.
-- `DEVELOPMENT_STATUS.md` — implemented features and current blockers.
-- `CODEX_TASK.md` — previous roadmap (retain it; this task takes priority for now).
-- `ARCHITECTURE.md` — module boundaries and implementation decisions.
+- `docs/PROJECT_VISION.md` — authoritative product vision and approved visual style.
+- `docs/PROJECT_BRIEF.md` — product scope and priorities.
+- `docs/DEVELOPMENT_STATUS.md` — implemented features and current blockers.
+- `docs/handoff/archive/CODEX_TASK.md` — previous roadmap (retain it; this task takes priority for now).
+- `docs/ARCHITECTURE.md` — module boundaries and implementation decisions.
 - `design/pixel-city-reference-2.png` — **primary visual reference**.
 - `design/ctrl-z-city-reference.png` — secondary composition reference.
 
@@ -149,10 +149,10 @@ Start by inspecting the existing code and documenting a concise incremental plan
 
 ## 9. Documentation, commits and deployment
 
-- Update `PROJECT_VISION.md` to include the larger persistent city, fixed viewport, camera navigation and **required minimap**.
-- Update `DEVELOPMENT_STATUS.md` after each completed milestone with specific implemented features, validation results, limitations and next steps.
-- Update `ARCHITECTURE.md` if the world/camera/minimap module boundaries change significantly.
-- Preserve `CODEX_TASK.md` and the existing Git history.
+- Update `docs/PROJECT_VISION.md` to include the larger persistent city, fixed viewport, camera navigation and **required minimap**.
+- Update `docs/DEVELOPMENT_STATUS.md` after each completed milestone with specific implemented features, validation results, limitations and next steps.
+- Update `docs/ARCHITECTURE.md` if the world/camera/minimap module boundaries change significantly.
+- Preserve `docs/handoff/archive/CODEX_TASK.md` and the existing Git history.
 - Follow the user's existing authorization in `AGENTS.md`: **commit and push each successfully completed, tested logical milestone** using descriptive Conventional Commit messages. Verify each push; request command approval when required.
 - Preserve the existing `.github/workflows/static.yml` automatic GitHub Pages deployment on `main`, including `workflow_dispatch`. Do not replace it, disable its push trigger or create a duplicate deployment workflow.
 - Preserve the separate CI testing workflow. Never force-push, rewrite history, delete unrelated work, expose secrets, change repository visibility or deploy to an additional public service without permission.

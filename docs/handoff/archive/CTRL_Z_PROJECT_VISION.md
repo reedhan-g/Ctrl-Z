@@ -1,4 +1,4 @@
-> Historical source, retained for provenance. PROJECT_VISION.md is the current consolidated vision. CODEX_TASK.md makes design/pixel-city-reference-2.png primary and design/ctrl-z-city-reference.png secondary; older reference paths and priorities below are superseded.
+> Historical source, retained for provenance. docs/PROJECT_VISION.md is the current consolidated vision. docs/handoff/archive/CODEX_TASK.md makes design/pixel-city-reference-2.png primary and design/ctrl-z-city-reference.png secondary; older reference paths and priorities below are superseded.
 
 # Ctrl Z — Canonical Product Vision
 
@@ -10,7 +10,7 @@
 
 ## IMPORTANT: Visual direction — approved by the creator
 
-The primary visual reference is **`design/city-reference.png`**. Inspect it directly. It supersedes any earlier AI-generated concept art or generic sci-fi dashboard designs.
+The primary visual reference is **`design/ctrl-z-city-reference.png`**. Inspect it directly. It supersedes any earlier AI-generated concept art or generic sci-fi dashboard designs.
 
 The approved direction is a **dense, consistent, handcrafted-looking 2D isometric neon city**, reminiscent of an indie management/strategy game:
 
@@ -20,7 +20,7 @@ The approved direction is a **dense, consistent, handcrafted-looking 2D isometri
 - A cohesive city of real interactive entities, **not** a single static background image, and not a generic AI-generated illustration pasted behind a dashboard.
 - Avoid excessive bloom, photorealism, heavy 3D, arbitrary futuristic holograms, random glowing labels, blurry textures, crowded HUDs, oversaturated gradients, and visual inconsistencies.
 - The city is the star: minimal unobtrusive UI; context panels only when needed. Buildings should be selectable and highlight subtly.
-- The final appearance needs to be judged by comparison with `design/city-reference.png` on actual desktop and mobile screenshots, not merely by passing code tests.
+- The final appearance needs to be judged by comparison with `design/ctrl-z-city-reference.png` on actual desktop and mobile screenshots, not merely by passing code tests.
 
 **Implementation:** Prefer PixiJS/Canvas/WebGL-accelerated 2D, layered isometric building sprites, sprite atlases, procedural/tiled roads, selective overlay lighting, visible state changes (window lights out, red warning signals, stopped vehicles, active generators). Build original assets as separate layered entities so the world responds to simulation state. Optimize rendering and load only visible/relevant content. Original reference is for visual direction, not a flattened map to reuse as the complete game.
 
@@ -113,7 +113,7 @@ Target a coherent city with six districts eventually: downtown, medical, industr
 
 ## Verification instructions for a coding agent
 
-Before making major changes, read `AGENTS.md`, `PROJECT_BRIEF.md`, `DEVELOPMENT_STATUS.md`, this file and inspect `design/city-reference.png`. Explain any contradictions. Summarize product goals, approved visual style, primary mechanic, first milestone and known limitations, citing file paths. Update documentation to resolve stale `CTRL+Z` naming or old art direction only after reviewing existing implementation. Do not claim to see the image unless it actually exists on disk and can be opened.
+Before making major changes, read `AGENTS.md`, `docs/PROJECT_BRIEF.md`, `docs/DEVELOPMENT_STATUS.md`, this file and inspect `design/ctrl-z-city-reference.png`. Explain any contradictions. Summarize product goals, approved visual style, primary mechanic, first milestone and known limitations, citing file paths. Update documentation to resolve stale `CTRL+Z` naming or old art direction only after reviewing existing implementation. Do not claim to see the image unless it actually exists on disk and can be opened.
 ## Visual Style Update
 Ctrl Z should use a dark neon isometric city style with slight pixel-art influence.
 The city should feel like a handcrafted indie simulation game rather than smooth vector art or generic AI-generated concept art.

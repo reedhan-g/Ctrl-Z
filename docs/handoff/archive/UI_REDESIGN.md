@@ -14,7 +14,7 @@ Elevate the **public-facing Ctrl Z landing page** from a clean editorial introdu
 
 ## 1. Inspect the current project before editing
 
-Read `AGENTS.md`, `DESIGN.md`, `PROJECT_VISION.md`, `DEVELOPMENT_STATUS.md`, and the current landing-page notes in `docs/landing-page/`. Inspect:
+Read `AGENTS.md`, `DESIGN.md`, `docs/PROJECT_VISION.md`, `docs/DEVELOPMENT_STATUS.md`, and the current landing-page notes in `docs/landing-page/`. Inspect:
 
 - `src/Landing.tsx`
 - `src/landing.css`

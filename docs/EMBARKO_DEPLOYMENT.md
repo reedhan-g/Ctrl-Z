@@ -2,7 +2,7 @@
 
 ## Preserved checkpoint — 17 November 2026
 
-The creator stopped the deployment session and subsequently requested UI_REDESIGN.md. Existing compatibility work is preserved as an independent tested checkpoint. Fresh validation: 100 unit tests and both desktop/mobile production-CSP cases pass. The earlier authenticated claim was interrupted; no claimed-response receipt is present locally, so permanence remains unconfirmed. Credentials and authentication are not part of the UI task and must never be committed. No Embarko deployment or claim was retried for the redesign. Historical anonymous status/expiry below is not a current availability claim.
+The creator stopped the deployment session and subsequently requested docs/handoff/archive/UI_REDESIGN.md. Existing compatibility work is preserved as an independent tested checkpoint. Fresh validation: 100 unit tests and both desktop/mobile production-CSP cases pass. The earlier authenticated claim was interrupted; no claimed-response receipt is present locally, so permanence remains unconfirmed. Credentials and authentication are not part of the UI task and must never be committed. No Embarko deployment or claim was retried for the redesign. Historical anonymous status/expiry below is not a current availability claim.
 
 ## Current anonymous app
 

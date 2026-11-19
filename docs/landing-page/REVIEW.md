@@ -2,7 +2,7 @@
 
 ## Cinematic redesign — 18 November 2026
 
-CTRL_Z_JAKE_SCROLL_YOUNG_MINDS_REDESIGN.md replaces the previous compact homepage direction. Frontend Design and Impeccable informed the code-first **Meridian, interrupted** system: near-black ground, oversized local Manrope, white controls and sparse navigation. The native-scroll story moves through a full-viewport opening, two-column premise, real city interruption, three consequence beats and the final invitation. The city remains below the opening; the existing game still loads only on request.
+docs/handoff/archive/CTRL_Z_JAKE_SCROLL_YOUNG_MINDS_REDESIGN.md replaces the previous compact homepage direction. Frontend Design and Impeccable informed the code-first **Meridian, interrupted** system: near-black ground, oversized local Manrope, white controls and sparse navigation. The native-scroll story moves through a full-viewport opening, two-column premise, real city interruption, three consequence beats and the final invitation. The city remains below the opening; the existing game still loads only on request.
 
 The existing aligned captures now dissolve through opacity in a bounded sticky scene. The complete stage must fit the visual viewport before it pins; short/zoomed screens retain ordinary scrolling. Reverse scroll, direct/repeated preview links, manual priority, keyboard/touch alternatives and instant reduced motion remain tested. Only the opening headline/copy drift and two already-visible introductions accompany this dominant interaction. No wheel interception, loader, heavy effect or runtime dependency was added.
 
@@ -26,7 +26,7 @@ Jake Roberts' live reference was inspected for hierarchy/spacing. Young Minds' p
 
 ## Historical review — 17 November 2026
 
-17 November 2026. UI_REDESIGN.md milestones A–E are complete. Frontend Design and Impeccable refined the existing editorial homepage; the playable game remains protected.
+17 November 2026. docs/handoff/archive/UI_REDESIGN.md milestones A–E are complete. Frontend Design and Impeccable refined the existing editorial homepage; the playable game remains protected.
 
 ## Result
 

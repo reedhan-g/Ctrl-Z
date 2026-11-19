@@ -1,6 +1,6 @@
 # Meridian / the invisible network
 
-18 November 2026. CTRL_Z_ANIMATED_LANDING_PAGE.md is read completely and governs this task. Start: local/remote main fada846, no tracked unfinished work. Preserve unrelated untracked skills and the stopped Embarko claim.
+18 November 2026. docs/landing-page/CTRL_Z_ANIMATED_LANDING_PAGE.md is read completely and governs this task. Start: local/remote main fada846, no tracked unfinished work. Preserve unrelated untracked skills and the stopped Embarko claim.
 
 Preserve: native reversible reveal, manual priority, reduced-motion fallback, real anchors, lazy iframe, full-screen/home/save semantics and every game source/art/workflow. Replace: empty hero ground with original engineering geometry; long prose with truthful schematic and kinetic rows; HUD-bearing screenshots with capture-only clean city assets; duplicate ending with direct play and secondary expandable embed.
 
@@ -25,7 +25,7 @@ STORY: Living network/title → restrained ticker → premise and accurate schem
 
 FIRST VIEWPORT: Giant CTRL Z / UNDO THE WORLD against a visible fine-line infrastructure graphic on the right/rear. Small premise and Witness the blackout action fit; header Play always works. Phone artwork repositions, short landscape reduces it.
 
-FORM: seed: none (pinned). Creator explicitly requests the complete motion-rich preview described in CTRL_Z_ANIMATED_LANDING_PAGE.md, including infrastructure graphics, ticker, kinetic text, blackout and final CTA. Continue the confirmed code-first path; no new concept round. No preview file/URL is currently present; an optional reference-location question is pending, and implementation follows the full written target meanwhile.
+FORM: seed: none (pinned). Creator explicitly requests the complete motion-rich preview described in docs/landing-page/CTRL_Z_ANIMATED_LANDING_PAGE.md, including infrastructure graphics, ticker, kinetic text, blackout and final CTA. Continue the confirmed code-first path; no new concept round. No preview file/URL is currently present; an optional reference-location question is pending, and implementation follows the full written target meanwhile.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 

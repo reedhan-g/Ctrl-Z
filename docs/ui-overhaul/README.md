@@ -1,6 +1,6 @@
 # Ctrl Z UI overhaul review
 
-The active brief is CODEX_CTRL_Z_UI_OVERHAUL.md. The approved city baseline is 6cb71f8. All atlas assets, map rendering, roads, service coordinates, labels/gold effects, camera math, courier routes, simulation/replay/save modules and both GitHub workflows remain unchanged. UI container dimensions and measured overlays adapt around that map.
+The active brief is docs/gameplay/CODEX_CTRL_Z_UI_OVERHAUL.md. The approved city baseline is 6cb71f8. All atlas assets, map rendering, roads, service coordinates, labels/gold effects, camera math, courier routes, simulation/replay/save modules and both GitHub workflows remain unchanged. UI container dimensions and measured overlays adapt around that map.
 
 ## Completed checkpoints
 

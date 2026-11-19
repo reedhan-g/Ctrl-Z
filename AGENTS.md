@@ -1,85 +1,24 @@
+# Ctrl Z development
 
-# Ctrl Z — Development Instructions
+Ctrl Z is a browser-based isometric city simulation. Start with the [handoff](docs/handoff/CODEX_HANDOFF_README.md) and [development status](docs/DEVELOPMENT_STATUS.md) for the current baseline, completed work and remaining checks. The [project brief](docs/PROJECT_BRIEF.md), [vision](docs/PROJECT_VISION.md), [architecture](docs/ARCHITECTURE.md) and [performance notes](docs/PERFORMANCE.md) explain the product and runtime.
 
-## Current landing-page task — 2026-11-18
+## Current scope
 
-CTRL_Z_ANIMATED_LANDING_PAGE.md is the latest active brief, superseding conflicting prior landing styling/layout. Implement its tested 0–5 checkpoints: original infrastructure hero/ticker, accurate dependency schematic, kinetic rows, clean capture-only HUD-free actual-city blackout and one direct full-screen final CTA with a small optional lazy embed. Preserve all game code/art/UI and existing workflows. See docs/landing-page/ANIMATED_PLAN.md. Do not resume the stopped Embarko claim.
+- **Gameplay.** Use the [upgrade brief](docs/gameplay/CODEX_GAMEPLAY_UPGRADE.md), [gameplay specification](docs/gameplay/README.md) and [verification captures](docs/gameplay/verification/). Preserve the approved gameplay UI, map and art, renderer and camera, routes, six service identities and gold labels, minimap, mobile controls, simulation and saves.
+- **Landing page.** Use the [animated brief](docs/landing-page/CTRL_Z_ANIMATED_LANDING_PAGE.md), [exact-reference brief](docs/landing-page/CTRL_Z_EXACT_REPLICA_OPTIMIZATION.md), [reference HTML](CTRL_Z_ANIMATED_PREVIEW.html) and [implementation plan](docs/landing-page/ANIMATED_PLAN.md). Preserve the six-service schematic, original hero and ticker, narrative beats, aligned HUD-free city captures, reversible blackout with manual and reduced-motion controls, direct full-screen play and optional lazy embed. Match the approved desktop layout and preserve the mobile refinements. Keep changes out of game code, art and UI during landing-only work. Check actual desktop and mobile entry and screenshots for affected visual states.
+- **City art.** The current city is approved. For separately authorized city work, use the [visual overhaul record](docs/city-art/VISUAL_OVERHAUL.md) and [Lantern Yard plan](docs/city-art/NEON_NEIGHBORHOOD_PLAN.md). The approved runtime lineage begins at commit 27 (9fcac4a4e1e06a549bda4f51b4b1c5f3e09d823f) and excludes the rejected designs in commits 28?29. Use Antahonist Neon City as the primary visual reference and [pixel-city-reference-2.png](design/pixel-city-reference-2.png) as secondary inspiration. Verify third-party licenses and provenance, and identify original reference-inspired art. For city redesigns, build and visually review one authored neighborhood before expansion. Test building alignment, connected streets, signage, lighting, infrastructure identities and default framing across the opening area. Review real desktop/mobile opening, intersection, infrastructure and neighborhood captures at each visual milestone.
+- The [archive](docs/handoff/archive/) contains superseded briefs for historical context. Use the current task and handoff for authorization and next steps.
 
-CTRL_Z_JAKE_SCROLL_YOUNG_MINDS_REDESIGN.md (18 November) is the current redesign brief, superseding conflicting earlier homepage styling. Use Young Minds' near-black monochrome visual direction and Jake Roberts-inspired native scroll pacing, with the existing blackout reveal adapted to a bounded sticky scene. Preserve all actual game UI/code/artwork and on-demand embedded/full-screen entry. See docs/landing-page/CINEMATIC_PLAN.md. Continue small tested commits and verified pushes to main; the stopped Embarko claim remains outside scope.
+## Workflow and verification
 
-UI_REDESIGN.md (17 November) is the completed prior refinement brief. Its working aligned captures, manual/reduced-motion alternatives and protected game boundary carry forward; its compact cyan styling and non-sticky wipe are superseded by the 18 November cinematic brief. Preserve the separately checkpointed Embarko compatibility work. See docs/landing-page/REDESIGN.md for history; do not resume the stopped deployment/claim workflow as a side effect.
+- Inspect the existing code and Git state before changes. Fetch and inspect upstream before synchronizing. Preserve unrelated and in-flight work, and finish any current operation safely.
+- Make small, independently testable milestones. Commit each completed feature, bug fix or meaningful improvement with a descriptive Conventional Commit. Split independent work when it can stand on its own, and keep required regression coverage with its fix.
+- Run relevant checks before every commit. Use targeted checks during implementation and run the production build and appropriate regression gate at the end of a runtime milestone. Fix errors before committing. Diagnose failed checks before rerunning, avoid repeating successful checks without relevant changes, and avoid duplicate captures, unnecessary rereads, excessive planning, and unrelated cleanup. Mandatory checks and core-game regressions take priority.
+- Record actual checks, decisions, open issues, deferred validation and the next step in the [development status](docs/DEVELOPMENT_STATUS.md). Keep the [handoff](docs/handoff/CODEX_HANDOFF_README.md) current.
+- Maintain the dark neon isometric art and smooth mobile performance. Keep real simulation logic separate from rendering, and keep the architecture modular and maintainable.
 
-The creator's latest scope supersedes earlier UI/city redesign briefs: create a minimal editorial homepage that introduces the existing game, embedded below the landing content. The creator confirmed code-first development with Frontend Design and Impeccable. Preserve the complete in-game UI/HUD, controls, city rendering/artwork, simulation and saves. Use actual game previews, test desktop/mobile entry and keep the existing Pages workflow. Continue tested checkpoints and verified pushes to origin/main. See docs/landing-page/PLAN.md for the audit and current plan.
+## Git and deployment
 
-You are developing Ctrl Z, a browser-based isometric city simulation game.
-
-## Development workflow
-
-1. Inspect the existing code before making changes.
-2. Implement features in small, logical units.
-3. Run relevant tests and verify the build.
-4. Fix any errors before considering a feature complete.
-5. Create a Git commit after every successfully completed feature, bug fix, or meaningful improvement.
-6. Use descriptive commit messages following Conventional Commits.
-
-### Small, recoverable checkpoints
-
-- Commit more frequently: finish and test one meaningful improvement, then commit it before combining it with further features.
-- Prefer separate commits for individual features, visual improvements, bug fixes, refactoring, tests and documentation when they form independent, working changes. Keep a fix and its required regression coverage together when splitting them would leave a broken checkpoint.
-- Break larger milestones into independently testable checkpoints. Do not commit broken or incomplete functionality merely to increase the commit count.
-- Run relevant checks before every commit; verify the production build for runtime changes. Record actual validation and remaining limitations.
-- Use descriptive `feat:`, `fix:`, `style:`, `refactor:`, `test:` and `docs:` messages. Review explicit staged files before committing.
-- Push every completed, tested commit to the currently authorized development branch and verify its remote SHA. Never force-push, amend existing commits or rewrite history.
-- Preserve existing functionality and unrelated changes. Finish an in-progress operation safely before applying new workflow instructions; never restart, reset or discard progress to adopt them.
-- Update DEVELOPMENT_STATUS.md regularly with progress, decisions, unfinished tasks and the next milestone. Keep CODEX_HANDOFF_README.md current so another session/account can resume from the actual branch and tested state.
-
-### Efficient validation and tool use
-
-- Work in focused milestones; do not combine unrelated large features or refactors.
-- For minor visual changes, avoid full suites, repeated builds and repeated browser captures unless the changed surface requires them.
-- During functional implementation, run only the relevant targeted checks. Run the production build and appropriate regression gate once at the end of a major milestone.
-- Do not repeat a successful check when no relevant code, test or configuration has changed. If a check fails, diagnose its actual cause before rerunning it.
-- Avoid unnecessary file rereads, duplicate screenshots, excessive planning and unrelated cleanup. These efficiency preferences never permit ignoring a build failure, critical bug, broken core mechanic or mandatory project check.
-- Record what was actually validated, what was intentionally deferred and the next required check in `DEVELOPMENT_STATUS.md`.
-
-### Current UI overhaul - supersedes historical city redesign scope
-
-CODEX_CTRL_Z_UI_OVERHAUL.md is the active task. The creator approves the current map and artwork. Redesign only the surrounding UI/UX in its specified tested milestones; preserve city assets, renderer, camera math, service labels/gold, routes, simulation and saves. Continue verified pushes to origin/main and the existing Pages workflow. Historical city-redesign priorities below do not authorize changing the approved environment during this task.
-
-### Current Neon City branch and baseline
-
-CODEX_CURRENT_TASK.md is the active visual task. The creator now authorizes development, tested commits and verified pushes directly to `origin/main`. This supersedes the former `neon-city-antahonist-from-27` destination and its main-integration pause in older instructions. Safely fetch/inspect and synchronize before work; preserve unfinished changes. The approved runtime lineage remains commit `9fcac4a4e1e06a549bda4f51b4b1c5f3e09d823f` (commit 27), without rejected commit-28/29 designs. Preserve the existing main-triggered Pages workflow.
-
-The priority is a substantial rendered redesign across the opening/main playable area and a complete Lantern Yard neighborhood. Implement distinct architecture, a purposeful connected street network, recognizable infrastructure, architectural lighting and useful default framing. Make separate tested commits for artwork, streets, lighting, infrastructure identities and camera presentation. Inspect real desktop/mobile opening, intersection, infrastructure and neighborhood screenshots after each visual milestone. Do not substitute more planning or isolated experiments for visible city-wide progress; do not declare the overhaul complete until the changes are evident throughout the main playable area.
-
-Use Antahonist Neon City as the primary visual reference and retain design/pixel-city-reference-2.png as secondary inspiration. Do not import rejected commit-28/29 city-design changes. Preserve the large world, minimap, six service identities, gameplay, saves and mobile controls. Build and visually review one authored neighborhood before expanding it. Verify license/provenance before integrating third-party source art; original reference-inspired project art must be identified as original.
-
-Examples:
-- feat: add isometric camera controls
-- feat: implement electricity outage simulation
-- feat: add interactive hospital inspection
-- fix: correct mobile pinch zoom
-- perf: optimize city sprite rendering
-- style: improve neon city lighting
-
-## Git rules
-
-- Commit automatically after each completed logical change.
-- Do not commit broken or untested code.
-- Do not commit node_modules, caches, build artifacts, or secrets.
-- Review staged files before committing.
-- Do not overwrite unrelated changes or amend existing commits.
-- The user explicitly authorizes automatic commits and pushes of every completed, tested logical milestone to origin/main in reedhan-g/Ctrl-Z. Verify each push. This supersedes earlier documentation-review pauses.
-- Never force-push, rewrite history, change repository visibility or deploy publicly without separate authorization.
-- If Git requires approval, request it.
-
-## Project requirements
-
-- Maintain the dark neon isometric art style.
-- Prioritize smooth performance on mobile browsers.
-- Keep simulation logic separate from rendering.
-- Implement real functionality, not decorative mockups.
-- Preserve existing working features.
-- Keep the architecture modular and maintainable.
-
-GitHub Pages clarification: the creator explicitly authorizes preserving the existing .github/workflows/static.yml deployment on every push to main, with workflow_dispatch also available. Do not disable its push trigger or add a duplicate deployment workflow. ci.yml is testing/build only. This supersedes earlier no-deployment wording for this existing Pages setup; repository visibility remains unchanged.
+- Review the explicit staged file list and diff. Keep dependencies, caches, build output and secrets out of Git.
+- The creator authorizes automatic commits and verified pushes to **origin/main** in **reedhan-g/Ctrl-Z** for each completed, tested milestone. Verify the remote SHA after pushing and request approval if Git requires it. Preserve history and unrelated changes. Never force-push, amend, rewrite history or reset away work.
+- Retain the existing [Pages workflow](.github/workflows/static.yml) on pushes to main and manual dispatch. [CI](.github/workflows/ci.yml) is for testing and building. Keep repository visibility and additional public deployments or Embarko claims separately authorized.

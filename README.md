@@ -46,6 +46,6 @@ Ctrl Z uses React, TypeScript, Vite, PixiJS, and Zustand. The simulation models 
 
 The landing page and game are separate entry points. The city renderer loads when the game is opened. The build includes the pixel art and fonts locally.
 
-- [Architecture](ARCHITECTURE.md)
-- [Development status](DEVELOPMENT_STATUS.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Development status](docs/DEVELOPMENT_STATUS.md)
 - [Performance notes](docs/PERFORMANCE.md)

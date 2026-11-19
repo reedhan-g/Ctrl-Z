@@ -94,7 +94,7 @@ At each completed milestone:
 - Run unit/regression checks, `npm run build` and relevant Chromium/Playwright browser tests.
 - Add/adjust tests for camera bounds, minimap navigation, picking through overlapping geometry, culling, responsiveness, saves/replay and lighting.
 - **Visually inspect real rendered screenshots against `design/pixel-city-reference-2.png`**. Functional tests cannot certify visual quality.
-- Record findings and remaining gaps in `DEVELOPMENT_STATUS.md`; update `PROJECT_VISION.md` to make these corrected priorities authoritative.
+- Record findings and remaining gaps in `docs/DEVELOPMENT_STATUS.md`; update `docs/PROJECT_VISION.md` to make these corrected priorities authoritative.
 - Commit and push the completed, tested milestone to `origin/main`, as already authorized in `AGENTS.md`. Never force-push, rewrite history, discard unrelated changes or change repo visibility. Preserve `.github/workflows/static.yml` automatic deployment.
 
 ## 8. Acceptance criteria — do not mark done prematurely

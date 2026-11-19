@@ -1,6 +1,6 @@
 # Editorial, with consequence — 17 November 2026
 
-UI_REDESIGN.md was read completely. This is a refinement of the existing homepage, with zero game-code/art changes. Main and origin/main began at e60ae32; paused Embarko compatibility work was preserved and tested independently rather than discarded. User skill installations remain unrelated. Frontend Design and Impeccable guide the work; the UI Skills CLI is not locally installed, so no package or registry script is installed.
+docs/handoff/archive/UI_REDESIGN.md was read completely. This is a refinement of the existing homepage, with zero game-code/art changes. Main and origin/main began at e60ae32; paused Embarko compatibility work was preserved and tested independently rather than discarded. User skill installations remain unrelated. Frontend Design and Impeccable guide the work; the UI Skills CLI is not locally installed, so no package or registry script is installed.
 
 ## Audit and direction
 
@@ -42,6 +42,6 @@ STORY: Remove electricity, see consequences, choose help, rewind; enter the unch
 
 FIRST VIEWPORT: Left-aligned bold Ctrl Z with a shallow real city glimpse, offset premise and primary CTA. On phones, title and CTA precede the glimpse within a compact opening.
 
-FORM: seed: none (pinned). UI_REDESIGN.md names “Editorial, with consequence”, the retained split composition and the “scroll-driven blackout reveal” as the signature interaction. This extends the approved world, without a replacement identity exercise.
+FORM: seed: none (pinned). docs/handoff/archive/UI_REDESIGN.md names “Editorial, with consequence”, the retained split composition and the “scroll-driven blackout reveal” as the signature interaction. This extends the approved world, without a replacement identity exercise.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

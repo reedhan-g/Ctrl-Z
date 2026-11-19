@@ -38,7 +38,7 @@ The result should be **noticeably more animated and visually substantial** than 
 First:
 
 1. Check the current branch, `git status`, recent commits, and the published result. Respect unrelated untracked skill folders and user work. Do not reset or overwrite uncommitted files.
-2. Read `AGENTS.md`, `PROJECT_BRIEF.md`, `PROJECT_VISION.md`, `DESIGN.md`, `DEVELOPMENT_STATUS.md`, `docs/landing-page/CINEMATIC_PLAN.md` and `docs/landing-page/REVIEW.md` **at their actual current paths**. Follow any applicable project instructions.
+2. Read `AGENTS.md`, `docs/PROJECT_BRIEF.md`, `docs/PROJECT_VISION.md`, `DESIGN.md`, `docs/DEVELOPMENT_STATUS.md`, `docs/landing-page/CINEMATIC_PLAN.md` and `docs/landing-page/REVIEW.md` **at their actual current paths**. Follow any applicable project instructions.
 3. Inspect the current landing source, especially:
    - `src/Landing.tsx`
    - `src/landing.css`

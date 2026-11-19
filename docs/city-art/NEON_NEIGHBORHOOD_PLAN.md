@@ -2,7 +2,7 @@
 
 Prepared 14 November 2026 against `9fcac4a4e1e06a549bda4f51b4b1c5f3e09d823f`. This is a design and implementation plan, not a claim that the new neighborhood is rendered or visually accepted.
 
-Progress: the documentation checkpoint merged as PR #1 / `0334947`. The first three-building Lantern Yard block is now implemented with original project art, authored placements and its court ground variant. DEVELOPMENT_STATUS.md records tests and actual screenshot review; the surrounding neighborhood, shared street redesign and visual acceptance remain outstanding. The proposal below remains the expansion contract.
+Progress: the documentation checkpoint merged as PR #1 / `0334947`. The first three-building Lantern Yard block is now implemented with original project art, authored placements and its court ground variant. docs/DEVELOPMENT_STATUS.md records tests and actual screenshot review; the surrounding neighborhood, shared street redesign and visual acceptance remain outstanding. The proposal below remains the expansion contract.
 
 ## Reference and asset route
 

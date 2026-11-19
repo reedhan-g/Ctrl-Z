@@ -116,6 +116,6 @@ Visually verify that the highlighting is attractive, clearly visible, correctly 
 
 Implement through small, meaningful, tested commits and push each completed milestone directly to origin/main as currently authorized.
 
-Update DEVELOPMENT_STATUS.md with completed work and remaining limitations.
+Update docs/DEVELOPMENT_STATUS.md with completed work and remaining limitations.
 
 **Priority:** Make clicking any recognizable building feel informative and satisfying, while making the six critical infrastructure buildings substantially more interactive. Preserve all existing gameplay and the current Neon City design.
