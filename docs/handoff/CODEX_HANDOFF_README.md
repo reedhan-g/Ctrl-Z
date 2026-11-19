@@ -2,6 +2,10 @@
 
 Start with [AGENTS.md](../../AGENTS.md) and the [development status](../DEVELOPMENT_STATUS.md). The current [gameplay specification](../gameplay/README.md), [landing brief](../landing-page/CTRL_Z_ANIMATED_LANDING_PAGE.md) and [city-art plan](../city-art/NEON_NEIGHBORHOOD_PLAN.md) live alongside their feature docs. The [archive](archive/) holds superseded task briefs. Historical checkpoint notes below record the instructions and state at the time.
 
+## Embarko release
+
+The release fixes add mode-aware Help, explain reserve and service outcomes separately, expose the real Sandbox guide, and keep comparison and inspection controls reachable on short screens. The current Embarko deployment serves `8a78698`. Review the [development status](../DEVELOPMENT_STATUS.md#embarko-release-fixes) and [deployment receipt](../EMBARKO_DEPLOYMENT.md#active-deployment) for the verified revision, test evidence and remaining physical-phone check.
+
 ## Gameplay upgrade
 
 The landing hero's Play Crisis Mode link preselects the Meridian Blackout briefing via `./simulation.html?mode=crisis`. The player starts the mission from the briefing, and the ordinary Play route still opens Sandbox.
