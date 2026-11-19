@@ -1,5 +1,9 @@
 # Ctrl Z - Development Status
 
+## Embarko release fixes
+
+- Help follows the selected mode in the briefing and active run. The shared controls remain available in every mode. Type-checking and four desktop/mobile Help and Crisis-entry checks passed. Next is intervention evidence in Compare Futures.
+
 ## Tool configuration layout
 
 Vite, Playwright and the main TypeScript config now live under `config/`. The root npm commands point to the new paths, and `src/tsconfig.json` makes the shared TypeScript settings discoverable to editors. Both production builds kept their existing base paths and entry points. All 108 unit tests and four desktop/mobile browser checks passed across the Pages and Embarko profiles.

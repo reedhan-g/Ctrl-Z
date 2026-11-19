@@ -3,18 +3,17 @@ import {Zap,ArrowRight} from 'lucide-react';
 import {useGame,buildings,type BuildingId} from './game';
 import {cases,caseRecovered,evidenceText} from './cases';
 import CrisisPanel from './CrisisPanel';
-import type { ReplayBranch } from './replay';
 
-export default function ScenarioPanel({onCompare}:{onCompare?:()=>void}){
+export type GameMode = 'sandbox'|'investigation'|'crisis';
+
+export default function ScenarioPanel({mode,onSelectMode,onCompare}:{mode:GameMode;onSelectMode:(mode:GameMode)=>void;onCompare?:()=>void}){
  const s=useGame(),[hypothesis,setHypothesis]=useState<BuildingId>('grid');
- const [previewRun,setPreviewRun]=useState<ReplayBranch|null>(()=>
-  new URLSearchParams(window.location.search).get('mode')==='crisis'?s.branches[0]:null);
- const crisis=s.crisis||previewRun===s.branches[0];
+ const crisis=mode==='crisis';
  const progress=s.caseStudy,definition=progress?cases[progress.id]:null;
  return <div className="scenario-panel" id="scenario">
-  <nav className="mode-tabs" aria-label="Game mode"><button aria-pressed={!progress&&!crisis} onClick={()=>{setPreviewRun(null);s.reset();}}>Sandbox</button>
-   <button aria-pressed={!!progress&&!crisis} onClick={()=>{setPreviewRun(null);s.startCase('dispatch');}}>Investigation</button>
-   <button aria-pressed={crisis} onClick={()=>setPreviewRun(s.branches[0])}>Crisis</button></nav>
+  <nav className="mode-tabs" aria-label="Game mode"><button aria-pressed={mode==='sandbox'} onClick={()=>onSelectMode('sandbox')}>Sandbox</button>
+   <button aria-pressed={mode==='investigation'} onClick={()=>onSelectMode('investigation')}>Investigation</button>
+   <button aria-pressed={crisis} onClick={()=>onSelectMode('crisis')}>Crisis</button></nav>
   {!crisis&&<p className="mode-hint">{progress?'Gather evidence. Diagnose a hidden failure.':'Sandbox: test your response.'}</p>}
   {crisis?<CrisisPanel onCompare={onCompare}/>:!progress?<>
    <button className={`primary ${s.outage?'restore':''}`} onClick={s.outage?s.restore:s.fail}><Zap size={16}/>{s.outage?'Restore electricity':'Remove electricity'}<ArrowRight size={17}/></button>
