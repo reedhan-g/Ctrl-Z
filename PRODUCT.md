@@ -20,7 +20,7 @@ The existing game includes Sandbox and Investigation, six service identities, co
 
 ## Brand Commitments
 
-Name: Ctrl Z. Tagline: Undo the World. The game retains the approved Antahonist Neon City direction and commit-27 gameplay lineage, excluding the rejected commit-28/29 designs. The homepage follows `CTRL_Z_ANIMATED_PREVIEW.html`, including its Arial/Helvetica type, near-black palette and native scroll pacing. Real gameplay imagery and the reversible blackout introduce the simulation.
+Name: Ctrl Z. Tagline: Undo the World. The game retains the approved Antahonist Neon City direction and commit-27 gameplay lineage, excluding the rejected commit-28/29 designs. The homepage follows the [approved visual reference](docs/landing-page/animated/reference/), including its Arial/Helvetica type, near-black palette and native scroll pacing. Real gameplay imagery and the reversible blackout introduce the simulation.
 
 ## Evidence on Hand
 

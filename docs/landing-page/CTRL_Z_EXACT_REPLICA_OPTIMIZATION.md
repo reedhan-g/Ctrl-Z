@@ -1,15 +1,17 @@
 # Ctrl Z — Exact Animated Preview Match + Efficient Codex Finish Pass
 
+> Completed implementation brief. The standalone HTML concept has been retired from the checkout. The [reference screenshots](animated/reference/) preserve the comparison baseline.
+
 **Type:** Targeted reference-matching and performance/UX optimization task — **not a new redesign**\
 **Project:** `C:\Ctrl Z` / `reedhan-g/Ctrl-Z`\
-**Reference (primary):** `CTRL_Z_ANIMATED_PREVIEW.html` at repository root\
+**Visual reference:** [Captured standalone concept](animated/reference/)\
 **Specification (secondary):** `docs/landing-page/CTRL_Z_ANIMATED_LANDING_PAGE.md`\
 **Current website:** `https://reedhan-g.github.io/Ctrl-Z/`\
 **Standalone game:** `https://reedhan-g.github.io/Ctrl-Z/simulation.html`
 
 ## Your assignment
 
-Make the **existing React/Vite Ctrl Z homepage** an **as-close-as-technically-possible visual and motion replica** of `CTRL_Z_ANIMATED_PREVIEW.html`. Preserve the specific typography, composition, graphics, section proportions, animations, transitions, responsive behavior, and interaction rhythms in that file. **Do not invent another design or choose a loosely inspired aesthetic.**
+Make the **existing React/Vite Ctrl Z homepage** an **as-close-as-technically-possible visual and motion replica** of the standalone animated concept. Preserve the specific typography, composition, graphics, section proportions, animations, transitions, responsive behavior, and interaction rhythms documented in this brief. **Do not invent another design or choose a loosely inspired aesthetic.**
 
 The codebase has ALREADY implemented most of this. **Audit before editing. Reuse and refine working code; do not start over.** In particular, the existing implementation already includes:
 
@@ -37,7 +39,7 @@ The repository already contains screenshots of the reference and implementation:
 | Complete pages | `docs/landing-page/animated/reference/desktop-page.png` and `mobile-page.png` | `docs/landing-page/animated/final/page-1440.png` and `page-390.png` |
 | Reference closing | `docs/landing-page/animated/reference/desktop-closing.png` and `mobile-closing.png` | `docs/landing-page/animated/final/closing-1440.png` and `closing-390.png` |
 
-**Open the actual images**, don't merely compare filenames. Inspect `CTRL_Z_ANIMATED_PREVIEW.html`'s HTML, CSS, JavaScript, keyframes, breakpoints and component dimensions. Use the standalone reference in a browser at the same viewport and scroll state as the current site. Compare still images **and movement**, not just a screenshot.
+**Open the actual images**, don't merely compare filenames. Compare the approved screenshots to the current site at the same viewport and scroll state. Use the timing and interaction details below to check motion in the browser.
 
 ## Required fidelity improvements (in priority order)
 
@@ -92,7 +94,7 @@ Use lightweight CSS/SVG and the existing scheduled `requestAnimationFrame` / `In
 
 - Do **not** edit or refactor the PixiJS game renderer, simulation physics, buildings, vehicles, camera, minimap, scenario rules, inspector, replay/rewind, saves or gameplay UI.
 - Do **not** alter `simulation.html` or the GitHub Pages hosting arrangement unless required to fix a proven broken navigation regression.
-- Preserve `AGENTS.md` and scope instructions, existing unrelated user files, Git state and installed design skills. **Do not overwrite `CTRL_Z_ANIMATED_PREVIEW.html`; it is the immutable comparison reference.**
+- Preserve `AGENTS.md` and scope instructions, existing unrelated user files, Git state and installed design skills. Preserve the captured comparison baseline.
 - Never replace the actual city with generated art, stock images or licensed sprites. Do not fake test results or call documentation proof of browser behavior.
 - Keep the competition deployment/claim workflow out of scope.
 
@@ -100,8 +102,8 @@ Use lightweight CSS/SVG and the existing scheduled `requestAnimationFrame` / `In
 
 **Do not execute another broad, multi-hour, five-milestone rebuild.** Work as an incremental reference-match pass:
 
-1. **Audit once (short):** fetch HEAD, read `AGENTS.md`, `CTRL_Z_ANIMATED_PREVIEW.html`, `docs/landing-page/CTRL_Z_ANIMATED_LANDING_PAGE.md` and only the relevant landing source components. Read the existing `docs/landing-page/ANIMATED_PLAN.md` / latest documented tests. Identify what already matches. Record a concise **mismatch list ordered by visual impact** (avoid duplicating plans).
-2. **Baseline once:** render reference HTML and current landing at the same desktop/mobile dimensions and corresponding scroll positions. Save a small comparison contact sheet or paired screenshots for hero, network, powered/halfway/blackout city and closing. Prefer reusing valid existing reference captures rather than regenerating them repeatedly. Test with **motion enabled** as well as reduced-motion.
+1. **Audit once (short):** fetch HEAD, read `AGENTS.md`, the [reference captures](animated/reference/), `docs/landing-page/CTRL_Z_ANIMATED_LANDING_PAGE.md` and only the relevant landing source components. Read the existing `docs/landing-page/ANIMATED_PLAN.md` / latest documented tests. Identify what already matches. Record a concise **mismatch list ordered by visual impact** (avoid duplicating plans).
+2. **Baseline once:** compare the reference captures and current landing at the same desktop/mobile dimensions and corresponding scroll positions. Save a small comparison contact sheet or paired screenshots for hero, network, powered/halfway/blackout city and closing. Prefer reusing valid existing reference captures rather than regenerating them repeatedly. Test with **motion enabled** as well as reduced-motion.
 3. **Fix the top 3–5 visible mismatches** one area at a time (hero, city, network/story). Make the smallest edits needed. No speculative rewrite, no new broad framework, no repeated content rewrites.
 4. **Fast inner loop:** for CSS-only changes, use hot reload and one relevant browser screenshot. For JS/interaction changes, run the affected focused Playwright spec plus a visual check. Run `tsc`/Vite build **once per meaningful completed checkpoint**, not after every tiny CSS tweak. Do not invoke the same test suite multiple times without a changed source or a diagnosed flaky reason.
 5. **Once at the end:** run unit tests, production build, landing/blackout/entry responsive browser tests, and a compact smoke test of the standalone game/save/full-screen link. Use existing established timeouts for cold GPU startup rather than masking failures with arbitrary skips. Avoid a full unrelated browser suite unless a protected file was modified or a regression suggests it is necessary. Treat CI on the push as an additional check.
@@ -111,11 +113,9 @@ Use lightweight CSS/SVG and the existing scheduled `requestAnimationFrame` / `In
 
 ### Definition of done
 
-- It is immediately recognizable as the **same design** as `CTRL_Z_ANIMATED_PREVIEW.html` at desktop and mobile, not merely a similar theme.
+- It is immediately recognizable as the **same design** as the preserved reference captures at desktop and mobile, not merely a similar theme.
 - Top-level layout, type scale, spacing, animation timing and interactive behavior match the reference closely within accessibility, performance and protected-game constraints.
 - The improved, truthful **six-system diagram** and **actual HUD-free city** remain.
 - All reference interactions work in both directions; page is smooth and usable on phone and desktop, with meaningful reduced-motion support.
 - Landing tests, production build, unit checks and full-screen entry pass; no game functionality is lost.
 - The work is finished **within this task** without another unconstrained redesign cycle.
-
-**Start now. Do not ask for the reference URL; the HTML and comparative screenshots already exist locally in this repository.**

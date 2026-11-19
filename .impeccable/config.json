@@ -2,9 +2,7 @@
   "buildPath": "code",
   "detector": {
     "ignoreRules": [],
-    "ignoreFiles": [
-      "CTRL_Z_ANIMATED_PREVIEW.html"
-    ],
+    "ignoreFiles": [],
     "ignoreValues": [
       {
         "rule": "design-system-font",
@@ -16,7 +14,7 @@
         "rule": "overused-font",
         "value": "arial",
         "createdAt": "2026-11-18T11:14:36.747Z",
-        "reason": "Creator supplied CTRL_Z_ANIMATED_PREVIEW.html as the exact visual reference. Arial reproduces its measured wordmark width on desktop and mobile."
+        "reason": "Arial preserves the approved landing wordmark width on desktop and mobile, as recorded in the reference captures."
       }
     ]
   }
