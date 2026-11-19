@@ -2,11 +2,11 @@
 
 ## Active deployment
 
-The existing account deployment is live at [ctrl-z.embarko.app](https://ctrl-z.embarko.app/), serving source revision `8a78698`. Embarko confirmed an update to the same claimed app with no warnings. Its current public app ID is `cmwmhb4t700qv1ze1awg7ui23`, recorded in [the release manifest](../config/embarko/embarko.json).
+The existing account deployment is live at [ctrl-z.embarko.app](https://ctrl-z.embarko.app/), serving source revision `56e5741` from the tested `embarko` build. Embarko confirmed update action `updated`, status `live`, and `claimed: true`, with deployment ID `cmwne0wx600e8ms7vv2k5zq5g`. Its app ID is `cmwmhb4t700qv1ze1awg7ui23`, recorded in [the release manifest](../config/embarko/embarko.json).
 
-The release archive was rebuilt from the committed revision and checked against the tested entry points. Its 34 entries contain only the static pages, bundles, art and licenses. The optional identity manifest was omitted for this update because the tracked ID belonged to the deleted instance. The authenticated request verified the existing named app before uploading. Archive SHA-256 `E1C0010CC374DA7D77D5AE74BDF6DE5E28119A8055A3570F7B3CC0AE29D5E981`.
+The release archive contained the static pages, bundles, art, licenses, and root `embarko.json` manifest. The authenticated update targeted the already verified claimed app; no new app was created. Public homepage, `simulation.html`, and matching `/assets/simulation-Q7bhOQeq.js` bundle returned HTTP 200. The bundle contains the live-experiment label and comparison-preview note. Hosted desktop mode-switch and Compare Futures smoke checks passed 3/3.
 
-Hosted checks passed on Chromium desktop at 1440x900 and Chromium with Playwright iPhone 13 settings at 320x700 and 844x390. The desktop check matched the release bundle to the archived HTML and confirmed the corrected Crisis Help and Sandbox entry. The phone emulation exercised the responsive panels, touch gestures, low power and the outage-to-comparison flow. Physical phone, native picker and hardware performance checks remain open.
+Release checks passed: 110 unit tests; 8 focused desktop/mobile browser checks; 5 Embarko production-profile checks with 3 expected desktop skips; Pages build verifying both Pages entry points; and 3 hosted mode-switch/comparison checks. Phone dimensions included 320x700 portrait, 390x844 guided Crisis/save-resume touch flow, and 844x390 landscape emulation. Desktop comparison was visually reviewed at 1366x768. No physical phone was connected; native iPhone Safari, Android Chrome and hardware performance remain unverified.
 
 ## Preserved checkpoint — 17 November 2026
 
