@@ -25,6 +25,13 @@ test('futures compare the same hour without seeking the city and can inspect or 
   await expect(panel.getByRole('region', { name: 'Original outcome' })).toContainText('28.2');
   await expect(panel.getByRole('region', { name: 'Revised outcome' })).toContainText('43.3');
   await expect(panel.getByText('+15.1 service-hours vs. original through 12:00')).toBeVisible();
+  if (!mobile) {
+    const liveBox = (await live.boundingBox())!;
+    const comparisonBox = (await panel.boundingBox())!;
+    expect(liveBox.x + liveBox.width).toBeLessThanOrEqual(comparisonBox.x);
+  }
+  await panel.getByRole('button', { name: 'Back to timeline' }).click();
+  await expect(live).toBeFocused();
   await panel.evaluate(node => node.scrollIntoView({ block: 'start' }));
   await page.screenshot({ path: info.outputPath('comparison.png'), scale: 'css' });
   await time.fill('4');

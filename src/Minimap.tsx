@@ -7,6 +7,8 @@ import {iso} from './geometry';
 import {findScenery,sceneryInfo} from './sceneryInfo';
 import {minimapBounds as box,minimapDistricts,minimapLand,minimapRoads,landmarkPoint,symbols,MinimapDrag} from './minimapGeometry';
 
+const compactMap = '(max-width: 760px), (orientation: landscape) and (max-width: 1000px) and (max-height: 540px)';
+
 const Geography=memo(function Geography(){return <g aria-hidden="true">
  <polygon points={minimapLand} fill="#151a29" stroke="#68808c" strokeWidth="12"/>
  {minimapDistricts.map(d=><polygon key={d.id} points={d.points} fill={`#${d.color.toString(16).padStart(6,'0')}`} stroke="#626071" strokeWidth="8"/>)}
@@ -18,8 +20,14 @@ export default function Minimap(){
  const s=useGame(),view=useNavigation(state=>state.view);
  const vehiclePoint=useNavigation(state=>state.vehiclePoint);
  const sceneryId=useNavigation(state=>state.sceneryId),selectedScenery=findScenery(sceneryId);
- const [expanded,setExpanded]=useState(()=>window.innerWidth>760);
- useEffect(()=>{if(window.innerWidth<=760)setExpanded(false);},[s.selected,s.selectedVehicle,sceneryId]);
+ const [expanded,setExpanded]=useState(()=>!matchMedia(compactMap).matches);
+ useEffect(()=>{
+  const layout=matchMedia(compactMap);
+  const collapse=()=>{if(layout.matches)setExpanded(false);};
+  collapse();
+  layout.addEventListener('change',collapse);
+  return()=>layout.removeEventListener('change',collapse);
+ },[s.selected,s.selectedVehicle,sceneryId]);
  const footprint=view?.footprint;
  const drag=useRef(new MinimapDrag()),pointer=useRef<number|null>(null);
  const tap=useRef<{x:number;y:number;point:{x:number;y:number};moved:boolean;grabbed:boolean;landmark:BuildingId|null}|null>(null);

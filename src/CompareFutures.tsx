@@ -13,6 +13,7 @@ type Props = {
   onClose: () => void;
   onInspect: (id: BuildingId) => void;
   onRetry: () => void;
+  onTimeline: () => void;
 };
 
 function signedHours(hours: number) {
@@ -20,7 +21,7 @@ function signedHours(hours: number) {
   return `${rounded >= 0 ? '+' : ''}${rounded}h`;
 }
 
-export default function CompareFutures({ branches, selection, outcome, deadline, onChange, onClose, onInspect, onRetry }: Props) {
+export default function CompareFutures({ branches, selection, outcome, deadline, onChange, onClose, onInspect, onRetry, onTimeline }: Props) {
   const time = formatTime(outcome.time);
   const delta = Number(outcome.delta.toFixed(1));
   const limitingSystems = new Set(outcome.interventions.flatMap(({ original, revised }) =>
@@ -31,9 +32,13 @@ export default function CompareFutures({ branches, selection, outcome, deadline,
   };
   return <section className="futures" id="compare-futures" aria-labelledby="futures-heading">
     <div className="futures-heading">
-      <div><h2 id="futures-heading" tabIndex={-1}>Compare Futures</h2><p>Two responses at the same hour in Meridian.</p></div>
-      <button className="futures-close" onClick={onClose}>Close comparison</button>
+      <h2 id="futures-heading" tabIndex={-1}>Compare Futures</h2>
+      <div className="futures-actions">
+        <button className="futures-close" onClick={onTimeline}>Back to timeline</button>
+        <button className="futures-close" onClick={onClose}>Close comparison</button>
+      </div>
     </div>
+    <p>Two responses at the same hour in Meridian.</p>
     <div className="futures-controls">
       <label>Original response<select value={selection.originalId} onChange={event => changeBranch('originalId', Number(event.target.value))}>
         {branches.map(branch => <option key={branch.id} value={branch.id}>{branch.name}</option>)}
@@ -46,6 +51,9 @@ export default function CompareFutures({ branches, selection, outcome, deadline,
           min={0} max={deadline} step="any" value={selection.time} onChange={event => onChange({ ...selection, time: event.target.valueAsNumber })}/>
       </label>
     </div>
+    <p className="futures-delta" data-change={delta > 0 ? 'Improved' : delta < 0 ? 'Worsened' : 'Unchanged'}>
+      Citywide: {delta > 0 ? '+' : ''}{delta.toFixed(1)} service-hours vs. original through {time}
+    </p>
     <div className="futures-summaries">
       {([['Original outcome', outcome.original], ['Revised outcome', outcome.revised]] as const).map(([label, response]) =>
         <section key={label} aria-label={label}>
@@ -57,9 +65,6 @@ export default function CompareFutures({ branches, selection, outcome, deadline,
             : <p>No interventions by {time}.</p>}
         </section>)}
     </div>
-    <p className="futures-delta" data-change={delta > 0 ? 'Improved' : delta < 0 ? 'Worsened' : 'Unchanged'}>
-      Citywide: {delta > 0 ? '+' : ''}{delta.toFixed(1)} service-hours vs. original through {time}
-    </p>
     {outcome.interventions.length > 0 && <section className="futures-interventions" aria-labelledby="intervention-heading">
       <h3 id="intervention-heading">Intervention results</h3>
       {outcome.interventions.map(effect => <article key={effect.id}>
