@@ -62,8 +62,11 @@ export default function CompareFutures({ branches, selection, outcome, deadline,
       {([['Original outcome', outcome.original], ['Revised outcome', outcome.revised]] as const).map(([label, response]) =>
         <section key={label} aria-label={label}>
           <h3>{label}</h3>
-          <p className="futures-score"><strong>{response.serviceHours.toFixed(1)}</strong> city service-hours</p>
-          <p>{response.teamsUsed}/2 teams used · {response.backlog.toFixed(1)} delayed consignments</p>
+          <p className="futures-score"><strong>{response.serviceHours.toFixed(1)}</strong>{' '}<span>city service-hours</span></p>
+          <dl className="futures-metrics">
+            <div><dt>Supply teams used</dt><dd>{response.teamsUsed}/2</dd></div>
+            <div><dt>Delayed consignments</dt><dd>{response.backlog.toFixed(1)}</dd></div>
+          </dl>
           {response.decisions.length
             ? <ul>{response.decisions.map(event => <li key={decisionDescription(event)}>{decisionDescription(event)}</li>)}</ul>
             : <p>No interventions by {time}.</p>}

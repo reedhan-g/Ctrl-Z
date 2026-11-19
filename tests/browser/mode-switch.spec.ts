@@ -1,7 +1,9 @@
 import { expect, test } from '@playwright/test';
 
 test('mode changes protect decisions, evidence, mission state and the saved experiment', async ({ page }) => {
-  await page.goto('./simulation.html');
+  await page.goto(process.env.CTRL_Z_RELEASE_URL
+    ? new URL('./simulation.html', process.env.CTRL_Z_RELEASE_URL).href
+    : './simulation.html');
   const modes = page.getByRole('navigation', { name: 'Game mode' });
   const mode = (name: string) => modes.getByRole('button', { name, exact: true });
   const timeline = page.getByRole('slider', { name: 'Simulation timeline' });

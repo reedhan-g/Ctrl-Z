@@ -1,9 +1,13 @@
 import { test, expect } from '@playwright/test';
 
+const entry = process.env.CTRL_Z_RELEASE_URL
+  ? new URL('./simulation.html', process.env.CTRL_Z_RELEASE_URL).href
+  : './simulation.html';
+
 test('futures compare the same hour without seeking the city and can inspect or retry a response', async ({ page }, info) => {
   const mobile = info.project.name === 'mobile';
-  await page.setViewportSize(mobile ? { width: 390, height: 844 } : { width: 1440, height: 900 });
-  await page.goto('./simulation.html');
+  await page.setViewportSize(mobile ? { width: 390, height: 844 } : { width: 1366, height: 768 });
+  await page.goto(entry);
   await expect(page.locator('canvas')).toBeVisible({ timeout: 20000 });
   await page.getByRole('button', { name: 'Crisis', exact: true }).click();
   await page.getByRole('button', { name: 'Start crisis' }).click();
@@ -37,6 +41,12 @@ test('futures compare the same hour without seeking the city and can inspect or 
     const liveBox = (await live.boundingBox())!;
     const comparisonBox = (await panel.boundingBox())!;
     expect(liveBox.x + liveBox.width).toBeLessThanOrEqual(comparisonBox.x);
+    const scores = await panel.locator('.futures-score span').evaluateAll(labels => labels.map(label => {
+      const range = document.createRange();
+      range.selectNodeContents(label);
+      return range.getClientRects().length;
+    }));
+    expect(scores).toEqual([1, 1]);
   }
   await panel.getByRole('button', { name: 'Back to timeline' }).click();
   await expect(live).toBeFocused();
@@ -73,7 +83,7 @@ test('futures compare the same hour without seeking the city and can inspect or 
 });
 
 test('Sandbox comparison explains why the hospital fuel delivery gains no service at 24:00', async ({ page }) => {
-  await page.goto('./simulation.html');
+  await page.goto(entry);
   await expect(page.locator('canvas')).toBeVisible({ timeout: 20000 });
   const live = page.getByRole('slider', { name: 'Simulation timeline' });
   const systems = page.getByRole('region', { name: 'City systems' });

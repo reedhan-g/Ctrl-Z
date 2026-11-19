@@ -1,5 +1,13 @@
 # Ctrl Z - Development Status
 
+## Submission fixes
+
+The mode-switch protection and comparison scoring/time-context fixes are committed on main as `57a974d` and `0f47ac3`. Active-mode clicks preserve the complete run, replacement requires accessible confirmation, and cancellation preserves the saved slot. Live and comparison times are distinguished; score details explain partial service-hours and separate Crisis conditions.
+
+The follow-up layout milestone collapses the completed guide while retaining its result, keeps comparison labels readable at 1366px, and adds a touch release path that completes the guide and Crisis, saves, reloads and resumes. Desktop/mobile browser checks passed (8/8); Embarko production-profile tests passed (5, with 3 expected desktop skips); unit tests passed (110); Pages build passed and verified both entry points. Visual review covered desktop comparison and 320x700 portrait and 844x390 landscape touch captures. Physical-device testing was unavailable, so native iPhone Safari and Android Chrome remain unverified.
+
+The update to the existing claimed `ctrl-z.embarko.app` was authorized. Before this milestone is complete, commit and push the layout work, publish the validated Embarko build, verify the public bundle and run hosted mode-switch and comparison smoke tests. Record the new remote and deployment revisions, results and any failures here.
+
 ## Embarko submission fixes
 
 - Reproduced the active-mode reset on the hosted revision at 07:00 in Sandbox and Investigation. Active-mode clicks now preserve the current run. A modal confirms replacement of a started run and leaves the local save slot intact. Confirming Crisis opens the briefing. The dedicated Reset action still works. Type-checking and six desktop/mobile mode switch, Help and incident checks passed.

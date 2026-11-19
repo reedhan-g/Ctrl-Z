@@ -32,6 +32,12 @@ test('the visible optional guide compares a real Sandbox intervention and preser
   await expect(comparison.getByText(/Citywide: \+6\.0 service-hours/)).toBeVisible();
   await expect(guide.getByText(/preserved 6\.0 more city service-hours/)).toBeVisible();
   await expect(timeline).toHaveValue('5');
+  await guide.getByRole('button', { name: 'Collapse guide' }).click();
+  await expect(guide.getByRole('button', { name: 'Expand guide' })).toHaveAttribute('aria-expanded', 'false');
+  await expect(guide.getByRole('button', { name: 'Restart guide' })).toBeHidden();
+  await expect(guide.getByText(/preserved 6\.0 more city service-hours/)).toBeVisible();
+  await expect(comparison.getByRole('slider', { name: 'Comparison preview' })).toHaveValue('12');
+  await guide.getByRole('button', { name: 'Expand guide' }).click();
   await comparison.getByRole('button', { name: 'Close comparison' }).click();
 
   await page.getByRole('button', { name: 'Save experiment' }).click();

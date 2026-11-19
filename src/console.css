@@ -78,7 +78,12 @@ button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px soli
 .futures-clock input { display: block; height: 44px; margin: 6px 0 0; }
 .futures-summaries { grid-template-columns: repeat(2, minmax(0,1fr)); }
 .futures-summaries section { min-width: 0; padding: 12px; border: 1px solid var(--ui-border); }
+.futures-score { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 8px; }
+.futures-score span { white-space: nowrap; }
 .futures .futures-score strong { color: var(--ui-text); font-size: 24px; font-variant-numeric: tabular-nums; }
+.futures-metrics { margin: 6px 0 10px; color: var(--ui-muted); font-size: 12px; line-height: 1.5; }
+.futures-metrics div { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
+.futures-metrics dd { margin: 0; color: var(--ui-text); font-variant-numeric: tabular-nums; }
 .futures ul { margin: 0; padding: 0; list-style: none; }
 .futures-summaries li { margin-top: 4px; font-size: 13px; color: var(--ui-muted); }
 .futures .futures-delta { margin: 12px 0 20px; color: var(--ui-text); font-weight: 600; }
@@ -142,6 +147,7 @@ button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px soli
 .guide-launch { min-height: 44px; padding: 4px 8px; color: var(--ui-cyan); font-size: 13px; text-align: start; }
 .experiment-guide .guide-progress { margin-top: 0; color: var(--ui-gold); font-size: 12px; }
 .experiment-guide .guide-actions { flex-wrap: wrap; justify-content: flex-start; gap: 4px 8px; }
+.experiment-guide .guide-actions[hidden] { display: none; }
 .experiment-guide .guide-next { border: 1px solid var(--ui-border); border-radius: var(--ui-radius); color: var(--ui-text); }
 .experiment-guide .guide-result { color: var(--ui-success); }
 .crisis-panel { margin-top: 8px; color: var(--ui-muted); font-size: 13px; line-height: 1.5; }
@@ -233,6 +239,9 @@ button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px soli
   .futures-heading { align-items: start; }
   .futures-controls, .futures-facilities li { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .futures-clock, .futures-facility, .futures-change { grid-column: 1 / -1; }
+}
+@media (min-width:1320px) and (max-width:1439px) and (min-height:620px) {
+  .futures-summaries { grid-template-columns: 1fr; }
 }
 @media (max-width:760px), (orientation:landscape) and (max-width:1000px) and (max-height:540px) {
   .world .timeline input[type=range] { height: 36px; }

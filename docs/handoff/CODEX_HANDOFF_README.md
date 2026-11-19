@@ -1,10 +1,14 @@
 # Ctrl Z — complete Codex account handoff
 
+## Current submission status
+
+Mode protection and comparison scoring/time-context fixes are on main. The layout follow-up passed its desktop/mobile browser suite, Embarko production-profile suite, 110 unit tests and Pages build. Desktop comparison and portrait/landscape touch captures were reviewed. The remaining steps are to commit/push the layout milestone, update the authorized claimed Embarko deployment, verify its public bundle, and run hosted mode-switch/comparison smoke tests. Physical iPhone Safari and Android Chrome are unavailable. See the [submission fixes](../DEVELOPMENT_STATUS.md#submission-fixes) for exact status.
+
 Start with [AGENTS.md](../../AGENTS.md) and the [development status](../DEVELOPMENT_STATUS.md). The current [gameplay specification](../gameplay/README.md), [landing brief](../landing-page/CTRL_Z_ANIMATED_LANDING_PAGE.md) and [city-art plan](../city-art/NEON_NEIGHBORHOOD_PLAN.md) live alongside their feature docs. The [archive](archive/) holds superseded task briefs. Historical checkpoint notes below record the instructions and state at the time.
 
 ## Embarko release
 
-The release fixes add mode-aware Help, explain reserve and service outcomes separately, expose the real Sandbox guide, and keep comparison and inspection controls reachable on short screens. The current Embarko deployment serves `8a78698`. Review the [development status](../DEVELOPMENT_STATUS.md#embarko-release-fixes) and [deployment receipt](../EMBARKO_DEPLOYMENT.md#active-deployment) for the verified revision, test evidence and remaining physical-phone check.
+The release fixes add mode-aware Help, explain reserve and service outcomes separately, expose the Sandbox guide, protect experiment state, clarify live versus preview time, and keep comparison and inspection controls reachable on short screens. Review the [development status](../DEVELOPMENT_STATUS.md#submission-fixes) and [deployment receipt](../EMBARKO_DEPLOYMENT.md#active-deployment) for the deployed revision and verification.
 
 ## Gameplay upgrade
 

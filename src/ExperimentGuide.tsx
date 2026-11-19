@@ -20,6 +20,7 @@ export default function ExperimentGuide({ onStart, onCompare, onClose }: Props) 
   const responseId = useRef<number>(null);
   const [step, setStep] = useState(0);
   const [confirmRestart, setConfirmRestart] = useState(false);
+  const [completionCollapsed, setCompletionCollapsed] = useState(false);
   const [result, setResult] = useState<number | null>(null);
   useEffect(() => {
     heading.current?.focus({ preventScroll: true });
@@ -30,6 +31,7 @@ export default function ExperimentGuide({ onStart, onCompare, onClose }: Props) 
     guidedRun.current = useGame.getState().branches[0];
     responseId.current = null;
     setConfirmRestart(false);
+    setCompletionCollapsed(false);
     setResult(null);
     setStep(1);
   };
@@ -83,16 +85,22 @@ export default function ExperimentGuide({ onStart, onCompare, onClose }: Props) 
       ? { title: 'The delivery was undone', copy: 'Rewind to 05:00 to send the supply team again.', action: 'Rewind to 05:00', next: rewind }
       : steps[step];
   const startingWithRun = step === 0 && game.history.length > 0;
+  const complete = step === 6 && !confirmRestart && !lostRun;
+  const compactCompletion = complete && completionCollapsed;
 
   return <section className="experiment-guide" id="guided-experiment" aria-label="Guided experiment">
     {step > 0 && step < 6 && !confirmRestart && !lostRun && <p className="guide-progress">Step {Math.min(step, 5)} of 5</p>}
-    <h3 ref={heading} tabIndex={-1}>{view.title}</h3>
-    <p>{view.copy}</p>
+    <div className="guide-heading">
+      <h3 ref={heading} tabIndex={-1}>{view.title}</h3>
+      {complete && <button type="button" aria-expanded={!completionCollapsed} aria-controls="guide-completion"
+        onClick={() => setCompletionCollapsed(value => !value)}>{completionCollapsed ? 'Expand guide' : 'Collapse guide'}</button>}
+    </div>
+    {!complete && <p>{view.copy}</p>}
     {startingWithRun && <p>The new outage replaces the current run. Your saved experiment stays available.</p>}
     {result !== null && !confirmRestart && !lostRun && <p className="guide-result">
       The revised response preserved {result.toFixed(1)} more city service-hours through 12:00.
     </p>}
-    <div className="guide-actions">
+    <div id={complete ? 'guide-completion' : undefined} className="guide-actions" hidden={compactCompletion}>
       <button className="guide-next" onClick={view.next}>{startingWithRun ? 'Start new Sandbox outage' : view.action}</button>
       {confirmRestart
         ? <button onClick={() => setConfirmRestart(false)}>Cancel restart</button>
