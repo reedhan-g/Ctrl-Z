@@ -1,19 +1,35 @@
-# Ctrl Z
+# Ctrl Z — Undo the World
 
-Undo the World. Explore Meridian, disrupt electricity, investigate causal failures, intervene and compare alternate outcomes.
+Cut power to Meridian and watch the effects spread. Water pumps stop, communications fail, and deliveries slow down. You have two emergency supply teams. Decide which services to protect, then rewind and see what a different decision would have changed.
 
-## Run
+[Explore the site](https://reedhan-g.github.io/Ctrl-Z/) · [Play Crisis Mode](https://reedhan-g.github.io/Ctrl-Z/simulation.html?mode=crisis) · [Open Sandbox](https://reedhan-g.github.io/Ctrl-Z/simulation.html)
 
-Requires Node.js 22.18+; CI uses Node 24.
+Built for the Embarko Student Challenge.
+
+## Play
+
+| Mode | What to do |
+| --- | --- |
+| **Crisis** | Start **Meridian Blackout**, a 12-hour challenge. Use up to two supply teams and finish with at least **36 of 60 service-hours** and **three active services**. Grid restoration is unavailable during the mission. |
+| **Sandbox** | Cut or restore electricity, inspect facilities and couriers, and experiment with how failures spread. |
+| **Investigation** | Collect evidence and diagnose the failing dependency in **Silent Dispatch** or **A Generator Is Not Enough**, then verify the recovery. |
+
+Tap or click a facility to inspect its reserves and dependencies. Drag to pan, scroll or pinch to zoom, and use the minimap to jump across the city. Incident notices reflect changes in the simulation and can take you to the affected facility.
+
+Use the timeline to revisit an earlier point. Make a different decision to create another response, then open **Compare Futures** to see how both responses perform at the same simulated hour. **Save experiment** and **Resume saved** use one local browser save slot.
+
+## Run locally
+
+Requires **Node.js 22.18 or newer**. CI uses Node 24.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:5173/Ctrl-Z/ for the project homepage, then choose Enter Simulation to play below the landing content. The game loads on demand in an isolated same-origin frame. Open full-screen also leads directly to http://127.0.0.1:5173/Ctrl-Z/simulation.html. Both static entries are built by Vite under the existing /Ctrl-Z/ Pages base, with no routing service or deployment change. The server binds to localhost.
+Open `http://127.0.0.1:5173/Ctrl-Z/` for the landing page or `http://127.0.0.1:5173/Ctrl-Z/simulation.html` for the game.
 
-The homepage has its own styles and entry module, actual desktop/mobile game captures and a self-hosted OFL-licensed Manrope font. It does not load the simulation, city renderer or game styles until play is requested. Browser gameplay specifications target simulation.html; landing.spec.ts covers the homepage, embedded entry and preserved local saves. See docs/landing-page/PLAN.md for scope and asset provenance alongside src/assets/previews and src/assets/fonts.
+## Build and test
 
 ```sh
 npm test
@@ -22,23 +38,14 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-## Play
+The default build targets GitHub Pages under `/Ctrl-Z/`. For an Embarko build served from the domain root, run `npm run build -- --mode embarko`. Run `npm run test:embarko` to build and test that configuration locally. Both build modes generate static output in `dist/`.
 
-- Sandbox: remove electricity, inspect any of six service locations or three couriers, follow Dependencies, and spend two supply teams. Scenario reserves and dispatch assumptions are explained in inspection.
-- Pause, change speed, scrub 0-24h, Undo or restore power. Scrubbing preserves decisions. Intervening before a future decision creates a response branch; choose Original outage to compare without supplies.
-- Investigation: gather readings for Silent dispatch or A generator is not enough, test a failing-dependency diagnosis, and verify recovery through the simulation. Incorrect or unsupported diagnoses do not unlock repair.
-- Resilience report compares equal time windows and exports decisions, incidents and evidence as JSON. Service-hours and consignments are game metrics, not infrastructure forecasts.
-- Save experiment explicitly writes one local browser slot. Resume saved restores branches, undo and evidence, paused. Reset/reload starts fresh until Resume saved is chosen. Invalid/unavailable storage does not replace the current experiment.
-- Explore a finite 60x60 pixel-art city through the fixed window. Drag to pan; wheel/pinch to zoom; Shift+wheel pans along trackpad axes. City overview zooms out; Reset camera restores architectural scale. Focus the city and use arrow keys to pan. Tap to inspect; building/fleet buttons provide keyboard alternatives. Space pauses when the map is focused, Ctrl/Command Z undoes, Escape closes inspection/help. Focused controls retain native keyboard behavior.
-- The six service facilities occupy separate road-connected districts across the city. Sidebar, map and service-marker selections center the full building clear of the inspector, minimap and timeline. Mobile inspection frames the building above the sheet.
-- Open Map to navigate the full city: tap to recenter or drag the viewport outline. Focus the minimap for arrow keys/Home; desktop navigation includes services and six district destinations. P/H/W/T/L/R mark simulated services, ! means interruption and ~ reserve. Other buildings/destinations are scenery. Mobile Map collapses to keep inspections clear.
+## How it works
 
-At 1x, one real second advances ten simulated minutes. Hidden tabs and stalls over one second do not consume reserves. Nominal traffic preview does not advance the simulation. Reduced motion suppresses continuous traffic animation. Low power mode also caps renderer resolution; selection framing and measured timeline clearance keep inspection and camera controls usable. Current validation: 67 unit checks, production build and 46 desktop/mobile Chromium checks pass. See docs/PERFORMANCE.md for browser measurements; physical-phone/Safari performance remains unverified.
+Ctrl Z uses React, TypeScript, Vite, PixiJS, and Zustand. The simulation models six connected systems: electricity, healthcare, water, residences, communications, and logistics. A record of player decisions lets the game replay and compare different responses. Service-hours and delivery figures are game metrics.
 
-## Modules and product direction
+The landing page and game are separate entry points. The city renderer loads when the game is opened. The build includes the pixel art and fonts locally.
 
-See ARCHITECTURE.md for module ownership, PROJECT_VISION.md for the product vision, PROJECT_BRIEF.md for priorities, and DEVELOPMENT_STATUS.md for completed milestones and remaining work. Pure simulation/history/case/report modules are separate from React/Pixi adapters. Runtime art uses original local pixel textures; no remote assets/accounts are required. To rebuild the art, use Python/Pillow and `python scripts/build-city-art.py`; regular builds use committed PNGs and need only Node.
-
-Primary visual direction: design/pixel-city-reference-2.png; secondary composition: design/neon-city-secondary-reference.jpg; tertiary world guidance: design/ctrl-z-city-reference.png. References are not runtime backgrounds. Before/after reviews and remaining fidelity gaps are documented in docs/VISUAL_OVERHAUL.md.
-
-Follow AGENTS.md and CODEX_TASK.md. Automatic tested commits/pushes are authorized. The existing static.yml deploys Pages on every main push and supports workflow_dispatch; preserve it. ci.yml only tests/builds. Never force-push, change visibility, discard unrelated work or commit dependencies/secrets/build artifacts.
+- [Architecture](ARCHITECTURE.md)
+- [Development status](DEVELOPMENT_STATUS.md)
+- [Performance notes](docs/PERFORMANCE.md)
