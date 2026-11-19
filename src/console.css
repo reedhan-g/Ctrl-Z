@@ -72,6 +72,11 @@ button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px soli
 .futures .futures-delta { margin: 12px 0 20px; color: var(--ui-text); font-weight: 600; }
 .futures .futures-delta[data-change=Improved] { color: var(--ui-success); }
 .futures .futures-delta[data-change=Worsened] { color: var(--ui-warning); }
+.futures-interventions { margin: 0 0 20px; }
+.futures-interventions article { border-top: 1px solid var(--ui-border); padding: 10px 0; }
+.futures-interventions h4 { margin: 0 0 5px; color: var(--ui-text); font-size: 14px; }
+.futures-interventions strong { color: var(--ui-text); font-variant-numeric: tabular-nums; }
+.futures-interventions .futures-facility { padding-inline: 0; }
 .futures-facilities li {
   display: grid; grid-template-columns: 1fr 1fr 1fr 100px; align-items: center; gap: 8px;
   padding: 6px 8px; border-top: 1px solid var(--ui-border); font-size: 13px;

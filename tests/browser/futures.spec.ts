@@ -44,3 +44,39 @@ test('futures compare the same hour without seeking the city and can inspect or 
   await expect(page.getByRole('button', { name: 'Compare Futures' })).toBeVisible();
   await expect(page.locator('canvas')).toHaveCount(1);
 });
+
+test('Sandbox comparison explains why the hospital fuel delivery gains no service at 24:00', async ({ page }) => {
+  await page.goto('./simulation.html');
+  await expect(page.locator('canvas')).toBeVisible({ timeout: 20000 });
+  const live = page.getByRole('slider', { name: 'Simulation timeline' });
+  const systems = page.getByRole('region', { name: 'City systems' });
+  const inspector = page.getByRole('region', { name: 'Building inspection' });
+  await page.getByRole('button', { name: 'Remove electricity', exact: true }).click();
+  await page.getByRole('button', { name: 'Pause simulation' }).click();
+  await live.fill('12');
+  await systems.getByRole('button', { name: /St. Mira Hospital/ }).click();
+  await inspector.getByRole('button', { name: 'Send backup supplies' }).click();
+  await inspector.getByRole('button', { name: 'Close inspection' }).click();
+  await live.press('End');
+  await page.getByRole('button', { name: 'Compare Futures', exact: true }).click();
+
+  const panel = page.getByRole('region', { name: 'Compare Futures' });
+  const results = panel.getByRole('region', { name: 'Intervention results' });
+  const time = panel.getByRole('slider', { name: 'Comparison time' });
+  await expect(results.getByText('Hospital service +0h through 24:00.')).toBeVisible();
+  await expect(results.getByText(/Generator reserve \+8h at delivery/)).toBeVisible();
+  await expect(results.getByText('The water buffer ran out at 18:00.')).toBeVisible();
+  await results.getByRole('button', { name: 'Inspect Waterworks' }).click();
+  await expect(inspector.getByRole('heading', { name: 'Waterworks', exact: true })).toBeVisible();
+  await expect(live).toHaveValue('24');
+
+  await time.fill('11.75');
+  await expect(results).toHaveCount(0);
+  await time.fill('17.75');
+  await expect(results.getByText(/Generator reserve \+8h/)).toBeVisible();
+  await expect(results.getByText(/water buffer ran out/)).toHaveCount(0);
+  await time.fill('24');
+  await panel.getByRole('combobox', { name: 'Original response' }).selectOption('1');
+  await expect(results.getByText(/Original · 12:00/)).toBeVisible();
+  await expect(live).toHaveValue('24');
+});
