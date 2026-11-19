@@ -4,11 +4,11 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1",
-    "build": "tsc -b && vite build",
+    "dev": "vite --config config/vite.config.ts --host 127.0.0.1",
+    "build": "tsc -b config/tsconfig.json && vite build --config config/vite.config.ts",
     "test": "node --test tests/*.test.mjs",
-    "preview": "vite preview --host 127.0.0.1",
-    "test:browser": "playwright test",
+    "preview": "vite preview --config config/vite.config.ts --host 127.0.0.1",
+    "test:browser": "playwright test --config config/playwright.config.ts",
     "test:embarko": "npm run build -- --mode embarko && playwright test --config config/embarko/playwright.embarko.config.ts"
   },
   "dependencies": {

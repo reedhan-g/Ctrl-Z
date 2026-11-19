@@ -1,5 +1,9 @@
 # Ctrl Z - Development Status
 
+## Tool configuration layout
+
+Vite, Playwright and the main TypeScript config now live under `config/`. The root npm commands point to the new paths, and `src/tsconfig.json` makes the shared TypeScript settings discoverable to editors. Both production builds kept their existing base paths and entry points. All 108 unit tests and four desktop/mobile browser checks passed across the Pages and Embarko profiles.
+
 ## Standalone landing concept retired
 
 Removed the standalone HTML concept and its screenshot-only browser script. The [reference captures](landing-page/animated/reference/) remain available. The live landing and simulation keep their existing entry points and behavior. The production build, all 108 unit tests and four focused desktop/mobile browser checks passed.

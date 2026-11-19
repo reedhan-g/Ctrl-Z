@@ -614,7 +614,7 @@ npm run build
 
 Browser installation may need network/elevated permission. On Linux, Playwright may require OS dependencies as well. Do not bypass a sandbox network failure through another tool; request the needed escalation.
 
-The unit script is `node --test tests/*.test.mjs`, not Vitest. The build is `tsc -b && vite build`. Configuration is in `tsconfig.json`, `vite.config.ts` and `playwright.config.ts`; there is no baseline `tsconfig.app.json`.
+The unit script is `node --test tests/*.test.mjs`, not Vitest. Run the build and browser tests through the root npm scripts. The main TypeScript, Vite and Playwright configs live in `config/`. The source-level TypeScript file extends the shared config so editors can discover it under `src/`.
 
 Vite's base path is `/Ctrl-Z/`. Development entry:
 
