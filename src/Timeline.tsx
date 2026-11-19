@@ -32,7 +32,7 @@ export default function Timeline({incidentCount=0,onCompare}:{incidentCount?:num
    <span aria-label="Outcome comparison">{online(s)}/{buildings.length} online <span className="muted">vs original {online(baseline)}/{buildings.length} at {clock}</span></span>
    {onCompare&&<button className="future-trigger future-trigger-desktop" onClick={onCompare}>Compare Futures</button>}
   </div>}
-  <div className="timeline-heading"><div><span className="eyebrow">ELAPSED TIME</span><strong>{clock}<small> HRS</small></strong></div>
+  <div className="timeline-heading"><div><span className="eyebrow">Live experiment</span><strong>{clock}<small> HRS</small></strong></div>
    <div className="playback">
     <button aria-label={s.playing?'Pause simulation':'Play simulation'} disabled={!s.outage||s.time>=deadline} onClick={s.toggle}>{s.playing?<Pause size={17}/>:<Play size={17}/>}</button>
     <button className="speed" onClick={()=>s.setSpeed(s.speed===1?4:s.speed===4?12:1)} aria-label="Change simulation speed">{s.speed}x</button>

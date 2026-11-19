@@ -28,7 +28,7 @@ test('the visible optional guide compares a real Sandbox intervention and preser
   await guide.getByRole('button', { name: 'Compare at 12:00' }).click();
 
   const comparison = page.getByRole('region', { name: 'Compare Futures' });
-  await expect(comparison.getByRole('slider', { name: 'Comparison time' })).toHaveValue('12');
+  await expect(comparison.getByRole('slider', { name: 'Comparison preview' })).toHaveValue('12');
   await expect(comparison.getByText(/Citywide: \+6\.0 service-hours/)).toBeVisible();
   await expect(guide.getByText(/preserved 6\.0 more city service-hours/)).toBeVisible();
   await expect(timeline).toHaveValue('5');

@@ -96,7 +96,7 @@ for (const [width, height] of [[320, 700], [844, 390]]) {
     await page.getByRole('button', { name: 'Compare Futures', exact: true }).tap();
     const comparison = page.getByRole('region', { name: 'Compare Futures' });
     expect((await comparison.boundingBox())!.y).toBeLessThan((await page.locator('.secondary-tools').boundingBox())!.y);
-    await tapRange(comparison.getByRole('slider', { name: 'Comparison time' }), 0.5);
+    await tapRange(comparison.getByRole('slider', { name: 'Comparison preview' }), 0.5);
     await expect(comparison.getByText(/Citywide: \+\d+/)).toBeVisible();
     if (width > height) {
       const original = (await comparison.getByRole('region', { name: 'Original outcome' }).boundingBox())!;

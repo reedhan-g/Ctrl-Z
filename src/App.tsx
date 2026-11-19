@@ -26,7 +26,7 @@ import { compareFutures, distinctResponses, type FutureSelection } from './futur
 import type { ReplayBranch } from './replay';
 export default function App(){const s=useGame();const [help,setHelp]=useState(false);const [guide,setGuide]=useState(false);const [lowPower,setLowPower]=useState(false);
  const sceneryId=useNavigation(n=>n.sceneryId),scenery=findScenery(sceneryId);
- const [future,setFuture]=useState<{run:ReplayBranch;selection:FutureSelection}|null>(null);
+ const [future,setFuture]=useState<{run:ReplayBranch;selection:FutureSelection;open:boolean}|null>(null);
  const comparisonLauncher=useRef<HTMLElement|null>(null);
  const [crisisPreview,setCrisisPreview]=useState<ReplayBranch|null>(()=>
   new URLSearchParams(window.location.search).get('mode')==='crisis'?s.branches[0]:null);
@@ -51,7 +51,8 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
  const emergencies=canReview?scheduledEmergencies.filter(event=>event.time<=s.time):[];
  const responses=useMemo(()=>distinctResponses(s.branches),[s.branches]);
  const canCompare=canReview&&responses.length>1;
- const requested=canCompare&&future?.run===s.branches[0]?future.selection:null;
+ const currentPreview=canCompare&&future?.run===s.branches[0]?future:null;
+ const requested=currentPreview?.open?currentPreview.selection:null;
  const original=requested?(responses.find(entry=>entry.id===requested.originalId)??responses[0]):null;
  const revised=requested?(responses.find(entry=>entry.id===requested.revisedId&&entry!==original)??responses.find(entry=>entry!==original)):null;
  const comparisonTime=requested?.time??null;
@@ -61,12 +62,12 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
 
  const showComparison=(selection:FutureSelection)=>{
   comparisonLauncher.current=document.activeElement instanceof HTMLElement?document.activeElement:null;
-  setFuture({run:s.branches[0],selection});
+  setFuture({run:s.branches[0],selection,open:true});
   requestAnimationFrame(()=>document.getElementById('futures-heading')?.focus());
  };
  const openComparison=canCompare?()=>{
   const response=responses.find(entry=>entry.id===s.activeBranch&&entry!==responses[0])??responses[1];
-  showComparison({originalId:responses[0].id,revisedId:response.id,time:s.time});
+  showComparison(currentPreview?.selection??{originalId:responses[0].id,revisedId:response.id,time:s.time});
  }:undefined;
  const startGuidedRun=()=>{
   setCrisisPreview(null);
@@ -80,7 +81,7 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
   requestAnimationFrame(()=>document.getElementById('guide-launcher')?.focus({preventScroll:true}));
  };
  const closeComparison=()=>{
-  setFuture(null);
+  setFuture(current=>current?{...current,open:false}:null);
   requestAnimationFrame(()=>{
    if(comparisonLauncher.current?.isConnected)comparisonLauncher.current.focus();
    else focusTimeline();
@@ -113,7 +114,7 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
    if(pendingMode)return;
    const target=e.target instanceof Element?e.target:null;
    const editing=!!target?.closest('textarea,select,input:not([type="range"]),[contenteditable="true"]');
-   const nativeSpace=!!target?.closest('button,input,select,textarea,a[href],[role="button"]');
+   const nativeSpace=!!target?.closest('button,summary,input,select,textarea,a[href],[role="button"]');
    const action=shortcutFor(e,editing,nativeSpace);
    if(action==='close'){
     e.preventDefault();
@@ -152,9 +153,9 @@ export default function App(){const s=useGame();const [help,setHelp]=useState(fa
  {scenery&&!selected&&<SceneryInspector key={scenery.id} building={scenery}/>}
  <Minimap/><Timeline incidentCount={emergencies.length} onCompare={openComparison}/>
  </section>
- {comparison&&original&&revised&&<CompareFutures branches={responses} deadline={deadline} outcome={comparison}
+ {comparison&&original&&revised&&<CompareFutures branches={responses} deadline={deadline} liveTime={s.time} outcome={comparison}
   selection={{originalId:original.id,revisedId:revised.id,time:comparison.time}}
-  onChange={selection=>setFuture({run:s.branches[0],selection})} onClose={closeComparison}
+  onChange={selection=>setFuture({run:s.branches[0],selection,open:true})} onClose={closeComparison}
   onInspect={compareInspection} onRetry={retryResponse} onTimeline={focusTimeline}/>}
  </main>
  <footer><span>CTRL Z <span className="muted">— UNDO THE WORLD.</span></span><span>Drag to pan <b>·</b> Scroll / pinch to zoom <b>·</b> Tap to inspect</span><span className="footer-end">EVERYTHING IS CONNECTED <Network size={13}/></span></footer>

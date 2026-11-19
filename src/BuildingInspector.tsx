@@ -12,7 +12,8 @@ export default function BuildingInspector({building:id,future,futureTime}:{build
  const s=useGame(),info=inspectService(id,s),b=info.building,st=info.state;
  const supplyReason=supplyRequirement(id,s),gridReason=gridRequirement(s),outcome=id==='logistics'?logisticsOutcome(s):null;
  const recorded=!!s.caseStudy&&s.caseStudy.diagnosis==='correct'&&s.caseStudy.evidence.some(e=>e.building===id&&e.time===s.time);
- return <InspectionShell title={s.selectedVehicle?fleet.find(v=>v.id===s.selectedVehicle)!.name:b.name} category={b.kind} status={st} onClose={()=>s.select(null)}>
+ return <InspectionShell title={s.selectedVehicle?fleet.find(v=>v.id===s.selectedVehicle)!.name:b.name} category={b.kind} status={st}
+  statusContext={future?`Live experiment · ${formatTime(s.time)}`:undefined} onClose={()=>s.select(null)}>
   {b.reserve>0&&<button className="supply inspection-action" disabled={!!supplyReason} aria-describedby="supply-requirement" onClick={()=>s.boost(id)}><Plus size={15}/>{s.boosted.includes(id)?'Supplies delivered':'Send backup supplies · +8h'}</button>}
   {id==='grid'&&<button className="supply inspection-action" disabled={!!gridReason} aria-describedby="grid-requirement" onClick={s.outage?s.restore:s.fail}>{s.outage?'Reconnect the district':'Disconnect the grid'}<ArrowRight size={15}/></button>}
   {b.reserve>0&&<small id="supply-requirement" className="resource-note">{supplyReason??`${2-s.boosted.length} delivery teams available. Delivery adds eight hours to this facility's reserve deadline.`}</small>}
@@ -21,7 +22,7 @@ export default function BuildingInspector({building:id,future,futureTime}:{build
 
   <p className={`inspection-condition ${st.tone}`} role="status">{info.problem}</p>
   {future&&futureTime!==undefined&&<section className="inspection-futures" aria-label="Facility comparison">
-   <h4>Compared at {formatTime(futureTime)}</h4>
+   <h4>Comparison preview · {formatTime(futureTime)}</h4>
    <dl>
     <div><dt>Original</dt><dd>{future.originalStatus} · {Math.round(future.before*100)}%</dd></div>
     <div><dt>Revised</dt><dd>{future.revisedStatus} · {Math.round(future.after*100)}%</dd></div>

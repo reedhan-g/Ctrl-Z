@@ -1,7 +1,7 @@
 import {useEffect,useRef,useState,type ReactNode} from 'react';
 import {X,ChevronDown,ChevronUp} from 'lucide-react';
 
-export default function InspectionShell({title,category,status,onClose,children}:{title:string;category:string;status?:{label:string;tone:string};onClose:()=>void;children:ReactNode}){
+export default function InspectionShell({title,category,status,statusContext,onClose,children}:{title:string;category:string;status?:{label:string;tone:string};statusContext?:string;onClose:()=>void;children:ReactNode}){
  const [collapsed,setCollapsed]=useState(false),root=useRef<HTMLElement>(null);
  useEffect(()=>{const observer=new ResizeObserver(()=>window.dispatchEvent(new Event('inspection-layout')));if(root.current)observer.observe(root.current);return()=>observer.disconnect();},[]);
  useEffect(()=>{
@@ -16,6 +16,7 @@ export default function InspectionShell({title,category,status,onClose,children}
    <button className="icon sheet-toggle" aria-label={collapsed?'Expand inspection':'Collapse inspection'} aria-expanded={!collapsed} aria-controls="inspection-body" onClick={()=>setCollapsed(!collapsed)}>{collapsed?<ChevronUp size={17}/>:<ChevronDown size={17}/>}</button>
    <button className="icon" aria-label="Close inspection" onClick={onClose}><X size={17}/></button>
   </div></div>
+  {statusContext&&<p className="inspection-context">{statusContext}</p>}
   {status&&<span className={`status-text ${status.tone}`}><i/>{status.label}</span>}
   <div id="inspection-body" className="inspector-body" hidden={collapsed}>{children}</div>
  </section>;

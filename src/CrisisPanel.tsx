@@ -3,6 +3,7 @@ import { crisisDeadline, crisisMaximum, crisisResult, crisisTarget, essentialSer
 import { status, useGame } from './game';
 import { serviceCapacity } from './simulation';
 import { formatTime } from './time';
+import ServiceHoursDetails from './ServiceHoursDetails';
 
 const goal = `Target ${crisisTarget.serviceHours}/${crisisMaximum} service-hours and ${crisisTarget.activeServices} active at deadline`;
 
@@ -13,6 +14,7 @@ export default function CrisisPanel({ onCompare }: { onCompare?: () => void }) {
     <p>The regional grid is unavailable for 12 simulated hours. Maintain essential services until repair crews restore power. You have two emergency supply interventions.</p>
     <p>{goal}.</p>
     <button className="primary" onClick={game.startCrisis}><Zap size={16}/>Start crisis<ArrowRight size={16}/></button>
+    <ServiceHoursDetails crisis/>
   </section>;
 
   const active = essentialServices.filter(service => serviceCapacity(service.id, game) > 0).length;
@@ -37,7 +39,7 @@ export default function CrisisPanel({ onCompare }: { onCompare?: () => void }) {
       })}</ul>
     </details>
     <progress aria-label="Mission elapsed time" max={crisisDeadline} value={game.time}/>
-    {!result && <p className="crisis-goal">{goal}</p>}
+    {!result && <><p className="crisis-goal">{goal}</p><ServiceHoursDetails crisis/></>}
     {result && <div className="crisis-result">
       <h2 role="status" className={result.stabilized ? 'good' : 'warn'}>{result.stabilized ? 'City stabilized' : 'Crisis unresolved'}</h2>
       <dl>
@@ -46,6 +48,7 @@ export default function CrisisPanel({ onCompare }: { onCompare?: () => void }) {
         <div><dt>Interventions used</dt><dd>{result.teamsUsed} / 2</dd></div>
         <div><dt>Vs. no intervention</dt><dd>{result.advantage > 0 ? '+' : ''}{result.advantage.toFixed(1)} service-hours</dd></div>
       </dl>
+      <ServiceHoursDetails crisis/>
       <div className="crisis-actions">
         {onCompare && <button className="supply" onClick={onCompare}>View comparison</button>}
         <button className="supply" onClick={() => game.seek(0)}>Replay response</button>

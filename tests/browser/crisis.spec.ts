@@ -8,6 +8,10 @@ test('crisis starts explicitly, wins with supply tradeoffs and resumes with its 
   await expect(slider).toHaveAttribute('max', '24');
   await page.getByRole('button', { name: 'Crisis', exact: true }).click();
   await expect(slider).toBeDisabled();
+  const briefing = page.getByRole('region', { name: /Meridian Blackout/ });
+  await briefing.getByText('What are service-hours?', { exact: true }).press('Space');
+  await expect(briefing.getByText(/5 scored services over 12 hours can earn up to 60 service-hours/)).toBeVisible();
+  await expect(briefing.getByText(/at least 36 service-hours and keep at least 3 services active/)).toBeVisible();
   await page.getByRole('button', { name: 'Start crisis' }).click();
   await expect(slider).toHaveAttribute('max', '12');
   await expect(page.getByText('12:00 left')).toBeVisible();

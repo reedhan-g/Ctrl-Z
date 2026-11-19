@@ -3,12 +3,14 @@ import { decisionDescription, type FutureComparison, type FutureSelection } from
 import { type ReplayBranch } from './replay';
 import { buildings, type BuildingId } from './simulation';
 import { formatTime } from './time';
+import ServiceHoursDetails from './ServiceHoursDetails';
 
 type Props = {
   branches: ReplayBranch[];
   selection: FutureSelection;
   outcome: FutureComparison;
   deadline: number;
+  liveTime: number;
   onChange: (selection: FutureSelection) => void;
   onClose: () => void;
   onInspect: (id: BuildingId) => void;
@@ -21,7 +23,7 @@ function signedHours(hours: number) {
   return `${rounded >= 0 ? '+' : ''}${rounded}h`;
 }
 
-export default function CompareFutures({ branches, selection, outcome, deadline, onChange, onClose, onInspect, onRetry, onTimeline }: Props) {
+export default function CompareFutures({ branches, selection, outcome, deadline, liveTime, onChange, onClose, onInspect, onRetry, onTimeline }: Props) {
   const time = formatTime(outcome.time);
   const delta = Number(outcome.delta.toFixed(1));
   const limitingSystems = new Set(outcome.interventions.flatMap(({ original, revised }) =>
@@ -46,14 +48,16 @@ export default function CompareFutures({ branches, selection, outcome, deadline,
       <label>Revised response<select value={selection.revisedId} onChange={event => changeBranch('revisedId', Number(event.target.value))}>
         {branches.map(branch => <option key={branch.id} value={branch.id}>{branch.name}</option>)}
       </select></label>
-      <label className="futures-clock">Comparison time <strong>{time}</strong>
-        <input type="range" aria-label="Comparison time" aria-valuetext={`${time} simulated hours`}
+      <label className="futures-clock">Comparison preview <strong>{time}</strong>
+        <input type="range" aria-label="Comparison preview" aria-valuetext={`${time} simulated hours`} aria-describedby="comparison-time-note"
           min={0} max={deadline} step="any" value={selection.time} onChange={event => onChange({ ...selection, time: event.target.valueAsNumber })}/>
       </label>
     </div>
+    <p id="comparison-time-note" className="comparison-time-note">Preview changes leave the live experiment at {formatTime(liveTime)}.</p>
     <p className="futures-delta" data-change={delta > 0 ? 'Improved' : delta < 0 ? 'Worsened' : 'Unchanged'}>
       Citywide: {delta > 0 ? '+' : ''}{delta.toFixed(1)} service-hours vs. original through {time}
     </p>
+    <ServiceHoursDetails/>
     <div className="futures-summaries">
       {([['Original outcome', outcome.original], ['Revised outcome', outcome.revised]] as const).map(([label, response]) =>
         <section key={label} aria-label={label}>
@@ -80,7 +84,7 @@ export default function CompareFutures({ branches, selection, outcome, deadline,
         <button key={building.id} className="futures-facility" onClick={() => onInspect(building.id)}>Inspect {building.name}</button>)}
     </section>}
     <div className="futures-facilities">
-      <h3>City systems at {time}</h3>
+      <h3>City systems preview at {time}</h3>
       <ul>{outcome.facilities.map(service => <li key={service.id} data-change={service.change}>
         <button className="futures-facility" onClick={() => onInspect(service.id)}
           aria-label={`Inspect ${service.name}${limitingSystems.has(service.id) ? ' from City systems' : ''}`}>{service.name}</button>
